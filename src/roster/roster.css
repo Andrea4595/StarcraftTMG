@@ -1,0 +1,316 @@
+.roster-builder {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+  color: var(--text-h);
+}
+
+/* 로스터 전환 탭 */
+.roster-switcher {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.roster-tab {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.roster-tab button {
+  border: none;
+  background: transparent;
+  color: var(--text);
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.roster-tab-active {
+  border-color: var(--accent);
+}
+
+.roster-tab-active .roster-tab-select {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.roster-tab-new {
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text);
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.roster-empty-state {
+  color: var(--text-dim, var(--text));
+  padding: 40px;
+  text-align: center;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+}
+
+.roster-builder-body {
+  display: grid;
+  grid-template-columns: minmax(320px, 1fr) minmax(360px, 1.2fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.roster-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  opacity: 0.7;
+  margin: 16px 0 8px;
+}
+
+/* 왼쪽 패널: 로스터 상태 */
+.roster-panel {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.roster-budget {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.roster-mineral-cap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.roster-mineral-cap input {
+  width: 90px;
+}
+
+.roster-budget-line,
+.roster-slot-line {
+  font-size: 13px;
+}
+
+.roster-budget-over {
+  color: #f87171;
+  font-weight: 700;
+}
+
+.roster-slots {
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.roster-warning {
+  margin-top: 8px;
+  color: #f87171;
+  font-size: 13px;
+}
+
+.roster-tactical-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.roster-tactical-chip {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.roster-tactical-chip-fixed {
+  opacity: 0.7;
+}
+
+.roster-unit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.roster-empty {
+  font-size: 13px;
+  opacity: 0.6;
+}
+
+.roster-entry {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px;
+}
+
+.roster-entry-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.roster-entry-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.roster-entry-name {
+  font-weight: 700;
+}
+
+.roster-entry-header .card-statboxes {
+  margin-left: auto;
+}
+
+.roster-btn-remove {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 2px 8px;
+  line-height: 1;
+}
+
+.roster-entry-ability-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.roster-chip {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.roster-entry-upgrades {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.roster-upgrade-pill {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 11px;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.roster-upgrade-pill-active {
+  border-color: #4ade80;
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.12);
+}
+
+.roster-entry-summary {
+  margin-top: 10px;
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+/* 오른쪽 패널: 카탈로그 */
+.catalog-panel {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.catalog-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.catalog-item {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.catalog-item-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+}
+
+.catalog-item-name {
+  border: none;
+  background: transparent;
+  color: var(--text-h);
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  flex: 1;
+}
+
+.catalog-item-cost,
+.catalog-item-type {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.catalog-tier-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 10px 10px;
+}
+
+.catalog-tier-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.catalog-tier-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.catalog-tier-btn-pts {
+  font-weight: 700;
+  color: var(--text-h);
+}
+
+.catalog-item-included {
+  align-self: center;
+  font-size: 11px;
+  opacity: 0.6;
+}
+
+.catalog-item-detail {
+  padding: 10px;
+  border-top: 1px solid var(--border);
+}

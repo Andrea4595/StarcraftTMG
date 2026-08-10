@@ -93,7 +93,7 @@ export const marine: UnitCard = {
           sDie: 'D3',
           dmg: 1,
           keyword: [
-            { name: 'LONG RANGE', suffix: '18"' },
+            { name: 'LONG RANGE', suffix: '(18")' },
             { name: 'SPECIALIST' },
           ],
         },
@@ -115,7 +115,7 @@ export const marine: UnitCard = {
           dmg: 1,
           keyword: [
             { name: 'INDIRECT FIRE' },
-            { name: 'LONG RANGE', suffix: '18"' },
+            { name: 'LONG RANGE', suffix: '(18")' },
             { name: 'SIDEARM' },
             { name: 'SPECIALIST' },
           ],

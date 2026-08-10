@@ -39,7 +39,7 @@ export const goliath: UnitCard = {
         surge: [],
         sDie: '-',
         dmg: 1,
-        keyword: [{ name: 'LONG RANGE', suffix: '18"' }],
+        keyword: [{ name: 'LONG RANGE', suffix: '(18")' }],
       },
     },
     {
@@ -69,7 +69,7 @@ export const goliath: UnitCard = {
         surge: ['Light'],
         sDie: 'D3',
         dmg: 1,
-        keyword: [{ name: 'ANTI-EVADE', suffix: '1' }, { name: 'SIDEARM' }],
+        keyword: [{ name: 'ANTI-EVADE', suffix: '(1)' }, { name: 'SIDEARM' }],
       },
     },
     {
@@ -142,8 +142,8 @@ export const goliath: UnitCard = {
           dmg: 1,
           keyword: [
             { name: 'INDIRECT FIRE' },
-            { name: 'LOCKED IN', suffix: '6' },
-            { name: 'LONG RANGE', suffix: '24"' },
+            { name: 'LOCKED IN', suffix: '(6)' },
+            { name: 'LONG RANGE', suffix: '(24")' },
             { name: 'SIDEARM' },
           ],
         },

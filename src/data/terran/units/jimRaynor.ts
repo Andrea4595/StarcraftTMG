@@ -76,7 +76,7 @@ export const jimRaynor: UnitCard = {
         surge: [],
         sDie: '-',
         dmg: 2,
-        keyword: [{ name: 'ANTI-EVADE', suffix: '2' }, { name: 'SIDEARM' }, { name: 'PINPOINT' }],
+        keyword: [{ name: 'ANTI-EVADE', suffix: '(2)' }, { name: 'SIDEARM' }, { name: 'PINPOINT' }],
       },
     },
     {
