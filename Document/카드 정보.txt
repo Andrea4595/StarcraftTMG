@@ -1,0 +1,67 @@
+# 카드(Card)
+- name : text
+- isUnique : boolean //유니크일 경우 로스터에 하나만 포함시킬 수 있다.
+- thumb : text //내가 직접 프로젝트 내에 이미지를 넣어두고, 해당 이미지를 불러온다.
+
+## 유닛 카드(UnitCard:Card)
+- type : UnitType[Hero, Core, Elite, Support]
+- stat
+	- shld : number //쉴드 수치
+	- spd : number //이동력
+	- eva : number //회피, '0+' 양식으로 표기
+	- arm : number //방어력, '0+' 양식으로 표기
+	- hp : number //체력
+	- siz : number //크기
+- squad [1..n] //유닛마다 스쿼드 구성 방법에 대한 정보가 표시되어 있다.
+	- modelMin : number //Min과 Max 사이의 유닛은 이 스쿼드에 해당한다.
+	- modelMax : number //
+	- supply : number //이 스쿼드는 supply 만큼의 보급을 소모한다.
+	- pts : number //이 스쿼드를 로스터를 포함시키는데 들어가는 미네랄 비용.
+- abilities : list<Ability>
+- upgrades : list<Upgrade>
+
+
+
+### 어빌리티(Ability)의 구성
+- name : text //어빌리티의 이름
+- phase : [Any, Movement, Assault, Combat] //어느 페이즈에 사용 가능한지
+
+### 룰 어빌리티(RuleAbility:Ability)의 구성
+- rule : <Rule> //어빌리티 설명
+- type : [Passive, Active, Reaction]
+- cost : number //사용하기 위한 Command Point 비용(이 비용의 명칭은 종족에 따라 달라짐)
+
+### 룰 텍스트(Rule)의 구성
+- en : text //룰 원문
+- ko : text //룰 번역문
+
+### 무기 프로필(WeaponProfile:Ability)의 구성
+- stat
+	- rng : number //사거리
+	- tgt : [All, Ground, Flying] //유효 공격 대상
+	- roa : number //주사위 굴리는 개수
+	- hit : number //명중, '0+' 양식으로 표기
+	- surge : 'Light' | 'Armoured' //다중 선택
+	- sDie : text //D3, D6, D3+1 같은 형식으로 표기되는 편
+	- dmg : number //데미지
+	- keyword : list<Keyword> //키워드 텍스트로 표기되는 다수의 특수 능력들
+
+### 키워드(Keyword)의 구성
+- name : text
+- additionText : text //더 적절한 이름 제안 바람. 키워드는 'ANTI-EVADE (2)'라던지, 'BURST FIRE 8" (3)'과 같은 양식으로 작성됨. 여기서 키워드 뒤의 괄호나 각종 단위 표시를 여기서 처리하고자 함. 분리하는 이유는 향후에 키워드의 규칙을 설명해주는 기능을 추가할 때 쉽게 레퍼런싱 하기 위함
+
+### 업그레이드(Upgrade)의 구성
+- ability : <Ability>
+- pts : number //이 업그레이드를 선택하는데 들어가는 미네랄 비용
+
+
+
+## 팩션 카드 및 택티컬 카드(TacticalCard:Card)
+- gasPts : number //로스터에 포함시키는데 필요한 가스 비용
+- resource : number //라운드 진행 도중, 이 카드를 소모시켜 얻을 수 있는 Comand Point(이 명칭은 종족에 따라 달라짐)
+- slot : list<Slot> //이 팩션 카드가 어느 슬롯을 얼마나 제공하는지
+- cardAbilities : list<RuleAbility> //어느 어빌리티들을 가지는지
+
+### 슬롯(Slot)
+- unitType : UnitType[Hero, Core, Elite, Support] //어느 타입의 유닛 슬롯을 제공하는지
+- count : number //얼마나 제공되는지

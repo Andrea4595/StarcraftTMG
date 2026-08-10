@@ -1,0 +1,121 @@
+import type { UnitCard } from '../../../types'
+
+export const jimRaynor: UnitCard = {
+  category: 'unit',
+  name: 'Jim Raynor',
+  isUnique: true,
+  type: 'Hero',
+  stat: {
+    shld: null,
+    spd: { move: 7, cohesion: 3 },
+    eva: '5+',
+    arm: '4+',
+    hp: 8,
+    siz: 2,
+  },
+  tags: [{ name: 'Biological' }, { name: 'Ground' }, { name: 'Unique' }],
+  squad: [{ modelMin: 1, modelMax: 1, supply: 1, pts: 250 }],
+  abilities: [
+    {
+      kind: 'rule',
+      name: 'Commander',
+      phase: 'Any',
+      type: 'Passive',
+      cost: 0,
+      rule: {
+        en: "Treat this Unit's Supply characteristic as increased by 1 for Controlling and Contesting Mission Markers, completing objectives, and resolving Disengage checks.",
+        ko: '',
+      },
+    },
+    {
+      kind: 'rule',
+      name: 'Freedom Fighters',
+      phase: 'Any',
+      type: 'Passive',
+      cost: 0,
+      rule: {
+        en: 'The Supply Value of all Friendly Units Within 8" of this Unit cannot be reduced below 1 for Contesting Mission Markers and completing objectives.',
+        ko: '',
+      },
+    },
+    {
+      kind: 'rule',
+      name: 'Orders',
+      phase: 'Movement',
+      type: 'Active',
+      cost: 'X',
+      rule: {
+        en: "REPEATABLE. Select another Friendly Biological Unit Within 8\", spend CP and apply one of the following effects: 1 CP: That Unit's first used weapon gains the CRITICAL HIT (2). 1 CP: That Unit ignores the Disengage penalty for the remainder of the Round. 2 CP: Remove the Activation Marker from that Unit.",
+        ko: '',
+      },
+    },
+    {
+      kind: 'weapon',
+      name: 'Commando Rifle',
+      phase: 'Assault',
+      stat: {
+        rng: 18,
+        tgt: 'All',
+        roa: 3,
+        hit: '3+',
+        surge: ['Armoured'],
+        sDie: 'D3',
+        dmg: 1,
+        keyword: [{ name: 'BULKY' }, { name: 'PIERCE', suffix: 'Armoured (3)' }],
+      },
+    },
+    {
+      kind: 'weapon',
+      name: '"Justice" Revolver',
+      phase: 'Assault',
+      stat: {
+        rng: 6,
+        tgt: 'Ground',
+        roa: 2,
+        hit: '3+',
+        surge: [],
+        sDie: '-',
+        dmg: 2,
+        keyword: [{ name: 'ANTI-EVADE', suffix: '2' }, { name: 'SIDEARM' }, { name: 'PINPOINT' }],
+      },
+    },
+    {
+      kind: 'weapon',
+      name: 'Bayonet',
+      phase: 'Combat',
+      stat: {
+        rng: 'E',
+        tgt: 'Ground',
+        roa: 2,
+        hit: '4+',
+        surge: ['Light'],
+        sDie: 'D3',
+        dmg: 1,
+        keyword: [],
+      },
+    },
+  ],
+  upgrades: [
+    {
+      // 원본 카드에는 'FOR Commando Rifle'이 붙은 기본 능력으로 표기되어 있었으나,
+      // 실제로는 무료로 선택하는 대체무기 업그레이드로 보는 게 맞다고 확인함(원본 표기 오류로 판단).
+      pts: 0,
+      for: 'Commando Rifle',
+      ability: {
+        kind: 'weapon',
+        name: 'C-14 rifle',
+        phase: 'Assault',
+        stat: {
+          rng: 12,
+          tgt: 'All',
+          roa: 6,
+          hit: '3+',
+          surge: ['Light'],
+          sDie: 'D3+1',
+          dmg: 1,
+          keyword: [{ name: 'BURST FIRE', suffix: '8" (3)' }],
+        },
+      },
+    },
+  ],
+}

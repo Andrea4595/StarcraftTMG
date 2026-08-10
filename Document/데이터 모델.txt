@@ -1,0 +1,103 @@
+# 데이터 모델 문서
+
+'카드 정보.txt'에 정리된 내용을 TypeScript 타입으로 옮기며 내린 결정들을 정리한다.
+실제 코드(진실의 원천)는 src/types/card.ts, src/types/faction.ts 에 있으며,
+이 문서는 왜 그렇게 만들었는지에 대한 설명 + 레퍼런스 용도다.
+타입 정의가 바뀌면 이 문서도 함께 갱신할 것.
+
+# 원본 스펙 대비 변경/추가한 부분
+
+## Ability에 kind 판별 필드 추가
+- 원본 스펙: RuleAbility와 WeaponProfile이 둘 다 Ability를 상속하는 구조로만 표기됨
+- 문제: 코드에서 어떤 어빌리티(Rule인지 Weapon인지) 인지 안전하게 분기하려면 구분값이 필요
+- 결정: kind: 'rule' | 'weapon' 필드를 추가해 TypeScript의 판별 유니온(discriminated union)으로 구성
+    - Ability = RuleAbility | WeaponProfile
+    - if (ability.kind === 'weapon') 형태로 안전하게 stat 필드에 접근 가능
+
+## Card에 category 판별 필드 추가
+- 같은 이유로 UnitCard / TacticalCard 구분을 위해 category: 'unit' | 'tactical' 추가
+- Card = UnitCard | TacticalCard
+
+## additionText → suffix로 이름 변경
+- 원본 스펙에서 "더 적절한 이름 제안 바람"이라고 명시되어 있던 필드
+- 'ANTI-EVADE (2)', 'BURST FIRE 8" (3)' 처럼 키워드 이름 뒤에 붙는 괄호/단위 표기를 담는 필드
+- suffix(접미사)로 이름을 바꿔서 역할이 더 명확하도록 함
+
+## Faction 타입 신설 (원본 스펙에는 없던 개념)
+- 원본 스펙엔 "팩션 카드 및 택티컬 카드"가 하나의 TacticalCard 타입으로만 표기되어 있음
+- 로스터 빌더 화면에서 "팩션을 고르고 그 팩션이 쓸 수 있는 유닛/택티컬 카드를 보여준다"는 흐름을 표현하려면
+  팩션 단위로 카드들을 묶는 상위 개념이 필요함
+- 결정: Faction = { id, name, factionCard(대표 택티컬 카드 1장), tacticalCards(나머지 팩 카드들), units }
+    - factionCard와 tacticalCards를 분리한 이유: 팩션을 정의하는 대표 카드(팩션 카드) 1장과
+      로스터에 선택적으로 넣는 일반 택티컬 카드들은 로스터 빌더 UI에서 다르게 다뤄질 가능성이 높음
+      (예: 팩션 카드는 항상 고정 포함, 택티컬 카드는 골라서 포함)
+
+# 타입 구조 요약
+
+Card (공통 필드)
+- name, isUnique, thumb?(이미지 없이 시작하므로 optional)
+
+UnitCard : Card, category: 'unit'
+- type: Hero | Core | Elite | Support
+- stat: { shld, spd, eva('0+' 형식 문자열), arm('0+' 형식 문자열), hp, siz }
+- squad: Squad[]  // { modelMin, modelMax, supply, pts }
+- abilities: Ability[]
+- upgrades: Upgrade[]  // { ability, pts }
+
+TacticalCard : Card, category: 'tactical'
+- gasPts, resource
+- slot: Slot[]  // { unitType, count }
+- cardAbilities: RuleAbility[]
+
+Ability (공통 필드: name, phase)
+- phase: Any | Movement | Assault | Combat  ← 게임 화면 하단 "페이즈 강조" 필터링에 그대로 쓰임
+- RuleAbility(kind: 'rule'): rule{en, ko}, type(Passive|Active|Reaction), cost
+- WeaponProfile(kind: 'weapon'): stat{ rng, tgt(All|Ground|Flying), roa, hit, surge[](Light|Armoured 다중 선택), sDie, dmg, keyword[] }
+
+Keyword
+- name, suffix?
+
+# 확정된 게임 규칙 (구현에 영향)
+
+- 유닛 업그레이드는 슬롯 제한 없이 여러 개 동시 적용 가능, 조합 자유도 높음
+    → 유닛 선택 시 upgrades는 단순 배열(선택된 Upgrade[])로 관리하면 됨. 슬롯 배타 로직 불필요.
+
+# 3단계(샘플 데이터 입력) 중 실제 카드를 보며 추가/수정한 내용
+
+## UnitType에 'Other' 추가
+- Point Defense Drone처럼 일반 로스터 슬롯으로 뽑는 게 아니라 팩션 카드 능력으로 소환되는 토큰성 유닛이 존재함
+- Hero/Core/Elite/Support 중 어디에도 안 속하므로 'Other' 추가
+
+## 스탯에 null 허용 (shld, spd, siz)
+- 카드에 '-'로 표기된 스탯은 "이 유닛에는 해당 스탯 자체가 없다"는 뜻 (0과는 다름)
+- 예: Point Defense Drone은 SPD/SIZ가 없음(고정 배치, 활성화 자체가 불가능한 유닛)
+- eva/arm은 원래부터 string이라 '-'를 그대로 담을 수 있어서 변경 없음
+
+## RuleAbility.cost에 'X' 허용
+- 대부분 능력은 CP 비용이 고정 숫자지만, Jim Raynor의 'Orders'처럼 "1 CP 또는 2 CP 중 선택해서 지불"하는 가변 비용 능력이 있음
+- 이런 경우는 드물다고 확인함. rule 텍스트 안에 이미 선택지별 비용이 설명되어 있으므로, cost 필드는 단순히 'X'(가변)라고만 표시하고 세부 로직은 rule 텍스트에 위임
+
+## TacticalCard.gasPts를 optional로 변경
+- 팩션 카드(예: Raynor's Raiders)는 가스 비용이 아예 표시되지 않음 (로스터에 항상 포함되는 카드라 비용 개념이 없는 듯)
+- 반면 일반 택티컬 카드(예: Barracks)는 '25 Gas'처럼 비용이 있음
+
+## 유닛 헤더의 'PTS: X/Y' 표기 관련 결론
+- 실제로는 X만 의미 있는 값이고, Y는 원본 앱 데이터 구조상 남아있는 미사용 값(대부분 0)인 것으로 확인함
+- 예외: Marine처럼 스쿼드가 큰 브래킷(7-9모델)까지 있고 그 브래킷만 가격이 다른 경우, Y에 그 가격이 실제로 표시됨
+- 결론: Squad[]의 각 tier별 pts는 실제 데이터를 보고 개별 입력하되, 대부분 모든 tier가 같은 가격이고 큰 스쿼드 브래킷만 예외적으로 다를 수 있음 (헤더의 X/Y를 기계적으로 파싱하지 않고, 스쿼드 tier별 가격을 직접 확인해서 입력)
+
+## Upgrade.for는 Upgrade에만 유지 (Ability 공통 필드로 옮기지 않음)
+- Jim Raynor의 'C-14 rifle'이 기본 능력(abilities) 목록에 있으면서 'FOR Commando Rifle'이 붙어있던 사례가 있었으나, 이는 원본 앱의 표기 오류로 판단
+- 실제로는 pts:0짜리 업그레이드(대체 무기 선택지)로 취급하는 게 맞아서, upgrades 배열로 옮겨서 입력함
+- 따라서 for 필드는 원래 설계대로 Upgrade에만 유지
+
+## Keyword.suffix는 괄호/단위 텍스트를 있는 그대로 결합해서 저장
+- 'BURST FIRE 8" (3)' → name: 'BURST FIRE', suffix: '8" (3)'
+- 'PIERCE Armoured (3)' → name: 'PIERCE', suffix: 'Armoured (3)'
+- 별도 파싱 없이 이름 뒤에 붙는 텍스트를 그대로 옮겨 담음
+
+# 아직 정하지 않은 것 (다음 단계에서 결정 필요)
+
+- 로스터(Roster) 자체의 데이터 구조 (여러 로스터 관리, 미네랄 설정 등) → 5단계(로스터 빌더 화면)에서 설계
+- 업그레이드가 카드 표시에서 "필요 없어진 정보를 감춘다"는 규칙의 구체적 조건 (어떤 업그레이드가 어떤 정보를 가리는지) → 7단계(게임 화면)에서 실제 데이터 보며 결정
+- rule.ko(한국어 번역)는 현재 샘플 데이터에 전부 빈 문자열로 남아있음 → 번역은 별도 작업으로 진행 예정
