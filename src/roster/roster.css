@@ -47,6 +47,27 @@
   cursor: pointer;
 }
 
+.roster-tab-new:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.roster-race-select {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.roster-race-select select {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text);
+  padding: 6px 8px;
+}
+
 .roster-empty-state {
   color: var(--text-dim, var(--text));
   padding: 40px;
@@ -56,10 +77,8 @@
 }
 
 .roster-builder-body {
-  display: grid;
-  grid-template-columns: minmax(320px, 1fr) minmax(360px, 1.2fr);
-  gap: 20px;
-  align-items: start;
+  max-width: 640px;
+  margin: 0 auto;
 }
 
 .roster-section-title {
@@ -69,6 +88,51 @@
   color: var(--text);
   opacity: 0.7;
   margin: 16px 0 8px;
+}
+
+.roster-section-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 16px 0 8px;
+}
+
+.roster-section-title-row .roster-section-title {
+  margin: 0;
+}
+
+.roster-section-title-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.roster-select-btn-inline {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text);
+  padding: 3px 10px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+/* 택티컬 카드 헤더 우측, 선택 버튼 왼쪽에 살짝 띄워서 배치하는 CP 합계 */
+.roster-cp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--border);
+  border-left: 3px solid #f0b429;
+  border-radius: 6px;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-h);
+}
+
+.roster-cp-badge-label {
+  color: #f0b429;
 }
 
 /* 왼쪽 패널: 로스터 상태 */
@@ -96,21 +160,125 @@
   width: 90px;
 }
 
-.roster-budget-line,
-.roster-slot-line {
-  font-size: 13px;
-}
-
 .roster-budget-over {
   color: #f87171;
   font-weight: 700;
 }
 
+/* 미네랄/가스 요약: 한 줄, 종족 테마 색상 */
+.roster-resource-row {
+  display: flex;
+  gap: 10px;
+}
+
+.roster-resource-pill {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--pill-color);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+.roster-resource-mineral {
+  --pill-color: #5b9dff;
+}
+
+.roster-resource-gas {
+  --pill-color: #4ade80;
+}
+
+.roster-resource-cp {
+  --pill-color: #f0b429;
+}
+
+.roster-resource-label {
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  color: var(--pill-color);
+}
+
+.roster-resource-value {
+  font-weight: 700;
+  color: var(--text-h);
+}
+
+.roster-resource-pill.roster-budget-over {
+  border-left-color: #f87171;
+}
+
+.roster-resource-pill.roster-budget-over .roster-resource-value {
+  color: #f87171;
+}
+
+/* 유닛 타입별 슬롯: 한 줄로 가로 폭 전체를 균등 분할 */
 .roster-slots {
   margin-top: 6px;
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  gap: 8px;
+}
+
+.roster-slot-pill {
+  flex: 1;
+  text-align: center;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--type-color, var(--border));
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.roster-slot-pill-label {
+  color: var(--type-color, inherit);
+  font-weight: 700;
+}
+
+/* 택티컬 카드 모달: 슬롯 칸이 필터 버튼일 때 */
+button.roster-slot-pill {
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+}
+
+button.roster-slot-pill:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* button.roster-slot-pill 리셋(요소+클래스, 명시도 0,1,1)보다 우선하도록 클래스를 겹쳐서 명시도를 높인다 */
+.roster-slot-pill.roster-slot-pill-active {
+  background: var(--type-color, var(--border));
+  color: #fff;
+}
+
+.roster-slot-pill.roster-slot-pill-active .roster-slot-pill-label {
+  color: #fff;
+}
+
+/* 수용량이 0이거나, 다른 타입으로 필터링 중일 때: 비활성화된 느낌으로 어둡게 */
+.roster-slot-pill.roster-slot-pill-dimmed {
+  border-left-color: var(--border);
+  color: var(--text-dim, var(--text));
+  opacity: 0.45;
+}
+
+.roster-slot-pill.roster-slot-pill-dimmed .roster-slot-pill-label {
+  color: inherit;
+}
+
+.roster-slot-pill.roster-budget-over {
+  border-color: #f87171;
+  color: #f87171;
+  font-weight: 700;
+}
+
+.roster-slot-pill.roster-budget-over .roster-slot-pill-label {
+  color: inherit;
 }
 
 .roster-warning {
@@ -135,8 +303,27 @@
   gap: 6px;
 }
 
-.roster-tactical-chip-fixed {
-  opacity: 0.7;
+/* 팩션 카드: 택티컬 카드와 같은 목록의 맨 앞에 있지만, 게임 내 비중에 맞게 더 강조 */
+.roster-tactical-chip-faction {
+  border: 2px solid var(--accent);
+  background: transparent;
+  color: var(--text-h);
+  font-weight: 700;
+  font: inherit;
+  cursor: pointer;
+}
+
+.roster-tactical-chip-faction-hint {
+  font-size: 11px;
+  font-weight: 400;
+  opacity: 0.6;
+}
+
+.roster-tactical-chip-faction-empty {
+  border-style: dashed;
+  font-weight: 400;
+  color: var(--text);
+  opacity: 0.85;
 }
 
 .roster-unit-list {
@@ -154,6 +341,11 @@
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 10px;
+  cursor: pointer;
+}
+
+.roster-entry:hover {
+  border-color: var(--accent, var(--border));
 }
 
 .roster-entry-header {
@@ -202,6 +394,12 @@
   opacity: 0.7;
 }
 
+.roster-chip-upgrade {
+  border-color: #4ade80;
+  color: #4ade80;
+  opacity: 1;
+}
+
 .roster-entry-upgrades {
   margin-top: 8px;
   display: flex;
@@ -231,56 +429,7 @@
   opacity: 0.75;
 }
 
-/* 오른쪽 패널: 카탈로그 */
-.catalog-panel {
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 16px;
-}
-
-.catalog-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.catalog-item {
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.catalog-item-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 10px;
-}
-
-.catalog-item-name {
-  border: none;
-  background: transparent;
-  color: var(--text-h);
-  font-weight: 700;
-  cursor: pointer;
-  padding: 0;
-  text-align: left;
-  flex: 1;
-}
-
-.catalog-item-cost,
-.catalog-item-type {
-  font-size: 12px;
-  opacity: 0.7;
-}
-
-.catalog-tier-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  padding: 0 10px 10px;
-}
-
+/* 유닛 스쿼드 등급 선택 버튼 (유닛 모달에서 사용) */
 .catalog-tier-btn {
   display: flex;
   align-items: center;
@@ -299,18 +448,205 @@
   cursor: not-allowed;
 }
 
+.catalog-tier-btn-active {
+  border-color: var(--gc-blue, #5b9dff);
+  color: var(--gc-blue, #5b9dff);
+}
+
 .catalog-tier-btn-pts {
   font-weight: 700;
   color: var(--text-h);
 }
 
-.catalog-item-included {
-  align-self: center;
-  font-size: 11px;
+/* 모달 */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 100;
+}
+
+.modal-panel {
+  background: var(--bg, #0c0d12);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  width: 100%;
+  max-width: 1100px;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-title {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text-h);
+}
+
+.modal-close {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 2px 10px;
+  line-height: 1.6;
+}
+
+.modal-subheader {
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+.modal-body {
+  padding: 18px;
+  overflow-y: auto;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* 카드 갤러리 */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+.gallery-card-wrap {
+  position: relative;
+  border-radius: 8px;
+  outline: 2px solid transparent;
+}
+
+.gallery-card-wrap.gallery-card-selected {
+  outline-color: #4ade80;
+}
+
+.gallery-card-wrap.gallery-card-disabled {
+  opacity: 0.4;
+}
+
+/* 택티컬 카드 갤러리: 카드 자체가 아니라 이 버튼으로만 수량을 조절 (스크롤 중 오조작 방지) */
+.gallery-qty-stepper {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 999px;
+  padding: 4px 6px;
+}
+
+.gallery-qty-btn {
+  border: none;
+  background: #2b2e3a;
+  color: #e5e7eb;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery-qty-btn-add {
+  background: #4ade80;
+  color: #062012;
+}
+
+.gallery-qty-btn:disabled {
+  background: #2b2e3a;
+  color: #6b6f80;
+  cursor: not-allowed;
   opacity: 0.6;
 }
 
-.catalog-item-detail {
-  padding: 10px;
-  border-top: 1px solid var(--border);
+.gallery-qty-count {
+  min-width: 14px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 13px;
+  color: #e5e7eb;
+}
+
+.gallery-unit-tiers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+/* 유닛 선택(모달 1단계): 이름/타입/스쿼드 등급 버튼만 보여주는 작은 타일 */
+.unit-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+
+.unit-picker-tile {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.unit-picker-tile-disabled {
+  opacity: 0.4;
+}
+
+.unit-picker-name {
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.unit-picker-type {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.unit-picker-tiers {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.unit-picker-tiers .catalog-tier-btn {
+  width: 100%;
+  justify-content: space-between;
+}
+
+/* 유닛 편집(모달 2단계): 모달 폭을 그대로 사용 (무기표 가로 스크롤 방지) */
+.unit-configure {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }

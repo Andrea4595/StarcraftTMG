@@ -137,6 +137,22 @@
   font-weight: 700;
 }
 
+.card-squad-tier-btn {
+  background: transparent;
+  color: var(--gc-text);
+  cursor: pointer;
+  font: inherit;
+}
+
+.card-squad-tier-btn:hover {
+  border-color: var(--gc-text-dim);
+}
+
+.card-squad-tier-btn-active {
+  border-color: var(--gc-blue);
+  background: rgba(91, 157, 255, 0.12);
+}
+
 .card-squad-tier-label {
   font-size: 9px;
   color: var(--gc-text-dim);
@@ -155,6 +171,30 @@
 
 .card-pts-badge-header {
   align-self: center;
+}
+
+/* 업그레이드 켜기/끄기 버튼 (PTS 배지를 그대로 버튼으로 사용) */
+.card-pts-toggle {
+  border: 1px solid var(--gc-text-dim);
+  cursor: pointer;
+  font: inherit;
+  background: transparent;
+  color: var(--gc-text);
+}
+
+.card-pts-toggle:hover {
+  border-color: var(--gc-text);
+  background: var(--gc-bg-raised);
+}
+
+.card-pts-toggle-active {
+  border-color: var(--gc-green);
+  background: var(--gc-green);
+  color: #062012;
+}
+
+.card-pts-toggle-active:hover {
+  background: var(--gc-green);
 }
 
 /* 태그 */
@@ -230,19 +270,11 @@
   margin-bottom: 8px;
 }
 
-.card-section-title-upgrades {
-  color: var(--gc-green);
-}
-
 .card-phase-group {
   border: 1px solid var(--gc-border);
   border-radius: 6px;
   margin-bottom: 10px;
   overflow: hidden;
-}
-
-.card-phase-group-upgrades {
-  border-color: rgba(74, 222, 128, 0.35);
 }
 
 .card-phase-header {
@@ -255,10 +287,6 @@
   font-weight: 700;
   letter-spacing: 0.04em;
   padding: 8px 12px;
-}
-
-.card-phase-header-upgrades {
-  color: var(--gc-green);
 }
 
 .card-phase-dot {
@@ -351,6 +379,13 @@
   gap: 8px;
 }
 
+.card-rule-ability-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
 .card-rule-ability-name {
   font-weight: 700;
 }
@@ -380,4 +415,15 @@
   margin: 4px 0 0;
   color: var(--gc-text);
   line-height: 145%;
+}
+
+/* 꺼진 업그레이드: 텍스트를 어둡게 눌러서 비활성 상태를 표현 */
+.card-rule-ability-dim .card-rule-ability-name,
+.card-rule-ability-dim .card-rule-text {
+  color: var(--gc-text-dim);
+}
+
+.card-weapon-row-dim .card-weapon-name,
+.card-weapon-row-dim td {
+  color: var(--gc-text-dim);
 }

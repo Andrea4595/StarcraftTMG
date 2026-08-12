@@ -3,9 +3,12 @@ import { AbilitiesSection } from './AbilitiesSection'
 
 export function TacticalCardView({
   card,
+  resourceLabel,
   isFactionCard = false,
 }: {
   card: TacticalCard
+  /** 이 종족의 자원 명칭 (전체/축약형) */
+  resourceLabel: { full: string; abbr: string }
   /** 팩션을 정의하는 대표 카드인지 (헤더 서브타이틀 표시용) */
   isFactionCard?: boolean
 }) {
@@ -30,7 +33,7 @@ export function TacticalCardView({
             {card.resource > 0 && (
               <div className="card-slot-row card-slot-row-resource">
                 <span>RESOURCE</span>
-                <span>+{card.resource} CP</span>
+                <span>+{card.resource} {resourceLabel.abbr}</span>
               </div>
             )}
             {card.slot.map((s, i) => (
@@ -43,7 +46,7 @@ export function TacticalCardView({
         </div>
       </div>
 
-      <AbilitiesSection abilities={card.cardAbilities} title="CARD ABILITIES" />
+      <AbilitiesSection abilities={card.cardAbilities} resourceLabel={resourceLabel.full} title="CARD ABILITIES" />
     </div>
   )
 }

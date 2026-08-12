@@ -1,0 +1,106 @@
+import type { UnitCard } from '../../../types'
+
+export const raynorsRaiderMarine: UnitCard = {
+  category: 'unit',
+  name: "Raynor's Raider (Marine)",
+  isUnique: false,
+  type: 'Core',
+  stat: {
+    shld: null,
+    spd: { move: 4, cohesion: 3 },
+    eva: '5+',
+    arm: '5+',
+    hp: 2,
+    siz: 2,
+  },
+  tags: [{ name: "Raynor's Raiders" }, { name: 'Biological' }, { name: 'Light' }, { name: 'Ground' }],
+  squad: [{ modelMin: 1, modelMax: 6, supply: 1, pts: 230 }],
+  abilities: [
+    {
+      kind: 'rule',
+      name: 'Stimpack',
+      phase: 'Movement',
+      type: 'Active',
+      cost: 1,
+      rule: {
+        en: 'This Unit suffers NON-LETHAL DAMAGE (2). This Unit gains BUFF Speed (3). Additionally, its C-14 Rifle and all Close Combat Weapons gain PRECISION (3).',
+        ko: '',
+      },
+    },
+    {
+      kind: 'rule',
+      name: 'Raiders Roll!',
+      phase: 'Movement',
+      type: 'Passive',
+      cost: 0,
+      rule: {
+        en: 'When this Unit is nominated to deploy from Reserves, it may resolve its Stimpack ability with the CP cost reduced by 1 (to a minimum of 0).',
+        ko: '',
+      },
+    },
+    {
+      kind: 'rule',
+      name: 'Rapid Reinforcements',
+      phase: 'Movement',
+      type: 'Passive',
+      cost: 0,
+      rule: {
+        en: "When this Unit is nominated to deploy from Reserves, it may resolve the PLACE (10) effect from another Friendly Unit. No model may be set Within 8\" of any Enemy model. This Unit's Activation ends.",
+        ko: '',
+      },
+    },
+    {
+      kind: 'weapon',
+      name: 'C-14 rifle',
+      phase: 'Assault',
+      stat: {
+        rng: 12,
+        tgt: 'All',
+        roa: 2,
+        hit: '3+',
+        surge: ['Light'],
+        sDie: 'D3',
+        dmg: 1,
+        keyword: [],
+      },
+    },
+    {
+      kind: 'rule',
+      name: 'Slugthrower',
+      phase: 'Assault',
+      type: 'Passive',
+      cost: 0,
+      rule: {
+        en: 'When this Unit makes a Ranged Attack with a C-14 Rifle and the target is Within 8", that weapon gains ANTI-EVADE (1).',
+        ko: '',
+      },
+    },
+    {
+      kind: 'rule',
+      name: 'Grenades - Frag',
+      phase: 'Assault',
+      type: 'Passive',
+      cost: 0,
+      rule: {
+        en: "When this Unit makes a Ranged Attack with a C-14 Rifle and the target is Within 8\", that weapon's S Dice is replaced by D6.",
+        ko: '',
+      },
+    },
+    {
+      kind: 'weapon',
+      name: 'Bayonet',
+      phase: 'Combat',
+      stat: {
+        rng: 'E',
+        tgt: 'Ground',
+        roa: 2,
+        hit: '5+',
+        surge: [],
+        sDie: '-',
+        dmg: 1,
+        keyword: [],
+      },
+    },
+  ],
+  upgrades: [],
+}

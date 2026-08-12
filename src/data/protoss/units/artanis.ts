@@ -1,0 +1,106 @@
+import type { UnitCard } from '../../../types'
+
+export const artanis: UnitCard = {
+  category: 'unit',
+  name: 'Artanis',
+  isUnique: true,
+  type: 'Hero',
+  stat: {
+    shld: 4,
+    spd: { move: 7, cohesion: 3 },
+    eva: '5+',
+    arm: '4+',
+    hp: 8,
+    siz: 2,
+  },
+  tags: [{ name: 'Biological' }, { name: 'Psionic' }, { name: 'Ground' }, { name: 'Unique' }],
+  squad: [{ modelMin: 1, modelMax: 1, supply: 1, pts: 250 }],
+  abilities: [
+    {
+      kind: 'rule',
+      name: 'Commander',
+      phase: 'Any',
+      type: 'Passive',
+      cost: 0,
+      rule: {
+        en: "Treat this Unit's Supply characteristic as increased by 1 for Controlling and Contesting Mission Markers, completing objectives, and resolving Disengage checks.",
+        ko: '',
+      },
+    },
+    {
+      kind: 'rule',
+      name: 'Phase Prism',
+      phase: 'Movement',
+      type: 'Passive',
+      cost: 0,
+      rule: {
+        en: "When Artanis is nominated to deploy from Reserves, it may resolve the PLACE (0) effect from another Friendly Unit. That Friendly Unit is removed from the battlefield and returned to Reserves. Artanis' Activation ends.",
+        ko: '',
+      },
+    },
+    {
+      kind: 'rule',
+      name: "Hierarch's Stand",
+      phase: 'Assault',
+      type: 'Reaction',
+      cost: 1,
+      rule: {
+        en: 'When another Friendly Unit Within 8" is declared as the target of a Ranged Attack and this Unit is a valid target, redirect the attack to this Unit. This Unit is eligible to make an Evade Roll against the redirected attack. This Special Ability remains active until the End of the current Activation.',
+        ko: '',
+      },
+    },
+    {
+      kind: 'rule',
+      name: 'Lightning Dash',
+      phase: 'Assault',
+      type: 'Reaction',
+      cost: 1,
+      rule: {
+        en: 'After this Unit resolves a successful Charge action, it may declare a second Charge action against a different Enemy Unit, ignoring the restriction on Charging while Engaged. The Devastating Charge ability does not trigger a second time.',
+        ko: '',
+      },
+    },
+    {
+      kind: 'rule',
+      name: 'Devastating Charge',
+      phase: 'Assault',
+      type: 'Passive',
+      cost: 0,
+      rule: {
+        en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (6) 4+ effect.',
+        ko: '',
+      },
+    },
+    {
+      kind: 'weapon',
+      name: 'Twilight Blades Strike',
+      phase: 'Combat',
+      stat: {
+        rng: 'E',
+        tgt: 'Ground',
+        roa: 2,
+        hit: '2+',
+        surge: ['Armoured'],
+        sDie: 'D3',
+        dmg: 3,
+        keyword: [],
+      },
+    },
+    {
+      kind: 'weapon',
+      name: 'Twilight Blades Sweep',
+      phase: 'Combat',
+      stat: {
+        rng: 'E',
+        tgt: 'Ground',
+        roa: 6,
+        hit: '2+',
+        surge: ['Light'],
+        sDie: 'D3+1',
+        dmg: 1,
+        keyword: [],
+      },
+    },
+  ],
+  upgrades: [],
+}

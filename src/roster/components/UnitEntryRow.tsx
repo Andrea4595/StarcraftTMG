@@ -7,17 +7,30 @@ export function UnitEntryRow({
   roster,
   unit,
   entry,
+  onEdit,
 }: {
   roster: Roster
   unit: UnitCard
   entry: RosterUnitEntry
+  onEdit: () => void
 }) {
   const store = useRosterStore()
   const tier = unit.squad[entry.squadTierIndex]
   const cost = unitEntryMineralCost(unit, entry)
+  const equippedUpgrades = entry.upgradeIndexes
+    .map((i) => unit.upgrades[i])
+    .filter((u): u is NonNullable<typeof u> => u !== undefined)
 
   return (
-    <div className="roster-entry">
+    <div
+      className="roster-entry"
+      role="button"
+      tabIndex={0}
+      onClick={onEdit}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') onEdit()
+      }}
+    >
       <div className="roster-entry-header">
         <div className="roster-entry-title">
           <span className="roster-entry-name">{unit.name}</span>
@@ -27,7 +40,10 @@ export function UnitEntryRow({
         <button
           type="button"
           className="roster-btn-remove"
-          onClick={() => store.removeUnitEntry(roster.id, entry.id)}
+          onClick={(e) => {
+            e.stopPropagation()
+            store.removeUnitEntry(roster.id, entry.id)
+          }}
           aria-label="제거"
         >
           ✕
@@ -44,22 +60,13 @@ export function UnitEntryRow({
         </div>
       )}
 
-      {unit.upgrades.length > 0 && (
-        <div className="roster-entry-upgrades">
-          {unit.upgrades.map((upgrade, i) => {
-            const upgradePts = resolveScaledCost(upgrade.pts, entry.squadTierIndex)
-            const checked = entry.upgradeIndexes.includes(i)
-            return (
-              <button
-                key={i}
-                type="button"
-                className={`roster-upgrade-pill ${checked ? 'roster-upgrade-pill-active' : ''}`}
-                onClick={() => store.toggleUnitUpgrade(roster.id, entry.id, i)}
-              >
-                {checked ? '✓' : '+'} {upgrade.ability.name} (+{upgradePts})
-              </button>
-            )
-          })}
+      {equippedUpgrades.length > 0 && (
+        <div className="roster-entry-ability-chips">
+          {equippedUpgrades.map((upgrade, i) => (
+            <span className="roster-chip roster-chip-upgrade" key={i}>
+              {upgrade.ability.name} (+{resolveScaledCost(upgrade.pts, entry.squadTierIndex)})
+            </span>
+          ))}
         </div>
       )}
 

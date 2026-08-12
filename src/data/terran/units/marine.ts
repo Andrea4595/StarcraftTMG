@@ -6,7 +6,7 @@ export const marine: UnitCard = {
   isUnique: false,
   type: 'Core',
   stat: {
-    shld: 0,
+    shld: null,
     spd: { move: 4, cohesion: 3 },
     eva: '5+',
     arm: '5+',

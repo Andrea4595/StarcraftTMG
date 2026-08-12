@@ -1,0 +1,150 @@
+import type { UnitCard } from '../../../types'
+
+export const queen: UnitCard = {
+  category: 'unit',
+  name: 'Queen',
+  isUnique: false,
+  type: 'Support',
+  stat: {
+    shld: null,
+    spd: { move: 4, cohesion: 3 },
+    eva: '-',
+    arm: '4+',
+    hp: 9,
+    siz: 3,
+  },
+  tags: [{ name: 'Armoured' }, { name: 'Biological' }, { name: 'Psionic' }, { name: 'Ground' }],
+  squad: [{ modelMin: 1, modelMax: 1, supply: 1, pts: 150 }],
+  abilities: [
+    {
+      kind: 'rule',
+      name: 'Spawn Creep Tumor',
+      phase: 'Any',
+      type: 'Active',
+      cost: 1,
+      rule: {
+        en: 'Set a Creep Tumor token in base-to-base contact with this Unit.',
+        ko: '',
+      },
+    },
+    {
+      kind: 'rule',
+      name: 'Transfusion',
+      phase: 'Any',
+      type: 'Reaction',
+      cost: 1,
+      rule: {
+        en: 'Use when another Friendly Biological Unit (including a Structure) suffers Damage Within 4". Reduce the Total Damage before allocation by 2.',
+        ko: '',
+      },
+    },
+    {
+      kind: 'rule',
+      name: 'Restoration',
+      phase: 'Any',
+      type: 'Reaction',
+      cost: 1,
+      rule: {
+        en: 'Use when a Friendly Unit Within 4" receives a DEBUFF. Remove all DEBUFFS from it.',
+        ko: '',
+      },
+    },
+    {
+      kind: 'rule',
+      name: 'Psionic Link',
+      phase: 'Any',
+      type: 'Passive',
+      cost: 0,
+      rule: {
+        en: 'Once per Round, if there are at least 7 Friendly models Within 6" of this Unit, it may resolve its Special Ability with the BM cost reduced by 1.',
+        ko: '',
+      },
+    },
+    {
+      kind: 'weapon',
+      name: 'Talons',
+      phase: 'Assault',
+      stat: {
+        rng: 6,
+        tgt: 'Ground',
+        roa: 4,
+        hit: '4+',
+        surge: ['Light'],
+        sDie: 'D3',
+        dmg: 2,
+        keyword: [],
+      },
+    },
+    {
+      kind: 'weapon',
+      name: 'Acid spines',
+      phase: 'Assault',
+      stat: {
+        rng: 12,
+        tgt: 'Flying',
+        roa: 4,
+        hit: '4+',
+        surge: ['Light', 'Armoured'],
+        sDie: 'D3',
+        dmg: 2,
+        keyword: [],
+      },
+    },
+    {
+      kind: 'rule',
+      name: 'Devastating Charge',
+      phase: 'Assault',
+      type: 'Passive',
+      cost: 0,
+      rule: {
+        en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (4) 3+ effect.',
+        ko: '',
+      },
+    },
+    {
+      kind: 'weapon',
+      name: 'Talons',
+      phase: 'Combat',
+      stat: {
+        rng: 'E',
+        tgt: 'Ground',
+        roa: 3,
+        hit: '4+',
+        surge: [],
+        sDie: '-',
+        dmg: 1,
+        keyword: [],
+      },
+    },
+  ],
+  upgrades: [
+    {
+      pts: 10,
+      ability: {
+        kind: 'rule',
+        name: 'Creep Speed',
+        phase: 'Any',
+        type: 'Passive',
+        cost: 0,
+        rule: {
+          en: "While this Unit is ON CREEP, increase this Unit's Speed characteristic by 2.",
+          ko: '',
+        },
+      },
+    },
+    {
+      pts: 10,
+      ability: {
+        kind: 'rule',
+        name: 'Domineering Presence',
+        phase: 'Movement',
+        type: 'Active',
+        cost: 1,
+        rule: {
+          en: 'Select another Friendly Unit Within 6" (Line of Sight is not required). That Unit\'s Supply characteristic is increased by 1 for Controlling and Contesting Mission Markers and completing objectives.',
+          ko: '',
+        },
+      },
+    },
+  ],
+}

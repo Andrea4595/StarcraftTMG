@@ -8,3 +8,9 @@ export function formatScaledCost(pts: SquadScaledCost): string {
   const last = pts[pts.length - 1]
   return first === last ? String(first) : `${first}/${last}`
 }
+
+/** 특정 스쿼드 tier 기준으로 실제 적용되는 비용을 계산 */
+export function resolveScaledCost(cost: SquadScaledCost, squadTierIndex: number): number {
+  if (typeof cost === 'number') return cost
+  return cost[squadTierIndex] ?? cost[cost.length - 1] ?? 0
+}

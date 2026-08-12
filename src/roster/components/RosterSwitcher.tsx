@@ -1,6 +1,6 @@
 import { useRosterStore } from '../RosterContext'
 
-export function RosterSwitcher({ factionId }: { factionId: string }) {
+export function RosterSwitcher() {
   const store = useRosterStore()
 
   return (
@@ -31,10 +31,11 @@ export function RosterSwitcher({ factionId }: { factionId: string }) {
           </button>
         </div>
       ))}
+
       <button
         type="button"
         className="roster-tab-new"
-        onClick={() => store.createRoster(factionId, `로스터 ${store.rosters.length + 1}`)}
+        onClick={() => store.createRoster(`로스터 ${store.rosters.length + 1}`)}
       >
         + 새 로스터
       </button>

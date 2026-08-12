@@ -1,30 +1,32 @@
 import { createContext, useContext, useReducer, type ReactNode } from 'react'
 import type { Roster, RosterUnitEntry } from '../types'
+import { makeId } from './makeId'
 
-function makeId(): string {
-  return Math.random().toString(36).slice(2, 10)
-}
-
-function createEmptyRoster(factionId: string, name: string): Roster {
+function createEmptyRoster(name: string): Roster {
   return {
     id: makeId(),
     name,
-    factionId,
-    mineralCap: 500,
+    raceId: null,
+    factionCardName: null,
+    mineralCap: 2000,
     tacticalCardNames: [],
     units: [],
   }
 }
 
 type Action =
-  | { type: 'createRoster'; factionId: string; name: string }
+  | { type: 'createRoster'; name: string }
   | { type: 'deleteRoster'; rosterId: string }
   | { type: 'renameRoster'; rosterId: string; name: string }
   | { type: 'selectRoster'; rosterId: string }
+  | { type: 'setRosterRace'; rosterId: string; raceId: string }
+  | { type: 'setFactionCard'; rosterId: string; factionCardName: string }
   | { type: 'setMineralCap'; rosterId: string; mineralCap: number }
-  | { type: 'toggleTacticalCard'; rosterId: string; cardName: string }
-  | { type: 'addUnitEntry'; rosterId: string; unitName: string; squadTierIndex: number }
+  | { type: 'addTacticalCard'; rosterId: string; cardName: string }
+  | { type: 'removeTacticalCard'; rosterId: string; cardName: string }
+  | { type: 'addUnitEntry'; rosterId: string; unitName: string; squadTierIndex: number; id: string }
   | { type: 'removeUnitEntry'; rosterId: string; entryId: string }
+  | { type: 'setUnitEntrySquadTier'; rosterId: string; entryId: string; squadTierIndex: number }
   | { type: 'toggleUnitUpgrade'; rosterId: string; entryId: string; upgradeIndex: number }
 
 interface State {
@@ -43,7 +45,7 @@ function mapUnitEntry(roster: Roster, entryId: string, fn: (e: RosterUnitEntry) 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
     case 'createRoster': {
-      const roster = createEmptyRoster(action.factionId, action.name)
+      const roster = createEmptyRoster(action.name)
       return { rosters: [...state.rosters, roster], activeRosterId: roster.id }
     }
     case 'deleteRoster': {
@@ -56,22 +58,39 @@ function reducer(state: State, action: Action): State {
       return mapRoster(state, action.rosterId, (r) => ({ ...r, name: action.name }))
     case 'selectRoster':
       return { ...state, activeRosterId: action.rosterId }
-    case 'setMineralCap':
-      return mapRoster(state, action.rosterId, (r) => ({ ...r, mineralCap: action.mineralCap }))
-    case 'toggleTacticalCard':
+    case 'setRosterRace':
+      // 종족이 바뀌면 이전 종족 풀에 속했던 팩션 카드/택티컬 카드/유닛 선택은 전부 무효화된다
       return mapRoster(state, action.rosterId, (r) => ({
         ...r,
-        tacticalCardNames: r.tacticalCardNames.includes(action.cardName)
-          ? r.tacticalCardNames.filter((n) => n !== action.cardName)
-          : [...r.tacticalCardNames, action.cardName],
+        raceId: action.raceId,
+        factionCardName: null,
+        tacticalCardNames: [],
+        units: [],
       }))
+    case 'setFactionCard':
+      return mapRoster(state, action.rosterId, (r) => ({ ...r, factionCardName: action.factionCardName }))
+    case 'setMineralCap':
+      return mapRoster(state, action.rosterId, (r) => ({ ...r, mineralCap: action.mineralCap }))
+    case 'addTacticalCard':
+      return mapRoster(state, action.rosterId, (r) => ({
+        ...r,
+        tacticalCardNames: [...r.tacticalCardNames, action.cardName],
+      }))
+    case 'removeTacticalCard':
+      return mapRoster(state, action.rosterId, (r) => {
+        const idx = r.tacticalCardNames.indexOf(action.cardName)
+        if (idx === -1) return r
+        const tacticalCardNames = [...r.tacticalCardNames]
+        tacticalCardNames.splice(idx, 1)
+        return { ...r, tacticalCardNames }
+      })
     case 'addUnitEntry':
       return mapRoster(state, action.rosterId, (r) => ({
         ...r,
         units: [
           ...r.units,
           {
-            id: makeId(),
+            id: action.id,
             unitName: action.unitName,
             squadTierIndex: action.squadTierIndex,
             upgradeIndexes: [],
@@ -83,6 +102,10 @@ function reducer(state: State, action: Action): State {
         ...r,
         units: r.units.filter((e) => e.id !== action.entryId),
       }))
+    case 'setUnitEntrySquadTier':
+      return mapRoster(state, action.rosterId, (r) =>
+        mapUnitEntry(r, action.entryId, (e) => ({ ...e, squadTierIndex: action.squadTierIndex })),
+      )
     case 'toggleUnitUpgrade':
       return mapRoster(state, action.rosterId, (r) =>
         mapUnitEntry(r, action.entryId, (e) => ({
@@ -99,14 +122,18 @@ function reducer(state: State, action: Action): State {
 
 interface RosterStore extends State {
   activeRoster: Roster | undefined
-  createRoster: (factionId: string, name: string) => void
+  createRoster: (name: string) => void
   deleteRoster: (rosterId: string) => void
   renameRoster: (rosterId: string, name: string) => void
   selectRoster: (rosterId: string) => void
+  setRosterRace: (rosterId: string, raceId: string) => void
+  setFactionCard: (rosterId: string, factionCardName: string) => void
   setMineralCap: (rosterId: string, mineralCap: number) => void
-  toggleTacticalCard: (rosterId: string, cardName: string) => void
-  addUnitEntry: (rosterId: string, unitName: string, squadTierIndex: number) => void
+  addTacticalCard: (rosterId: string, cardName: string) => void
+  removeTacticalCard: (rosterId: string, cardName: string) => void
+  addUnitEntry: (rosterId: string, unitName: string, squadTierIndex: number, id: string) => void
   removeUnitEntry: (rosterId: string, entryId: string) => void
+  setUnitEntrySquadTier: (rosterId: string, entryId: string, squadTierIndex: number) => void
   toggleUnitUpgrade: (rosterId: string, entryId: string, upgradeIndex: number) => void
 }
 
@@ -118,15 +145,20 @@ export function RosterProvider({ children }: { children: ReactNode }) {
   const store: RosterStore = {
     ...state,
     activeRoster: state.rosters.find((r) => r.id === state.activeRosterId),
-    createRoster: (factionId, name) => dispatch({ type: 'createRoster', factionId, name }),
+    createRoster: (name) => dispatch({ type: 'createRoster', name }),
     deleteRoster: (rosterId) => dispatch({ type: 'deleteRoster', rosterId }),
     renameRoster: (rosterId, name) => dispatch({ type: 'renameRoster', rosterId, name }),
     selectRoster: (rosterId) => dispatch({ type: 'selectRoster', rosterId }),
+    setRosterRace: (rosterId, raceId) => dispatch({ type: 'setRosterRace', rosterId, raceId }),
+    setFactionCard: (rosterId, factionCardName) => dispatch({ type: 'setFactionCard', rosterId, factionCardName }),
     setMineralCap: (rosterId, mineralCap) => dispatch({ type: 'setMineralCap', rosterId, mineralCap }),
-    toggleTacticalCard: (rosterId, cardName) => dispatch({ type: 'toggleTacticalCard', rosterId, cardName }),
-    addUnitEntry: (rosterId, unitName, squadTierIndex) =>
-      dispatch({ type: 'addUnitEntry', rosterId, unitName, squadTierIndex }),
+    addTacticalCard: (rosterId, cardName) => dispatch({ type: 'addTacticalCard', rosterId, cardName }),
+    removeTacticalCard: (rosterId, cardName) => dispatch({ type: 'removeTacticalCard', rosterId, cardName }),
+    addUnitEntry: (rosterId, unitName, squadTierIndex, id) =>
+      dispatch({ type: 'addUnitEntry', rosterId, unitName, squadTierIndex, id }),
     removeUnitEntry: (rosterId, entryId) => dispatch({ type: 'removeUnitEntry', rosterId, entryId }),
+    setUnitEntrySquadTier: (rosterId, entryId, squadTierIndex) =>
+      dispatch({ type: 'setUnitEntrySquadTier', rosterId, entryId, squadTierIndex }),
     toggleUnitUpgrade: (rosterId, entryId, upgradeIndex) =>
       dispatch({ type: 'toggleUnitUpgrade', rosterId, entryId, upgradeIndex }),
   }

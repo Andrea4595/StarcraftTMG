@@ -1,7 +1,7 @@
 # 데이터 모델 문서
 
 '카드 정보.txt'에 정리된 내용을 TypeScript 타입으로 옮기며 내린 결정들을 정리한다.
-실제 코드(진실의 원천)는 src/types/card.ts, src/types/faction.ts 에 있으며,
+실제 코드(진실의 원천)는 src/types/card.ts, src/types/race.ts 에 있으며,
 이 문서는 왜 그렇게 만들었는지에 대한 설명 + 레퍼런스 용도다.
 타입 정의가 바뀌면 이 문서도 함께 갱신할 것.
 
@@ -23,14 +23,36 @@
 - 'ANTI-EVADE (2)', 'BURST FIRE 8" (3)' 처럼 키워드 이름 뒤에 붙는 괄호/단위 표기를 담는 필드
 - suffix(접미사)로 이름을 바꿔서 역할이 더 명확하도록 함
 
-## Faction 타입 신설 (원본 스펙에는 없던 개념)
+## Faction 타입 신설 (원본 스펙에는 없던 개념) → Race/RaceData로 재정립
 - 원본 스펙엔 "팩션 카드 및 택티컬 카드"가 하나의 TacticalCard 타입으로만 표기되어 있음
-- 로스터 빌더 화면에서 "팩션을 고르고 그 팩션이 쓸 수 있는 유닛/택티컬 카드를 보여준다"는 흐름을 표현하려면
-  팩션 단위로 카드들을 묶는 상위 개념이 필요함
-- 결정: Faction = { id, name, factionCard(대표 택티컬 카드 1장), tacticalCards(나머지 팩 카드들), units }
-    - factionCard와 tacticalCards를 분리한 이유: 팩션을 정의하는 대표 카드(팩션 카드) 1장과
-      로스터에 선택적으로 넣는 일반 택티컬 카드들은 로스터 빌더 UI에서 다르게 다뤄질 가능성이 높음
-      (예: 팩션 카드는 항상 고정 포함, 택티컬 카드는 골라서 포함)
+- 최초 결정(1차): Faction = { id, name, factionCard(대표 택티컬 카드 1장), tacticalCards, units }
+    - 그러나 실제 게임 규칙을 확인해보니, 카드/유닛은 먼저 종족(테란/저그/프로토스) 단위로 나뉘고
+      그 종족 안에서 로스터당 정확히 하나의 팩션 카드를 선택하는 구조였음
+      (예: 테란 종족 안에 "Raynor's Raiders", "Terran Armed Forces" 등 여러 팩션 카드가 존재하고,
+      이들은 테란의 같은 유닛/택티컬 카드 풀을 공유함)
+- 결정(2차, 현재): Faction을 Race 개념으로 재정립
+    - RACES = ['Terran', 'Zerg', 'Protoss'] (Race 유니온 타입)
+    - RaceData = { id, race, name, resourceLabel, factionCards(선택 가능한 팩션 카드 목록), tacticalCards(종족 공용 풀), units(종족 공용 풀) }
+    - factionCard(단수) → factionCards(복수 배열)로 변경. 로스터 생성 시 이 중 하나를 선택해서 고정함
+    - Roster에 raceId + factionCardName 필드 추가 (아래 Roster 섹션 참고)
+
+## RaceData.resourceLabel (종족별 자원 명칭 대응)
+- 문제: 카드 능력 비용/RESOURCE 배지에 쓰이는 자원 명칭이 종족마다 다름
+  (테란: Command Point/CP, 저그: Biomass/BM - Zergling 'Metabolic Boost'가 '1 BIOMASS' 소모로 확인됨)
+- 코드 초기엔 RuleAbilityBlock에 'COMMAND POINT'가 하드코딩되어 있었음 (TODO로 표시돼 있었음)
+- 결정: RaceData.resourceLabel = { full, abbr } 추가
+    - full: 카드 능력 비용 배지 등에 쓰이는 전체 명칭 (예: 'Command Point', 'Biomass')
+    - abbr: 리소스 총량 표기에 쓰이는 축약형 (예: 'CP', 'BM')
+    - 카드 렌더링 컴포넌트(UnitCardView, TacticalCardView, AbilitiesSection, UpgradesSection, RuleAbilityBlock)에
+      resourceLabel을 prop으로 전달하는 방식으로 하드코딩 제거
+- 확정: 테란 { full: 'Command Point', abbr: 'CP' }, 저그 { full: 'Biomass', abbr: 'BM' },
+  프로토스 { full: 'Psionic Energy', abbr: 'EN' } (RESOURCE 배지는 'EN'으로 축약되지만 어빌리티 비용 배지에는
+  'PSIONIC ENERGY'라는 전체 단어가 실제로 표시되는 것을 다수 카드에서 직접 확인함)
+
+## 카드의 "실제 모양"과 원본 이미지 폴더 분류가 다를 수 있음
+- 원본 이미지는 Faction/Tactical/Unit 폴더로 정리돼 있지만, 이 분류가 카드의 실제 타입(UnitCard vs TacticalCard)과 항상 일치하지는 않음
+- 확인된 사례: 'Accelerating Creep'(파일명은 Terran이었으나 내용은 순수 저그 카드), 'Hydralisk Den'(Unit 폴더에 있지만 스탯 블록이 없고 gasPts/resource/slot만 있는 TacticalCard), 'Observer'/'Warp Prism'(Protoss Tactical 폴더의 유닛 이름을 가진 카드들 - 실제로 슬롯을 제공하는 TacticalCard)
+- 결론: 새 카드를 입력할 때는 폴더 위치가 아니라 카드에 실제로 그려진 구조(스탯 박스+SQUAD 행이 있으면 UnitCard, RESOURCE/SLOT 행만 있으면 TacticalCard)로 판단할 것
 
 # 타입 구조 요약
 
@@ -56,6 +78,18 @@ Ability (공통 필드: name, phase)
 
 Keyword
 - name, suffix?
+
+RaceData (Faction에서 재정립됨)
+- id, race(Terran|Zerg|Protoss), name
+- resourceLabel: { full, abbr }  // 종족별 자원 명칭
+- factionCards: TacticalCard[]  // 로스터당 정확히 하나 선택
+- tacticalCards: TacticalCard[]  // 종족 공용, 선택적으로 포함
+- units: UnitCard[]  // 종족 공용
+
+Roster
+- id, name, raceId, factionCardName(RaceData.factionCards 중 선택된 것), mineralCap
+- tacticalCardNames: string[]  // 팩션 카드 제외, 추가로 포함시킨 택티컬 카드들
+- units: RosterUnitEntry[]  // { id, unitName, squadTierIndex, upgradeIndexes }
 
 # 확정된 게임 규칙 (구현에 영향)
 
@@ -85,6 +119,18 @@ Keyword
 - 실제로는 X만 의미 있는 값이고, Y는 원본 앱 데이터 구조상 남아있는 미사용 값(대부분 0)인 것으로 확인함
 - 예외: Marine처럼 스쿼드가 큰 브래킷(7-9모델)까지 있고 그 브래킷만 가격이 다른 경우, Y에 그 가격이 실제로 표시됨
 - 결론: Squad[]의 각 tier별 pts는 실제 데이터를 보고 개별 입력하되, 대부분 모든 tier가 같은 가격이고 큰 스쿼드 브래킷만 예외적으로 다를 수 있음 (헤더의 X/Y를 기계적으로 파싱하지 않고, 스쿼드 tier별 가격을 직접 확인해서 입력)
+- 추가 확인(Zergling 사례): squad[0](최소 인원 tier)은 실제 구매 옵션이 아니라, 게임 도중 모델 수가 줄어 Supply가 0으로 떨어지는 상태를 나타낼 뿐임
+    → squad[0].pts는 squad[1]의 pts를 그대로 미러링해서 채움 (별도 구매 가격이 아니므로)
+    → catalogSquadTierIndexes()가 이미 squad[0]을 카탈로그에서 제외하는 이유와 일치
+
+## SQUAD 박스 3칸 중 일부가 '-'(더미)인 경우 (Protoss/Zerg 대량 데이터 입력 중 확인)
+카드의 SQUAD 행은 항상 3칸으로 그려지지만, 실제 squad[] 배열의 길이는 유닛마다 다르다. 3칸 중 몇 개가 '-'(MODELS/SUPPLY 둘 다 대시)로 표시되는지에 따라 다음과 같이 해석한다:
+- **3칸 모두 실제 범위** (Marine, Zergling 등): 3-tier. tier[0]은 위에서 설명한 "구매 불가, tier[1] 가격 미러링" 규칙 적용.
+- **양쪽 끝 2칸이 '-', 가운데만 실제 범위** (Raynor's Raider (Marine), Pylon, Artanis 등): 실제 tier가 하나뿐. squad는 1개짜리 배열.
+- **한쪽 끝 1칸만 '-', 나머지 2칸이 실제 범위**: 실제 tier가 두 개. 어느 쪽이 비어있는지에 따라 의미가 다름:
+    - 마지막 칸이 '-' (Roach, Adept, Zealot, Sentry, Praetor Guard (Zealot) 등): 더 큰 스쿼드 브래킷이 존재하지 않는다는 뜻. 남은 앞의 두 tier는 "구매 불가 attrition tier + 그 가격을 미러링한 구매 가능 tier" 관계 (3-tier 규칙의 축약형). 헤더 배지의 'X/0'에서 X만 의미 있음.
+    - 첫 칸이 '-' (Stalker 등): 그 아래로 더 작은 브래킷이 아예 없다는 뜻(attrition 개념 없음). 남은 두 tier는 각각 독립적으로 구매 가능한 옵션이며 가격이 서로 다를 수 있음(미러링 없음). 헤더 배지의 'X/Y'가 그대로 두 tier의 실제 가격.
+- 결론: 기계적으로 파싱하지 말고, '-' 표시가 없는 실제 칸 개수만큼 squad 배열 길이를 맞추고, 그 tier들이 서로 독립적 가격인지(끝이 비었을 때 앞쪽이 비었을 때) 맥락으로 판단할 것.
 
 ## Upgrade.for는 Upgrade에만 유지 (Ability 공통 필드로 옮기지 않음)
 - Jim Raynor의 'C-14 rifle'이 기본 능력(abilities) 목록에 있으면서 'FOR Commando Rifle'이 붙어있던 사례가 있었으나, 이는 원본 앱의 표기 오류로 판단
@@ -98,6 +144,5 @@ Keyword
 
 # 아직 정하지 않은 것 (다음 단계에서 결정 필요)
 
-- 로스터(Roster) 자체의 데이터 구조 (여러 로스터 관리, 미네랄 설정 등) → 5단계(로스터 빌더 화면)에서 설계
 - 업그레이드가 카드 표시에서 "필요 없어진 정보를 감춘다"는 규칙의 구체적 조건 (어떤 업그레이드가 어떤 정보를 가리는지) → 7단계(게임 화면)에서 실제 데이터 보며 결정
 - rule.ko(한국어 번역)는 현재 샘플 데이터에 전부 빈 문자열로 남아있음 → 번역은 별도 작업으로 진행 예정

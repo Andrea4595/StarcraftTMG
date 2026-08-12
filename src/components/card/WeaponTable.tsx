@@ -1,17 +1,18 @@
-import type { SquadScaledCost, WeaponProfile } from '../../types'
+import type { WeaponProfile } from '../../types'
 import { KeywordList } from './KeywordText'
-import { formatScaledCost } from './costDisplay'
 
 export interface WeaponRow {
   weapon: WeaponProfile
   /** 이 무기가 대체/강화하는 기본 무기 이름. 없으면 '-' */
   for?: string
   /** 업그레이드로 제공되는 무기일 때만 지정 (미네랄 비용 표시) */
-  pts?: SquadScaledCost
+  ptsLabel?: string
+  /** 지정하면 PTS 셀이 이 업그레이드를 켜고 끄는 버튼이 된다 */
+  interactive?: { active: boolean; onToggle: () => void }
 }
 
 export function WeaponTable({ rows }: { rows: WeaponRow[] }) {
-  const showPts = rows.some((r) => r.pts !== undefined)
+  const showPts = rows.some((r) => r.ptsLabel !== undefined)
   return (
     <div className="card-weapon-table-wrap">
     <table className="card-weapon-table">
@@ -31,7 +32,7 @@ export function WeaponTable({ rows }: { rows: WeaponRow[] }) {
       </thead>
       <tbody>
         {rows.map((row, i) => (
-          <tr key={i}>
+          <tr key={i} className={row.interactive && !row.interactive.active ? 'card-weapon-row-dim' : ''}>
             <td className="card-weapon-name-col">
               <div className="card-weapon-name">{row.weapon.name}</div>
               <div className="card-weapon-for">FOR {row.for ?? '-'}</div>
@@ -46,7 +47,23 @@ export function WeaponTable({ rows }: { rows: WeaponRow[] }) {
             <td>
               <KeywordList keywords={row.weapon.stat.keyword} />
             </td>
-            {showPts && <td>{row.pts !== undefined ? formatScaledCost(row.pts) : ''}</td>}
+            {showPts && (
+              <td>
+                {row.ptsLabel === undefined ? (
+                  ''
+                ) : row.interactive ? (
+                  <button
+                    type="button"
+                    className={`card-pts-badge card-pts-toggle ${row.interactive.active ? 'card-pts-toggle-active' : ''}`}
+                    onClick={row.interactive.onToggle}
+                  >
+                    {row.ptsLabel}
+                  </button>
+                ) : (
+                  row.ptsLabel
+                )}
+              </td>
+            )}
           </tr>
         ))}
       </tbody>

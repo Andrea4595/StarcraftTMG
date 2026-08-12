@@ -1,18 +1,47 @@
 import type { Squad } from '../../types'
 
-export function SquadTable({ squad }: { squad: Squad[] }) {
+export interface SquadTableSelection {
+  activeIndex: number
+  /** 이 인덱스들만 클릭해서 고를 수 있다 (최소 인원 tier는 실전에서 선택할 이유가 없어 제외됨) */
+  selectableIndexes: number[]
+  onSelect: (index: number) => void
+}
+
+export function SquadTable({ squad, selection }: { squad: Squad[]; selection?: SquadTableSelection }) {
   return (
     <div className="card-squad">
-      {squad.map((s, i) => (
-        <div className="card-squad-tier" key={i}>
-          <div className="card-squad-tier-value">
-            {s.modelMin === s.modelMax ? s.modelMin : `${s.modelMin} - ${s.modelMax}`}
+      {squad.map((s, i) => {
+        const content = (
+          <>
+            <div className="card-squad-tier-value">
+              {s.modelMin === s.modelMax ? s.modelMin : `${s.modelMin} - ${s.modelMax}`}
+            </div>
+            <div className="card-squad-tier-label">MODELS</div>
+            <div className="card-squad-tier-value">{s.supply}</div>
+            <div className="card-squad-tier-label">SUPPLY</div>
+          </>
+        )
+
+        if (selection?.selectableIndexes.includes(i)) {
+          const active = selection.activeIndex === i
+          return (
+            <button
+              type="button"
+              key={i}
+              className={`card-squad-tier card-squad-tier-btn ${active ? 'card-squad-tier-btn-active' : ''}`}
+              onClick={() => selection.onSelect(i)}
+            >
+              {content}
+            </button>
+          )
+        }
+
+        return (
+          <div className="card-squad-tier" key={i}>
+            {content}
           </div>
-          <div className="card-squad-tier-label">MODELS</div>
-          <div className="card-squad-tier-value">{s.supply}</div>
-          <div className="card-squad-tier-label">SUPPLY</div>
-        </div>
-      ))}
+        )
+      })}
     </div>
   )
 }

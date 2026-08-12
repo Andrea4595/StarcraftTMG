@@ -1,3 +1,3 @@
 export * from './card'
-export * from './faction'
+export * from './race'
 export * from './roster'

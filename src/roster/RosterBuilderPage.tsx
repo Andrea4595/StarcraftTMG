@@ -1,25 +1,23 @@
-import type { Faction } from '../types'
+import type { RaceData } from '../types'
 import { useRosterStore } from './RosterContext'
 import { RosterSwitcher } from './components/RosterSwitcher'
 import { RosterPanel } from './components/RosterPanel'
-import { CatalogPanel } from './components/CatalogPanel'
 import './roster.css'
 
-export function RosterBuilderPage({ faction }: { faction: Faction }) {
+export function RosterBuilderPage({ races }: { races: RaceData[] }) {
   const store = useRosterStore()
+  const roster = store.activeRoster
+  const race = races.find((r) => r.id === roster?.raceId)
 
   return (
     <div className="roster-builder">
-      <RosterSwitcher factionId={faction.id} />
+      <RosterSwitcher />
 
-      {!store.activeRoster ? (
-        <div className="roster-empty-state">
-          '+ 새 로스터'를 눌러 {faction.name} 로스터를 시작하세요.
-        </div>
+      {!roster ? (
+        <div className="roster-empty-state">'+ 새 로스터'를 눌러 로스터를 시작하세요.</div>
       ) : (
         <div className="roster-builder-body">
-          <RosterPanel faction={faction} roster={store.activeRoster} />
-          <CatalogPanel faction={faction} roster={store.activeRoster} />
+          <RosterPanel races={races} race={race} roster={roster} />
         </div>
       )}
     </div>
