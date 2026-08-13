@@ -19,7 +19,7 @@ export const terranArmedForces: TacticalCard = {
       cost: 0,
       rule: {
         en: 'The active Unit ignores the Disengage penalty for the remainder of the Round.',
-        ko: '',
+        ko: '활성화 중인 유닛은 이번 라운드의 남은 동안 Disengage 페널티를 무시한다.',
       },
     },
     {
@@ -30,7 +30,7 @@ export const terranArmedForces: TacticalCard = {
       cost: 0,
       rule: {
         en: 'Once per Game. Immediately claim the First Player Marker. No other player may claim the First Player Marker for the remainder of this Phase.',
-        ko: '',
+        ko: '게임당 1회. 즉시 First Player Marker를 가져온다. 이번 Phase의 남은 동안 다른 플레이어는 First Player Marker를 가져올 수 없다.',
       },
     },
   ],

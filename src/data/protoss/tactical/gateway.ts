@@ -16,7 +16,7 @@ export const gateway: TacticalCard = {
       cost: 0,
       rule: {
         en: "The active Unit's first Close Combat Weapon used gains PRECISION (2).",
-        ko: '',
+        ko: '활성화 중인 유닛이 처음 사용하는 근접 무기는 PRECISION (2)를 얻는다.',
       },
     },
   ],

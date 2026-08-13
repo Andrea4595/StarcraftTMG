@@ -24,7 +24,7 @@ export const goliath: UnitCard = {
       cost: 1,
       rule: {
         en: 'Select one Enemy Unit Within 12". Whenever a Friendly Goliath Unit targets that enemy with an Autocannon, that weapon gains Surge Type: Light, Armoured, and S Dice: D3+1.',
-        ko: '',
+        ko: '12" 이내의 적 유닛 하나를 선택한다. 아군 Goliath 유닛이 Autocannon으로 그 적을 목표로 할 때마다, 해당 무기는 Surge Type: Light, Armoured와 S Dice: D3+1을 얻는다.',
       },
     },
     {
@@ -80,7 +80,7 @@ export const goliath: UnitCard = {
       cost: 0,
       rule: {
         en: 'While Engaged, this Unit may target and be targeted by Unengaged Enemy Units. In both cases, the defending Unit gains an Evade Roll against those attacks.',
-        ko: '',
+        ko: 'Engaged 상태인 동안, 이 유닛은 Unengaged 적 유닛을 목표로 할 수 있고 그들의 대상이 될 수도 있다. 두 경우 모두, 방어하는 유닛은 그 공격에 대해 Evade Roll을 얻는다.',
       },
     },
     {
@@ -91,7 +91,7 @@ export const goliath: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (4) 3+ effect.',
-        ko: '',
+        ko: '이 유닛이 Charge를 성공적으로 완료한 직후, IMPACT (4) 3+ 효과를 해결한다.',
       },
     },
     {
@@ -121,7 +121,7 @@ export const goliath: UnitCard = {
         cost: 0,
         rule: {
           en: "This Unit's Autocannon and Underbelly Machine Gun weapons gain PRECISION (1).",
-          ko: '',
+          ko: '이 유닛의 Autocannon과 Underbelly Machine Gun 무기는 PRECISION (1)을 얻는다.',
         },
       },
     },

@@ -24,7 +24,7 @@ export const roachling: UnitCard = {
       cost: 0,
       rule: {
         en: 'This Unit cannot gain Burrowed Status.',
-        ko: '',
+        ko: '이 유닛은 Burrowed Status를 얻을 수 없다.',
       },
     },
     {

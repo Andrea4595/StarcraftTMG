@@ -24,7 +24,7 @@ export const raynorsRaiderMarine: UnitCard = {
       cost: 1,
       rule: {
         en: 'This Unit suffers NON-LETHAL DAMAGE (2). This Unit gains BUFF Speed (3). Additionally, its C-14 Rifle and all Close Combat Weapons gain PRECISION (3).',
-        ko: '',
+        ko: '이 유닛은 NON-LETHAL DAMAGE (2)를 받는다. 이 유닛은 BUFF Speed (3)을 얻는다. 추가로, 이 유닛의 C-14 Rifle과 모든 근접 무기는 PRECISION (3)을 얻는다.',
       },
     },
     {
@@ -35,7 +35,7 @@ export const raynorsRaiderMarine: UnitCard = {
       cost: 0,
       rule: {
         en: 'When this Unit is nominated to deploy from Reserves, it may resolve its Stimpack ability with the CP cost reduced by 1 (to a minimum of 0).',
-        ko: '',
+        ko: '이 유닛이 Reserves에서 배치되도록 지명되었을 때, CP 비용을 1 감소시켜(최소 0) Stimpack 능력을 해결할 수 있다.',
       },
     },
     {
@@ -46,7 +46,7 @@ export const raynorsRaiderMarine: UnitCard = {
       cost: 0,
       rule: {
         en: "When this Unit is nominated to deploy from Reserves, it may resolve the PLACE (10) effect from another Friendly Unit. No model may be set Within 8\" of any Enemy model. This Unit's Activation ends.",
-        ko: '',
+        ko: '이 유닛이 Reserves에서 배치되도록 지명되었을 때, 다른 아군 유닛으로부터 PLACE (10) 효과를 해결할 수 있다. 어떤 모델도 적 모델로부터 8" 이내에 놓을 수 없다. 이 유닛의 Activation이 종료된다.',
       },
     },
     {
@@ -72,7 +72,7 @@ export const raynorsRaiderMarine: UnitCard = {
       cost: 0,
       rule: {
         en: 'When this Unit makes a Ranged Attack with a C-14 Rifle and the target is Within 8", that weapon gains ANTI-EVADE (1).',
-        ko: '',
+        ko: '이 유닛이 C-14 Rifle로 원거리 공격을 할 때 대상이 8" 이내라면, 해당 무기는 ANTI-EVADE (1)을 얻는다.',
       },
     },
     {
@@ -83,7 +83,7 @@ export const raynorsRaiderMarine: UnitCard = {
       cost: 0,
       rule: {
         en: "When this Unit makes a Ranged Attack with a C-14 Rifle and the target is Within 8\", that weapon's S Dice is replaced by D6.",
-        ko: '',
+        ko: '이 유닛이 C-14 Rifle로 원거리 공격을 할 때 대상이 8" 이내라면, 해당 무기의 S Dice는 D6으로 대체된다.',
       },
     },
     {

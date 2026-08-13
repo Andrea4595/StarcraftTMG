@@ -33,7 +33,7 @@ export const praetorGuardZealot: UnitCard = {
       cost: 0,
       rule: {
         en: 'This Unit gains TOUGH (2) on the first Armour Roll each Round.',
-        ko: '',
+        ko: '이 유닛은 매 라운드 첫 번째 Armour Roll에 TOUGH (2)를 얻는다.',
       },
     },
     {
@@ -44,7 +44,7 @@ export const praetorGuardZealot: UnitCard = {
       cost: 1,
       rule: {
         en: 'This Unit performs a 2" Move action. This does not count towards its action limit.',
-        ko: '',
+        ko: '이 유닛은 2" Move action을 수행한다. 이는 행동 제한에 포함되지 않는다.',
       },
     },
     {
@@ -55,7 +55,7 @@ export const praetorGuardZealot: UnitCard = {
       cost: 1,
       rule: {
         en: "When determining Charge Distance for this Unit, roll 2D6 instead of D6 and use the higher result to add to the Unit's Speed characteristic.",
-        ko: '',
+        ko: '이 유닛의 Charge Distance를 결정할 때, D6 대신 2D6을 굴려 더 높은 결과를 유닛의 Speed 특성치에 더한다.',
       },
     },
     {
@@ -66,7 +66,7 @@ export const praetorGuardZealot: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (3) 4+ effect.',
-        ko: '',
+        ko: '이 유닛이 Charge에 성공한 직후, IMPACT (3) 4+ 효과를 처리한다.',
       },
     },
     {
@@ -92,7 +92,7 @@ export const praetorGuardZealot: UnitCard = {
       cost: 0,
       rule: {
         en: "When this Unit makes a Close Combat Attack, and the target is Size 3 or larger, the weapon's Damage characteristic is treated as 2.",
-        ko: '',
+        ko: '이 유닛이 근접 공격을 할 때, 대상이 Size 3 이상이라면 그 무기의 Damage 특성치를 2로 취급한다.',
       },
     },
     {
@@ -103,7 +103,7 @@ export const praetorGuardZealot: UnitCard = {
       cost: 0,
       rule: {
         en: 'This Unit is eligible to make an Evade roll against all attacks targeting it.',
-        ko: '',
+        ko: '이 유닛은 자신을 대상으로 지정한 모든 공격에 대해 Evade roll을 할 수 있다.',
       },
     },
   ],

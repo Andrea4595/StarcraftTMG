@@ -16,7 +16,7 @@ export const roachWarren: TacticalCard = {
       cost: 0,
       rule: {
         en: 'The active Ground Unit loses the Burrowed Status.',
-        ko: '',
+        ko: '활성화 중인 지상 유닛은 Burrowed Status를 잃는다.',
       },
     },
   ],

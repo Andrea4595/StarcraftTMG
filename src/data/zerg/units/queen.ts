@@ -24,7 +24,7 @@ export const queen: UnitCard = {
       cost: 1,
       rule: {
         en: 'Set a Creep Tumor token in base-to-base contact with this Unit.',
-        ko: '',
+        ko: '이 유닛과 base-to-base 접촉하도록 Creep Tumor token을 놓는다.',
       },
     },
     {
@@ -35,7 +35,7 @@ export const queen: UnitCard = {
       cost: 1,
       rule: {
         en: 'Use when another Friendly Biological Unit (including a Structure) suffers Damage Within 4". Reduce the Total Damage before allocation by 2.',
-        ko: '',
+        ko: '4" 이내의 다른 아군 Biological 유닛(Structure 포함)이 데미지를 입을 때 사용한다. 할당 전에 Total Damage를 2 감소시킨다.',
       },
     },
     {
@@ -46,7 +46,7 @@ export const queen: UnitCard = {
       cost: 1,
       rule: {
         en: 'Use when a Friendly Unit Within 4" receives a DEBUFF. Remove all DEBUFFS from it.',
-        ko: '',
+        ko: '4" 이내의 아군 유닛이 DEBUFF를 받을 때 사용한다. 그 유닛에서 모든 DEBUFFS를 제거한다.',
       },
     },
     {
@@ -57,7 +57,7 @@ export const queen: UnitCard = {
       cost: 0,
       rule: {
         en: 'Once per Round, if there are at least 7 Friendly models Within 6" of this Unit, it may resolve its Special Ability with the BM cost reduced by 1.',
-        ko: '',
+        ko: '라운드당 1회, 이 유닛의 6" 이내에 아군 모델이 7개 이상 있다면, BM 비용을 1 감소시켜 Special Ability를 해결할 수 있다.',
       },
     },
     {
@@ -98,7 +98,7 @@ export const queen: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (4) 3+ effect.',
-        ko: '',
+        ko: '이 유닛이 Charge에 성공한 직후, IMPACT (4) 3+ 효과를 해결한다.',
       },
     },
     {
@@ -128,7 +128,7 @@ export const queen: UnitCard = {
         cost: 0,
         rule: {
           en: "While this Unit is ON CREEP, increase this Unit's Speed characteristic by 2.",
-          ko: '',
+          ko: '이 유닛이 ON CREEP인 동안, 이 유닛의 Speed 특성치를 2 증가시킨다.',
         },
       },
     },
@@ -142,7 +142,7 @@ export const queen: UnitCard = {
         cost: 1,
         rule: {
           en: 'Select another Friendly Unit Within 6" (Line of Sight is not required). That Unit\'s Supply characteristic is increased by 1 for Controlling and Contesting Mission Markers and completing objectives.',
-          ko: '',
+          ko: '6" 이내의 다른 아군 유닛 하나를 선택한다 (Line of Sight는 필요하지 않다). Mission Markers를 점령 및 쟁탈하고 목표를 완수하는 것에 한해, 그 유닛의 Supply 특성치는 1 증가한다.',
         },
       },
     },

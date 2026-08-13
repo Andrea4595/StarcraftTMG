@@ -24,7 +24,7 @@ export const artanis: UnitCard = {
       cost: 0,
       rule: {
         en: "Treat this Unit's Supply characteristic as increased by 1 for Controlling and Contesting Mission Markers, completing objectives, and resolving Disengage checks.",
-        ko: '',
+        ko: 'Mission Markers를 점령 및 쟁탈할 때, 목표를 달성할 때, Disengage 판정을 처리할 때 이 유닛의 Supply 특성치를 1 증가한 것으로 취급한다.',
       },
     },
     {
@@ -35,7 +35,7 @@ export const artanis: UnitCard = {
       cost: 0,
       rule: {
         en: "When Artanis is nominated to deploy from Reserves, it may resolve the PLACE (0) effect from another Friendly Unit. That Friendly Unit is removed from the battlefield and returned to Reserves. Artanis' Activation ends.",
-        ko: '',
+        ko: 'Artanis가 Reserves에서 배치되도록 지명되었을 때, 다른 아군 유닛을 기준으로 PLACE (0) 효과를 처리할 수 있다. 그 아군 유닛은 전장에서 제거되어 Reserves로 돌아간다. Artanis의 Activation이 종료된다.',
       },
     },
     {
@@ -46,7 +46,7 @@ export const artanis: UnitCard = {
       cost: 1,
       rule: {
         en: 'When another Friendly Unit Within 8" is declared as the target of a Ranged Attack and this Unit is a valid target, redirect the attack to this Unit. This Unit is eligible to make an Evade Roll against the redirected attack. This Special Ability remains active until the End of the current Activation.',
-        ko: '',
+        ko: '8" 이내의 다른 아군 유닛이 원거리 공격의 대상으로 선언되고 이 유닛이 유효한 대상이라면, 그 공격을 이 유닛으로 돌린다. 이 유닛은 돌려진 공격에 대해 Evade Roll을 할 수 있다. 이 Special Ability는 현재 Activation이 종료될 때까지 유지된다.',
       },
     },
     {
@@ -57,7 +57,7 @@ export const artanis: UnitCard = {
       cost: 1,
       rule: {
         en: 'After this Unit resolves a successful Charge action, it may declare a second Charge action against a different Enemy Unit, ignoring the restriction on Charging while Engaged. The Devastating Charge ability does not trigger a second time.',
-        ko: '',
+        ko: '이 유닛이 Charge action에 성공한 후, Engaged 상태에서 Charge할 수 없다는 제한을 무시하고 다른 적 유닛을 대상으로 두 번째 Charge action을 선언할 수 있다. Devastating Charge 능력은 두 번째로 발동하지 않는다.',
       },
     },
     {
@@ -68,7 +68,7 @@ export const artanis: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (6) 4+ effect.',
-        ko: '',
+        ko: '이 유닛이 Charge에 성공한 직후, IMPACT (6) 4+ 효과를 처리한다.',
       },
     },
     {

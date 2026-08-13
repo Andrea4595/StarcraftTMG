@@ -28,7 +28,7 @@ export const marine: UnitCard = {
       cost: 1,
       rule: {
         en: 'This Unit suffers NON-LETHAL DAMAGE (2). This Unit gains BUFF Speed (3). Additionally, its C-14 Rifle and all Close Combat Weapons gain PRECISION (3).',
-        ko: '',
+        ko: '이 유닛은 NON-LETHAL DAMAGE (2)를 받는다. 이 유닛은 BUFF Speed (3)을 얻는다. 추가로, 이 유닛의 C-14 Rifle과 모든 근접 무기는 PRECISION (3)을 얻는다.',
       },
     },
     {
@@ -73,7 +73,7 @@ export const marine: UnitCard = {
         cost: 1,
         rule: {
           en: 'This Unit is always eligible to make an Evade Roll against any Close Combat Attack targeting it and any Damage from an Enemy Special Ability.',
-          ko: '',
+          ko: '이 유닛은 자신을 대상으로 지정한 모든 근접 공격과 적 Special Ability로 인한 모든 데미지에 대해 항상 Evade Roll을 할 수 있다.',
         },
       },
     },
@@ -132,7 +132,7 @@ export const marine: UnitCard = {
         cost: 0,
         rule: {
           en: 'When this Unit makes a Ranged Attack with a C-14 Rifle and the target is Within 8", that weapon gains ANTI-EVADE (1).',
-          ko: '',
+          ko: '이 유닛이 C-14 Rifle로 원거리 공격을 할 때 대상이 8" 이내라면, 해당 무기는 ANTI-EVADE (1)을 얻는다.',
         },
       },
     },
@@ -146,7 +146,7 @@ export const marine: UnitCard = {
         cost: 0,
         rule: {
           en: "When this Unit makes a Ranged Attack with a C-14 Rifle and the target is Within 8\", that weapon's S Dice is replaced by D6.",
-          ko: '',
+          ko: '이 유닛이 C-14 Rifle로 원거리 공격을 할 때 대상이 8" 이내라면, 해당 무기의 S Dice는 D6으로 대체된다.',
         },
       },
     },

@@ -27,7 +27,7 @@ export const adept: UnitCard = {
       cost: 0,
       rule: {
         en: "All Weapons of Friendly Units targeting an Enemy Unit Within 4\" of this Unit's Shade token gain PRECISION (1).",
-        ko: '',
+        ko: '이 유닛의 Shade 토큰에서 4" 이내에 있는 적 유닛을 대상으로 지정한 아군 유닛의 모든 무기는 PRECISION (1)을 얻는다.',
       },
     },
     {
@@ -38,7 +38,7 @@ export const adept: UnitCard = {
       cost: 1,
       rule: {
         en: "Set a Shade token Wholly Within 12\" of any model in this Unit. At the End of the Round, the controlling player may set all models of this Unit in Coherency, treating the Shade token as the Leading Model. The Shade token has DISPLACEMENT.",
-        ko: '',
+        ko: '이 유닛의 모델 하나로부터 12" 이내에 완전히 들어오도록 Shade 토큰을 놓는다. 라운드 종료 시, 소유 플레이어는 Shade 토큰을 Leading Model로 취급하여 이 유닛의 모든 모델을 Coherency에 맞게 배치할 수 있다. Shade 토큰은 DISPLACEMENT를 가진다.',
       },
     },
     {
@@ -84,7 +84,7 @@ export const adept: UnitCard = {
         cost: 1,
         rule: {
           en: "This Unit's Glaive Cannon gains BUFF RoA (1).",
-          ko: '',
+          ko: '이 유닛의 Glaive Cannon은 BUFF RoA (1)을 얻는다.',
         },
       },
     },
@@ -99,7 +99,7 @@ export const adept: UnitCard = {
         cost: 0,
         rule: {
           en: "This Unit's Glaive Cannon Ranged weapon gains ANTI-EVADE (2).",
-          ko: '',
+          ko: '이 유닛의 Glaive Cannon 원거리 무기는 ANTI-EVADE (2)를 얻는다.',
         },
       },
     },

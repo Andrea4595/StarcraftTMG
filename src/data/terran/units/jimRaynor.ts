@@ -24,7 +24,7 @@ export const jimRaynor: UnitCard = {
       cost: 0,
       rule: {
         en: "Treat this Unit's Supply characteristic as increased by 1 for Controlling and Contesting Mission Markers, completing objectives, and resolving Disengage checks.",
-        ko: '',
+        ko: '이 유닛의 Supply 특성치는 Mission Marker를 점령 및 쟁탈할 때, 목표를 완료할 때, 그리고 Disengage 판정을 해결할 때 1 증가한 것으로 취급한다.',
       },
     },
     {
@@ -35,7 +35,7 @@ export const jimRaynor: UnitCard = {
       cost: 0,
       rule: {
         en: 'The Supply Value of all Friendly Units Within 8" of this Unit cannot be reduced below 1 for Contesting Mission Markers and completing objectives.',
-        ko: '',
+        ko: '이 유닛으로부터 8" 이내에 있는 모든 아군 유닛의 Supply 수치는, Mission Marker를 쟁탈하거나 목표를 완료할 때 1 미만으로 줄어들지 않는다.',
       },
     },
     {
@@ -46,7 +46,7 @@ export const jimRaynor: UnitCard = {
       cost: 'X',
       rule: {
         en: "REPEATABLE. Select another Friendly Biological Unit Within 8\", spend CP and apply one of the following effects: 1 CP: That Unit's first used weapon gains the CRITICAL HIT (2). 1 CP: That Unit ignores the Disengage penalty for the remainder of the Round. 2 CP: Remove the Activation Marker from that Unit.",
-        ko: '',
+        ko: 'REPEATABLE. 8" 이내의 다른 아군 Biological 유닛 하나를 선택하고, CP를 소모하여 다음 효과 중 하나를 적용한다: 1 CP: 그 유닛이 처음 사용하는 무기가 CRITICAL HIT (2)를 얻는다. 1 CP: 그 유닛은 이번 라운드의 남은 동안 Disengage 페널티를 무시한다. 2 CP: 그 유닛에서 Activation Marker를 제거한다.',
       },
     },
     {

@@ -24,7 +24,7 @@ export const kerrigan: UnitCard = {
       cost: 0,
       rule: {
         en: "Treat this Unit's Supply characteristic as increased by 1 for Controlling and Contesting Mission Markers, completing objectives, and resolving Disengage checks.",
-        ko: '',
+        ko: 'Mission Markers를 점령 및 쟁탈하고, 목표를 완수하고, Disengage 판정을 해결할 때, 이 유닛의 Supply 특성치는 1 증가한 것으로 취급한다.',
       },
     },
     {
@@ -35,7 +35,7 @@ export const kerrigan: UnitCard = {
       cost: 1,
       rule: {
         en: 'Select one Enemy Unit Within 12". That Unit counts as Activated in this Phase (set an Activation Marker next to it).',
-        ko: '',
+        ko: '12" 이내의 적 유닛 하나를 선택한다. 그 유닛은 이번 Phase에 Activated로 취급한다 (옆에 Activation Marker를 놓는다).',
       },
     },
     {
@@ -46,7 +46,7 @@ export const kerrigan: UnitCard = {
       cost: 1,
       rule: {
         en: 'Select one Enemy Unit Within 18". This Unit is eligible to make an Evade Roll against all attacks made by the selected Enemy Unit, with a +2 Modifier applied to those Evade Rolls.',
-        ko: '',
+        ko: '18" 이내의 적 유닛 하나를 선택한다. 이 유닛은 선택된 적 유닛이 가하는 모든 공격에 대해 Evade Roll을 할 수 있으며, 그 Evade Roll에 +2 수정치가 적용된다.',
       },
     },
     {
@@ -72,7 +72,7 @@ export const kerrigan: UnitCard = {
       cost: 1,
       rule: {
         en: 'If Unengaged, resolve the PLACE (6) effect.',
-        ko: '',
+        ko: 'Unengaged 상태라면, PLACE (6) 효과를 해결한다.',
       },
     },
     {
@@ -83,7 +83,7 @@ export const kerrigan: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (4) 4+ effect.',
-        ko: '',
+        ko: '이 유닛이 Charge에 성공한 직후, IMPACT (4) 4+ 효과를 해결한다.',
       },
     },
     {

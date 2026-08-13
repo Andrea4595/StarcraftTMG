@@ -28,7 +28,7 @@ export const marauder: UnitCard = {
       cost: 1,
       rule: {
         en: 'This Unit suffers NON-LETHAL DAMAGE (2). This Unit gains BUFF Speed (3). Additionally, its Quad K12 and all Close Combat Weapons gain PRECISION (2).',
-        ko: '',
+        ko: '이 유닛은 NON-LETHAL DAMAGE (2)를 받는다. 이 유닛은 BUFF Speed (3)을 얻는다. 추가로, 이 유닛의 Quad K12와 모든 근접 무기는 PRECISION (2)를 얻는다.',
       },
     },
     {
@@ -54,7 +54,7 @@ export const marauder: UnitCard = {
       cost: 1,
       rule: {
         en: 'When an Enemy declares a Charge against a Friendly Unit Within 8", that Enemy gains DEBUFF Speed (2).',
-        ko: '',
+        ko: '적이 8" 이내의 아군 유닛에게 Charge를 선언했을 때, 그 적은 DEBUFF Speed (2)를 얻는다.',
       },
     },
     {
@@ -84,7 +84,7 @@ export const marauder: UnitCard = {
         cost: 0,
         rule: {
           en: 'While this Unit is Within 3" of a Mission Marker, its Armour characteristic is increased by 1.',
-          ko: '',
+          ko: '이 유닛이 Mission Marker로부터 3" 이내에 있는 동안, 이 유닛의 Armour 특성치가 1 증가한다.',
         },
       },
     },
@@ -98,7 +98,7 @@ export const marauder: UnitCard = {
         cost: 0,
         rule: {
           en: "Increase this Unit's Hit Points characteristic by 1.",
-          ko: '',
+          ko: '이 유닛의 Hit Points 특성치를 1 증가시킨다.',
         },
       },
     },
@@ -112,7 +112,7 @@ export const marauder: UnitCard = {
         cost: 0,
         rule: {
           en: "This Unit's Quad K12 weapon gains LONG RANGE (16\").",
-          ko: '',
+          ko: '이 유닛의 Quad K12 무기는 LONG RANGE (16")를 얻는다.',
         },
       },
     },

@@ -27,7 +27,7 @@ export const stalker: UnitCard = {
       cost: 0,
       rule: {
         en: "This Unit's Horizontal Coherency is 4\".",
-        ko: '',
+        ko: '이 유닛의 Horizontal Coherency는 4"이다.',
       },
     },
     {
@@ -38,7 +38,7 @@ export const stalker: UnitCard = {
       cost: 1,
       rule: {
         en: 'Resolve the PLACE (6) effect. Models set by this effect cannot be set up Within the Engagement Range of any Enemy Unit.',
-        ko: '',
+        ko: 'PLACE (6) 효과를 처리한다. 이 효과로 배치되는 모델은 적 유닛의 Engagement Range 이내에 배치할 수 없다.',
       },
     },
     {
@@ -83,7 +83,7 @@ export const stalker: UnitCard = {
         cost: 1,
         rule: {
           en: 'This Unit gains HIDDEN Status until it performs another action.',
-          ko: '',
+          ko: '이 유닛은 다른 action을 수행할 때까지 HIDDEN Status를 얻는다.',
         },
       },
     },
@@ -97,7 +97,7 @@ export const stalker: UnitCard = {
         cost: 0,
         rule: {
           en: 'When this Unit attacks an Enemy Unit that has already been Activated during this Phase, its Particle Disruptors gain INSTANT for that attack.',
-          ko: '',
+          ko: '이 유닛이 이번 Phase에 이미 Activated된 적 유닛을 공격할 때, 그 공격에 한해 Particle Disruptors는 INSTANT를 얻는다.',
         },
       },
     },

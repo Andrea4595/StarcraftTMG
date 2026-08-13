@@ -16,7 +16,7 @@ export const acceleratingCreep: TacticalCard = {
       cost: 0,
       rule: {
         en: 'If the active Friendly Zerg Unit is ON CREEP, increase its Speed characteristic by 1.',
-        ko: '',
+        ko: '활성화 중인 아군 Zerg 유닛이 ON CREEP이라면, 그 유닛의 Speed 특성치를 1 증가시킨다.',
       },
     },
     {
@@ -27,7 +27,7 @@ export const acceleratingCreep: TacticalCard = {
       cost: 0,
       rule: {
         en: 'Creep Tumor tokens have STAY IN PLAY and DISPLACEMENT.',
-        ko: '',
+        ko: 'Creep Tumor token은 STAY IN PLAY와 DISPLACEMENT를 가진다.',
       },
     },
     {
@@ -38,7 +38,7 @@ export const acceleratingCreep: TacticalCard = {
       cost: 0,
       rule: {
         en: 'If an Enemy Unit ends a Move, Deploy, Run, Charge or Disengage action Within 1" of a Friendly Creep Tumor token, remove that token from the battlefield.',
-        ko: '',
+        ko: '적 유닛이 아군 Creep Tumor token의 1" 이내에서 Move, Deploy, Run, Charge, Disengage action을 마쳤다면, 그 token을 전장에서 제거한다.',
       },
     },
   ],

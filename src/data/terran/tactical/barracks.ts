@@ -16,7 +16,7 @@ export const barracks: TacticalCard = {
       cost: 0,
       rule: {
         en: 'The active Biological Unit performs a 2" Move action. This does not count towards its action limit.',
-        ko: '',
+        ko: '활성화 중인 Biological 유닛이 2" Move action을 수행한다. 이는 해당 유닛의 행동 제한에 포함되지 않는다.',
       },
     },
   ],

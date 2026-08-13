@@ -33,7 +33,7 @@ export const kerriganSwarmRaptorZergling: UnitCard = {
       cost: 0,
       rule: {
         en: "This Unit's Horizontal Coherency is 4\".",
-        ko: '',
+        ko: '이 유닛의 Horizontal Coherency는 4"이다.',
       },
     },
     {
@@ -44,7 +44,7 @@ export const kerriganSwarmRaptorZergling: UnitCard = {
       cost: 0,
       rule: {
         en: 'This Unit can move through IMPASSABLE TERRAIN of Size 4 or less and change elevation without using ACCESS POINTS.',
-        ko: '',
+        ko: '이 유닛은 Size 4 이하의 IMPASSABLE TERRAIN을 통과해 이동할 수 있으며, ACCESS POINTS를 사용하지 않고 고도를 변경할 수 있다.',
       },
     },
     {
@@ -55,7 +55,7 @@ export const kerriganSwarmRaptorZergling: UnitCard = {
       cost: 1,
       rule: {
         en: 'When determining Charge Distance for this Unit, add 2 to the Charge Distance.',
-        ko: '',
+        ko: '이 유닛의 Charge Distance를 결정할 때, Charge Distance에 2를 더한다.',
       },
     },
     {
@@ -66,7 +66,7 @@ export const kerriganSwarmRaptorZergling: UnitCard = {
       cost: 1,
       rule: {
         en: 'This Unit gains a +1 Modifier to all IMPACT Hit Rolls.',
-        ko: '',
+        ko: '이 유닛은 모든 IMPACT Hit Roll에 +1 수정치를 얻는다.',
       },
     },
     {
@@ -77,7 +77,7 @@ export const kerriganSwarmRaptorZergling: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (2) 5+ effect.',
-        ko: '',
+        ko: '이 유닛이 Charge에 성공한 직후, IMPACT (2) 5+ 효과를 해결한다.',
       },
     },
     {

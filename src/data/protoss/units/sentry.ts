@@ -27,7 +27,7 @@ export const sentry: UnitCard = {
       cost: 1,
       rule: {
         en: 'Use when a Friendly Unit Within 4" receives a DEBUFF. Remove all DEBUFFS from it.',
-        ko: '',
+        ko: '4" 이내의 아군 유닛이 DEBUFF를 받을 때 사용한다. 그 유닛의 모든 DEBUFFS를 제거한다.',
       },
     },
     {
@@ -38,7 +38,7 @@ export const sentry: UnitCard = {
       cost: 1,
       rule: {
         en: "Set a Force Field token Within 8\" in an unoccupied space. Units of Size 2 or lower cannot move across Force Fields. Models of Size 3 or more can move over it, and it's then removed.",
-        ko: '',
+        ko: '8" 이내의 비어 있는 공간에 Force Field 토큰을 놓는다. Size 2 이하의 유닛은 Force Field를 가로질러 이동할 수 없다. Size 3 이상의 모델은 그 위로 이동할 수 있으며, 그 후 Force Field는 제거된다.',
       },
     },
     {
@@ -49,7 +49,7 @@ export const sentry: UnitCard = {
       cost: 1,
       rule: {
         en: 'All Ranged Attacks targeting a Friendly Unit Within 4" (Line of Sight is not required) are made with 1 fewer die in the Attack Pool.',
-        ko: '',
+        ko: '4" 이내의 아군 유닛을 대상으로 지정한 모든 원거리 공격은 (Line of Sight는 필요하지 않다) Attack Pool의 주사위 1개가 줄어든 채로 수행한다.',
       },
     },
     {
@@ -94,7 +94,7 @@ export const sentry: UnitCard = {
         cost: 1,
         rule: {
           en: "Set a Force Field token Within 8\" in an unoccupied space. Units of Size 2 or lower cannot move across Force Fields. Models of Size 3 or more can move over it, and it's then removed.",
-          ko: '',
+          ko: '8" 이내의 비어 있는 공간에 Force Field 토큰을 놓는다. Size 2 이하의 유닛은 Force Field를 가로질러 이동할 수 없다. Size 3 이상의 모델은 그 위로 이동할 수 있으며, 그 후 Force Field는 제거된다.',
         },
       },
     },
@@ -108,7 +108,7 @@ export const sentry: UnitCard = {
         cost: 0,
         rule: {
           en: 'When an Enemy Unit declares a Ranged Attack against a Friendly Unit Within 4", the targeted Friendly Unit is eligible to make an Evade Roll against that attack.',
-          ko: '',
+          ko: '적 유닛이 4" 이내의 아군 유닛에게 원거리 공격을 선언할 때, 대상으로 지정된 아군 유닛은 그 공격에 대해 Evade Roll을 할 수 있다.',
         },
       },
     },

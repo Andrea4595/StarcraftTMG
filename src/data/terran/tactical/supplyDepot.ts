@@ -20,7 +20,7 @@ export const supplyDepot: TacticalCard = {
       cost: 0,
       rule: {
         en: "The active Unit's Supply Value is improved by 1 for Controlling and Contesting Mission Markers and completing objectives.",
-        ko: '',
+        ko: '활성화 중인 유닛의 Supply 수치는 Mission Marker를 점령 및 쟁탈하고 목표를 완료할 때 1 증가한다.',
       },
     },
   ],

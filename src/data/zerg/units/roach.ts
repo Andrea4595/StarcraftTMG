@@ -27,7 +27,7 @@ export const roach: UnitCard = {
       cost: 2,
       rule: {
         en: 'If this Unit is Unengaged, it gains or loses the Burrowed Status.',
-        ko: '',
+        ko: '이 유닛이 Unengaged 상태라면, Burrowed Status를 얻거나 잃는다.',
       },
     },
     {
@@ -53,7 +53,7 @@ export const roach: UnitCard = {
       cost: 0,
       rule: {
         en: 'When this Unit becomes Activated, if it has the Burrowed Status, resolve the HEAL (2) effect.',
-        ko: '',
+        ko: '이 유닛이 Activated될 때, Burrowed Status를 가지고 있다면 HEAL (2) 효과를 해결한다.',
       },
     },
     {
@@ -64,7 +64,7 @@ export const roach: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (2) 4+ effect.',
-        ko: '',
+        ko: '이 유닛이 Charge에 성공한 직후, IMPACT (2) 4+ 효과를 해결한다.',
       },
     },
     {
@@ -94,7 +94,7 @@ export const roach: UnitCard = {
         cost: 0,
         rule: {
           en: "While this Unit has the Burrowed Status, it may perform the Move and Run actions without losing that Status. It may also move through other Units' bases.",
-          ko: '',
+          ko: '이 유닛이 Burrowed Status를 가지고 있는 동안, 그 Status를 잃지 않고 Move 및 Run action을 수행할 수 있다. 또한 다른 유닛의 베이스를 통과해 이동할 수 있다.',
         },
       },
     },
@@ -108,7 +108,7 @@ export const roach: UnitCard = {
         cost: 0,
         rule: {
           en: "When this Unit is nominated to deploy from the Reserves, it may resolve the PLACE (18) effect from the controlling player's Entry Edge. No model may be set Within 10\" of any Enemy model. This Unit's Activation ends.",
-          ko: '',
+          ko: '이 유닛이 Reserves에서 Deploy하도록 지명되었을 때, 소유 플레이어의 Entry Edge에서 PLACE (18) 효과를 해결할 수 있다. 어떤 모델도 적 모델의 10" 이내에 놓을 수 없다. 이 유닛의 Activation이 종료된다.',
         },
       },
     },
@@ -122,7 +122,7 @@ export const roach: UnitCard = {
         cost: 1,
         rule: {
           en: 'This Unit gains BUFF SPEED (1), or BUFF SPEED (2) if the Unit is ON CREEP.',
-          ko: '',
+          ko: '이 유닛은 BUFF SPEED (1)을 얻는다. 유닛이 ON CREEP이라면 대신 BUFF SPEED (2)를 얻는다.',
         },
       },
     },
@@ -136,7 +136,7 @@ export const roach: UnitCard = {
         cost: 0,
         rule: {
           en: "This Unit's Acid Saliva weapon gains Surge Type: Light, and S Dice: D3+1.",
-          ko: '',
+          ko: '이 유닛의 Acid Saliva 무기는 Surge Type: Light와 S Dice: D3+1을 얻는다.',
         },
       },
     },
