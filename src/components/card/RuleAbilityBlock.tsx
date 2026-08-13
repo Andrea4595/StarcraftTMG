@@ -1,4 +1,5 @@
 import type { RuleAbility } from '../../types'
+import { useLang } from '../../LangContext'
 
 function formatBadge(ability: RuleAbility, resourceLabel: string): string {
   if (ability.type === 'Passive') return 'PASSIVE'
@@ -22,6 +23,9 @@ export function RuleAbilityBlock({
   /** 지정하면 PTS 배지가 이 업그레이드를 켜고 끄는 버튼이 된다 */
   interactive?: { active: boolean; onToggle: () => void }
 }) {
+  const { lang } = useLang()
+  const text = lang === 'en' ? ability.rule.en : ability.rule.ko || ability.rule.en
+
   return (
     <div className={`card-rule-ability ${interactive && !interactive.active ? 'card-rule-ability-dim' : ''}`}>
       <div className="card-rule-ability-header">
@@ -47,7 +51,7 @@ export function RuleAbilityBlock({
         </div>
       </div>
       {forWeapon && <div className="card-weapon-for">FOR {forWeapon}</div>}
-      <p className="card-rule-text">{ability.rule.ko || ability.rule.en}</p>
+      <p className="card-rule-text">{text}</p>
     </div>
   )
 }
