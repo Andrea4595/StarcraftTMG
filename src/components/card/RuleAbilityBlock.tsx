@@ -15,7 +15,7 @@ export function RuleAbilityBlock({
   interactive,
 }: {
   ability: RuleAbility
-  /** 이 종족의 자원 전체 명칭 (예: 'Command Point', 'Biomass') */
+  /** 이 종족의 자원 약어 (예: 'CP', 'BM', 'EN') */
   resourceLabel: string
   /** 업그레이드로 제공되는 능력일 때만 지정 (미네랄 비용 표시) */
   ptsLabel?: string

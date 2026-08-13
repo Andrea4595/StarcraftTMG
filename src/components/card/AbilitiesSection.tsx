@@ -31,7 +31,7 @@ export function AbilitiesSection({
   abilities: Ability[]
   /** 업그레이드로 얻는 능력. 지정하면 기본 능력과 같은 페이즈 그룹 안에 함께 표시된다 */
   upgrades?: Upgrade[]
-  /** 이 종족의 자원 전체 명칭 (예: 'Command Point', 'Biomass') */
+  /** 이 종족의 자원 약어 (예: 'CP', 'BM', 'EN') */
   resourceLabel: string
   title?: string
   /** 지정하면 업그레이드 PTS 배지가 켜고 끄는 버튼이 된다 (유닛 편집 화면) */

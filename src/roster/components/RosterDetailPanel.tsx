@@ -28,7 +28,7 @@ export function RosterDetailPanel({
               닫기
             </button>
           </div>
-          <UnitConfigureView roster={roster} unit={unit} entry={entry} resourceLabel={race.resourceLabel.full} />
+          <UnitConfigureView roster={roster} unit={unit} entry={entry} resourceLabel={race.resourceLabel.abbr} />
         </div>
       )
     }

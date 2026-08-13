@@ -45,7 +45,7 @@ export function TacticalCardView({
         </div>
       </div>
 
-      <AbilitiesSection abilities={card.cardAbilities} resourceLabel={resourceLabel.full} title="CARD ABILITIES" />
+      <AbilitiesSection abilities={card.cardAbilities} resourceLabel={resourceLabel.abbr} title="CARD ABILITIES" />
     </div>
   )
 }
