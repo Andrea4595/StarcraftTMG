@@ -1,10 +1,12 @@
 import { useLang } from '../LangContext'
+import { KeywordSearch } from './KeywordSearch'
 
 export function LangToggleBar() {
   const { lang, setLang } = useLang()
 
   return (
     <div className="lang-toggle-bar">
+      <KeywordSearch />
       <div className="lang-toggle">
         <button
           type="button"

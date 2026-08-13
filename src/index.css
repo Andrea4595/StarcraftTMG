@@ -115,7 +115,8 @@ code {
   height: 44px;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
+  gap: 16px;
   padding: 0 20px;
   background: var(--bg);
   border-top: 1px solid var(--border);
@@ -127,6 +128,67 @@ code {
   border: 1px solid var(--border);
   border-radius: 999px;
   overflow: hidden;
+  flex: 0 0 auto;
+}
+
+/* 하단 바의 키워드 검색: 입력창 + 아래로 뜨는 결과 드롭다운 */
+.keyword-search {
+  position: relative;
+  flex: 0 1 320px;
+  min-width: 0;
+}
+
+.keyword-search-input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--text);
+  padding: 7px 14px;
+  font-size: 12px;
+  font-family: var(--sans);
+}
+
+.keyword-search-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.keyword-search-results {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(100% + 6px);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.keyword-search-result {
+  border: none;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-family: var(--sans);
+  cursor: pointer;
+}
+
+.keyword-search-result:hover {
+  background: var(--bg-raised, rgba(255, 255, 255, 0.06));
+}
+
+.keyword-search-definition {
+  max-width: 640px;
+  white-space: pre-wrap;
+  line-height: 160%;
+  color: var(--text);
 }
 
 .lang-toggle-option {
