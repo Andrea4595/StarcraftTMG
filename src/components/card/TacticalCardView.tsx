@@ -27,7 +27,6 @@ export function TacticalCardView({
       </div>
 
       <div className="card-body-top">
-        <div className="card-thumb">ART PLACEHOLDER</div>
         <div className="card-top-right">
           <div className="card-slot-list">
             {card.resource > 0 && (

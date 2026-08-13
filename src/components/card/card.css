@@ -58,21 +58,6 @@
   padding: 16px;
 }
 
-.card-thumb {
-  flex: 0 0 110px;
-  height: 150px;
-  border: 1px solid var(--gc-border);
-  border-radius: 6px;
-  background: var(--gc-bg-raised);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--gc-text-dim);
-  font-size: 11px;
-  text-align: center;
-  padding: 8px;
-}
-
 .card-top-right {
   flex: 1;
   min-width: 0;

@@ -33,7 +33,6 @@ export function UnitCardView({
       </div>
 
       <div className="card-body-top">
-        <div className="card-thumb">ART PLACEHOLDER</div>
         <div className="card-top-right">
           <StatBoxes unit={unit} />
           <div className="card-squad-row">
