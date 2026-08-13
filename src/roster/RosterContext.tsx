@@ -1,6 +1,8 @@
-import { createContext, useContext, useReducer, type ReactNode } from 'react'
+import { createContext, useContext, useEffect, useReducer, type ReactNode } from 'react'
 import type { Roster, RosterUnitEntry } from '../types'
 import { makeId } from './makeId'
+
+const STORAGE_KEY = 'tmg-roster-builder-state'
 
 function createEmptyRoster(name: string): Roster {
   return {
@@ -32,6 +34,21 @@ type Action =
 interface State {
   rosters: Roster[]
   activeRosterId: string | null
+}
+
+const emptyState: State = { rosters: [], activeRosterId: null }
+
+/** localStorage에 저장된 이전 상태를 불러온다. 없거나 손상됐으면 빈 상태로 시작한다 */
+function loadState(): State {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (!raw) return emptyState
+    const parsed = JSON.parse(raw)
+    if (!parsed || !Array.isArray(parsed.rosters)) return emptyState
+    return { rosters: parsed.rosters, activeRosterId: parsed.activeRosterId ?? null }
+  } catch {
+    return emptyState
+  }
 }
 
 function mapRoster(state: State, rosterId: string, fn: (r: Roster) => Roster): State {
@@ -140,7 +157,15 @@ interface RosterStore extends State {
 const RosterStoreContext = createContext<RosterStore | null>(null)
 
 export function RosterProvider({ children }: { children: ReactNode }) {
-  const [state, dispatch] = useReducer(reducer, { rosters: [], activeRosterId: null })
+  const [state, dispatch] = useReducer(reducer, undefined, loadState)
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
+    } catch {
+      // 저장 공간이 꽉 찼거나(예: 시크릿 모드) 접근이 막힌 경우, 앱 동작에는 지장이 없으므로 조용히 무시한다
+    }
+  }, [state])
 
   const store: RosterStore = {
     ...state,
