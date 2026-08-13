@@ -15,6 +15,7 @@ import { spawningPoolSixPool } from './tactical/spawningPoolSixPool'
 import { zergling } from './units/zergling'
 import { corpserRoach } from './units/corpserRoach'
 import { hydralisk } from './units/hydralisk'
+import { kerrigan } from './units/kerrigan'
 import { kerriganSwarmRaptorZergling } from './units/kerriganSwarmRaptorZergling'
 import { omegaWorm } from './units/omegaWorm'
 import { queen } from './units/queen'
@@ -47,6 +48,7 @@ export const zerg: RaceData = {
     zergling,
     corpserRoach,
     hydralisk,
+    kerrigan,
     kerriganSwarmRaptorZergling,
     omegaWorm,
     queen,

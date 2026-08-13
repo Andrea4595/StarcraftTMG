@@ -34,7 +34,7 @@ export function RosterSwitcher() {
 
       <button
         type="button"
-        className="roster-tab-new"
+        className="btn"
         onClick={() => store.createRoster(`로스터 ${store.rosters.length + 1}`)}
       >
         + 새 로스터

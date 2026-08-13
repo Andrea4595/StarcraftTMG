@@ -27,6 +27,10 @@ export function TacticalCardModal({
     (unitType) => slotUsageByType.find((s) => s.unitType === unitType) ?? { unitType, budget: 0, used: 0 },
   )
 
+  const factionCards = typeFilter
+    ? race.factionCards.filter((card) => card.slot.some((s) => s.unitType === typeFilter))
+    : race.factionCards
+
   const cards = typeFilter
     ? race.tacticalCards.filter((card) => card.slot.some((s) => s.unitType === typeFilter))
     : race.tacticalCards
@@ -57,6 +61,28 @@ export function TacticalCardModal({
         </>
       }
     >
+      <span className="roster-section-title">팩션 카드</span>
+      <div className="gallery-grid">
+        {factionCards.map((card) => {
+          const selected = roster.factionCardName === card.name
+          return (
+            <div key={card.name} className={`gallery-card-wrap ${selected ? 'gallery-card-selected' : ''}`}>
+              <TacticalCardView card={card} resourceLabel={race.resourceLabel} isFactionCard />
+              <button
+                type="button"
+                className={`gallery-select-toggle ${selected ? 'gallery-select-toggle-active' : ''}`}
+                onClick={() => store.setFactionCard(roster.id, selected ? null : card.name)}
+              >
+                {selected ? '선택 해제' : '선택'}
+              </button>
+            </div>
+          )
+        })}
+      </div>
+
+      <hr className="modal-section-divider" />
+
+      <span className="roster-section-title">택티컬 카드</span>
       <div className="gallery-grid">
         {cards.map((card) => {
           const count = roster.tacticalCardNames.filter((n) => n === card.name).length

@@ -12,13 +12,11 @@ import {
   rosterUniqueViolations,
 } from '../rosterCalc'
 import { UnitEntryRow } from './UnitEntryRow'
-import { FactionCardModal } from './FactionCardModal'
 import { TacticalCardModal } from './TacticalCardModal'
 import { UnitModal } from './UnitModal'
 import { SlotUsageRow } from './SlotUsageRow'
 
 type ModalState =
-  | { kind: 'faction' }
   | { kind: 'tactical' }
   | { kind: 'unit-add' }
   | { kind: 'unit-edit'; entryId: string }
@@ -38,14 +36,23 @@ export function RosterPanel({
 
   return (
     <div className="roster-panel">
-      <label className="roster-race-select">
-        종족
+      <div className="roster-top-row">
+        <label className="roster-mineral-cap">
+          미네랄 예산
+          <input
+            type="number"
+            min={0}
+            value={roster.mineralCap}
+            onChange={(e) => store.setMineralCap(roster.id, Number(e.target.value))}
+          />
+        </label>
         <select
+          className="roster-race-select"
           value={roster.raceId ?? ''}
           onChange={(e) => store.setRosterRace(roster.id, e.target.value)}
         >
           <option value="" disabled>
-            선택하세요
+            종족 선택
           </option>
           {races.map((r) => (
             <option key={r.id} value={r.id}>
@@ -53,7 +60,7 @@ export function RosterPanel({
             </option>
           ))}
         </select>
-      </label>
+      </div>
 
       {!race ? (
         <div className="roster-empty">종족을 선택하면 예산/슬롯 정보와 카드 선택이 표시됩니다.</div>
@@ -76,8 +83,6 @@ function RosterPanelBody({ race, roster }: { race: RaceData; roster: Roster }) {
   const overGasCap = gasTotal > gasCap
   const factionCard = findFactionCard(race, roster)
 
-  const store = useRosterStore()
-
   const tacticalCardCounts = new Map<string, number>()
   for (const name of roster.tacticalCardNames) {
     tacticalCardCounts.set(name, (tacticalCardCounts.get(name) ?? 0) + 1)
@@ -85,87 +90,57 @@ function RosterPanelBody({ race, roster }: { race: RaceData; roster: Roster }) {
 
   return (
     <>
-      <div className="roster-budget">
-        <label className="roster-mineral-cap">
-          미네랄 예산
-          <input
-            type="number"
-            min={0}
-            value={roster.mineralCap}
-            onChange={(e) => store.setMineralCap(roster.id, Number(e.target.value))}
-          />
-        </label>
-        <div className="roster-resource-row">
-          <div className={`roster-resource-pill roster-resource-mineral ${overCap ? 'roster-budget-over' : ''}`}>
-            <span className="roster-resource-label">미네랄</span>
-            <span className="roster-resource-value">
-              {mineralTotal} / {roster.mineralCap}
-            </span>
-          </div>
-          <div className={`roster-resource-pill roster-resource-gas ${overGasCap ? 'roster-budget-over' : ''}`}>
-            <span className="roster-resource-label">가스</span>
-            <span className="roster-resource-value">
-              {gasTotal} / {gasCap}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <SlotUsageRow slotUsage={slotUsage} />
-
       {uniqueViolations.length > 0 && (
         <div className="roster-warning">Unique 중복: {uniqueViolations.join(', ')}</div>
       )}
 
       <div className="roster-section-title-row">
         <span className="roster-section-title">택티컬 카드</span>
-        <div className="roster-section-title-right">
-          <span className="roster-cp-badge">
-            <span className="roster-cp-badge-label">{race.resourceLabel.abbr}</span> {resourceTotal}
+      </div>
+      <div className="roster-resource-cp-row">
+        <div className={`roster-resource-pill roster-resource-gas ${overGasCap ? 'roster-budget-over' : ''}`}>
+          <span className="roster-resource-label">가스</span>
+          <span className="roster-resource-value">
+            {gasTotal} / {gasCap}
           </span>
-          <button type="button" className="roster-select-btn-inline" onClick={() => setModal({ kind: 'tactical' })}>
-            + 선택
-          </button>
         </div>
+        <span className="roster-cp-badge">
+          <span className="roster-cp-badge-label">{race.resourceLabel.abbr}</span> {resourceTotal}
+        </span>
       </div>
       <div className="roster-tactical-list">
         {factionCard ? (
-          <button
-            type="button"
-            className="roster-tactical-chip roster-tactical-chip-faction"
-            onClick={() => setModal({ kind: 'faction' })}
-          >
-            {factionCard.name}
-            <span className="roster-tactical-chip-faction-hint">변경</span>
-          </button>
+          <div className="roster-tactical-chip roster-tactical-chip-faction">{factionCard.name}</div>
         ) : (
-          <button
-            type="button"
-            className="roster-tactical-chip roster-tactical-chip-faction roster-tactical-chip-faction-empty"
-            onClick={() => setModal({ kind: 'faction' })}
-          >
+          <div className="roster-tactical-chip roster-tactical-chip-faction roster-tactical-chip-faction-empty">
             팩션 카드 선택
-          </button>
+          </div>
         )}
         {[...tacticalCardCounts.entries()].map(([name, count]) => (
           <div className="roster-tactical-chip" key={name}>
             {name}
             {count > 1 ? ` x${count}` : ''}
-            <button type="button" onClick={() => store.removeTacticalCard(roster.id, name)}>
-              제외
-            </button>
           </div>
         ))}
+        <button type="button" className="btn" onClick={() => setModal({ kind: 'tactical' })}>
+          + 선택
+        </button>
       </div>
 
       {factionCard && (
         <>
           <div className="roster-section-title-row">
             <span className="roster-section-title">유닛 ({roster.units.length})</span>
-            <button type="button" className="roster-select-btn-inline" onClick={() => setModal({ kind: 'unit-add' })}>
-              + 선택
-            </button>
           </div>
+          <div className="roster-resource-row">
+            <div className={`roster-resource-pill roster-resource-mineral ${overCap ? 'roster-budget-over' : ''}`}>
+              <span className="roster-resource-label">미네랄</span>
+              <span className="roster-resource-value">
+                {mineralTotal} / {roster.mineralCap}
+              </span>
+            </div>
+          </div>
+          <SlotUsageRow slotUsage={slotUsage} />
           <div className="roster-unit-list">
             {roster.units.length === 0 && <div className="roster-empty">유닛을 추가하세요.</div>}
             {roster.units.map((entry) => {
@@ -181,11 +156,13 @@ function RosterPanelBody({ race, roster }: { race: RaceData; roster: Roster }) {
                 />
               )
             })}
+            <button type="button" className="btn btn-block" onClick={() => setModal({ kind: 'unit-add' })}>
+              + 선택
+            </button>
           </div>
         </>
       )}
 
-      {modal?.kind === 'faction' && <FactionCardModal race={race} roster={roster} onClose={() => setModal(null)} />}
       {modal?.kind === 'tactical' && <TacticalCardModal race={race} roster={roster} onClose={() => setModal(null)} />}
       {modal?.kind === 'unit-add' && (
         <UnitModal race={race} roster={roster} mode={{ kind: 'add' }} onClose={() => setModal(null)} />

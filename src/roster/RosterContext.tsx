@@ -20,7 +20,7 @@ type Action =
   | { type: 'renameRoster'; rosterId: string; name: string }
   | { type: 'selectRoster'; rosterId: string }
   | { type: 'setRosterRace'; rosterId: string; raceId: string }
-  | { type: 'setFactionCard'; rosterId: string; factionCardName: string }
+  | { type: 'setFactionCard'; rosterId: string; factionCardName: string | null }
   | { type: 'setMineralCap'; rosterId: string; mineralCap: number }
   | { type: 'addTacticalCard'; rosterId: string; cardName: string }
   | { type: 'removeTacticalCard'; rosterId: string; cardName: string }
@@ -127,7 +127,7 @@ interface RosterStore extends State {
   renameRoster: (rosterId: string, name: string) => void
   selectRoster: (rosterId: string) => void
   setRosterRace: (rosterId: string, raceId: string) => void
-  setFactionCard: (rosterId: string, factionCardName: string) => void
+  setFactionCard: (rosterId: string, factionCardName: string | null) => void
   setMineralCap: (rosterId: string, mineralCap: number) => void
   addTacticalCard: (rosterId: string, cardName: string) => void
   removeTacticalCard: (rosterId: string, cardName: string) => void

@@ -1,0 +1,106 @@
+import type { UnitCard } from '../../../types'
+
+export const kerrigan: UnitCard = {
+  category: 'unit',
+  name: 'Kerrigan',
+  isUnique: true,
+  type: 'Hero',
+  stat: {
+    shld: null,
+    spd: { move: 7, cohesion: 3 },
+    eva: '6+',
+    arm: '5+',
+    hp: 9,
+    siz: 2,
+  },
+  tags: [{ name: 'Biological' }, { name: 'Psionic' }, { name: 'Ground' }, { name: 'Unique' }],
+  squad: [{ modelMin: 1, modelMax: 1, supply: 1, pts: 250 }],
+  abilities: [
+    {
+      kind: 'rule',
+      name: 'Commander',
+      phase: 'Any',
+      type: 'Passive',
+      cost: 0,
+      rule: {
+        en: "Treat this Unit's Supply characteristic as increased by 1 for Controlling and Contesting Mission Markers, completing objectives, and resolving Disengage checks.",
+        ko: '',
+      },
+    },
+    {
+      kind: 'rule',
+      name: 'Crushing Grip',
+      phase: 'Movement',
+      type: 'Active',
+      cost: 1,
+      rule: {
+        en: 'Select one Enemy Unit Within 12". That Unit counts as Activated in this Phase (set an Activation Marker next to it).',
+        ko: '',
+      },
+    },
+    {
+      kind: 'rule',
+      name: 'Mutating Carapace',
+      phase: 'Movement',
+      type: 'Active',
+      cost: 1,
+      rule: {
+        en: 'Select one Enemy Unit Within 18". This Unit is eligible to make an Evade Roll against all attacks made by the selected Enemy Unit, with a +2 Modifier applied to those Evade Rolls.',
+        ko: '',
+      },
+    },
+    {
+      kind: 'weapon',
+      name: 'Energy Blast',
+      phase: 'Assault',
+      stat: {
+        rng: 8,
+        tgt: 'All',
+        roa: 5,
+        hit: '3+',
+        surge: ['Light', 'Armoured'],
+        sDie: 'D3',
+        dmg: 1,
+        keyword: [],
+      },
+    },
+    {
+      kind: 'rule',
+      name: 'Leaping Strike',
+      phase: 'Assault',
+      type: 'Active',
+      cost: 1,
+      rule: {
+        en: 'If Unengaged, resolve the PLACE (6) effect.',
+        ko: '',
+      },
+    },
+    {
+      kind: 'rule',
+      name: 'Devastating Charge',
+      phase: 'Assault',
+      type: 'Passive',
+      cost: 0,
+      rule: {
+        en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (4) 4+ effect.',
+        ko: '',
+      },
+    },
+    {
+      kind: 'weapon',
+      name: 'Blades',
+      phase: 'Combat',
+      stat: {
+        rng: 'E',
+        tgt: 'Ground',
+        roa: 6,
+        hit: '4+',
+        surge: [],
+        sDie: '-',
+        dmg: 2,
+        keyword: [{ name: 'CRITICAL HIT', suffix: '(2)' }],
+      },
+    },
+  ],
+  upgrades: [],
+}

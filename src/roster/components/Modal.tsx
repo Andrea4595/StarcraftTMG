@@ -25,7 +25,7 @@ export function Modal({
       <div className="modal-panel" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <span className="modal-title">{title}</span>
-          <button type="button" className="modal-close" onClick={onClose} aria-label="닫기">
+          <button type="button" className="btn" onClick={onClose} aria-label="닫기">
             ✕
           </button>
         </div>

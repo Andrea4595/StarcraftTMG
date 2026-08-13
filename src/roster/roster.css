@@ -5,6 +5,40 @@
   color: var(--text-h);
 }
 
+/* 일반 실행 버튼(닫기/제거/추가 등) 공통 스타일. 토글/선택 칩(pill 계열)에는 사용하지 않는다 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  padding: 4px 10px;
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.btn:hover:not(:disabled) {
+  border-color: var(--text-dim, var(--text));
+  color: var(--text-h);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* 목록 최하단에 가로로 꽉 채워 붙이는 추가 버튼(택티컬/유닛 리스트용) */
+.btn-block {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
 /* 로스터 전환 탭 */
 .roster-switcher {
   display: flex;
@@ -38,34 +72,22 @@
   font-weight: 700;
 }
 
-.roster-tab-new {
-  border: 1px dashed var(--border);
-  border-radius: 6px;
-  background: transparent;
-  color: var(--text);
-  padding: 6px 12px;
-  cursor: pointer;
-}
-
-.roster-tab-new:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.roster-race-select {
+/* 종족/미네랄 예산: 로스터의 가장 상위 속성이라 같은 줄에 나란히 배치 */
+.roster-top-row {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 13px;
+  gap: 16px;
   margin-bottom: 12px;
 }
 
-.roster-race-select select {
+.roster-race-select {
+  flex: 1;
   border: 1px solid var(--border);
   border-radius: 6px;
   background: transparent;
   color: var(--text);
-  padding: 6px 8px;
+  padding: 8px 10px;
+  font-size: 15px;
+  font-weight: 700;
 }
 
 .roster-empty-state {
@@ -101,23 +123,7 @@
   margin: 0;
 }
 
-.roster-section-title-right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.roster-select-btn-inline {
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: transparent;
-  color: var(--text);
-  padding: 3px 10px;
-  cursor: pointer;
-  font-size: 12px;
-}
-
-/* 택티컬 카드 헤더 우측, 선택 버튼 왼쪽에 살짝 띄워서 배치하는 CP 합계 */
+/* 택티컬 카드 헤더 아래, 가스 요약 옆에 배치하는 CP 합계 */
 .roster-cp-badge {
   display: inline-flex;
   align-items: center;
@@ -142,18 +148,12 @@
   padding: 16px;
 }
 
-.roster-budget {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
 .roster-mineral-cap {
+  flex: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 13px;
-  margin-bottom: 6px;
 }
 
 .roster-mineral-cap input {
@@ -169,6 +169,17 @@
 .roster-resource-row {
   display: flex;
   gap: 10px;
+}
+
+/* 가스 요약 + CP 배지를 같은 줄에: 가스는 넓게, CP는 오른쪽에 작게 */
+.roster-resource-cp-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.roster-resource-cp-row .roster-resource-pill {
+  flex: 1;
 }
 
 .roster-resource-pill {
@@ -288,6 +299,7 @@ button.roster-slot-pill:hover {
 }
 
 .roster-tactical-list {
+  margin-top: 10px;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -303,20 +315,9 @@ button.roster-slot-pill:hover {
   gap: 6px;
 }
 
-/* 팩션 카드: 택티컬 카드와 같은 목록의 맨 앞에 있지만, 게임 내 비중에 맞게 더 강조 */
+/* 팩션 카드: 다른 택티컬 카드 칩과 동일한 모양, 배경만 살짝 밝게 해서 구분 */
 .roster-tactical-chip-faction {
-  border: 2px solid var(--accent);
-  background: transparent;
-  color: var(--text-h);
-  font-weight: 700;
-  font: inherit;
-  cursor: pointer;
-}
-
-.roster-tactical-chip-faction-hint {
-  font-size: 11px;
-  font-weight: 400;
-  opacity: 0.6;
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .roster-tactical-chip-faction-empty {
@@ -327,6 +328,7 @@ button.roster-slot-pill:hover {
 }
 
 .roster-unit-list {
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -367,16 +369,6 @@ button.roster-slot-pill:hover {
 
 .roster-entry-header .card-statboxes {
   margin-left: auto;
-}
-
-.roster-btn-remove {
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--text);
-  border-radius: 4px;
-  cursor: pointer;
-  padding: 2px 8px;
-  line-height: 1;
 }
 
 .roster-entry-ability-chips {
@@ -496,16 +488,6 @@ button.roster-slot-pill:hover {
   color: var(--text-h);
 }
 
-.modal-close {
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--text);
-  border-radius: 6px;
-  cursor: pointer;
-  padding: 2px 10px;
-  line-height: 1.6;
-}
-
 .modal-subheader {
   padding: 12px 18px;
   border-bottom: 1px solid var(--border);
@@ -520,6 +502,17 @@ button.roster-slot-pill:hover {
   overflow-y: auto;
   flex: 1 1 auto;
   min-height: 0;
+}
+
+.modal-body .roster-section-title:first-child {
+  margin-top: 0;
+}
+
+/* 모달 본문 내 섹션 구분선 (예: 택티컬 카드 선택 모달의 팩션/택티컬 카드 구분) */
+.modal-section-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 20px 0;
 }
 
 /* 카드 갤러리 */
@@ -583,6 +576,31 @@ button.roster-slot-pill:hover {
   color: #6b6f80;
   cursor: not-allowed;
   opacity: 0.6;
+}
+
+/* 팩션 카드: 택티컬 카드 스테퍼와 같은 위치의 오버레이 버튼, but 단일 선택이라 +/- 대신 토글 하나 */
+.gallery-select-toggle {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #e5e7eb;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.gallery-select-toggle:hover {
+  border-color: #e5e7eb;
+}
+
+.gallery-select-toggle-active {
+  background: #4ade80;
+  color: #062012;
+  border-color: #4ade80;
 }
 
 .gallery-qty-count {

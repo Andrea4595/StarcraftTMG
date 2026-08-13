@@ -39,7 +39,7 @@ export function UnitEntryRow({
         <StatBoxes unit={unit} />
         <button
           type="button"
-          className="roster-btn-remove"
+          className="btn"
           onClick={(e) => {
             e.stopPropagation()
             store.removeUnitEntry(roster.id, entry.id)
