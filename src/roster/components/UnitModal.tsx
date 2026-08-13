@@ -1,8 +1,6 @@
-import { useState } from 'react'
-import type { RaceData, Roster, RosterUnitEntry, UnitCard } from '../../types'
+import type { RaceData, Roster } from '../../types'
 import { useRosterStore } from '../RosterContext'
-import { UnitCardView } from '../../components/card/UnitCardView'
-import { catalogSquadTierIndexes, findUnit, rosterMineralTotal, rosterSlotUsage } from '../rosterCalc'
+import { catalogSquadTierIndexes, rosterMineralTotal, rosterSlotUsage } from '../rosterCalc'
 import { makeId } from '../makeId'
 import { UNIT_TYPE_COLORS } from '../unitTypeColor'
 import { Modal } from './Modal'
@@ -11,19 +9,16 @@ import { SlotUsageRow } from './SlotUsageRow'
 export function UnitModal({
   race,
   roster,
-  mode,
+  onAdded,
   onClose,
 }: {
   race: RaceData
   roster: Roster
-  mode: { kind: 'add' } | { kind: 'edit'; entryId: string }
+  /** 유닛을 로스터에 추가한 직후 호출. 상세 정보는 모달이 아니라 메인 화면 우측 패널에서 보여준다 */
+  onAdded: (entryId: string) => void
   onClose: () => void
 }) {
   const store = useRosterStore()
-  const [activeEntryId, setActiveEntryId] = useState<string | null>(mode.kind === 'edit' ? mode.entryId : null)
-
-  const activeEntry = activeEntryId ? roster.units.find((e) => e.id === activeEntryId) : undefined
-  const activeUnit = activeEntry ? findUnit(race, activeEntry.unitName) : undefined
 
   const mineralTotal = rosterMineralTotal(race, roster)
   const overMineralCap = mineralTotal > roster.mineralCap
@@ -42,14 +37,6 @@ export function UnitModal({
       <SlotUsageRow slotUsage={slotUsage} />
     </>
   )
-
-  if (activeEntry && activeUnit) {
-    return (
-      <Modal title={`${activeUnit.name} 편집`} onClose={onClose}>
-        <UnitConfigureView roster={roster} unit={activeUnit} entry={activeEntry} resourceLabel={race.resourceLabel.full} />
-      </Modal>
-    )
-  }
 
   return (
     <Modal title="유닛 선택" subHeader={subHeader} onClose={onClose}>
@@ -83,7 +70,7 @@ export function UnitModal({
                       onClick={() => {
                         const id = makeId()
                         store.addUnitEntry(roster.id, unit.name, tierIndex, id)
-                        setActiveEntryId(id)
+                        onAdded(id)
                       }}
                     >
                       Models: {tier.modelMax} Supply: {tier.supply}
@@ -97,38 +84,5 @@ export function UnitModal({
         })}
       </div>
     </Modal>
-  )
-}
-
-function UnitConfigureView({
-  roster,
-  unit,
-  entry,
-  resourceLabel,
-}: {
-  roster: Roster
-  unit: UnitCard
-  entry: RosterUnitEntry
-  resourceLabel: string
-}) {
-  const store = useRosterStore()
-
-  return (
-    <div className="unit-configure">
-      <UnitCardView
-        unit={unit}
-        resourceLabel={resourceLabel}
-        upgradeToggle={{
-          squadTierIndex: entry.squadTierIndex,
-          activeIndexes: entry.upgradeIndexes,
-          onToggle: (index) => store.toggleUnitUpgrade(roster.id, entry.id, index),
-        }}
-        squadSelection={{
-          activeIndex: entry.squadTierIndex,
-          selectableIndexes: catalogSquadTierIndexes(unit),
-          onSelect: (index) => store.setUnitEntrySquadTier(roster.id, entry.id, index),
-        }}
-      />
-    </div>
   )
 }

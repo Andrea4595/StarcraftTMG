@@ -31,6 +31,19 @@
   cursor: not-allowed;
 }
 
+/* 닫기/삭제/제거처럼 되돌릴 수 없거나 무언가를 없애는 버튼: 은은한 붉은 톤으로 구분 (너무 튀지 않도록) */
+.btn-danger {
+  border-color: rgba(248, 113, 113, 0.4);
+  background: rgba(248, 113, 113, 0.1);
+  color: #f87171;
+}
+
+.btn-danger:hover:not(:disabled) {
+  border-color: #f87171;
+  background: rgba(248, 113, 113, 0.18);
+  color: #f87171;
+}
+
 /* 목록 최하단에 가로로 꽉 채워 붙이는 추가 버튼(택티컬/유닛 리스트용) */
 .btn-block {
   display: flex;
@@ -63,12 +76,13 @@
   cursor: pointer;
 }
 
+/* 종족을 고르면 --roster-tab-color가 인라인으로 지정되어 종족 테마색을 쓰고, 없으면 기본 강조색을 쓴다 */
 .roster-tab-active {
-  border-color: var(--accent);
+  border-color: var(--roster-tab-color, var(--accent));
 }
 
 .roster-tab-active .roster-tab-select {
-  color: var(--accent);
+  color: var(--roster-tab-color, var(--accent));
   font-weight: 700;
 }
 
@@ -101,6 +115,99 @@
 .roster-builder-body {
   max-width: 640px;
   margin: 0 auto;
+}
+
+/* 화면 분할: 왼쪽은 기존 로스터 화면, 오른쪽은 선택한 유닛/카드 상세 정보. 각자 독립적으로 스크롤된다 */
+.roster-builder-split {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.roster-builder-split .roster-builder-body {
+  flex: 1 1 640px;
+  min-width: 0;
+  margin: 0;
+  position: sticky;
+  top: 24px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+}
+
+.roster-detail-panel {
+  flex: 1 1 420px;
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  position: sticky;
+  top: 24px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+}
+
+/* 모바일에서는 두 열을 나란히 둘 공간이 없으므로, 탭을 바꾸듯 한쪽만 보여준다 */
+@media (max-width: 768px) {
+  .roster-builder-split {
+    display: block;
+  }
+
+  .roster-builder-split .roster-builder-body,
+  .roster-detail-panel {
+    position: static;
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .roster-detail-panel {
+    display: none;
+  }
+
+  .roster-builder-split-detail-active .roster-builder-body {
+    display: none;
+  }
+
+  .roster-builder-split-detail-active .roster-detail-panel {
+    display: block;
+  }
+}
+
+.roster-detail-empty {
+  color: var(--text-dim, var(--text));
+  opacity: 0.6;
+  font-size: 13px;
+  text-align: center;
+  padding: 40px 16px;
+}
+
+/*
+  내용을 스크롤해도 '닫기' 버튼은 항상 보이도록 상단에 고정 (모바일 전체화면 탭에서도 동일하게 동작).
+  .roster-detail-panel의 padding(16px)까지 뚫고 나가 폭 전체를 채워야, 아래로 스크롤되는 카드의
+  선택 테두리가 헤더 좌우 여백 틈으로 비쳐 보이지 않는다.
+*/
+.roster-detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--bg);
+  margin: -16px -16px 8px;
+  padding: 16px 16px 8px;
+}
+
+.roster-detail-header .roster-section-title {
+  margin: 0;
+}
+
+/* 팩션/택티컬 카드 칩: 상세 정보를 보기 위해 클릭 가능한 상태 */
+.roster-tactical-chip-clickable {
+  cursor: pointer;
+}
+
+.roster-tactical-chip-clickable:hover {
+  border-color: var(--accent, var(--border));
 }
 
 .roster-section-title {
@@ -331,7 +438,7 @@ button.roster-slot-pill:hover {
   margin-top: 10px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
 }
 
 .roster-empty {
@@ -342,18 +449,24 @@ button.roster-slot-pill:hover {
 .roster-entry {
   border: 1px solid var(--border);
   border-radius: 6px;
-  padding: 10px;
+  padding: 8px 10px;
   cursor: pointer;
+  font-size: 13px;
 }
 
 .roster-entry:hover {
   border-color: var(--accent, var(--border));
 }
 
+.roster-entry-active {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
 .roster-entry-header {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
 }
 
@@ -364,25 +477,41 @@ button.roster-slot-pill:hover {
 }
 
 .roster-entry-name {
+  font-size: 14px;
   font-weight: 700;
 }
 
+/* 로스터 목록에서는 한 유닛이 차지하는 높이를 줄이기 위해 스탯 박스를 원본 카드보다 작게 표시 */
 .roster-entry-header .card-statboxes {
   margin-left: auto;
+  gap: 4px;
+}
+
+.roster-entry-header .card-statbox {
+  padding: 2px 6px;
+  min-width: 30px;
+}
+
+.roster-entry-header .card-statbox-value {
+  font-size: 12px;
+}
+
+.roster-entry-header .card-statbox-label {
+  font-size: 8px;
 }
 
 .roster-entry-ability-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 10px;
+  gap: 5px;
+  margin-top: 6px;
 }
 
 .roster-chip {
   border: 1px solid var(--border);
   border-radius: 4px;
-  padding: 2px 8px;
-  font-size: 11px;
+  padding: 1px 6px;
+  font-size: 10px;
   opacity: 0.7;
 }
 
@@ -393,17 +522,17 @@ button.roster-slot-pill:hover {
 }
 
 .roster-entry-upgrades {
-  margin-top: 8px;
+  margin-top: 6px;
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 5px;
 }
 
 .roster-upgrade-pill {
   border: 1px solid var(--border);
   border-radius: 999px;
-  padding: 3px 10px;
-  font-size: 11px;
+  padding: 2px 8px;
+  font-size: 10px;
   background: transparent;
   color: var(--text);
   cursor: pointer;
@@ -416,8 +545,8 @@ button.roster-slot-pill:hover {
 }
 
 .roster-entry-summary {
-  margin-top: 10px;
-  font-size: 12px;
+  margin-top: 6px;
+  font-size: 11px;
   opacity: 0.75;
 }
 
@@ -583,10 +712,10 @@ button.roster-slot-pill:hover {
   position: absolute;
   top: 8px;
   right: 8px;
-  border: 1px solid var(--border);
+  border: none;
   border-radius: 999px;
-  background: rgba(0, 0, 0, 0.6);
-  color: #e5e7eb;
+  background: #4ade80;
+  color: #062012;
   padding: 4px 12px;
   font-size: 12px;
   font-weight: 700;
@@ -594,13 +723,12 @@ button.roster-slot-pill:hover {
 }
 
 .gallery-select-toggle:hover {
-  border-color: #e5e7eb;
+  filter: brightness(1.1);
 }
 
 .gallery-select-toggle-active {
-  background: #4ade80;
-  color: #062012;
-  border-color: #4ade80;
+  background: #2b2e3a;
+  color: #e5e7eb;
 }
 
 .gallery-qty-count {

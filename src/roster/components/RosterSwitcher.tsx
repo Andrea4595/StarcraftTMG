@@ -1,36 +1,46 @@
+import type { CSSProperties } from 'react'
 import { useRosterStore } from '../RosterContext'
+import { RACE_THEME_COLORS } from '../raceThemeColor'
 
 export function RosterSwitcher() {
   const store = useRosterStore()
 
   return (
     <div className="roster-switcher">
-      {store.rosters.map((r) => (
-        <div key={r.id} className={`roster-tab ${r.id === store.activeRosterId ? 'roster-tab-active' : ''}`}>
-          <button type="button" className="roster-tab-select" onClick={() => store.selectRoster(r.id)}>
-            {r.name}
-          </button>
-          <button
-            type="button"
-            className="roster-tab-rename"
-            onClick={() => {
-              const name = window.prompt('로스터 이름', r.name)
-              if (name) store.renameRoster(r.id, name)
-            }}
+      {store.rosters.map((r) => {
+        const themeColor = r.raceId ? RACE_THEME_COLORS[r.raceId] : undefined
+        const style = themeColor ? ({ '--roster-tab-color': themeColor } as CSSProperties) : undefined
+        return (
+          <div
+            key={r.id}
+            className={`roster-tab ${r.id === store.activeRosterId ? 'roster-tab-active' : ''}`}
+            style={style}
           >
-            ✎
-          </button>
-          <button
-            type="button"
-            className="roster-tab-delete"
-            onClick={() => {
-              if (window.confirm(`'${r.name}' 로스터를 삭제할까요?`)) store.deleteRoster(r.id)
-            }}
-          >
-            ×
-          </button>
-        </div>
-      ))}
+            <button type="button" className="roster-tab-select" onClick={() => store.selectRoster(r.id)}>
+              {r.name}
+            </button>
+            <button
+              type="button"
+              className="roster-tab-rename"
+              onClick={() => {
+                const name = window.prompt('로스터 이름', r.name)
+                if (name) store.renameRoster(r.id, name)
+              }}
+            >
+              ✎
+            </button>
+            <button
+              type="button"
+              className="roster-tab-delete"
+              onClick={() => {
+                if (window.confirm(`'${r.name}' 로스터를 삭제할까요?`)) store.deleteRoster(r.id)
+              }}
+            >
+              ×
+            </button>
+          </div>
+        )
+      })}
 
       <button
         type="button"

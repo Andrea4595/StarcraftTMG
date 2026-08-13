@@ -15,22 +15,23 @@ import { UnitEntryRow } from './UnitEntryRow'
 import { TacticalCardModal } from './TacticalCardModal'
 import { UnitModal } from './UnitModal'
 import { SlotUsageRow } from './SlotUsageRow'
+import type { DetailState } from './RosterDetailPanel'
 
-type ModalState =
-  | { kind: 'tactical' }
-  | { kind: 'unit-add' }
-  | { kind: 'unit-edit'; entryId: string }
-  | null
+type ModalState = { kind: 'tactical' } | { kind: 'unit-add' } | null
 
 export function RosterPanel({
   races,
   race,
   roster,
+  detail,
+  onSelectDetail,
 }: {
   races: RaceData[]
   /** roster.raceId에 해당하는 종족. 아직 선택 전이면 undefined */
   race: RaceData | undefined
   roster: Roster
+  detail: DetailState
+  onSelectDetail: (detail: DetailState) => void
 }) {
   const store = useRosterStore()
 
@@ -65,13 +66,23 @@ export function RosterPanel({
       {!race ? (
         <div className="roster-empty">종족을 선택하면 예산/슬롯 정보와 카드 선택이 표시됩니다.</div>
       ) : (
-        <RosterPanelBody race={race} roster={roster} />
+        <RosterPanelBody race={race} roster={roster} detail={detail} onSelectDetail={onSelectDetail} />
       )}
     </div>
   )
 }
 
-function RosterPanelBody({ race, roster }: { race: RaceData; roster: Roster }) {
+function RosterPanelBody({
+  race,
+  roster,
+  detail,
+  onSelectDetail,
+}: {
+  race: RaceData
+  roster: Roster
+  detail: DetailState
+  onSelectDetail: (detail: DetailState) => void
+}) {
   const [modal, setModal] = useState<ModalState>(null)
   const mineralTotal = rosterMineralTotal(race, roster)
   const gasTotal = rosterGasTotal(race, roster)
@@ -110,14 +121,33 @@ function RosterPanelBody({ race, roster }: { race: RaceData; roster: Roster }) {
       </div>
       <div className="roster-tactical-list">
         {factionCard ? (
-          <div className="roster-tactical-chip roster-tactical-chip-faction">{factionCard.name}</div>
+          <div
+            className="roster-tactical-chip roster-tactical-chip-faction roster-tactical-chip-clickable"
+            role="button"
+            tabIndex={0}
+            onClick={() => onSelectDetail({ kind: 'cards' })}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') onSelectDetail({ kind: 'cards' })
+            }}
+          >
+            {factionCard.name}
+          </div>
         ) : (
           <div className="roster-tactical-chip roster-tactical-chip-faction roster-tactical-chip-faction-empty">
             팩션 카드 선택
           </div>
         )}
         {[...tacticalCardCounts.entries()].map(([name, count]) => (
-          <div className="roster-tactical-chip" key={name}>
+          <div
+            className="roster-tactical-chip roster-tactical-chip-clickable"
+            key={name}
+            role="button"
+            tabIndex={0}
+            onClick={() => onSelectDetail({ kind: 'cards' })}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') onSelectDetail({ kind: 'cards' })
+            }}
+          >
             {name}
             {count > 1 ? ` x${count}` : ''}
           </div>
@@ -152,7 +182,8 @@ function RosterPanelBody({ race, roster }: { race: RaceData; roster: Roster }) {
                   roster={roster}
                   unit={unit}
                   entry={entry}
-                  onEdit={() => setModal({ kind: 'unit-edit', entryId: entry.id })}
+                  active={detail?.kind === 'unit' && detail.entryId === entry.id}
+                  onEdit={() => onSelectDetail({ kind: 'unit', entryId: entry.id })}
                 />
               )
             })}
@@ -165,13 +196,13 @@ function RosterPanelBody({ race, roster }: { race: RaceData; roster: Roster }) {
 
       {modal?.kind === 'tactical' && <TacticalCardModal race={race} roster={roster} onClose={() => setModal(null)} />}
       {modal?.kind === 'unit-add' && (
-        <UnitModal race={race} roster={roster} mode={{ kind: 'add' }} onClose={() => setModal(null)} />
-      )}
-      {modal?.kind === 'unit-edit' && (
         <UnitModal
           race={race}
           roster={roster}
-          mode={{ kind: 'edit', entryId: modal.entryId }}
+          onAdded={(entryId) => {
+            setModal(null)
+            onSelectDetail({ kind: 'unit', entryId })
+          }}
           onClose={() => setModal(null)}
         />
       )}

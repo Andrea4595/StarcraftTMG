@@ -7,11 +7,14 @@ export function UnitEntryRow({
   roster,
   unit,
   entry,
+  active,
   onEdit,
 }: {
   roster: Roster
   unit: UnitCard
   entry: RosterUnitEntry
+  /** 이 유닛이 지금 오른쪽 상세 패널에 표시되고 있는지 */
+  active?: boolean
   onEdit: () => void
 }) {
   const store = useRosterStore()
@@ -23,7 +26,7 @@ export function UnitEntryRow({
 
   return (
     <div
-      className="roster-entry"
+      className={`roster-entry ${active ? 'roster-entry-active' : ''}`}
       role="button"
       tabIndex={0}
       onClick={onEdit}
@@ -39,7 +42,7 @@ export function UnitEntryRow({
         <StatBoxes unit={unit} />
         <button
           type="button"
-          className="btn"
+          className="btn btn-danger"
           onClick={(e) => {
             e.stopPropagation()
             store.removeUnitEntry(roster.id, entry.id)
