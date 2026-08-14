@@ -10,6 +10,7 @@ export function UnitCardView({
   resourceLabel,
   upgradeToggle,
   squadSelection,
+  finalCost,
 }: {
   unit: UnitCard
   resourceLabel: string
@@ -17,6 +18,8 @@ export function UnitCardView({
   upgradeToggle?: UpgradeToggleState
   /** 지정하면 스쿼드 등급 박스가 등급을 고르는 버튼이 된다 (유닛 편집 화면) */
   squadSelection?: SquadTableSelection
+  /** 이 로스터 항목이 스쿼드+업그레이드를 합쳐 실제로 소모하는 최종 미네랄. 지정하면 헤더 우측에 배지로 표시 */
+  finalCost?: number
 }) {
   const pts = formatScaledCost(unit.squad.map((s) => s.pts))
 
@@ -30,6 +33,9 @@ export function UnitCardView({
           </div>
           <div className="card-subtitle">{unit.type}</div>
         </div>
+        {finalCost !== undefined && (
+          <div className="card-pts-badge card-header-cost-badge">COST: {finalCost}</div>
+        )}
       </div>
 
       <div className="card-body-top">

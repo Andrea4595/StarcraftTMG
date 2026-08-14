@@ -1,8 +1,10 @@
 import type { CSSProperties } from 'react'
+import type { RaceData, Roster } from '../../types'
 import { useRosterStore } from '../RosterContext'
 import { RACE_THEME_COLORS } from '../raceThemeColor'
+import { RosterExportButton } from './RosterExportButton'
 
-export function RosterSwitcher() {
+export function RosterSwitcher({ race, roster }: { race: RaceData | undefined; roster: Roster | undefined }) {
   const store = useRosterStore()
 
   return (
@@ -49,6 +51,8 @@ export function RosterSwitcher() {
       >
         + 새 로스터
       </button>
+
+      {race && roster && <RosterExportButton race={race} roster={roster} />}
     </div>
   )
 }

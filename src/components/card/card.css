@@ -8,6 +8,9 @@
   --gc-border: #2b2e3a;
   --gc-text: #e5e7eb;
   --gc-text-dim: #8b8fa3;
+  /* 선택되지 않은 업그레이드/봉인된 무기 프로필처럼 '사용되지 않음'을 나타낼 때 쓰는, --gc-text-dim보다 더 어두운 톤.
+     활성/비활성 대비를 뚜렷하게 하기 위해 일반 보조 텍스트(--gc-text-dim)와는 구분해서 쓴다 */
+  --gc-text-disabled: #565a68;
   --gc-blue: #5b9dff;
   --gc-green: #4ade80;
   --gc-yellow: #f0b429;
@@ -25,8 +28,17 @@
 }
 
 .card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
   padding: 12px 16px;
   border-bottom: 1px solid var(--gc-border);
+}
+
+/* 로스터에서 이 유닛 항목이 실제로 소모하는 최종 미네랄. 지정되면 헤더 우측 끝에 표시 */
+.card-header-cost-badge {
+  flex: 0 0 auto;
 }
 
 .card-title {
@@ -42,6 +54,16 @@
   font-weight: 700;
   background: var(--gc-yellow);
   color: #221a02;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+/* 로스터에 같은 카드가 여러 장 포함됐을 때 이름 옆에 붙이는 개수 배지. UNIQUE 배지와 같은 모양, 색만 파란색 */
+.card-count-badge {
+  font-size: 10px;
+  font-weight: 700;
+  background: var(--gc-blue);
+  color: #061225;
   border-radius: 4px;
   padding: 2px 6px;
 }
@@ -405,10 +427,10 @@
 /* 꺼진 업그레이드: 텍스트를 어둡게 눌러서 비활성 상태를 표현 */
 .card-rule-ability-dim .card-rule-ability-name,
 .card-rule-ability-dim .card-rule-text {
-  color: var(--gc-text-dim);
+  color: var(--gc-text-disabled);
 }
 
 .card-weapon-row-dim .card-weapon-name,
 .card-weapon-row-dim td {
-  color: var(--gc-text-dim);
+  color: var(--gc-text-disabled);
 }

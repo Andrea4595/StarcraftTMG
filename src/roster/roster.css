@@ -849,3 +849,276 @@ button.roster-slot-pill:hover {
   flex-direction: column;
   gap: 4px;
 }
+
+/* 로스터 내보내기 버튼: 로스터 탭 목록의 오른쪽 끝에 붙인다 */
+.roster-export-btn {
+  margin-left: auto;
+}
+
+/* 내보내기 방식(상세/간소화) 선택 모달 */
+.roster-export-choice {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.roster-export-choice-option {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  padding: 12px 14px;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.roster-export-choice-option:hover:not(:disabled) {
+  border-color: var(--accent, var(--border));
+}
+
+.roster-export-choice-option:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.roster-export-choice-option-title {
+  font-weight: 700;
+  color: var(--text-h);
+}
+
+.roster-export-choice-option-desc {
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+/*
+  PNG로 캡처할 오프스크린 렌더 영역. 화면 밖으로 밀어내되 display:none은 피한다
+  (레이아웃이 계산되어야 캡처가 가능하다).
+*/
+.roster-export-offscreen {
+  position: fixed;
+  top: 0;
+  left: -99999px;
+  pointer-events: none;
+}
+
+.roster-export-sheet {
+  width: 1200px;
+  box-sizing: border-box;
+  padding: 32px;
+  background: #0c0d12;
+  color: #e5e7eb;
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* 간소화 로스터: 모바일 화면에서도 부담 없이 보이도록 폭을 크게 줄인다. 유닛 한 줄이 두 줄로
+   넘어가는 건 감수하고, 그 대신 헤더도 세로로 쌓아 좁은 폭에 맞춘다 */
+.roster-export-sheet-narrow {
+  width: 420px;
+  padding: 20px;
+}
+
+.roster-export-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #2b2e3a;
+}
+
+.roster-export-sheet-narrow .roster-export-header {
+  flex-direction: column;
+  gap: 12px;
+}
+
+.roster-export-sheet-narrow .roster-export-totals {
+  align-self: stretch;
+}
+
+.roster-export-sheet-narrow .roster-export-total-pill {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 6px 8px;
+}
+
+.roster-export-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.roster-export-title {
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.roster-export-subtitle {
+  font-size: 13px;
+  color: #8b8fa3;
+}
+
+.roster-export-totals {
+  display: flex;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+.roster-export-total-pill {
+  border: 1px solid #2b2e3a;
+  border-left: 4px solid var(--pill-color);
+  border-radius: 8px;
+  padding: 6px 16px;
+  text-align: center;
+  min-width: 90px;
+}
+
+.roster-export-total-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--pill-color);
+}
+
+.roster-export-total-value {
+  font-size: 17px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* "/ 2000"처럼 값 뒤에 붙는 예산 표기: 본문 숫자보다 작고 흐리게 눌러서 4자리 숫자끼리 붙어도
+   줄바꿈되지 않게 한다 */
+.roster-export-total-suffix {
+  font-size: 11px;
+  font-weight: 600;
+  color: #8b8fa3;
+  margin-left: 2px;
+}
+
+.roster-export-section-title {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #8b8fa3;
+  margin: 24px 0 10px;
+}
+
+.roster-export-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+/* 상세 로스터의 유닛: 카드를 나란히 배열하지 않고 세로로 쌓아, 각 카드가 한 행을 가로로 다 채우게 한다 */
+.roster-export-units-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.roster-export-simple-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.roster-export-simple-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border: 1px solid #2b2e3a;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 13px;
+}
+
+.roster-export-simple-item-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+/* 서플라이 만큼 파란 네모를 그리는 칸. 고정 폭을 줘야 서플라이 수와 무관하게 유닛 이름이 항상
+   같은 x 위치에서 시작해 열이 맞아 보인다 */
+.roster-export-supply {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  flex: 0 0 40px;
+  padding-top: 3px;
+}
+
+.roster-export-supply-square {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: #5b9dff;
+  flex: 0 0 auto;
+}
+
+.roster-export-simple-item-name {
+  font-weight: 700;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.roster-export-simple-item-squad {
+  font-weight: 400;
+  color: #8b8fa3;
+  font-size: 11px;
+  margin-left: 8px;
+  white-space: nowrap;
+}
+
+.roster-export-simple-item-upgrades {
+  color: #8b8fa3;
+  text-align: right;
+  flex: 0 0 auto;
+}
+
+/* 택티컬/팩션 카드가 제공하는 CP(BM/EN 등) 표기. 미네랄/업그레이드 배지와 같은 톤인 노란색 사각형 */
+.roster-export-resource-badge {
+  flex: 0 0 auto;
+  background: #f0b429;
+  color: #2b1d02;
+  font-weight: 800;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.roster-export-simple-item-cost {
+  flex: 0 0 auto;
+  font-weight: 700;
+  color: #5b9dff;
+  min-width: 40px;
+  text-align: right;
+}
+
+/* 업그레이드 하나하나를 로스터 패널의 활성 업그레이드 칩과 같은 스타일(초록 테두리)로 표시 */
+.roster-export-simple-upgrades-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding-left: 48px;
+}
+
+.roster-export-upgrade-chip {
+  border: 1px solid #4ade80;
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 10px;
+  color: #4ade80;
+}

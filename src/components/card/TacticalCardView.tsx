@@ -5,12 +5,15 @@ export function TacticalCardView({
   card,
   resourceLabel,
   isFactionCard = false,
+  count,
 }: {
   card: TacticalCard
   /** 이 종족의 자원 명칭 (전체/축약형) */
   resourceLabel: { full: string; abbr: string }
   /** 팩션을 정의하는 대표 카드인지 (헤더 서브타이틀 표시용) */
   isFactionCard?: boolean
+  /** 로스터에 이 카드가 몇 장 포함됐는지. 2장 이상이면 이름 옆에 배지로 표시 */
+  count?: number
 }) {
   const subtitle = isFactionCard ? 'Faction Card' : card.gasPts !== undefined ? `${card.gasPts} Gas` : ''
 
@@ -21,6 +24,7 @@ export function TacticalCardView({
           <div className="card-title">
             {card.name}
             {card.isUnique && <span className="card-unique-badge">UNIQUE</span>}
+            {count !== undefined && count > 1 && <span className="card-count-badge">x{count}</span>}
           </div>
           <div className="card-subtitle">{subtitle}</div>
         </div>

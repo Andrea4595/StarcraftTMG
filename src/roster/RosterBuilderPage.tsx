@@ -19,7 +19,7 @@ export function RosterBuilderPage({ races }: { races: RaceData[] }) {
 
   return (
     <div className="roster-builder">
-      <RosterSwitcher />
+      <RosterSwitcher race={race} roster={roster} />
 
       {!roster ? (
         <div className="roster-empty-state">'+ 새 로스터'를 눌러 로스터를 시작하세요.</div>
