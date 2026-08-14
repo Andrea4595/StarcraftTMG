@@ -55,6 +55,22 @@ export function AbilitiesSection({
       ? { active: upgradeToggle.activeIndexes.includes(index), onToggle: () => upgradeToggle.onToggle(index) }
       : undefined
 
+  /**
+   * 현재 활성화된 업그레이드가 대체(봉인)하는 기본 무기 이름들.
+   * SPECIALIST 키워드가 붙은 업그레이드 무기는 유닛의 모델 중 하나만 사용하는 것이라, 나머지 모델은
+   * 여전히 원래 무기를 쓰므로 원본을 봉인하지 않는다.
+   */
+  const sealedWeaponNames = new Set<string>()
+  if (upgradeToggle) {
+    for (const index of upgradeToggle.activeIndexes) {
+      const upgrade = upgrades[index]
+      if (!upgrade?.for || upgrade.ability.kind !== 'weapon') continue
+      const isSpecialist = upgrade.ability.stat.keyword.some((k) => k.name === 'SPECIALIST')
+      if (isSpecialist) continue
+      sealedWeaponNames.add(upgrade.for)
+    }
+  }
+
   return (
     <div className="card-section">
       <div className="card-section-title">{title}</div>
@@ -71,7 +87,9 @@ export function AbilitiesSection({
               {weapons.length > 0 && (
                 <WeaponTable
                   rows={weapons.map((e): WeaponRow => {
-                    if (e.kind === 'ability') return { weapon: e.ability as WeaponProfile }
+                    if (e.kind === 'ability') {
+                      return { weapon: e.ability as WeaponProfile, sealed: sealedWeaponNames.has(e.ability.name) }
+                    }
                     return {
                       weapon: e.upgrade.ability as WeaponProfile,
                       for: e.upgrade.for,

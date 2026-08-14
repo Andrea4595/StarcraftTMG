@@ -29,7 +29,14 @@ type Action =
   | { type: 'addUnitEntry'; rosterId: string; unitName: string; squadTierIndex: number; id: string }
   | { type: 'removeUnitEntry'; rosterId: string; entryId: string }
   | { type: 'setUnitEntrySquadTier'; rosterId: string; entryId: string; squadTierIndex: number }
-  | { type: 'toggleUnitUpgrade'; rosterId: string; entryId: string; upgradeIndex: number }
+  | {
+      type: 'toggleUnitUpgrade'
+      rosterId: string
+      entryId: string
+      upgradeIndex: number
+      /** 이 업그레이드를 켤 때 함께 꺼야 하는 다른 업그레이드 인덱스들 (같은 무기를 대체하는 상호 배타 업그레이드) */
+      exclusiveWith?: number[]
+    }
 
 interface State {
   rosters: Roster[]
@@ -125,12 +132,17 @@ function reducer(state: State, action: Action): State {
       )
     case 'toggleUnitUpgrade':
       return mapRoster(state, action.rosterId, (r) =>
-        mapUnitEntry(r, action.entryId, (e) => ({
-          ...e,
-          upgradeIndexes: e.upgradeIndexes.includes(action.upgradeIndex)
-            ? e.upgradeIndexes.filter((i) => i !== action.upgradeIndex)
-            : [...e.upgradeIndexes, action.upgradeIndex],
-        })),
+        mapUnitEntry(r, action.entryId, (e) => {
+          if (e.upgradeIndexes.includes(action.upgradeIndex)) {
+            return { ...e, upgradeIndexes: e.upgradeIndexes.filter((i) => i !== action.upgradeIndex) }
+          }
+          // 같은 무기를 대체하는 다른 업그레이드가 켜져 있었다면, 이 업그레이드를 켜는 순간 그것들은 꺼진다
+          const exclusiveWith = action.exclusiveWith ?? []
+          return {
+            ...e,
+            upgradeIndexes: [...e.upgradeIndexes.filter((i) => !exclusiveWith.includes(i)), action.upgradeIndex],
+          }
+        }),
       )
     default:
       return state
@@ -151,7 +163,7 @@ interface RosterStore extends State {
   addUnitEntry: (rosterId: string, unitName: string, squadTierIndex: number, id: string) => void
   removeUnitEntry: (rosterId: string, entryId: string) => void
   setUnitEntrySquadTier: (rosterId: string, entryId: string, squadTierIndex: number) => void
-  toggleUnitUpgrade: (rosterId: string, entryId: string, upgradeIndex: number) => void
+  toggleUnitUpgrade: (rosterId: string, entryId: string, upgradeIndex: number, exclusiveWith?: number[]) => void
 }
 
 const RosterStoreContext = createContext<RosterStore | null>(null)
@@ -184,8 +196,8 @@ export function RosterProvider({ children }: { children: ReactNode }) {
     removeUnitEntry: (rosterId, entryId) => dispatch({ type: 'removeUnitEntry', rosterId, entryId }),
     setUnitEntrySquadTier: (rosterId, entryId, squadTierIndex) =>
       dispatch({ type: 'setUnitEntrySquadTier', rosterId, entryId, squadTierIndex }),
-    toggleUnitUpgrade: (rosterId, entryId, upgradeIndex) =>
-      dispatch({ type: 'toggleUnitUpgrade', rosterId, entryId, upgradeIndex }),
+    toggleUnitUpgrade: (rosterId, entryId, upgradeIndex, exclusiveWith) =>
+      dispatch({ type: 'toggleUnitUpgrade', rosterId, entryId, upgradeIndex, exclusiveWith }),
   }
 
   return <RosterStoreContext.Provider value={store}>{children}</RosterStoreContext.Provider>

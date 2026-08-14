@@ -9,6 +9,8 @@ export interface WeaponRow {
   ptsLabel?: string
   /** 지정하면 PTS 셀이 이 업그레이드를 켜고 끄는 버튼이 된다 */
   interactive?: { active: boolean; onToggle: () => void }
+  /** 다른 활성화된 업그레이드가 이 무기를 대체해 봉인했음을 표시. 선택되지 못한 업그레이드와 같은 스타일로 어둡게 표시한다 */
+  sealed?: boolean
 }
 
 export function WeaponTable({ rows }: { rows: WeaponRow[] }) {
@@ -32,7 +34,10 @@ export function WeaponTable({ rows }: { rows: WeaponRow[] }) {
       </thead>
       <tbody>
         {rows.map((row, i) => (
-          <tr key={i} className={row.interactive && !row.interactive.active ? 'card-weapon-row-dim' : ''}>
+          <tr
+            key={i}
+            className={(row.interactive && !row.interactive.active) || row.sealed ? 'card-weapon-row-dim' : ''}
+          >
             <td className="card-weapon-name-col">
               <div className="card-weapon-name">{row.weapon.name}</div>
               <div className="card-weapon-for">FOR {row.for ?? '-'}</div>
