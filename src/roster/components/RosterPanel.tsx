@@ -162,15 +162,17 @@ function RosterPanelBody({
           <div className="roster-section-title-row">
             <span className="roster-section-title">유닛 ({roster.units.length})</span>
           </div>
-          <div className="roster-resource-row">
-            <div className={`roster-resource-pill roster-resource-mineral ${overCap ? 'roster-budget-over' : ''}`}>
-              <span className="roster-resource-label">미네랄</span>
-              <span className="roster-resource-value">
-                {mineralTotal} / {roster.mineralCap}
-              </span>
+          <div className="roster-sticky-summary">
+            <div className="roster-resource-row">
+              <div className={`roster-resource-pill roster-resource-mineral ${overCap ? 'roster-budget-over' : ''}`}>
+                <span className="roster-resource-label">미네랄</span>
+                <span className="roster-resource-value">
+                  {mineralTotal} / {roster.mineralCap}
+                </span>
+              </div>
             </div>
+            <SlotUsageRow slotUsage={slotUsage} />
           </div>
-          <SlotUsageRow slotUsage={slotUsage} />
           <div className="roster-unit-list">
             {roster.units.length === 0 && <div className="roster-empty">유닛을 추가하세요.</div>}
             {roster.units.map((entry) => {

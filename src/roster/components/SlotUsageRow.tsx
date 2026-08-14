@@ -27,7 +27,10 @@ export function SlotUsageRow({
         const className = `roster-slot-pill ${over ? 'roster-budget-over' : ''} ${active ? 'roster-slot-pill-active' : ''} ${dimmed ? 'roster-slot-pill-dimmed' : ''}`
         const content = (
           <>
-            <span className="roster-slot-pill-label">{s.unitType}</span> {s.used} / {s.budget}
+            <span className="roster-slot-pill-label">{s.unitType}</span>
+            <span className="roster-slot-pill-count">
+              {s.used} / {s.budget}
+            </span>
           </>
         )
 

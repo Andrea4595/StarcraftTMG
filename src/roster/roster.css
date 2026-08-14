@@ -258,6 +258,21 @@
   padding: 16px;
 }
 
+/*
+  미네랄/유닛 타입 슬롯 요약: 왼쪽 패널을 스크롤해도 항상 보이도록 상단에 고정.
+  .roster-panel의 좌우 padding(16px)을 뚫고 나가 폭 전체를 채워야 고정됐을 때
+  패널 경계와 어긋나 보이지 않는다.
+*/
+.roster-sticky-summary {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--bg);
+  margin: 0 -16px;
+  padding: 10px 16px 8px;
+  border-bottom: 1px solid var(--border);
+}
+
 .roster-mineral-cap {
   flex: 1;
   display: flex;
@@ -329,6 +344,22 @@
   color: var(--text-h);
 }
 
+/* 미네랄/가스는 로스터 화면에서 가장 중요한 정보이므로 다른 곳보다 눈에 띄게 확대 강조 */
+.roster-panel .roster-resource-pill {
+  background: color-mix(in srgb, var(--pill-color) 10%, transparent);
+  border-left-width: 4px;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+.roster-panel .roster-resource-label {
+  font-size: 12px;
+}
+
+.roster-panel .roster-resource-value {
+  font-size: 17px;
+}
+
 .roster-resource-pill.roster-budget-over {
   border-left-color: #f87171;
 }
@@ -346,7 +377,10 @@
 
 .roster-slot-pill {
   flex: 1;
-  text-align: center;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4px;
   border: 1px solid var(--border);
   border-left: 3px solid var(--type-color, var(--border));
   border-radius: 6px;
@@ -354,9 +388,25 @@
   font-size: 12px;
 }
 
+.roster-slot-pill-label,
+.roster-slot-pill-count {
+  white-space: nowrap;
+}
+
 .roster-slot-pill-label {
   color: var(--type-color, inherit);
   font-weight: 700;
+}
+
+/* 창 폭이 좁아 라벨/수치가 한 줄에 다 들어가지 않으면, 단어 중간이 아니라
+   라벨과 수치 사이에서 줄바꿈되도록 세로로 쌓는다 */
+@media (max-width: 480px) {
+  .roster-slot-pill {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    line-height: 1.35;
+  }
 }
 
 /* 택티컬 카드 모달: 슬롯 칸이 필터 버튼일 때 */

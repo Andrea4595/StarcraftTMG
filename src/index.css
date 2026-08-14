@@ -140,6 +140,9 @@ code {
 
 .keyword-search-input {
   width: 100%;
+  /* 폼 컨트롤 기본 min-width(auto)는 내용 기준 최소폭을 가져서, 이 값이 없으면
+     화면이 아무리 좁아져도 그 밑으로는 줄어들지 않아 우측 언어 전환 버튼을 침범한다 */
+  min-width: 0;
   border: 1px solid var(--border);
   border-radius: 999px;
   background: var(--bg);
