@@ -526,6 +526,8 @@ button.roster-slot-pill:hover {
   padding: 8px 10px;
   cursor: pointer;
   font-size: 13px;
+  /* 아래 .roster-entry-header가 뷰포트가 아니라 "이 카드 자체의 폭"을 기준으로 줄바꿈하도록 컨테이너로 지정 */
+  container-type: inline-size;
 }
 
 .roster-entry:hover {
@@ -537,17 +539,24 @@ button.roster-slot-pill:hover {
   box-shadow: 0 0 0 1px var(--accent);
 }
 
+/*
+  이름/스탯/제거 버튼을 grid-template-areas로 배치한다. 폭이 좁아져 줄바꿈이 필요해지면
+  아래 컨테이너 쿼리가 stats만 다음 줄로 내리고, 이름과 제거 버튼은 항상 첫 줄에 같이 남는다.
+*/
 .roster-entry-header {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas: 'name stats remove';
   align-items: center;
   gap: 10px;
-  flex-wrap: wrap;
 }
 
 .roster-entry-title {
+  grid-area: name;
   display: flex;
   align-items: center;
   gap: 6px;
+  min-width: 0;
 }
 
 .roster-entry-name {
@@ -555,10 +564,29 @@ button.roster-slot-pill:hover {
   font-weight: 700;
 }
 
+.roster-entry-remove {
+  grid-area: remove;
+}
+
 /* 로스터 목록에서는 한 유닛이 차지하는 높이를 줄이기 위해 스탯 박스를 원본 카드보다 작게 표시 */
 .roster-entry-header .card-statboxes {
-  margin-left: auto;
+  grid-area: stats;
+  justify-self: end;
   gap: 4px;
+}
+
+@container (max-width: 400px) {
+  .roster-entry-header {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      'name remove'
+      'stats stats';
+    row-gap: 6px;
+  }
+
+  .roster-entry-header .card-statboxes {
+    justify-self: start;
+  }
 }
 
 .roster-entry-header .card-statbox {
