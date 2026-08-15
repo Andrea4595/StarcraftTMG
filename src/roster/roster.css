@@ -396,10 +396,16 @@
   margin-top: 6px;
   display: flex;
   gap: 8px;
+  /* 뷰포트가 아니라 이 줄 자체의 실제 폭을 기준으로 줄바꿈 여부를 판단한다 (택티컬 카드 모달의 좁은
+     오른쪽 컬럼처럼, 뷰포트는 넓어도 이 줄이 들어갈 공간은 좁을 수 있어서) */
+  container-type: inline-size;
 }
 
 .roster-slot-pill {
   flex: 1;
+  /* min-width:0이 없으면 flex 아이템은 내용 폭 밑으로 줄어들지 않아, 이 줄 전체가 부모(.roster-slots)
+     밖으로 넘쳐 가로 스크롤을 만든다 */
+  min-width: 0;
   display: flex;
   align-items: baseline;
   justify-content: center;
@@ -421,9 +427,9 @@
   font-weight: 700;
 }
 
-/* 창 폭이 좁아 라벨/수치가 한 줄에 다 들어가지 않으면, 단어 중간이 아니라
-   라벨과 수치 사이에서 줄바꿈되도록 세로로 쌓는다 */
-@media (max-width: 480px) {
+/* 이 줄(.roster-slots)의 폭이 좁아 라벨/수치가 한 줄에 다 들어가지 않으면, 단어 중간이 아니라
+   라벨과 수치 사이에서 줄바꿈되도록 세로로 쌓는다 (가로 스크롤이 생기는 것을 막는다) */
+@container (max-width: 460px) {
   .roster-slot-pill {
     flex-direction: column;
     align-items: center;
@@ -518,6 +524,28 @@ button.roster-slot-pill:hover {
   font-weight: 400;
   color: var(--text);
   opacity: 0.85;
+}
+
+/* 칩 안의 제거 버튼: 칩 클릭(카드 선택 모달 열기)과 겹치지 않도록 작고 동그랗게, hover 시에만 붉은 톤 */
+.roster-tactical-chip-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-dim, var(--text));
+  font-size: 9px;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+}
+
+.roster-tactical-chip-remove:hover {
+  background: rgba(248, 113, 113, 0.18);
+  color: #f87171;
 }
 
 .roster-unit-list {
@@ -758,39 +786,171 @@ button.roster-slot-pill:hover {
   margin: 20px 0;
 }
 
-/* 카드 갤러리 */
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 16px;
-  align-items: start;
+/*
+  택티컬 카드 선택 모달: 왼쪽에 현재 포커스된 카드의 상세, 오른쪽에 고를 수 있는 카드 목록을 둔다.
+  목록 쪽은 카드 전체를 렌더링하지 않고 이름/비용/제공 슬롯/보유 수량만 압축해서 보여준다.
+*/
+/*
+  align-items:stretch가 중요하다: 왼쪽(상세)은 카드 하나만 보여줘서 오른쪽(목록)보다 훨씬 짧을 때가
+  많은데, flex-start로 두면 왼쪽 컬럼의 박스 자체가 짧게 끝나버려 그 안의 고정 헤더도 오른쪽보다
+  먼저(짧게 스크롤한 시점에) 고정이 풀려버린다. stretch로 두 컬럼 높이를 맞춰야 왼쪽 헤더도
+  오른쪽 목록을 끝까지 스크롤하는 동안 계속 고정된다.
+*/
+.tactical-picker {
+  display: flex;
+  gap: 20px;
+  align-items: stretch;
 }
 
-.gallery-card-wrap {
-  position: relative;
-  border-radius: 8px;
-  outline: 2px solid transparent;
+.tactical-picker-detail {
+  flex: 1 1 420px;
+  min-width: 0;
 }
 
-.gallery-card-wrap.gallery-card-selected {
-  outline-color: #4ade80;
+.tactical-picker-list {
+  flex: 1 1 480px;
+  min-width: 0;
 }
 
-.gallery-card-wrap.gallery-card-disabled {
-  opacity: 0.4;
+@media (max-width: 700px) {
+  .tactical-picker {
+    flex-direction: column;
+  }
 }
 
-/* 택티컬 카드 갤러리: 카드 자체가 아니라 이 버튼으로만 수량을 조절 (스크롤 중 오조작 방지) */
-.gallery-qty-stepper {
-  position: absolute;
-  top: 8px;
-  right: 8px;
+/*
+  각 컬럼 맨 위 요약 정보(왼쪽: 가스/CP 총합, 오른쪽: 유닛 타입별 수용량+필터)는 모달 본문을 스크롤해도
+  계속 보이도록 고정한다. top:0은 .modal-body의 패딩 박스 기준으로 붙기 때문에, .modal-body 자체의
+  위쪽 패딩(18px)만큼은 이 요소의 박스가 덮지 못해 그 틈으로 스크롤되는 카드가 비쳐 보인다.
+  margin-top을 패딩만큼 음수로 줘서 박스를 그만큼 위로 끌어올리고, 그만큼 padding-top으로 다시
+  채워 내용 위치는 그대로 두면서 배경만 그 틈까지 덮게 한다.
+*/
+.tactical-picker-sticky-top {
+  position: sticky;
+  /* margin-top의 음수 트릭 대신 top 자체를 패딩만큼 음수로 줘서 (스크롤포트 패딩 경계가 아니라)
+     테두리 경계에 붙게 한다 — sticky-top:0에 margin-top 음수를 더하는 방식은 이 모달처럼 flex 컨테이너를
+     여러 겹 거쳐 중첩된 경우 고정 위치 계산에 반영되지 않아 틈이 그대로 남았다. */
+  top: -18px;
+  z-index: 2;
+  background: var(--bg, #0c0d12);
+  padding-top: 18px;
+  padding-bottom: 12px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 8px 8px -8px rgba(0, 0, 0, 0.4);
+}
+
+/* 팩션 카드는 하나만 고를 수 있어 선택되지 않은 카드는 어둡게 표시한다 (택티컬 카드와 같은 한 줄 행 형태) */
+.tactical-picker-row-dimmed {
+  opacity: 0.5;
+}
+
+.tactical-picker-row-dimmed:hover {
+  opacity: 0.8;
+}
+
+.tactical-picker-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tactical-picker-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 10px;
+  cursor: pointer;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  width: 100%;
+}
+
+.tactical-picker-row:hover {
+  border-color: var(--accent, var(--border));
+}
+
+.tactical-picker-row-active {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.tactical-picker-row-name {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 999px;
-  padding: 4px 6px;
+  font-weight: 700;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+/*
+  .card-unique-badge와 같은 모양이지만 색을 직접 지정한다. 그 클래스는 --gc-yellow(.game-card 스코프
+  전용 변수)를 참조하는데, 이 목록 행은 .game-card 밖이라 변수가 비어 배지가 안 보이게 된다.
+*/
+.tactical-picker-row-unique {
+  font-size: 10px;
+  font-weight: 700;
+  background: #f0b429;
+  color: #221a02;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+.tactical-picker-row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  font-size: 11px;
+  opacity: 0.85;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.tactical-picker-row-slots {
+  display: flex;
+  gap: 8px;
+  font-weight: 700;
+}
+
+/*
+  가스+증감 버튼을 한 덩어리로 묶는다. 행 폭이 좁아 줄바꿈이 필요해지면 이 덩어리 전체가 통째로
+  다음 줄로 내려가고, margin-left:auto 덕분에 줄바꿈 후에도 그 줄의 오른쪽 끝에 붙는다.
+*/
+.tactical-picker-row-cost {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+/* 카드를 고르는 데 드는 가스 비용은 중요한 정보라 항상 같은 위치(증감 버튼 바로 왼쪽)에 폭을 고정해
+   행마다 세로로 열이 맞도록 하고, 흐린 메타 정보들과 달리 밝게 강조한다 */
+.tactical-picker-row-gas {
+  flex: 0 0 56px;
+  text-align: right;
+  color: var(--text-h);
+  font-weight: 700;
+  font-size: 12px;
+}
+
+/*
+  개수가 0이면 '+' 버튼만, 1개 이상이면 '−'와 숫자까지 더 붙어 폭이 늘어난다. 이 칸의 폭이 카드마다
+  달라지면 바로 왼쪽의 가스 칸도 같이 밀려서 열이 안 맞게 되므로, 폭을 고정하고 오른쪽 정렬해서
+  '+'만 있을 때도 항상 같은 위치(칸의 오른쪽 끝)에 오도록 한다.
+*/
+.tactical-picker-row-qty {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  flex: 0 0 74px;
 }
 
 .gallery-qty-btn {
@@ -819,30 +979,6 @@ button.roster-slot-pill:hover {
   color: #6b6f80;
   cursor: not-allowed;
   opacity: 0.6;
-}
-
-/* 팩션 카드: 택티컬 카드 스테퍼와 같은 위치의 오버레이 버튼, but 단일 선택이라 +/- 대신 토글 하나 */
-.gallery-select-toggle {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  border: none;
-  border-radius: 999px;
-  background: #4ade80;
-  color: #062012;
-  padding: 4px 12px;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.gallery-select-toggle:hover {
-  filter: brightness(1.1);
-}
-
-.gallery-select-toggle-active {
-  background: #2b2e3a;
-  color: #e5e7eb;
 }
 
 .gallery-qty-count {
