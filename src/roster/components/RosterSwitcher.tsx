@@ -63,8 +63,14 @@ export function RosterSwitcher({
       {race && roster && (
         <>
           <RosterExportButton race={race} roster={roster} />
-          <button type="button" className="btn roster-export-btn" onClick={onOpenReference}>
-            게임 레퍼런스
+          <button
+            type="button"
+            className="btn roster-icon-btn"
+            onClick={onOpenReference}
+            aria-label="게임 레퍼런스"
+            title="게임 레퍼런스"
+          >
+            <span className="roster-icon roster-icon-reference" aria-hidden="true" />
           </button>
         </>
       )}

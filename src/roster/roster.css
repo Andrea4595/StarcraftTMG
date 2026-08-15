@@ -865,6 +865,35 @@ button.roster-slot-pill:hover {
   margin-left: auto;
 }
 
+/*
+  텍스트 대신 아이콘 이미지를 쓰는 버튼(내보내기/게임 레퍼런스). 이미지의 형태(알파)만 마스크로 가져와
+  currentColor로 칠한다 — 원본 PNG가 흰색/검은색 선화라도 라이트/다크 테마 배경 모두에서 잘 보인다.
+  높이는 기존 텍스트 버튼의 줄 높이(font-size 12px * line-height 1.4)에 맞춘다.
+*/
+.roster-icon {
+  display: block;
+  height: 16.8px;
+  background-color: currentColor;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+.roster-icon-export {
+  width: 16.8px;
+  -webkit-mask-image: url('./assets/export.png');
+  mask-image: url('./assets/export.png');
+}
+
+.roster-icon-reference {
+  aspect-ratio: 503 / 581;
+  -webkit-mask-image: url('./assets/reference.png');
+  mask-image: url('./assets/reference.png');
+}
+
 /* 내보내기 방식(상세/간소화) 선택 모달 */
 .roster-export-choice {
   display: flex;

@@ -78,8 +78,14 @@ export function RosterExportButton({ race, roster }: { race: RaceData; roster: R
 
   return (
     <>
-      <button type="button" className="btn roster-export-btn" onClick={() => setState({ phase: 'choice' })}>
-        내보내기
+      <button
+        type="button"
+        className="btn roster-export-btn roster-icon-btn"
+        onClick={() => setState({ phase: 'choice' })}
+        aria-label="내보내기"
+        title="내보내기"
+      >
+        <span className="roster-icon roster-icon-export" aria-hidden="true" />
       </button>
 
       {state?.phase === 'choice' && (
