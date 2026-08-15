@@ -431,6 +431,16 @@ button.roster-slot-pill:hover {
   color: #fff;
 }
 
+/* 활성화된 필터 칸은 호버해도 배경/글자색이 유지되어야 한다 (버튼 hover, 초과 경고보다 우선) */
+.roster-slot-pill.roster-slot-pill-active:hover {
+  background: var(--type-color, var(--border));
+}
+
+.roster-slot-pill.roster-slot-pill-active.roster-budget-over,
+.roster-slot-pill.roster-slot-pill-active.roster-budget-over .roster-slot-pill-label {
+  color: #fff;
+}
+
 /* 수용량이 0이거나, 다른 타입으로 필터링 중일 때: 비활성화된 느낌으로 어둡게 */
 .roster-slot-pill.roster-slot-pill-dimmed {
   border-left-color: var(--border);
