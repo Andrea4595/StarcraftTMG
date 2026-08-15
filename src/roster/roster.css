@@ -585,6 +585,52 @@ button.roster-slot-pill:hover {
   opacity: 0.6;
 }
 
+/* 현재 선택된(오른쪽 상세 패널에 열린) 유닛만 왼쪽에 순서 이동 버튼이 붙는다 */
+.roster-entry-wrap {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+}
+
+.roster-entry-wrap .roster-entry {
+  flex: 1;
+  min-width: 0;
+}
+
+.roster-entry-move {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  flex: 0 0 auto;
+}
+
+.roster-entry-move-btn {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text);
+  font-size: 9px;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+}
+
+.roster-entry-move-btn:hover:not(:disabled) {
+  border-color: var(--accent, var(--border));
+  color: var(--accent);
+}
+
+.roster-entry-move-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
 .roster-entry {
   border: 1px solid var(--border);
   border-radius: 6px;
