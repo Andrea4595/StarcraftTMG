@@ -232,6 +232,48 @@
   margin: 0;
 }
 
+/*
+  유닛 카드(로스터 목록 항목) 우측 하단, summary 줄 오른쪽에 두는 순서 이동 버튼.
+  상세 패널이 아니라 목록 항목 자체에 둬야 목록 전체를 보면서(눈으로 순서를 확인하며) 옮길 수 있다.
+*/
+.roster-entry-move {
+  display: flex;
+  flex: 0 0 auto;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.roster-entry-move-btn {
+  width: 26px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font-size: 8px;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+}
+
+.roster-entry-move-btn:first-child {
+  border-right: 1px solid var(--border);
+}
+
+.roster-entry-move-btn:hover:not(:disabled) {
+  background: var(--accent-bg, rgba(255, 255, 255, 0.06));
+  color: var(--accent);
+}
+
+.roster-entry-move-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
 /* 팩션/택티컬 카드 칩: 상세 정보를 보기 위해 클릭 가능한 상태 */
 .roster-tactical-chip-clickable {
   cursor: pointer;
@@ -585,52 +627,6 @@ button.roster-slot-pill:hover {
   opacity: 0.6;
 }
 
-/* 현재 선택된(오른쪽 상세 패널에 열린) 유닛만 왼쪽에 순서 이동 버튼이 붙는다 */
-.roster-entry-wrap {
-  display: flex;
-  align-items: stretch;
-  gap: 6px;
-}
-
-.roster-entry-wrap .roster-entry {
-  flex: 1;
-  min-width: 0;
-}
-
-.roster-entry-move {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 4px;
-  flex: 0 0 auto;
-}
-
-.roster-entry-move-btn {
-  width: 22px;
-  height: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  background: transparent;
-  color: var(--text);
-  font-size: 9px;
-  line-height: 1;
-  padding: 0;
-  cursor: pointer;
-}
-
-.roster-entry-move-btn:hover:not(:disabled) {
-  border-color: var(--accent, var(--border));
-  color: var(--accent);
-}
-
-.roster-entry-move-btn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-
 .roster-entry {
   border: 1px solid var(--border);
   border-radius: 6px;
@@ -757,8 +753,15 @@ button.roster-slot-pill:hover {
   background: rgba(74, 222, 128, 0.12);
 }
 
-.roster-entry-summary {
+.roster-entry-footer {
   margin-top: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.roster-entry-summary {
   font-size: 11px;
   opacity: 0.75;
 }
