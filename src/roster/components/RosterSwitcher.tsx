@@ -4,7 +4,15 @@ import { useRosterStore } from '../RosterContext'
 import { RACE_THEME_COLORS } from '../raceThemeColor'
 import { RosterExportButton } from './RosterExportButton'
 
-export function RosterSwitcher({ race, roster }: { race: RaceData | undefined; roster: Roster | undefined }) {
+export function RosterSwitcher({
+  race,
+  roster,
+  onOpenReference,
+}: {
+  race: RaceData | undefined
+  roster: Roster | undefined
+  onOpenReference: () => void
+}) {
   const store = useRosterStore()
 
   return (
@@ -52,7 +60,14 @@ export function RosterSwitcher({ race, roster }: { race: RaceData | undefined; r
         + 새 로스터
       </button>
 
-      {race && roster && <RosterExportButton race={race} roster={roster} />}
+      {race && roster && (
+        <>
+          <RosterExportButton race={race} roster={roster} />
+          <button type="button" className="btn roster-export-btn" onClick={onOpenReference}>
+            게임 레퍼런스
+          </button>
+        </>
+      )}
     </div>
   )
 }

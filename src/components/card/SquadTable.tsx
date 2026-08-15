@@ -7,7 +7,16 @@ export interface SquadTableSelection {
   onSelect: (index: number) => void
 }
 
-export function SquadTable({ squad, selection }: { squad: Squad[]; selection?: SquadTableSelection }) {
+export function SquadTable({
+  squad,
+  selection,
+  highlightIndex,
+}: {
+  squad: Squad[]
+  selection?: SquadTableSelection
+  /** selection이 없을 때, 이 인덱스의 칸을 현재 등급으로 강조 표시한다 (버튼이 아닌 읽기 전용 강조) */
+  highlightIndex?: number
+}) {
   return (
     <div className="card-squad">
       {squad.map((s, i) => {
@@ -37,7 +46,10 @@ export function SquadTable({ squad, selection }: { squad: Squad[]; selection?: S
         }
 
         return (
-          <div className="card-squad-tier" key={i}>
+          <div
+            className={`card-squad-tier ${i === highlightIndex ? 'card-squad-tier-highlight' : ''}`}
+            key={i}
+          >
             {content}
           </div>
         )

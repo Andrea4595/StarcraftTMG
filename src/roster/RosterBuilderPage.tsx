@@ -4,6 +4,7 @@ import { useRosterStore } from './RosterContext'
 import { RosterSwitcher } from './components/RosterSwitcher'
 import { RosterPanel } from './components/RosterPanel'
 import { RosterDetailPanel, type DetailState } from './components/RosterDetailPanel'
+import { GameReferencePage } from './components/GameReferencePage'
 import './roster.css'
 
 export function RosterBuilderPage({ races }: { races: RaceData[] }) {
@@ -11,15 +12,25 @@ export function RosterBuilderPage({ races }: { races: RaceData[] }) {
   const roster = store.activeRoster
   const race = races.find((r) => r.id === roster?.raceId)
   const [detail, setDetail] = useState<DetailState>(null)
+  const [referenceOpen, setReferenceOpen] = useState(false)
 
   /** 다른 로스터로 전환하면 이전 로스터의 유닛/카드를 가리키던 상세 선택은 의미가 없어진다 */
   useEffect(() => {
     setDetail(null)
+    setReferenceOpen(false)
   }, [roster?.id])
+
+  if (roster && race && referenceOpen) {
+    return (
+      <div className="roster-builder">
+        <GameReferencePage race={race} roster={roster} onClose={() => setReferenceOpen(false)} />
+      </div>
+    )
+  }
 
   return (
     <div className="roster-builder">
-      <RosterSwitcher race={race} roster={roster} />
+      <RosterSwitcher race={race} roster={roster} onOpenReference={() => setReferenceOpen(true)} />
 
       {!roster ? (
         <div className="roster-empty-state">'+ 새 로스터'를 눌러 로스터를 시작하세요.</div>

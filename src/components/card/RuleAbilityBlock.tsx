@@ -13,6 +13,7 @@ export function RuleAbilityBlock({
   ptsLabel,
   forWeapon,
   interactive,
+  anyPhase,
 }: {
   ability: RuleAbility
   /** 이 종족의 자원 약어 (예: 'CP', 'BM', 'EN') */
@@ -22,6 +23,8 @@ export function RuleAbilityBlock({
   forWeapon?: string
   /** 지정하면 PTS 배지가 이 업그레이드를 켜고 끄는 버튼이 된다 */
   interactive?: { active: boolean; onToggle: () => void }
+  /** 지정하면 'ANY PHASE' 배지를 붙인다 (페이즈 맥락만 보이는 화면에서 항상 쓸 수 있음을 표시) */
+  anyPhase?: boolean
 }) {
   const { lang } = useLang()
   const text = lang === 'en' ? ability.rule.en : ability.rule.ko || ability.rule.en
@@ -45,6 +48,7 @@ export function RuleAbilityBlock({
             ) : (
               <span className="card-pts-badge">PTS: {ptsLabel}</span>
             ))}
+          {anyPhase && <span className="card-badge card-badge-any">ANY PHASE</span>}
           <span className={`card-badge card-badge-${ability.type.toLowerCase()}`}>
             {formatBadge(ability, resourceLabel)}
           </span>

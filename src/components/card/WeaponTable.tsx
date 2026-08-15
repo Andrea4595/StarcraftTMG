@@ -11,6 +11,8 @@ export interface WeaponRow {
   interactive?: { active: boolean; onToggle: () => void }
   /** 다른 활성화된 업그레이드가 이 무기를 대체해 봉인했음을 표시. 선택되지 못한 업그레이드와 같은 스타일로 어둡게 표시한다 */
   sealed?: boolean
+  /** 지정하면 이름 옆에 'ANY PHASE' 배지를 붙인다 (페이즈 맥락만 보이는 화면에서 항상 쓸 수 있음을 표시) */
+  anyPhase?: boolean
 }
 
 export function WeaponTable({ rows }: { rows: WeaponRow[] }) {
@@ -39,7 +41,10 @@ export function WeaponTable({ rows }: { rows: WeaponRow[] }) {
             className={(row.interactive && !row.interactive.active) || row.sealed ? 'card-weapon-row-dim' : ''}
           >
             <td className="card-weapon-name-col">
-              <div className="card-weapon-name">{row.weapon.name}</div>
+              <div className="card-weapon-name">
+                {row.weapon.name}
+                {row.anyPhase && <span className="card-badge card-badge-any card-weapon-any-badge">ANY PHASE</span>}
+              </div>
               <div className="card-weapon-for">FOR {row.for ?? '-'}</div>
             </td>
             <td>{row.weapon.stat.rng}</td>

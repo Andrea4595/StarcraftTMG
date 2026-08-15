@@ -4,6 +4,7 @@ import {
   catalogSquadTierIndexes,
   findFactionCard,
   findUnit,
+  groupedTacticalCards,
   resolveScaledCost,
   rosterGasCap,
   rosterGasTotal,
@@ -15,20 +16,6 @@ import { TacticalCardView } from '../../components/card/TacticalCardView'
 import { UnitCardView } from '../../components/card/UnitCardView'
 
 export type ExportMode = 'detailed' | 'simple'
-
-/** 로스터에 포함된 택티컬 카드(팩션 카드 제외)를 이름별로 묶어 카드 원본과 개수를 함께 반환한다 */
-function groupedTacticalCards(race: RaceData, roster: Roster): { card: TacticalCard; count: number }[] {
-  const counts = new Map<string, number>()
-  for (const name of roster.tacticalCardNames) {
-    counts.set(name, (counts.get(name) ?? 0) + 1)
-  }
-  return [...counts.entries()]
-    .map(([name, count]) => {
-      const card = race.tacticalCards.find((c) => c.name === name)
-      return card ? { card, count } : null
-    })
-    .filter((v): v is { card: TacticalCard; count: number } => v !== null)
-}
 
 function TotalPill({
   label,

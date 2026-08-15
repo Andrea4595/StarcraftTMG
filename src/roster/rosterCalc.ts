@@ -1,4 +1,4 @@
-import type { RaceData, Roster, RosterUnitEntry, TacticalCard, UnitCard, UnitType } from '../types'
+import type { Ability, Phase, RaceData, Roster, RosterUnitEntry, TacticalCard, UnitCard, UnitType } from '../types'
 import { UNIT_TYPES } from '../types'
 import { resolveScaledCost } from '../components/card/costDisplay'
 
@@ -47,6 +47,20 @@ function includedTacticalCards(race: RaceData, roster: Roster): TacticalCard[] {
     .map((name) => race.tacticalCards.find((c) => c.name === name))
     .filter((c): c is TacticalCard => c !== undefined)
   return [...(factionCard ? [factionCard] : []), ...picked]
+}
+
+/** 로스터에 포함된 택티컬 카드(팩션 카드 제외)를 이름별로 묶어 카드 원본과 개수를 함께 반환한다 */
+export function groupedTacticalCards(race: RaceData, roster: Roster): { card: TacticalCard; count: number }[] {
+  const counts = new Map<string, number>()
+  for (const name of roster.tacticalCardNames) {
+    counts.set(name, (counts.get(name) ?? 0) + 1)
+  }
+  return [...counts.entries()]
+    .map(([name, count]) => {
+      const card = race.tacticalCards.find((c) => c.name === name)
+      return card ? { card, count } : null
+    })
+    .filter((v): v is { card: TacticalCard; count: number } => v !== null)
 }
 
 export function rosterGasTotal(race: RaceData, roster: Roster): number {
@@ -121,4 +135,70 @@ export function rosterUniqueViolations(race: RaceData, roster: Roster): string[]
   }
 
   return violations
+}
+
+/**
+ * 이 유닛 엔트리에 실제로 적용된 능력만 반환한다: 기본 능력 중 활성 업그레이드로 대체(봉인)된 것은 빼고,
+ * 활성 업그레이드가 제공하는 능력을 더한다. AbilitiesSection의 sealedWeaponNames 계산과 동일한 규칙
+ * (SPECIALIST 키워드가 붙은 무기 업그레이드는 원본을 대체하지 않고 같이 쓰인다)을 따른다.
+ */
+export function unitActiveAbilities(unit: UnitCard, entry: RosterUnitEntry): Ability[] {
+  const activeUpgrades = entry.upgradeIndexes
+    .map((i) => unit.upgrades[i])
+    .filter((u): u is UnitCard['upgrades'][number] => u !== undefined)
+
+  const sealedNames = new Set<string>()
+  for (const upgrade of activeUpgrades) {
+    if (!upgrade.for || upgrade.ability.kind !== 'weapon') continue
+    const isSpecialist = upgrade.ability.stat.keyword.some((k) => k.name === 'SPECIALIST')
+    if (isSpecialist) continue
+    sealedNames.add(upgrade.for)
+  }
+
+  const baseAbilities = unit.abilities.filter((a) => !sealedNames.has(a.name))
+  return [...baseAbilities, ...activeUpgrades.map((u) => u.ability)]
+}
+
+export interface PhaseAbilityGroup {
+  sourceLabel: string
+  /** 유닛에서 나온 그룹일 때만 지정 (색상 강조용) */
+  unitType?: UnitType
+  abilities: Ability[]
+}
+
+function byPhase(ability: Ability, phase: Phase): boolean {
+  return ability.phase === phase || ability.phase === 'Any'
+}
+
+/** 로스터에 포함된 모든 카드/유닛 중, 지정한 페이즈(+Any)에 실제로 쓸 수 있는 능력만 출처별로 묶어 반환한다 */
+export function rosterAbilitiesByPhase(race: RaceData, roster: Roster, phase: Phase): PhaseAbilityGroup[] {
+  const groups: PhaseAbilityGroup[] = []
+
+  const factionCard = findFactionCard(race, roster)
+  if (factionCard) {
+    const abilities = factionCard.cardAbilities.filter((a) => byPhase(a, phase))
+    if (abilities.length > 0) groups.push({ sourceLabel: factionCard.name, abilities })
+  }
+
+  for (const { card } of groupedTacticalCards(race, roster)) {
+    const abilities = card.cardAbilities.filter((a) => byPhase(a, phase))
+    if (abilities.length > 0) groups.push({ sourceLabel: card.name, abilities })
+  }
+
+  const nameTotal = new Map<string, number>()
+  for (const entry of roster.units) nameTotal.set(entry.unitName, (nameTotal.get(entry.unitName) ?? 0) + 1)
+  const nameSeen = new Map<string, number>()
+
+  for (const entry of roster.units) {
+    const unit = findUnit(race, entry.unitName)
+    if (!unit) continue
+    const seen = (nameSeen.get(entry.unitName) ?? 0) + 1
+    nameSeen.set(entry.unitName, seen)
+    const sourceLabel = (nameTotal.get(entry.unitName) ?? 0) > 1 ? `${unit.name} #${seen}` : unit.name
+
+    const abilities = unitActiveAbilities(unit, entry).filter((a) => byPhase(a, phase))
+    if (abilities.length > 0) groups.push({ sourceLabel, unitType: unit.type, abilities })
+  }
+
+  return groups
 }
