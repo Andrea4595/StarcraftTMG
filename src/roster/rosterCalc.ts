@@ -14,11 +14,16 @@ export function findFactionCard(race: RaceData, roster: Roster): TacticalCard | 
 
 /**
  * 카탈로그에서 고를 수 있는 스쿼드 tier 인덱스들.
- * 최소 인원 tier(0번)는 실전에서 선택할 이유가 없어 목록에서 제외한다 (tier가 하나뿐이면 그대로 노출).
+ * 뒤에 나오는(더 많은 인원의) tier와 PTS가 완전히 같은 tier는 "더 적은 인원에 같은 값"이라
+ * 고를 이유가 없어(dominated) 목록에서 제외한다 (예: Zealot 1인/160pt는 2-3인/160pt와 같은 값이라
+ * 제외되지만, Stalker 1인/170pt는 2인/270pt와 값이 달라 그대로 남는다). tier가 하나뿐이면 그게
+ * 유일한 선택지이므로 그대로 노출한다.
  */
 export function catalogSquadTierIndexes(unit: UnitCard): number[] {
   if (unit.squad.length <= 1) return unit.squad.map((_, i) => i)
-  return unit.squad.map((_, i) => i).slice(1)
+  return unit.squad
+    .map((_, i) => i)
+    .filter((i) => !unit.squad.slice(i + 1).some((later) => later.pts === unit.squad[i].pts))
 }
 
 export function unitEntryMineralCost(unit: UnitCard, entry: RosterUnitEntry): number {
