@@ -164,6 +164,18 @@
 
 /* 모바일에서는 두 열을 나란히 둘 공간이 없으므로, 탭을 바꾸듯 한쪽만 보여준다 */
 @media (max-width: 768px) {
+  /*
+    데스크톱 분할 화면은 height:100vh로 고정해 좌우 패널이 내부적으로 스크롤되게 했지만, 모바일은
+    반대로 패널 내부 스크롤을 쓰지 않고(overflow-y:visible) 페이지 전체가 자연스럽게 스크롤되어야 한다.
+    height가 100vh로 고정된 채면 콘텐츠가 그보다 길어질 때 하단 padding(언어 전환 바 공간)이 콘텐츠
+    끝에 붙지 못하고 그냥 넘쳐버려, 맨 아래 버튼이 하단 바에 가려진다. min-height로 바꿔 콘텐츠 길이만큼
+    자라게 한다.
+  */
+  .roster-builder {
+    height: auto;
+    min-height: 100vh;
+  }
+
   .roster-builder-split {
     display: block;
   }
