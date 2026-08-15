@@ -48,6 +48,16 @@ export function TacticalCardModal({
     <Modal title="택티컬 카드 선택" onClose={onClose}>
       <div className="tactical-picker">
         <div className="tactical-picker-detail">
+          {focusedFaction ? (
+            <TacticalCardView card={focusedFaction} resourceLabel={race.resourceLabel} isFactionCard />
+          ) : focusedTactical ? (
+            <TacticalCardView card={focusedTactical} resourceLabel={race.resourceLabel} />
+          ) : (
+            <div className="roster-detail-empty">카드를 선택하면 상세 정보가 여기에 표시됩니다.</div>
+          )}
+        </div>
+
+        <div className="tactical-picker-list">
           <div className="tactical-picker-sticky-top">
             <div className="roster-resource-row">
               <div className={`roster-resource-pill roster-resource-gas ${overGasCap ? 'roster-budget-over' : ''}`}>
@@ -61,18 +71,6 @@ export function TacticalCardModal({
                 <span className="roster-resource-value">{resourceTotal}</span>
               </div>
             </div>
-          </div>
-          {focusedFaction ? (
-            <TacticalCardView card={focusedFaction} resourceLabel={race.resourceLabel} isFactionCard />
-          ) : focusedTactical ? (
-            <TacticalCardView card={focusedTactical} resourceLabel={race.resourceLabel} />
-          ) : (
-            <div className="roster-detail-empty">카드를 선택하면 상세 정보가 여기에 표시됩니다.</div>
-          )}
-        </div>
-
-        <div className="tactical-picker-list">
-          <div className="tactical-picker-sticky-top">
             <SlotUsageRow
               slotUsage={slotUsage}
               activeFilter={typeFilter}
