@@ -387,15 +387,21 @@
 
 .card-rule-ability-header {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 4px 8px;
 }
 
 .card-rule-ability-title {
   display: flex;
   align-items: center;
   gap: 8px;
+  /* min-width:0이 없으면 이름이 길 때 오른쪽 배지들(PTS/ACTIVE 등, 폭 고정+nowrap)과 함께
+     헤더 폭을 넘어서도 줄바꿈되지 않고 그대로 넘쳐 상위(.roster-detail-panel 등)까지
+     가로 스크롤을 만든다 */
+  min-width: 0;
+  flex: 1 1 auto;
 }
 
 .card-rule-ability-right {

@@ -411,6 +411,11 @@
   /* min-width:0이 없으면 flex 아이템은 내용 폭 밑으로 줄어들지 않아, 이 줄 전체가 부모(.roster-slots)
      밖으로 넘쳐 가로 스크롤을 만든다 */
   min-width: 0;
+  /* 아래 @container에서 세로로 쌓일 때 align-items:center라 라벨/수치가 내용 폭만큼 렌더링되는데,
+     "Support"처럼 긴 라벨은 줄어든 pill 폭보다 넓어질 수 있다. 라벨 자체의 overflow는 ellipsis로
+     막아도, pill에 이게 없으면 라벨이 pill 박스 밖으로 그대로 삐져나와 상위 컨테이너들까지 가로
+     스크롤을 전파시킨다 */
+  overflow: hidden;
   display: flex;
   align-items: baseline;
   justify-content: center;
@@ -430,6 +435,11 @@
 .roster-slot-pill-label {
   color: var(--type-color, inherit);
   font-weight: 700;
+  /* 라벨(예: "Support")은 세로로 쌓아도(@container 아래) 그 자체 글자 폭이 남은 공간보다 넓어질 수
+     있다. min-width:0인 flex 아이템이라 박스는 줄어들지만 nowrap 텍스트는 줄어들지 않아 밖으로
+     삐져나와 이 위 조상들까지 가로 스크롤을 만들었다 — 말줄임표로 잘라 그 삐져나옴을 막는다 */
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* 이 줄(.roster-slots)의 폭이 좁아 라벨/수치가 한 줄에 다 들어가지 않으면, 단어 중간이 아니라
@@ -437,9 +447,19 @@
 @container (max-width: 460px) {
   .roster-slot-pill {
     flex-direction: column;
-    align-items: center;
+    /*
+      align-items:center를 쓰면 라벨/수치가 내용 폭만큼만 박스를 차지해, 말줄임표(text-overflow:
+      ellipsis)가 기준으로 삼을 "잘려야 할 폭"이 없어져 양쪽으로 대칭 클리핑되며 어색하게 잘린다.
+      stretch로 폭 전체를 채우고 텍스트 자체를 가운데 정렬해야 말줄임표가 오른쪽 끝에 정상적으로 보인다.
+    */
+    align-items: stretch;
     gap: 0;
     line-height: 1.35;
+  }
+
+  .roster-slot-pill-label,
+  .roster-slot-pill-count {
+    text-align: center;
   }
 }
 
@@ -879,6 +899,9 @@ button.roster-slot-pill:hover {
   font: inherit;
   text-align: left;
   width: 100%;
+  /* min-width:0이 없으면 이 행이 부모(목록 컬럼) 폭 밖으로 넘쳐 가로 스크롤을 만들 수 있다
+     (.roster-slot-pill에 같은 이유로 min-width:0을 준 것과 동일한 문제) */
+  min-width: 0;
 }
 
 .tactical-picker-row:hover {
@@ -925,7 +948,8 @@ button.roster-slot-pill:hover {
 
 .tactical-picker-row-slots {
   display: flex;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 4px 8px;
   font-weight: 700;
 }
 

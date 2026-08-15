@@ -1,3 +1,15 @@
+/*
+  전역 box-sizing 리셋. 이게 없으면 기본값(content-box)에서는 width:100%를 쓴 요소에
+  padding/border가 그 100% 위에 그대로 더해져, 요소가 항상(뷰포트 폭과 무관하게) 부모보다
+  정확히 (padding+border)만큼 넓게 그려진다 — 택티컬 카드 목록 행 등 여러 곳에서 이 때문에
+  가로 스크롤이 발생했다.
+*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 :root {
   --text: #6b6375;
   --text-h: #08060d;
