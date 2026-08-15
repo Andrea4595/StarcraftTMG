@@ -190,7 +190,7 @@ function RosterPanelBody({
               )
             })}
             <button type="button" className="btn btn-block" onClick={() => setModal({ kind: 'unit-add' })}>
-              + 선택
+              + 새 유닛 추가
             </button>
           </div>
         </>
