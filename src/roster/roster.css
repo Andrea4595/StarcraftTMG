@@ -1,9 +1,24 @@
+/*
+  세로 flex 컬럼 + min-height:100vh로 만들어, 아래 .roster-builder-split이 flex:1로 "남은 뷰포트 높이"를
+  정확히 채우게 한다. 이러면 로스터 탭 줄(.roster-switcher)이 몇 줄을 차지하든 상관없이 좌우 패널이
+  뷰포트 안에 정확히 맞춰지고, 전체 페이지 스크롤 없이 좌우 패널 각자의 overflow-y로만 스크롤된다.
+  (하단 언어 전환 바 44px에 콘텐츠가 가려지지 않도록 아래쪽 여백을 더 둔다)
+*/
 .roster-builder {
   max-width: 1400px;
   margin: 0 auto;
-  /* 하단 언어 전환 바(44px)에 콘텐츠가 가려지지 않도록 아래쪽 여백을 더 둔다 */
   padding: 24px 24px 68px;
   color: var(--text-h);
+  display: flex;
+  flex-direction: column;
+  /*
+    min-height가 아니라 height여야 한다: min-height는 컨테이너의 "최소" 크기만 보장할 뿐 flex-grow 계산에
+    확정된 크기를 주지 못해, 아래 .roster-builder-split이 정확히 남은 높이로 제한되지 않고 내용만큼
+    늘어나 버린다 (그러면 다시 전체 페이지 스크롤이 생긴다). 게임 레퍼런스 화면처럼 페이지 스크롤이
+    필요한 콘텐츠는 overflow를 별도로 막지 않았으므로 100vh를 넘어도 정상적으로 넘쳐 보인다.
+  */
+  height: 100vh;
+  box-sizing: border-box;
 }
 
 /* 일반 실행 버튼(닫기/제거/추가 등) 공통 스타일. 토글/선택 칩(pill 계열)에는 사용하지 않는다 */
@@ -118,21 +133,23 @@
   margin: 0 auto;
 }
 
-/* 화면 분할: 왼쪽은 기존 로스터 화면, 오른쪽은 선택한 유닛/카드 상세 정보. 각자 독립적으로 스크롤된다 */
+/*
+  화면 분할: 왼쪽은 기존 로스터 화면, 오른쪽은 선택한 유닛/카드 상세 정보. 각자 독립적으로 스크롤된다.
+  flex:1 1 auto + min-height:0으로 부모(.roster-builder)가 flex 컬럼으로 확보한 "남은 뷰포트 높이"를
+  그대로 물려받고, align-items:stretch로 두 패널이 그 높이에 맞춰지며 각자 overflow-y:auto로 스크롤한다.
+*/
 .roster-builder-split {
   display: flex;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 20px;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .roster-builder-split .roster-builder-body {
   flex: 1 1 640px;
   min-width: 0;
   margin: 0;
-  position: sticky;
-  top: 24px;
-  /* 뷰포트 높이 - 상단 여백(24px) - 하단 여백(24px) - 하단 언어 전환 바(44px) */
-  max-height: calc(100vh - 92px);
   overflow-y: auto;
 }
 
@@ -142,10 +159,6 @@
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 16px;
-  position: sticky;
-  top: 24px;
-  /* 뷰포트 높이 - 상단 여백(24px) - 하단 여백(24px) - 하단 언어 전환 바(44px) */
-  max-height: calc(100vh - 92px);
   overflow-y: auto;
 }
 
@@ -157,8 +170,6 @@
 
   .roster-builder-split .roster-builder-body,
   .roster-detail-panel {
-    position: static;
-    max-height: none;
     overflow-y: visible;
   }
 
