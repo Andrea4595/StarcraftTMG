@@ -140,7 +140,11 @@ function reducer(state: State, action: Action): State {
           const exclusiveWith = action.exclusiveWith ?? []
           return {
             ...e,
-            upgradeIndexes: [...e.upgradeIndexes.filter((i) => !exclusiveWith.includes(i)), action.upgradeIndex],
+            // 활성화한 순서가 아니라 유닛 카드에 나열된 순서(index 오름차순)로 정렬해 둔다
+            upgradeIndexes: [
+              ...e.upgradeIndexes.filter((i) => !exclusiveWith.includes(i)),
+              action.upgradeIndex,
+            ].sort((a, b) => a - b),
           }
         }),
       )

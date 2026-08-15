@@ -1,5 +1,12 @@
 import type { RaceData, Roster } from '../../types'
-import { findFactionCard, findUnit, groupedTacticalCards, resolveScaledCost, unitEntryMineralCost } from '../rosterCalc'
+import {
+  findFactionCard,
+  findUnit,
+  groupedTacticalCards,
+  resolveScaledCost,
+  unitEntryMineralCost,
+  unitEquippedUpgrades,
+} from '../rosterCalc'
 import type { ReferenceDetailTarget } from './GameReferencePage'
 
 export function GameReferenceCardsView({
@@ -71,9 +78,7 @@ export function GameReferenceCardsView({
               const unit = findUnit(race, entry.unitName)
               if (!unit) return null
               const tier = unit.squad[entry.squadTierIndex]
-              const upgrades = entry.upgradeIndexes
-                .map((i) => unit.upgrades[i])
-                .filter((u): u is NonNullable<typeof u> => u !== undefined)
+              const upgrades = unitEquippedUpgrades(unit, entry)
               return (
                 <li key={entry.id}>
                   <button

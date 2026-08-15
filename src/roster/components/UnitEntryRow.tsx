@@ -1,6 +1,6 @@
 import type { Roster, RosterUnitEntry, UnitCard } from '../../types'
 import { useRosterStore } from '../RosterContext'
-import { resolveScaledCost, unitEntryMineralCost } from '../rosterCalc'
+import { resolveScaledCost, unitEntryMineralCost, unitEquippedUpgrades } from '../rosterCalc'
 import { StatBoxes } from '../../components/card/StatBoxes'
 
 export function UnitEntryRow({
@@ -20,9 +20,7 @@ export function UnitEntryRow({
   const store = useRosterStore()
   const tier = unit.squad[entry.squadTierIndex]
   const cost = unitEntryMineralCost(unit, entry)
-  const equippedUpgrades = entry.upgradeIndexes
-    .map((i) => unit.upgrades[i])
-    .filter((u): u is NonNullable<typeof u> => u !== undefined)
+  const equippedUpgrades = unitEquippedUpgrades(unit, entry)
 
   return (
     <div

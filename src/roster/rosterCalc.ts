@@ -1,4 +1,4 @@
-import type { Ability, Phase, RaceData, Roster, RosterUnitEntry, TacticalCard, UnitCard, UnitType } from '../types'
+import type { Ability, Phase, RaceData, Roster, RosterUnitEntry, TacticalCard, UnitCard, UnitType, Upgrade } from '../types'
 import { UNIT_TYPES } from '../types'
 import { resolveScaledCost } from '../components/card/costDisplay'
 
@@ -24,6 +24,17 @@ export function catalogSquadTierIndexes(unit: UnitCard): number[] {
   return unit.squad
     .map((_, i) => i)
     .filter((i) => !unit.squad.slice(i + 1).some((later) => later.pts === unit.squad[i].pts))
+}
+
+/**
+ * 유닛에 장착된 업그레이드 목록. entry.upgradeIndexes는 사용자가 켠 순서라 그대로 쓰면 화면마다
+ * 활성화 순서로 뒤죽박죽 보이므로, 유닛 카드에 나열된 순서(index 오름차순)로 정렬해 돌려준다.
+ */
+export function unitEquippedUpgrades(unit: UnitCard, entry: RosterUnitEntry): Upgrade[] {
+  return [...entry.upgradeIndexes]
+    .sort((a, b) => a - b)
+    .map((i) => unit.upgrades[i])
+    .filter((u): u is NonNullable<typeof u> => u !== undefined)
 }
 
 export function unitEntryMineralCost(unit: UnitCard, entry: RosterUnitEntry): number {
