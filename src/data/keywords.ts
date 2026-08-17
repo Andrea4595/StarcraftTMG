@@ -14,6 +14,13 @@ export const KEYWORDS: KeywordEntry[] = [
     },
   },
   {
+    name: 'ACTIVATION MARKER',
+    definition: {
+      en: 'A physical marker set beside a Unit that has completed its turn in the current Phase. Activation Markers are double-sided: the arrow-up side shows the Unit has finished its turn in the Movement Phase (Phase 1), and the reverse side shows it has finished its turn in the Assault Phase (Phase 2) (Part 7.3.2).',
+      ko: '현재 Phase에서 차례를 마친 유닛 옆에 놓는 실물 마커. Activation Marker는 양면으로 되어 있으며, 화살표가 위를 향한 면은 그 유닛이 Movement Phase(Phase 1)에서 차례를 마쳤음을, 뒷면은 Assault Phase(Phase 2)에서 차례를 마쳤음을 나타낸다 (Part 7.3.2).',
+    },
+  },
+  {
     name: 'ACTIVE PLAYER',
     definition: {
       en: 'The player whose turn it is to act.',
@@ -28,6 +35,13 @@ export const KEYWORDS: KeywordEntry[] = [
     },
   },
   {
+    name: 'ARMOUR POOL',
+    definition: {
+      en: "The second of the three dice pools used to resolve an attack. The defender rolls all dice in the Armour Pool against the target Unit's Armour characteristic: each die that meets or exceeds the Armour value is a success and is discarded, while each failure moves to the Damage Pool. Dice moved out of the Armour Pool by Surge or CRITICAL HIT are set directly into the Damage Pool without an Armour Roll (Part 8.7.4).",
+      ko: '공격을 처리할 때 사용하는 세 개의 주사위 풀 중 두 번째 풀. 방어자는 Armour Pool에 있는 모든 주사위를 대상 유닛의 Armour 특성치에 대해 굴린다: Armour 수치 이상이 나온 주사위는 성공으로 버려지고, 실패한 주사위는 Damage Pool로 옮겨진다. Surge나 CRITICAL HIT으로 Armour Pool에서 빠져나온 주사위는 Armour Roll 없이 곧바로 Damage Pool로 들어간다 (Part 8.7.4).',
+    },
+  },
+  {
     name: 'ARMY SLOT',
     definition: {
       en: 'Army Slots determine how many and what types of Units may be included in an army. Each Army Slot has a specific type: Core, Elite, Support, Air, or Hero. Every Unit occupies a number of Army Slots of its designated type equal to its starting Supply Value.\nThe Faction Card provides the initial pool of Army Slots. Additional Army Slots are unlocked by purchasing Tactical Cards with Vespene Gas during Army Building (Part 9.1.5). Unused Army Slots are lost - they cannot be converted, exchanged, or carried forward.',
@@ -35,10 +49,31 @@ export const KEYWORDS: KeywordEntry[] = [
     },
   },
   {
+    name: 'ATTACK POOL',
+    definition: {
+      en: "The first of the three dice pools used to resolve an attack. Generate a number of dice equal to each attacking model's Rate of Attack (RoA), plus a Surge Die if the weapon has an S Dice characteristic. Roll all dice against the weapon's Hit characteristic: each die that meets or exceeds the Hit value is a success and moves to the Armour Pool, while failures are discarded (Part 8.7.4).",
+      ko: '공격을 처리할 때 사용하는 세 개의 주사위 풀 중 첫 번째 풀. 공격하는 각 모델의 Rate of Attack(RoA)만큼 주사위를 생성하고, 무기에 S Dice 특성치가 있다면 Surge Die를 하나 추가한다. 모든 주사위를 무기의 Hit 특성치에 대해 굴린다: Hit 수치 이상이 나온 주사위는 성공으로 Armour Pool로 옮기고, 실패한 주사위는 버린다 (Part 8.7.4).',
+    },
+  },
+  {
     name: 'AVAILABLE SUPPLY',
     definition: {
       en: 'Available Supply is the remaining Supply capacity available for new deployments. It equals the current Supply Pool minus the Total Current Supply Value of all Friendly Units on the battlefield (Part 8.3.2).\nA Unit may only be deployed from Reserves if its Current Supply Value is less than or equal to the Available Supply. At no point may the Total Current Supply of a player\'s on-table Units exceed the Supply Pool. Units Destroyed or reduced by casualties free up Available Supply for new arrivals. In the final Round of the game, the Supply Pool becomes unlimited, and the Available Supply restrictions are lifted.',
       ko: 'Available Supply는 새로 배치할 수 있는 남은 Supply 여유분이다. 현재 Supply Pool에서 전장에 있는 모든 아군 유닛의 Total Current Supply Value를 뺀 값과 같다 (Part 8.3.2).\n유닛은 자신의 Current Supply Value가 Available Supply 이하일 때만 Reserves에서 배치될 수 있다. 어떤 시점에도 한 플레이어의 전장 위 유닛들의 Total Current Supply는 Supply Pool을 넘을 수 없다. 유닛이 Destroyed되거나 피해로 줄어들면 그만큼 Available Supply가 확보되어 새로운 배치에 쓸 수 있다. 게임의 마지막 라운드에는 Supply Pool이 무제한이 되며 Available Supply 제한이 사라진다.',
+    },
+  },
+  {
+    name: 'BASE-TO-BASE CONTACT',
+    definition: {
+      en: 'Two models are in Base-to-Base Contact when their bases are physically touching. The distance between models in Base-to-Base Contact is 0" (Part 4.1).',
+      ko: '두 모델의 베이스가 물리적으로 맞닿아 있으면 Base-to-Base Contact 상태다. Base-to-Base Contact 상태인 모델 사이의 거리는 0"이다 (Part 4.1).',
+    },
+  },
+  {
+    name: 'BATCH',
+    definition: {
+      en: "A Batch consists of all models firing the same weapon at the same target. All models using the same Weapon Profile must fire at the same target - a single profile's fire cannot be split. When a Unit has multiple Weapon Profiles or fires at different targets, each is resolved as a separate Batch: declare the target of one Batch, resolve it fully, then declare the next (Part 8.7.3).",
+      ko: 'Batch는 같은 무기로 같은 대상을 쏘는 모든 모델로 구성된다. 같은 Weapon Profile을 사용하는 모든 모델은 같은 대상을 쏴야 한다 - 하나의 프로필의 사격을 나눠서 쏠 수 없다. 유닛이 여러 Weapon Profile을 가지고 있거나 서로 다른 대상을 쏠 때는 각각을 별도의 Batch로 처리한다: 한 Batch의 대상을 선언하고 완전히 처리한 다음, 다음 Batch의 대상을 선언한다 (Part 8.7.3).',
     },
   },
   {
@@ -77,6 +112,20 @@ export const KEYWORDS: KeywordEntry[] = [
     },
   },
   {
+    name: 'COHERENCY',
+    definition: {
+      en: 'Coherency is checked at the end of any action that repositions models, including Move, Deploy, Charge, Disengage, Close Ranks, Run, PLACE, and SUMMON. At the end of such an action, all models in the Unit must be Wholly Within 3" of the Leading Model and able to trace a valid Coherency Link to it - if met, the Unit is In Coherency. A Unit with one or more models set beyond 3" (as close as possible while maintaining a valid Coherency Link) is Out of Coherency; Out of Coherency Units cannot control or contest Mission Markers. Casualties from any source never trigger a Coherency check and never cause a Unit to become Out of Coherency (Part 4.4).',
+      ko: 'Coherency는 모델을 재배치하는 모든 행동(Move, Deploy, Charge, Disengage, Close Ranks, Run, PLACE, SUMMON 포함)이 끝날 때 확인한다. 그런 행동이 끝나면, 유닛의 모든 모델은 Leading Model로부터 3" 이내에 완전히(Wholly Within) 있어야 하고 그것까지 유효한 Coherency Link를 그을 수 있어야 한다 - 이 조건을 만족하면 그 유닛은 In Coherency 상태다. 하나 이상의 모델이 (유효한 Coherency Link를 유지하는 선에서 가능한 한 가깝게 놓았음에도) 3"를 벗어나 있는 유닛은 Out of Coherency 상태이며, Out of Coherency 유닛은 Mission Marker를 Control하거나 Contest할 수 없다. 어떤 원인으로 인한 casualty도 Coherency 확인을 유발하지 않으며, 유닛을 Out of Coherency로 만들지 않는다 (Part 4.4).',
+    },
+  },
+  {
+    name: 'COHERENCY LINK',
+    definition: {
+      en: 'A Coherency Link is a chain of imaginary lines drawn model-to-model through models of the same Unit, used to check whether a model can legally be set In Coherency. Links cannot pass through models from other Units, terrain, or gaps that the Leading Model itself could not move through, though a link may pass through Enemy models the Unit is currently Engaged with. A model that cannot find a legal position while maintaining a valid Coherency Link is immediately removed as a casualty. For a Flying Unit, Coherency Links ignore terrain and may pass through models from other Units (Part 4.4).',
+      ko: 'Coherency Link는 같은 유닛의 모델들을 모델 대 모델로 이어 그은 가상의 선들이며, 어떤 모델이 In Coherency 상태로 합법적으로 배치될 수 있는지 확인하는 데 쓰인다. Link는 다른 유닛의 모델, 지형, 또는 Leading Model 자신이 통과해서 이동할 수 없었을 틈을 통과할 수 없다. 다만 그 유닛이 현재 Engaged 상태인 적 모델은 통과할 수 있다. 유효한 Coherency Link를 유지하면서 합법적인 위치를 찾을 수 없는 모델은 즉시 casualty로 제거된다. Flying 유닛의 경우 Coherency Link는 지형을 무시하며 다른 유닛의 모델도 통과할 수 있다 (Part 4.4).',
+    },
+  },
+  {
     name: 'COMBAT TAGS',
     definition: {
       en: 'Combat Tags are keywords printed on a Unit Card that identify a Unit\'s physical nature and tactical class.\nType Tags: Armoured, Biological, Light, Mechanical, Psionic, Flying, and Ground.\n• Targeting: Some weapons can fire only at specific Combat Tags (e.g., "Target: Flying").\n• Surge: A weapon\'s Surge efficiency triggers only when the target has the Combat Tag listed in the weapon\'s Surge Type (Part 8.7.4).\n• Bonuses: Abilities such as ANTI-EVADE (X) or PIERCE (X) often apply only against specific Combat Tags.\nNote: The Ground Combat Tag and the GROUND LEVEL elevation (Part 8.5.3) are distinct concepts. A Flying Unit standing on the playmat is at GROUND LEVEL but does not have the Ground Combat Tag. Throughout these rules, Ground in bold always refers to the Combat Tag. GROUND LEVEL always refers to elevation.',
@@ -109,6 +158,13 @@ export const KEYWORDS: KeywordEntry[] = [
     definition: {
       en: 'The Current Supply Value of a Unit is its Supply Value at this moment, based on the number of models remaining in the Unit as shown on the Supply Profile (Part 6.1). Update the Current Supply Value immediately whenever a casualty reduces the model count into a lower bracket.\nThe Current Supply Value is referenced when checking whether a Unit may be deployed from Reserves (Part 8.3.2), when determining Mission Marker Control (Part 8.9.1), when evaluating Tactical Mass for Disengage (Part 8.5.4), and when calculating Victory Points for Supply-based scoring conditions.',
       ko: '유닛의 Current Supply Value는 그 시점에서의 Supply Value로, Supply Profile(Part 6.1)에 표시된 대로 유닛에 남아 있는 모델 수를 기준으로 한다. casualty로 모델 수가 더 낮은 구간으로 줄어들면 즉시 Current Supply Value를 갱신한다.\nCurrent Supply Value는 유닛이 Reserves에서 배치될 수 있는지 확인할 때(Part 8.3.2), Mission Marker의 Control을 판정할 때(Part 8.9.1), Disengage를 위한 Tactical Mass를 평가할 때(Part 8.5.4), 그리고 Supply 기반 채점 조건의 승점을 계산할 때 참조된다.',
+    },
+  },
+  {
+    name: 'DAMAGE POOL',
+    definition: {
+      en: "The third of the three dice pools used to resolve an attack. Each die remaining in the Damage Pool inflicts Damage equal to the weapon's Damage characteristic. If the target Unit is eligible for an Evade Roll, the defender rolls all dice in the Damage Pool against the Unit's Evade characteristic before Damage is applied - each die that meets or exceeds the Evade value is removed, and the remaining dice are confirmed Damage (Part 8.7.4).",
+      ko: '공격을 처리할 때 사용하는 세 개의 주사위 풀 중 세 번째 풀. Damage Pool에 남은 주사위 하나마다 무기의 Damage 특성치만큼 Damage를 입힌다. 대상 유닛이 Evade Roll을 할 자격이 있다면, Damage를 적용하기 전에 방어자는 Damage Pool의 모든 주사위를 그 유닛의 Evade 특성치에 대해 굴린다 - Evade 수치 이상이 나온 주사위는 제거되고, 남은 주사위만큼 Damage가 확정된다 (Part 8.7.4).',
     },
   },
   {
@@ -175,6 +231,20 @@ export const KEYWORDS: KeywordEntry[] = [
     },
   },
   {
+    name: 'EVADE ROLL',
+    definition: {
+      en: 'A defensive roll made in the Damage Pool step of an attack, performed only if the target Unit qualifies: either a Special Ability or keyword grants an Evade Roll, or the target is Engaged and suffering Damage from a Ranged Attack. The defender rolls all dice in the Damage Pool against the Unit\'s Evade characteristic; each die that meets or exceeds the Evade value is a success and is removed (Part 8.7.4).',
+      ko: '공격의 Damage Pool 단계에서 이루어지는 방어 굴림으로, 대상 유닛이 다음 조건 중 하나를 만족할 때만 진행한다: Special Ability나 키워드가 Evade Roll을 부여하거나, 대상이 Engaged 상태에서 Ranged Attack으로 인한 Damage를 받고 있을 때. 방어자는 Damage Pool의 모든 주사위를 그 유닛의 Evade 특성치에 대해 굴린다; Evade 수치 이상이 나온 주사위는 성공으로 제거된다 (Part 8.7.4).',
+    },
+  },
+  {
+    name: 'FACTION INDICATOR',
+    definition: {
+      en: 'A Marker used on Mission Markers to show which player currently controls that Mission Marker. Some Special Abilities also use Faction Indicators to mark an area of the battlefield (Part 7.3.2).',
+      ko: '어느 플레이어가 그 Mission Marker를 현재 Control하고 있는지 표시하기 위해 Mission Marker 위에 놓는 마커. 일부 Special Ability는 전장의 특정 구역을 표시하기 위해 Faction Indicator를 사용하기도 한다 (Part 7.3.2).',
+    },
+  },
+  {
     name: 'FACTION TAGS',
     definition: {
       en: 'Faction Tags are keywords printed on Unit Cards, Tactical Cards, and Faction Cards that identify allegiance.\n• Race Tags: Terran, Zerg, Protoss.\n• Sub-Faction Tags: Specific broods or organisations, e.g., Kerrigan\'s Swarm, Raynor\'s Raiders.\n• Function: During Army Building, a player may include only Units and Tactical Cards whose Faction Tags all appear on the chosen Faction Card. If even one tag on the Unit or Tactical Card does not appear on the Faction Card, that card cannot be included. A Unit with fewer tags than the Faction Card is permitted- it only requires its own tags to be present (Part 9.1.2).',
@@ -207,6 +277,13 @@ export const KEYWORDS: KeywordEntry[] = [
     definition: {
       en: "All Units, Tokens, and cards belonging to the Controlling Player are Friendly to one another. In team games, all teammates' Units, Tokens, and cards are also Friendly. A Unit's own models are always Friendly to it. Friendly is the opposite of Enemy and is used throughout the rules to determine targeting restrictions, movement interactions, and ability eligibility.",
       ko: '같은 소유 플레이어에게 속한 모든 유닛, 토큰, 카드는 서로 Friendly(아군)다. 팀전에서는 팀원의 모든 유닛, 토큰, 카드도 Friendly다. 유닛 자신의 모델들은 언제나 그 유닛에게 Friendly다. Friendly는 Enemy의 반대 개념이며, 대상 지정 제한, 이동 상호작용, 능력 사용 조건 등 규칙 전반에서 쓰인다.',
+    },
+  },
+  {
+    name: 'GAP CLEARANCE',
+    definition: {
+      en: 'A gap is any physical space between terrain pieces or models through which a model\'s path of movement passes. The Leading Model can pass through a gap depending on the Unit\'s Size: Size 2 or lower requires a gap at least 1" wide; Size 3 or larger requires a gap at least 3" wide. This applies to Move, Run, Charge, Disengage, and Close Ranks. Flying Units ignore Gap Clearance during movement (Part 4.6).',
+      ko: 'gap(틈)이란 모델의 이동 경로가 지나가는, 지형물이나 모델 사이의 물리적 공간을 말한다. Leading Model이 gap을 통과할 수 있는지는 유닛의 Size에 따라 다르다: Size 2 이하는 폭 1" 이상의 gap이 필요하고, Size 3 이상은 폭 3" 이상의 gap이 필요하다. 이는 Move, Run, Charge, Disengage, Close Ranks에 모두 적용된다. Flying 유닛은 이동 중 Gap Clearance를 무시한다 (Part 4.6).',
     },
   },
   {
@@ -490,10 +567,24 @@ export const KEYWORDS: KeywordEntry[] = [
     },
   },
   {
+    name: 'SURGE',
+    definition: {
+      en: "A weapon's Surge Die (rolled alongside the Attack Roll if the weapon has an S Dice characteristic) is resolved after the Roll to Hit. Check if the target Unit's Combat Tag matches the weapon's Surge Type: if not, the Surge Die result is discarded and no dice move. If it matches, move a number of dice equal to the Surge Die result from the Armour Pool directly to the Damage Pool, bypassing Armour entirely - Surge can never move more dice than are currently in the Armour Pool (Part 8.7.4).",
+      ko: '무기의 Surge Die(무기에 S Dice 특성치가 있으면 Attack Roll과 함께 굴림)는 Roll to Hit 이후에 처리한다. 대상 유닛의 Combat Tag가 무기의 Surge Type과 일치하는지 확인한다: 일치하지 않으면 Surge Die 결과는 버려지며 어떤 주사위도 옮기지 않는다. 일치하면 Surge Die 결과만큼의 주사위를 Armour Pool에서 곧바로 Damage Pool로 옮기며, 이는 Armour를 완전히 건너뛴다 - Surge는 그 시점에 Armour Pool에 있는 주사위 수보다 더 많이 옮길 수 없다 (Part 8.7.4).',
+    },
+  },
+  {
     name: 'TACTICAL MASS',
     definition: {
       en: 'A Unit has Tactical Mass when its Current Supply Value exceeds the Combined Current Supply Value of all Enemy Units it is Engaged with. A Unit with Tactical Mass ignores the Disengage penalty (Part 8.5.4): it may Ranged Attack and Charge normally in the following Assault Phase after Disengaging.',
       ko: '유닛의 Current Supply Value가 자신과 Engaged 상태인 모든 적 유닛의 Combined Current Supply Value를 넘으면 그 유닛은 Tactical Mass를 가진다. Tactical Mass를 가진 유닛은 Disengage 페널티(Part 8.5.4)를 무시한다: Disengage한 다음 Assault Phase에서 평소대로 Ranged Attack과 Charge를 할 수 있다.',
+    },
+  },
+  {
+    name: 'TARGET POINT',
+    definition: {
+      en: 'The reference point used to align a Template Weapon: the centre of the target model\'s base. For a Blast Template (BT), the template must cover as much of the target model\'s base as possible; for a Flamer Template (FT), the narrow end must be flush with the attacking model\'s base edge and aimed at the target. Templates affect only models on the same elevation level as the Target Point (Part 8.7.6).',
+      ko: 'Template Weapon(템플릿 무기)의 정렬 기준점으로, 대상 모델 베이스의 중심을 가리킨다. Blast Template(BT)는 대상 모델의 베이스를 최대한 많이 덮도록 놓아야 하고, Flamer Template(FT)는 좁은 끝이 공격 모델의 베이스 가장자리에 맞닿은 채 대상을 겨냥해야 한다. 템플릿은 Target Point와 같은 고도에 있는 모델에게만 영향을 준다 (Part 8.7.6).',
     },
   },
   {

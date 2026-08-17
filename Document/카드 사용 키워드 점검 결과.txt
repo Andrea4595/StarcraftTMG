@@ -1,0 +1,64 @@
+카드 사용 키워드 점검 결과 (2026-08-17)
+========================================
+
+조사 범위
+- src/data 아래 모든 Faction/Tactical/Unit 카드 데이터 (index.ts, units/*.ts, tactical/*.ts)
+- weapon.stat.keyword 구조화 필드 (무기에 붙는 키워드 뱃지)
+- 모든 rule.en / rule.ko 능력 설명문 안에서 대문자(ALL CAPS)로 등장하는 키워드 스타일 용어
+
+방법
+- weapon.stat.keyword 배열에 등장하는 모든 { name, suffix } 값을 수집
+- 능력 설명문에서 정규식으로 대문자 연속 단어를 추출해 키워드 후보로 수집
+- 두 목록을 합쳐 중복 제거 후 src/data/keywords.ts (KEYWORDS)와 이름 대조
+
+결과: 정의 누락 없음
+--------------------
+현재 카드에 등장하는 모든 키워드는 keywords.ts에 이미 정의되어 있습니다.
+발견된 고유 키워드 목록 (전부 매칭 확인됨):
+
+ACCESS POINT
+ANTI-EVADE (X)
+BUFF [Characteristic] (X)
+BULKY
+BURST FIRE Y" (X)
+CRITICAL HIT (X)
+DEBUFF [Characteristic] (X)
+DISPLACEMENT
+DODGE (X)
+GROUND LEVEL
+HEAL (X)
+HIDDEN
+HITS X (Y)
+IMPACT (X) Y
+IMPASSABLE TERRAIN
+INDIRECT FIRE
+INSTANT
+LOCKED IN (X)
+LONG RANGE (X)
+NON-LETHAL DAMAGE (X)
+ON CREEP
+PIERCE [TAG] X
+PINPOINT
+PLACE (X)
+PRECISION (X)
+REPEATABLE
+RESPAWN (X)
+SIDEARM
+SPECIALIST
+STAY IN PLAY
+SUMMON (Unit Name)
+TOUGH (X)
+
+제외한 항목 (키워드가 아니라 종족별 자원 약어)
+- CP  (Terran, Command Point)
+- BM  (Zerg, Bio-Mass 추정)
+- EN / PE (Protoss, Psionic Energy)
+
+참고
+----
+이번에 PART 2~7 룰북 본문을 근거로 keywords.ts에 새로 추가한 13개 항목
+(ACTIVATION MARKER, ARMOUR POOL, ATTACK POOL, BASE-TO-BASE CONTACT, BATCH,
+COHERENCY, COHERENCY LINK, DAMAGE POOL, EVADE ROLL, FACTION INDICATOR,
+GAP CLEARANCE, SURGE, TARGET POINT)는 순수 규칙 엔진 용어라서
+현재 어떤 카드의 keyword 필드나 능력 설명문에도 아직 등장하지 않습니다.
+카드 쪽 감사와는 별개로, 룰북 완전성을 위해 추가한 것입니다.
