@@ -7,6 +7,7 @@ import {
   unitEntryMineralCost,
   unitEquippedUpgrades,
 } from '../rosterCalc'
+import { unitStatEntries } from '../../components/card/StatBoxes'
 import type { ReferenceDetailTarget } from './GameReferencePage'
 
 export function GameReferenceCardsView({
@@ -95,6 +96,14 @@ export function GameReferenceCardsView({
                       <span className="game-ref-item-name">{unit.name}</span>
                       {tier && <span className="game-ref-item-tag">{tier.modelMax} Models</span>}
                       <span className="game-ref-item-cost">{unitEntryMineralCost(unit, entry)}</span>
+                    </div>
+                    <div className="game-ref-item-stats">
+                      {unitStatEntries(unit).map(({ label, value }) => (
+                        <span className="game-ref-item-stat" key={label}>
+                          <span className="game-ref-item-stat-label">{label}</span>
+                          <span className="game-ref-item-stat-value">{value}</span>
+                        </span>
+                      ))}
                     </div>
                     {upgrades.length > 0 && (
                       <div className="game-ref-upgrades-row">

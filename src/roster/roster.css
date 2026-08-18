@@ -833,6 +833,28 @@ button.roster-slot-pill:hover {
   color: var(--text-h);
 }
 
+/* 제목 옆에 출처 종류(UNIT/TACTICAL) 같은 배지를 함께 붙일 때 쓰는 줄 */
+.modal-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/*
+  즐겨찾기한 능력의 출처가 유닛인지 택티컬/팩션 카드인지 표시하는 배지. 둘 다 한눈에 식별되도록 색을
+  항상 인라인 style로 넘겨받는다: 유닛이면 게임 레퍼런스 곳곳에서 쓰는 유닛 타입 색(UNIT_TYPE_COLORS),
+  카드면 노란색(--gc-yellow)으로 구분한다.
+*/
+.modal-source-badge {
+  flex: 0 0 auto;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 2px 7px;
+  border-radius: 4px;
+  border: 1px solid currentColor;
+}
+
 .modal-subheader {
   padding: 12px 18px;
   border-bottom: 1px solid var(--border);
@@ -886,9 +908,13 @@ button.roster-slot-pill:hover {
   min-width: 0;
 }
 
+/*
+  모바일 폭에서는 상세 패널을 아예 표시하지 않는다 (좁은 화면에 목록과 상세를 함께 우겨넣으면 둘 다
+  보기 불편해서). 대신 카드를 누르면 TacticalCardModal이 별도의 상세 모달을 띄운다.
+*/
 @media (max-width: 700px) {
-  .tactical-picker {
-    flex-direction: column;
+  .tactical-picker-detail {
+    display: none;
   }
 }
 
@@ -982,6 +1008,31 @@ button.roster-slot-pill:hover {
   color: #221a02;
   border-radius: 4px;
   padding: 2px 6px;
+}
+
+/*
+  팩션 카드 행의 '선택' 버튼: 카드 본문 클릭은 상세 모달을 여는 데 쓰이므로, 실제 선택은 이 버튼으로
+  분리한다. 기본은 .gallery-qty-btn과 같은 회색이고, 이미 선택된 카드일 때만 '+' 버튼
+  (.gallery-qty-btn-add)과 같은 녹색으로 바뀌어 선택 상태를 알려준다.
+*/
+.tactical-picker-select-btn {
+  flex: 0 0 auto;
+  margin-left: auto;
+  border: none;
+  border-radius: 999px;
+  background: #2b2e3a;
+  color: #e5e7eb;
+  padding: 2px 10px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.6;
+  cursor: pointer;
+}
+
+.tactical-picker-select-btn-active {
+  background: #4ade80;
+  color: #062012;
 }
 
 .tactical-picker-row-meta {

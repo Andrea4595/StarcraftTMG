@@ -176,29 +176,29 @@ export function unitActiveAbilities(unit: UnitCard, entry: RosterUnitEntry): Abi
 }
 
 export interface PhaseAbilityGroup {
+  /** 화면에 보여줄 이름. 같은 유닛이 로스터에 여러 장이면 "Marine #2"처럼 번호가 붙는다 */
   sourceLabel: string
+  /**
+   * 즐겨찾기 식별에 쓰는 안정적인 이름(유닛/카드 원본 이름). sourceLabel과 달리 로스터에 같은 유닛이
+   * 몇 장 있든 항상 같은 값이라, 즐겨찾기는 유닛/카드 종류 단위로 공유된다.
+   */
+  sourceName: string
   /** 유닛에서 나온 그룹일 때만 지정 (색상 강조용) */
   unitType?: UnitType
   abilities: Ability[]
 }
 
-function byPhase(ability: Ability, phase: Phase): boolean {
-  return ability.phase === phase || ability.phase === 'Any'
-}
-
-/** 로스터에 포함된 모든 카드/유닛 중, 지정한 페이즈(+Any)에 실제로 쓸 수 있는 능력만 출처별로 묶어 반환한다 */
-export function rosterAbilitiesByPhase(race: RaceData, roster: Roster, phase: Phase): PhaseAbilityGroup[] {
+/** 로스터에 포함된 모든 카드/유닛의 능력을 출처별로 묶는다 (페이즈/즐겨찾기 필터는 호출부에서 따로 적용) */
+function rosterAbilitySources(race: RaceData, roster: Roster): PhaseAbilityGroup[] {
   const groups: PhaseAbilityGroup[] = []
 
   const factionCard = findFactionCard(race, roster)
   if (factionCard) {
-    const abilities = factionCard.cardAbilities.filter((a) => byPhase(a, phase))
-    if (abilities.length > 0) groups.push({ sourceLabel: factionCard.name, abilities })
+    groups.push({ sourceLabel: factionCard.name, sourceName: factionCard.name, abilities: factionCard.cardAbilities })
   }
 
   for (const { card } of groupedTacticalCards(race, roster)) {
-    const abilities = card.cardAbilities.filter((a) => byPhase(a, phase))
-    if (abilities.length > 0) groups.push({ sourceLabel: card.name, abilities })
+    groups.push({ sourceLabel: card.name, sourceName: card.name, abilities: card.cardAbilities })
   }
 
   const nameTotal = new Map<string, number>()
@@ -212,9 +212,33 @@ export function rosterAbilitiesByPhase(race: RaceData, roster: Roster, phase: Ph
     nameSeen.set(entry.unitName, seen)
     const sourceLabel = (nameTotal.get(entry.unitName) ?? 0) > 1 ? `${unit.name} #${seen}` : unit.name
 
-    const abilities = unitActiveAbilities(unit, entry).filter((a) => byPhase(a, phase))
-    if (abilities.length > 0) groups.push({ sourceLabel, unitType: unit.type, abilities })
+    groups.push({ sourceLabel, sourceName: unit.name, unitType: unit.type, abilities: unitActiveAbilities(unit, entry) })
   }
 
   return groups
+}
+
+function byPhase(ability: Ability, phase: Phase): boolean {
+  return ability.phase === phase || ability.phase === 'Any'
+}
+
+/** 로스터에 포함된 모든 카드/유닛 중, 지정한 페이즈(+Any)에 실제로 쓸 수 있는 능력만 출처별로 묶어 반환한다 */
+export function rosterAbilitiesByPhase(race: RaceData, roster: Roster, phase: Phase): PhaseAbilityGroup[] {
+  return rosterAbilitySources(race, roster)
+    .map((g) => ({ ...g, abilities: g.abilities.filter((a) => byPhase(a, phase)) }))
+    .filter((g) => g.abilities.length > 0)
+}
+
+export function isFavoriteAbility(roster: Roster, sourceName: string, abilityName: string): boolean {
+  return roster.favoriteAbilities.some((f) => f.source === sourceName && f.name === abilityName)
+}
+
+/** 로스터 전체에서 즐겨찾기된 능력만 출처별로 묶어 반환한다. 무기 프로필은 즐겨찾기 대상이 아니다 */
+export function rosterFavoriteAbilities(race: RaceData, roster: Roster): PhaseAbilityGroup[] {
+  return rosterAbilitySources(race, roster)
+    .map((g) => ({
+      ...g,
+      abilities: g.abilities.filter((a) => a.kind === 'rule' && isFavoriteAbility(roster, g.sourceName, a.name)),
+    }))
+    .filter((g) => g.abilities.length > 0)
 }

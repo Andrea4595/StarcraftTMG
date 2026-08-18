@@ -20,4 +20,10 @@ export interface Roster {
   /** 팩션 카드 외에 추가로 포함시킨 택티컬 카드 이름들 (팩션 카드는 항상 포함되므로 별도 표기 안 함) */
   tacticalCardNames: string[]
   units: RosterUnitEntry[]
+  /**
+   * 게임 레퍼런스 화면에서 즐겨찾기한 RuleAbility들. source는 그 능력이 속한 유닛/카드의 원본 이름
+   * (예: "Marine"), name은 어빌리티 이름. 같은 이름의 어빌리티라도 유닛/카드마다 내용이 다를 수 있어
+   * source+name 조합으로 식별한다.
+   */
+  favoriteAbilities: { source: string; name: string }[]
 }

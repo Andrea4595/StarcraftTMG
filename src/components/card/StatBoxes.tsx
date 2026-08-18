@@ -16,17 +16,27 @@ function formatSpeed(spd: UnitCard['stat']['spd'], singleModel: boolean): string
   return `${spd.move}/${spd.move + spd.cohesion}`
 }
 
-export function StatBoxes({ unit }: { unit: UnitCard }) {
+/** SHLD/SPD/EVA/ARM/HP/SIZ 여섯 스탯을 라벨-값 쌍으로 정리한다. 전체 카드(StatBoxes)와 게임 레퍼런스의
+ * 간소화된 유닛 카드가 같은 값 서식(formatSpeed, null 처리 등)을 공유하기 위한 공용 헬퍼. */
+export function unitStatEntries(unit: UnitCard): { label: string; value: string }[] {
   const singleModel = unit.squad.every((s) => s.modelMax === 1)
   const { stat } = unit
+  return [
+    { label: 'SHLD', value: stat.shld === null ? '-' : String(stat.shld) },
+    { label: 'SPD', value: formatSpeed(stat.spd, singleModel) },
+    { label: 'EVA', value: stat.eva },
+    { label: 'ARM', value: stat.arm },
+    { label: 'HP', value: String(stat.hp) },
+    { label: 'SIZ', value: stat.siz === null ? '-' : String(stat.siz) },
+  ]
+}
+
+export function StatBoxes({ unit }: { unit: UnitCard }) {
   return (
     <div className="card-statboxes">
-      <StatBox label="SHLD" value={stat.shld === null ? '-' : String(stat.shld)} />
-      <StatBox label="SPD" value={formatSpeed(stat.spd, singleModel)} />
-      <StatBox label="EVA" value={stat.eva} />
-      <StatBox label="ARM" value={stat.arm} />
-      <StatBox label="HP" value={String(stat.hp)} />
-      <StatBox label="SIZ" value={stat.siz === null ? '-' : String(stat.siz)} />
+      {unitStatEntries(unit).map(({ label, value }) => (
+        <StatBox key={label} label={label} value={value} />
+      ))}
     </div>
   )
 }

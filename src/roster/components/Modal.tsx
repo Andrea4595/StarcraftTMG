@@ -7,7 +7,8 @@ export function Modal({
   onClose,
   children,
 }: {
-  title: string
+  /** 보통은 문자열이지만, 제목 옆에 배지 등을 함께 붙여야 할 때는 커스텀 노드를 넘길 수 있다 */
+  title: ReactNode
   /** 헤더 아래, 스크롤되는 본문 위에 고정으로 표시되는 요약 정보 (예산/슬롯 현황 등) */
   subHeader?: ReactNode
   onClose: () => void
