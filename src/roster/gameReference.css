@@ -65,14 +65,15 @@
   flex-wrap: wrap;
 }
 
-/* 화면 최상단의 '카드 보기/즐겨찾기' 화면 전환 탭 버튼 한 벌의 공통 스타일 */
+/* 화면 최상단의 '로스터/즐겨찾기' 화면 전환 탭 버튼 한 벌의 공통 스타일 */
 .game-ref-tabs {
   display: flex;
   gap: 8px;
 }
 
 .game-ref-tab {
-  flex: 1;
+  flex: 0 0 auto;
+  white-space: nowrap;
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 6px 12px;

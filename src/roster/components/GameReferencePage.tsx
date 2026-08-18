@@ -128,7 +128,7 @@ export function GameReferencePage({
                 className={`game-ref-tab ${mode === 'cards' ? 'game-ref-tab-active' : ''}`}
                 onClick={() => setMode('cards')}
               >
-                카드 보기
+                로스터
               </button>
               <button
                 type="button"
