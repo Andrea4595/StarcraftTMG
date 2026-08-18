@@ -1,11 +1,12 @@
 import type { TacticalCard } from '../../types'
-import { AbilitiesSection } from './AbilitiesSection'
+import { AbilitiesSection, type FavoriteToggle } from './AbilitiesSection'
 
 export function TacticalCardView({
   card,
   resourceLabel,
   isFactionCard = false,
   count,
+  favorite,
 }: {
   card: TacticalCard
   /** 이 종족의 자원 명칭 (전체/축약형) */
@@ -14,6 +15,8 @@ export function TacticalCardView({
   isFactionCard?: boolean
   /** 로스터에 이 카드가 몇 장 포함됐는지. 2장 이상이면 이름 옆에 배지로 표시 */
   count?: number
+  /** 지정하면 능력 이름 옆에 즐겨찾기 별 버튼이 붙는다 (게임 레퍼런스 화면 전용) */
+  favorite?: FavoriteToggle
 }) {
   const subtitle = isFactionCard ? 'Faction Card' : card.gasPts !== undefined ? `${card.gasPts} Gas` : ''
 
@@ -49,7 +52,12 @@ export function TacticalCardView({
         </div>
       </div>
 
-      <AbilitiesSection abilities={card.cardAbilities} resourceLabel={resourceLabel.abbr} title="CARD ABILITIES" />
+      <AbilitiesSection
+        abilities={card.cardAbilities}
+        resourceLabel={resourceLabel.abbr}
+        title="CARD ABILITIES"
+        favorite={favorite}
+      />
     </div>
   )
 }

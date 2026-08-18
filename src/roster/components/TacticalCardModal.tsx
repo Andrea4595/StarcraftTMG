@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { RaceData, Roster, TacticalCard, UnitType } from '../../types'
 import { useRosterStore } from '../RosterContext'
 import { TacticalCardView } from '../../components/card/TacticalCardView'
@@ -6,6 +6,24 @@ import { rosterGasCap, rosterGasTotal, rosterResourceTotal, rosterSlotUsage, TRA
 import { UNIT_TYPE_COLORS } from '../unitTypeColor'
 import { Modal } from './Modal'
 import { SlotUsageRow } from './SlotUsageRow'
+
+/** .tactical-picker가 좌우 2단에서 세로로 쌓이는 폭. roster.css의 같은 미디어 쿼리(700px)와 맞춰야 한다 */
+const MOBILE_BREAKPOINT_PX = 700
+
+/** 이 폭 이하에서는 왼쪽 상세 패널을 숨기고, 카드를 누르면 그 자리에 상세 모달을 띄운다 */
+function useIsMobile() {
+  const query = `(max-width: ${MOBILE_BREAKPOINT_PX}px)`
+  const [isMobile, setIsMobile] = useState(() => window.matchMedia(query).matches)
+
+  useEffect(() => {
+    const mql = window.matchMedia(query)
+    const onChange = () => setIsMobile(mql.matches)
+    mql.addEventListener('change', onChange)
+    return () => mql.removeEventListener('change', onChange)
+  }, [query])
+
+  return isMobile
+}
 
 export function TacticalCardModal({
   race,
@@ -20,8 +38,17 @@ export function TacticalCardModal({
   onClose: () => void
 }) {
   const store = useRosterStore()
+  const isMobile = useIsMobile()
   const [typeFilter, setTypeFilter] = useState<UnitType | null>(null)
   const [focusedName, setFocusedName] = useState<string | null>(focusCardName ?? null)
+  /** 모바일에서는 상세 패널 대신 별도 모달로 카드 상세를 보여준다 */
+  const [mobileDetailOpen, setMobileDetailOpen] = useState(isMobile && !!focusCardName)
+
+  /** 카드를 눌러 상세를 확인한다: 데스크톱은 왼쪽 패널에, 모바일은 새 모달에 표시한다 */
+  function openDetail(name: string) {
+    setFocusedName(name)
+    if (isMobile) setMobileDetailOpen(true)
+  }
 
   const gasTotal = rosterGasTotal(race, roster)
   const gasCap = rosterGasCap(roster)
@@ -87,10 +114,8 @@ export function TacticalCardModal({
                 resourceAbbr={race.resourceLabel.abbr}
                 active={roster.factionCardName === card.name}
                 focused={focusedName === card.name}
-                onSelect={() => {
-                  store.setFactionCard(roster.id, card.name)
-                  setFocusedName(card.name)
-                }}
+                onOpenDetail={() => openDetail(card.name)}
+                onSelect={() => store.setFactionCard(roster.id, card.name)}
               />
             ))}
           </div>
@@ -104,6 +129,7 @@ export function TacticalCardModal({
                 resourceAbbr={race.resourceLabel.abbr}
                 count={roster.tacticalCardNames.filter((n) => n === card.name).length}
                 focused={focusedName === card.name}
+                onOpenDetail={() => openDetail(card.name)}
                 onFocus={() => setFocusedName(card.name)}
                 onAdd={() => store.addTacticalCard(roster.id, card.name)}
                 onRemove={() => store.removeTacticalCard(roster.id, card.name)}
@@ -112,6 +138,16 @@ export function TacticalCardModal({
           </div>
         </div>
       </div>
+
+      {isMobile && mobileDetailOpen && (focusedFaction || focusedTactical) && (
+        <Modal title={focusedName ?? ''} onClose={() => setMobileDetailOpen(false)}>
+          {focusedFaction ? (
+            <TacticalCardView card={focusedFaction} resourceLabel={race.resourceLabel} isFactionCard />
+          ) : (
+            <TacticalCardView card={focusedTactical!} resourceLabel={race.resourceLabel} />
+          )}
+        </Modal>
+      )}
     </Modal>
   )
 }
@@ -136,18 +172,24 @@ function CardCapacityMeta({ card, resourceAbbr }: { card: TacticalCard; resource
   )
 }
 
-/** 팩션 카드는 하나만 고를 수 있어 +/- 대신 클릭으로 바로 선택되는 탭처럼 동작한다: 고른 것만 밝게, 나머지는 어둡게 */
+/**
+ * 팩션 카드는 하나만 고를 수 있다: 고른 것만 밝게, 나머지는 어둡게. 카드 본문을 누르면(=onOpenDetail)
+ * 택티컬 카드와 동일하게 상세 정보만 보여주고, 실제 선택은 우측 '선택' 버튼(=onSelect)으로 분리한다 —
+ * 그렇지 않으면 모바일에서 상세 확인을 위한 클릭이 곧바로 선택으로 이어져 버린다.
+ */
 function FactionPickerRow({
   card,
   resourceAbbr,
   active,
   focused,
+  onOpenDetail,
   onSelect,
 }: {
   card: TacticalCard
   resourceAbbr: string
   active: boolean
   focused: boolean
+  onOpenDetail: () => void
   onSelect: () => void
 }) {
   return (
@@ -157,9 +199,9 @@ function FactionPickerRow({
       }`}
       role="button"
       tabIndex={0}
-      onClick={onSelect}
+      onClick={onOpenDetail}
       onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') onSelect()
+        if (e.key === 'Enter' || e.key === ' ') onOpenDetail()
       }}
     >
       <div className="tactical-picker-row-name">
@@ -167,6 +209,16 @@ function FactionPickerRow({
         {card.isUnique && <span className="tactical-picker-row-unique">UNIQUE</span>}
       </div>
       <CardCapacityMeta card={card} resourceAbbr={resourceAbbr} />
+      <button
+        type="button"
+        className={`tactical-picker-select-btn ${active ? 'tactical-picker-select-btn-active' : ''}`}
+        onClick={(e) => {
+          e.stopPropagation()
+          onSelect()
+        }}
+      >
+        선택
+      </button>
     </div>
   )
 }
@@ -176,6 +228,7 @@ function TacticalPickerRow({
   resourceAbbr,
   count,
   focused,
+  onOpenDetail,
   onFocus,
   onAdd,
   onRemove,
@@ -184,6 +237,7 @@ function TacticalPickerRow({
   resourceAbbr: string
   count: number
   focused: boolean
+  onOpenDetail: () => void
   onFocus: () => void
   onAdd: () => void
   onRemove: () => void
@@ -195,9 +249,9 @@ function TacticalPickerRow({
       className={`tactical-picker-row ${focused ? 'tactical-picker-row-active' : ''}`}
       role="button"
       tabIndex={0}
-      onClick={onFocus}
+      onClick={onOpenDetail}
       onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') onFocus()
+        if (e.key === 'Enter' || e.key === ' ') onOpenDetail()
       }}
     >
       <div className="tactical-picker-row-name">

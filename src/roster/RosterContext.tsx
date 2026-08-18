@@ -13,6 +13,7 @@ function createEmptyRoster(name: string): Roster {
     mineralCap: 2000,
     tacticalCardNames: [],
     units: [],
+    favoriteAbilities: [],
   }
 }
 
@@ -38,6 +39,7 @@ type Action =
       /** 이 업그레이드를 켤 때 함께 꺼야 하는 다른 업그레이드 인덱스들 (같은 무기를 대체하는 상호 배타 업그레이드) */
       exclusiveWith?: number[]
     }
+  | { type: 'toggleFavoriteAbility'; rosterId: string; source: string; name: string }
 
 interface State {
   rosters: Roster[]
@@ -53,7 +55,9 @@ function loadState(): State {
     if (!raw) return emptyState
     const parsed = JSON.parse(raw)
     if (!parsed || !Array.isArray(parsed.rosters)) return emptyState
-    return { rosters: parsed.rosters, activeRosterId: parsed.activeRosterId ?? null }
+    // favoriteAbilities는 즐겨찾기 기능 추가 이전에 저장된 로스터엔 없을 수 있어 기본값을 채워준다
+    const rosters: Roster[] = parsed.rosters.map((r: Roster) => ({ ...r, favoriteAbilities: r.favoriteAbilities ?? [] }))
+    return { rosters, activeRosterId: parsed.activeRosterId ?? null }
   } catch {
     return emptyState
   }
@@ -158,6 +162,16 @@ function reducer(state: State, action: Action): State {
           }
         }),
       )
+    case 'toggleFavoriteAbility':
+      return mapRoster(state, action.rosterId, (r) => {
+        const exists = r.favoriteAbilities.some((f) => f.source === action.source && f.name === action.name)
+        return {
+          ...r,
+          favoriteAbilities: exists
+            ? r.favoriteAbilities.filter((f) => !(f.source === action.source && f.name === action.name))
+            : [...r.favoriteAbilities, { source: action.source, name: action.name }],
+        }
+      })
     default:
       return state
   }
@@ -179,6 +193,7 @@ interface RosterStore extends State {
   moveUnitEntry: (rosterId: string, entryId: string, direction: 'up' | 'down') => void
   setUnitEntrySquadTier: (rosterId: string, entryId: string, squadTierIndex: number) => void
   toggleUnitUpgrade: (rosterId: string, entryId: string, upgradeIndex: number, exclusiveWith?: number[]) => void
+  toggleFavoriteAbility: (rosterId: string, source: string, name: string) => void
 }
 
 const RosterStoreContext = createContext<RosterStore | null>(null)
@@ -214,6 +229,7 @@ export function RosterProvider({ children }: { children: ReactNode }) {
       dispatch({ type: 'setUnitEntrySquadTier', rosterId, entryId, squadTierIndex }),
     toggleUnitUpgrade: (rosterId, entryId, upgradeIndex, exclusiveWith) =>
       dispatch({ type: 'toggleUnitUpgrade', rosterId, entryId, upgradeIndex, exclusiveWith }),
+    toggleFavoriteAbility: (rosterId, source, name) => dispatch({ type: 'toggleFavoriteAbility', rosterId, source, name }),
   }
 
   return <RosterStoreContext.Provider value={store}>{children}</RosterStoreContext.Provider>

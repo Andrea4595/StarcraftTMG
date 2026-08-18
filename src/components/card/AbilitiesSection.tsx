@@ -11,6 +11,22 @@ export interface UpgradeToggleState {
   onToggle: (index: number) => void
 }
 
+/** 이 카드/유닛에 속한 RuleAbility들의 즐겨찾기 상태를 조회/토글하는 창구 (게임 레퍼런스 화면 전용) */
+export interface FavoriteToggle {
+  isFavorite: (abilityName: string) => boolean
+  onToggle: (abilityName: string) => void
+}
+
+/**
+ * 이 카드/유닛 소유가 아닌, 다른 유닛/카드에서 즐겨찾기한 능력. ability.phase가 같은 페이즈 그룹의
+ * 맨 아래에 이름만 덧붙여 보여준다 (게임 레퍼런스 유닛 상세 모달 전용).
+ */
+export interface CrossFavoriteRef {
+  ability: RuleAbility
+  sourceLabel: string
+  onSelect: () => void
+}
+
 type Entry = { kind: 'ability'; ability: Ability } | { kind: 'upgrade'; upgrade: Upgrade; index: number }
 
 function entryPhase(e: Entry) {
@@ -27,6 +43,8 @@ export function AbilitiesSection({
   resourceLabel,
   title = 'ABILITIES',
   upgradeToggle,
+  favorite,
+  crossFavorites = [],
 }: {
   abilities: Ability[]
   /** 업그레이드로 얻는 능력. 지정하면 기본 능력과 같은 페이즈 그룹 안에 함께 표시된다 */
@@ -36,17 +54,22 @@ export function AbilitiesSection({
   title?: string
   /** 지정하면 업그레이드 PTS 배지가 켜고 끄는 버튼이 된다 (유닛 편집 화면) */
   upgradeToggle?: UpgradeToggleState
+  /** 지정하면 RuleAbility 이름 옆에 즐겨찾기 별 버튼이 붙는다 (게임 레퍼런스 화면 전용) */
+  favorite?: FavoriteToggle
+  /** 다른 유닛/카드에서 즐겨찾기한 능력들. 같은 phase의 그룹 하단에 이름만 덧붙인다 (게임 레퍼런스 유닛 상세 모달 전용) */
+  crossFavorites?: CrossFavoriteRef[]
 }) {
   const entries: Entry[] = [
     ...abilities.map((ability): Entry => ({ kind: 'ability', ability })),
     ...upgrades.map((upgrade, index): Entry => ({ kind: 'upgrade', upgrade, index })),
   ]
-  if (entries.length === 0) return null
+  if (entries.length === 0 && crossFavorites.length === 0) return null
 
   const groups = PHASES.map((phase) => ({
     phase,
     items: entries.filter((e) => entryPhase(e) === phase),
-  })).filter((g) => g.items.length > 0)
+    extra: crossFavorites.filter((f) => f.ability.phase === phase),
+  })).filter((g) => g.items.length > 0 || g.extra.length > 0)
 
   const ptsLabelFor = (upgrade: Upgrade) =>
     upgradeToggle ? String(resolveScaledCost(upgrade.pts, upgradeToggle.squadTierIndex)) : formatScaledCost(upgrade.pts)
@@ -54,6 +77,8 @@ export function AbilitiesSection({
     upgradeToggle
       ? { active: upgradeToggle.activeIndexes.includes(index), onToggle: () => upgradeToggle.onToggle(index) }
       : undefined
+  const favoriteFor = (ability: RuleAbility) =>
+    favorite ? { active: favorite.isFavorite(ability.name), onToggle: () => favorite.onToggle(ability.name) } : undefined
 
   /**
    * 현재 활성화된 업그레이드가 대체(봉인)하는 기본 무기 이름들.
@@ -99,19 +124,36 @@ export function AbilitiesSection({
                   })}
                 />
               )}
-              {rules.map((e, i) =>
-                e.kind === 'ability' ? (
-                  <RuleAbilityBlock key={i} ability={e.ability as RuleAbility} resourceLabel={resourceLabel} />
+              {rules.map((e, i) => {
+                const ability = entryAbility(e) as RuleAbility
+                return e.kind === 'ability' ? (
+                  <RuleAbilityBlock
+                    key={i}
+                    ability={ability}
+                    resourceLabel={resourceLabel}
+                    favorite={favoriteFor(ability)}
+                  />
                 ) : (
                   <RuleAbilityBlock
                     key={i}
-                    ability={e.upgrade.ability as RuleAbility}
+                    ability={ability}
                     resourceLabel={resourceLabel}
                     forWeapon={e.upgrade.for}
                     ptsLabel={ptsLabelFor(e.upgrade)}
                     interactive={interactiveFor(e.index)}
+                    favorite={favoriteFor(ability)}
                   />
-                ),
+                )
+              })}
+              {g.extra.length > 0 && (
+                <div className="card-cross-favorites">
+                  {g.extra.map((f, i) => (
+                    <button type="button" className="card-cross-favorite" key={i} onClick={f.onSelect}>
+                      <span className="card-favorite-star card-favorite-star-active">★</span>
+                      {f.ability.name}
+                    </button>
+                  ))}
+                </div>
               )}
             </div>
           </div>

@@ -13,7 +13,7 @@ export function RuleAbilityBlock({
   ptsLabel,
   forWeapon,
   interactive,
-  anyPhase,
+  favorite,
 }: {
   ability: RuleAbility
   /** 이 종족의 자원 약어 (예: 'CP', 'BM', 'EN') */
@@ -23,8 +23,8 @@ export function RuleAbilityBlock({
   forWeapon?: string
   /** 지정하면 PTS 배지가 이 업그레이드를 켜고 끄는 버튼이 된다 */
   interactive?: { active: boolean; onToggle: () => void }
-  /** 지정하면 'ANY PHASE' 배지를 붙인다 (페이즈 맥락만 보이는 화면에서 항상 쓸 수 있음을 표시) */
-  anyPhase?: boolean
+  /** 지정하면 이름 왼쪽에 즐겨찾기 별 토글 버튼을 붙인다 (게임 레퍼런스 화면 전용 기능) */
+  favorite?: { active: boolean; onToggle: () => void }
 }) {
   const { lang } = useLang()
   const text = lang === 'en' ? ability.rule.en : ability.rule.ko || ability.rule.en
@@ -33,6 +33,16 @@ export function RuleAbilityBlock({
     <div className={`card-rule-ability ${interactive && !interactive.active ? 'card-rule-ability-dim' : ''}`}>
       <div className="card-rule-ability-header">
         <div className="card-rule-ability-title">
+          {favorite && (
+            <button
+              type="button"
+              className={`card-favorite-star ${favorite.active ? 'card-favorite-star-active' : ''}`}
+              onClick={favorite.onToggle}
+              aria-label={favorite.active ? `${ability.name} 즐겨찾기 해제` : `${ability.name} 즐겨찾기 추가`}
+            >
+              {favorite.active ? '★' : '☆'}
+            </button>
+          )}
           <span className="card-rule-ability-name">{ability.name}</span>
         </div>
         <div className="card-rule-ability-right">
@@ -48,7 +58,6 @@ export function RuleAbilityBlock({
             ) : (
               <span className="card-pts-badge">PTS: {ptsLabel}</span>
             ))}
-          {anyPhase && <span className="card-badge card-badge-any">ANY PHASE</span>}
           <span className={`card-badge card-badge-${ability.type.toLowerCase()}`}>
             {formatBadge(ability, resourceLabel)}
           </span>
