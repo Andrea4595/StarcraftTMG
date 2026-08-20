@@ -140,7 +140,7 @@ export function TacticalCardModal({
       </div>
 
       {isMobile && mobileDetailOpen && (focusedFaction || focusedTactical) && (
-        <Modal title={focusedName ?? ''} onClose={() => setMobileDetailOpen(false)}>
+        <Modal title={focusedName ?? ''} onClose={() => setMobileDetailOpen(false)} nested>
           {focusedFaction ? (
             <TacticalCardView card={focusedFaction} resourceLabel={race.resourceLabel} isFactionCard />
           ) : (
