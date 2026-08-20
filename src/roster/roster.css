@@ -807,6 +807,11 @@ button.roster-slot-pill:hover {
   z-index: 100;
 }
 
+/* 다른 모달 위에 뜨는 중첩 모달(예: 모바일 상세 모달)은 항상 부모 모달보다 위에 그려져야 한다 */
+.modal-backdrop-nested {
+  z-index: 110;
+}
+
 .modal-panel {
   background: var(--bg, #0c0d12);
   border: 1px solid var(--border);
