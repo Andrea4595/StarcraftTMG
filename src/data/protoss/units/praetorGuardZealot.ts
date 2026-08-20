@@ -2,7 +2,8 @@ import type { UnitCard } from '../../../types'
 
 export const praetorGuardZealot: UnitCard = {
   category: 'unit',
-  name: 'Praetor Guard (Zealot)',
+  id: 'Praetor Guard (Zealot)',
+  name: { en: 'Praetor Guard (Zealot)', ko: 'Praetor Guard (Zealot)' },
   isUnique: true,
   type: 'Elite',
   stat: {
@@ -27,51 +28,56 @@ export const praetorGuardZealot: UnitCard = {
   abilities: [
     {
       kind: 'rule',
-      name: 'Shield Overcharge',
+      id: 'Shield Overcharge',
+      name: { en: 'Shield Overcharge', ko: 'Shield Overcharge' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'This Unit gains TOUGH (2) on the first Armour Roll each Round.',
-        ko: '이 유닛은 매 라운드 첫 번째 Armour Roll에 TOUGH (2)를 얻는다.',
+        ko: '이 유닛은 라운드마다 처음으로 하는 아머 롤에서 터프(2)를 얻는다.',
       },
     },
     {
       kind: 'rule',
-      name: 'Leg Enhancements',
+      id: 'Leg Enhancements',
+      name: { en: 'Leg Enhancements', ko: 'Leg Enhancements' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
       rule: {
         en: 'This Unit performs a 2" Move action. This does not count towards its action limit.',
-        ko: '이 유닛은 2" Move action을 수행한다. 이는 행동 제한에 포함되지 않는다.',
+        ko: '이 유닛은 2”의 이동액션을 한다. 이 이동은 라운드의 남은 기간동안 액션을 제한하는 조건이 되지 않는다.',
       },
     },
     {
       kind: 'rule',
-      name: 'Charge',
+      id: 'Charge',
+      name: { en: 'Charge', ko: 'Charge' },
       phase: 'Assault',
       type: 'Active',
       cost: 1,
       rule: {
         en: "When determining Charge Distance for this Unit, roll 2D6 instead of D6 and use the higher result to add to the Unit's Speed characteristic.",
-        ko: '이 유닛의 Charge Distance를 결정할 때, D6 대신 2D6을 굴려 더 높은 결과를 유닛의 Speed 특성치에 더한다.',
+        ko: '이 유닛이 차지할 때 차지 값을 정할 때 기존의 D6 대신 2D6를 굴려서 그중 더 높은 값을 스피드 능력치에 더한다.',
       },
     },
     {
       kind: 'rule',
-      name: 'Devastating Charge',
+      id: 'Devastating Charge',
+      name: { en: 'Devastating Charge', ko: 'Devastating Charge' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (3) 4+ effect.',
-        ko: '이 유닛이 Charge에 성공한 직후, IMPACT (3) 4+ 효과를 처리한다.',
+        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 4+로 임팩트(3)를 입힌다.',
       },
     },
     {
       kind: 'weapon',
-      name: 'Psi Blades',
+      id: 'Psi Blades',
+      name: { en: 'Psi Blades', ko: 'Psi Blades' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -86,24 +92,26 @@ export const praetorGuardZealot: UnitCard = {
     },
     {
       kind: 'rule',
-      name: 'Titan Killers',
+      id: 'Titan Killers',
+      name: { en: 'Titan Killers', ko: 'Titan Killers' },
       phase: 'Combat',
       type: 'Passive',
       cost: 0,
       rule: {
         en: "When this Unit makes a Close Combat Attack, and the target is Size 3 or larger, the weapon's Damage characteristic is treated as 2.",
-        ko: '이 유닛이 근접 공격을 할 때, 대상이 Size 3 이상이라면 그 무기의 Damage 특성치를 2로 취급한다.',
+        ko: '이 유닛이 근접공격을 할 때 목표의 사이즈가 3 이상이라면 무기의 데미지가 2가 된다.',
       },
     },
     {
       kind: 'rule',
-      name: 'Precognition',
+      id: 'Precognition',
+      name: { en: 'Precognition', ko: 'Precognition' },
       phase: 'Combat',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'This Unit is eligible to make an Evade roll against all attacks targeting it.',
-        ko: '이 유닛은 자신을 대상으로 지정한 모든 공격에 대해 Evade roll을 할 수 있다.',
+        ko: '이 유닛에게 가해지는 공격에 대해 회피 롤을 할 수 있다.',
       },
     },
   ],

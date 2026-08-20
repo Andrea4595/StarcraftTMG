@@ -2,7 +2,8 @@ import type { UnitCard } from '../../../types'
 
 export const marauder: UnitCard = {
   category: 'unit',
-  name: 'Marauder',
+  id: 'Marauder',
+  name: { en: 'Marauder', ko: 'Marauder' },
   isUnique: false,
   type: 'Core',
   stat: {
@@ -22,18 +23,20 @@ export const marauder: UnitCard = {
   abilities: [
     {
       kind: 'rule',
-      name: 'Stimpack',
+      id: 'Stimpack',
+      name: { en: 'Stimpack', ko: 'Stimpack' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
       rule: {
         en: 'This Unit suffers NON-LETHAL DAMAGE (2). This Unit gains BUFF Speed (3). Additionally, its Quad K12 and all Close Combat Weapons gain PRECISION (2).',
-        ko: '이 유닛은 NON-LETHAL DAMAGE (2)를 받는다. 이 유닛은 BUFF Speed (3)을 얻는다. 추가로, 이 유닛의 Quad K12와 모든 근접 무기는 PRECISION (2)를 얻는다.',
+        ko: '이 유닛은 논 리썰 데미지(2)를 받고 버프 스피드(3)를 받는다. 추가로 쿼드 K12와 모든 근접무기가 프리시전(2)을 갖는다.',
       },
     },
     {
       kind: 'weapon',
-      name: 'Quad K12',
+      id: 'Quad K12',
+      name: { en: 'Quad K12', ko: 'Quad K12' },
       phase: 'Assault',
       stat: {
         rng: 12,
@@ -48,18 +51,20 @@ export const marauder: UnitCard = {
     },
     {
       kind: 'rule',
-      name: 'Concussive Shells',
+      id: 'Concussive Shells',
+      name: { en: 'Concussive Shells', ko: 'Concussive Shells' },
       phase: 'Assault',
       type: 'Reaction',
       cost: 1,
       rule: {
         en: 'When an Enemy declares a Charge against a Friendly Unit Within 8", that Enemy gains DEBUFF Speed (2).',
-        ko: '적이 8" 이내의 아군 유닛에게 Charge를 선언했을 때, 그 적은 DEBUFF Speed (2)를 얻는다.',
+        ko: '이 유닛의 8" 이내의 아군 유닛에게 상대 유닛이 차지를 선언했을 경우, 그 유닛은 디버프 스피드(2)를 받는다.',
       },
     },
     {
       kind: 'weapon',
-      name: 'Strike',
+      id: 'Strike',
+      name: { en: 'Strike', ko: 'Strike' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -78,13 +83,14 @@ export const marauder: UnitCard = {
       pts: [20, 20, 30],
       ability: {
         kind: 'rule',
-        name: 'Veteran of Tarsonis',
+        id: 'Veteran of Tarsonis',
+        name: { en: 'Veteran of Tarsonis', ko: 'Veteran of Tarsonis' },
         phase: 'Any',
         type: 'Passive',
         cost: 0,
         rule: {
           en: 'While this Unit is Within 3" of a Mission Marker, its Armour characteristic is increased by 1.',
-          ko: '이 유닛이 Mission Marker로부터 3" 이내에 있는 동안, 이 유닛의 Armour 특성치가 1 증가한다.',
+          ko: '이 유닛이 미션 마커로부터 3" 이내에 있을 경우, 아머 능력치를 1 향상시킨다.',
         },
       },
     },
@@ -92,13 +98,14 @@ export const marauder: UnitCard = {
       pts: [20, 20, 40],
       ability: {
         kind: 'rule',
-        name: 'Kinetic Foam',
+        id: 'Kinetic Foam',
+        name: { en: 'Kinetic Foam', ko: 'Kinetic Foam' },
         phase: 'Any',
         type: 'Passive',
         cost: 0,
         rule: {
           en: "Increase this Unit's Hit Points characteristic by 1.",
-          ko: '이 유닛의 Hit Points 특성치를 1 증가시킨다.',
+          ko: '이 유닛의 HP를 1 올린다.',
         },
       },
     },
@@ -106,13 +113,14 @@ export const marauder: UnitCard = {
       pts: [20, 20, 40],
       ability: {
         kind: 'rule',
-        name: 'Laser Targeting Systems',
+        id: 'Laser Targeting Systems',
+        name: { en: 'Laser Targeting Systems', ko: 'Laser Targeting Systems' },
         phase: 'Assault',
         type: 'Passive',
         cost: 0,
         rule: {
           en: "This Unit's Quad K12 weapon gains LONG RANGE (16\").",
-          ko: '이 유닛의 Quad K12 무기는 LONG RANGE (16")를 얻는다.',
+          ko: '이 유닛의 쿼드 K12는 롱 레인지(16")를 갖는다.',
         },
       },
     },

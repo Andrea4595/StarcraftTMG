@@ -2,7 +2,8 @@ import type { UnitCard } from '../../../types'
 
 export const queen: UnitCard = {
   category: 'unit',
-  name: 'Queen',
+  id: 'Queen',
+  name: { en: 'Queen', ko: 'Queen' },
   isUnique: false,
   type: 'Support',
   stat: {
@@ -18,51 +19,56 @@ export const queen: UnitCard = {
   abilities: [
     {
       kind: 'rule',
-      name: 'Spawn Creep Tumor',
+      id: 'Spawn Creep Tumor',
+      name: { en: 'Spawn Creep Tumor', ko: 'Spawn Creep Tumor' },
       phase: 'Any',
       type: 'Active',
       cost: 1,
       rule: {
         en: 'Set a Creep Tumor token in base-to-base contact with this Unit.',
-        ko: '이 유닛과 base-to-base 접촉하도록 Creep Tumor token을 놓는다.',
+        ko: '이 유닛과 베이스 접촉을 한 상태로 점막 종양을 둔다.',
       },
     },
     {
       kind: 'rule',
-      name: 'Transfusion',
+      id: 'Transfusion',
+      name: { en: 'Transfusion', ko: 'Transfusion' },
       phase: 'Any',
       type: 'Reaction',
       cost: 1,
       rule: {
         en: 'Use when another Friendly Biological Unit (including a Structure) suffers Damage Within 4". Reduce the Total Damage before allocation by 2.',
-        ko: '4" 이내의 다른 아군 Biological 유닛(Structure 포함)이 데미지를 입을 때 사용한다. 할당 전에 Total Damage를 2 감소시킨다.',
+        ko: '데미지를 입은 4" 이내의 아군 생체 유닛을 선택한다 (구조물을 포함한다). 가지고 있는 총 데미지를 2만큼 제거한다.',
       },
     },
     {
       kind: 'rule',
-      name: 'Restoration',
+      id: 'Restoration',
+      name: { en: 'Restoration', ko: 'Restoration' },
       phase: 'Any',
       type: 'Reaction',
       cost: 1,
       rule: {
         en: 'Use when a Friendly Unit Within 4" receives a DEBUFF. Remove all DEBUFFS from it.',
-        ko: '4" 이내의 아군 유닛이 DEBUFF를 받을 때 사용한다. 그 유닛에서 모든 DEBUFFS를 제거한다.',
+        ko: '디버프를 받게 된 4" 이내의 아군 유닛을 고른다. 해당 유닛이 받을 모든 디버프를 제거한다.',
       },
     },
     {
       kind: 'rule',
-      name: 'Psionic Link',
+      id: 'Psionic Link',
+      name: { en: 'Psionic Link', ko: 'Psionic Link' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'Once per Round, if there are at least 7 Friendly models Within 6" of this Unit, it may resolve its Special Ability with the BM cost reduced by 1.',
-        ko: '라운드당 1회, 이 유닛의 6" 이내에 아군 모델이 7개 이상 있다면, BM 비용을 1 감소시켜 Special Ability를 해결할 수 있다.',
+        ko: '라운드당 한 번, 이 유닛의 6" 이내에 아군 모델이 7모델 이상 있다면, BM을 소모하는 특수능력의 비용을 1 줄인다.',
       },
     },
     {
       kind: 'weapon',
-      name: 'Talons',
+      id: 'Talons',
+      name: { en: 'Talons', ko: 'Talons' },
       phase: 'Assault',
       stat: {
         rng: 6,
@@ -77,7 +83,8 @@ export const queen: UnitCard = {
     },
     {
       kind: 'weapon',
-      name: 'Acid spines',
+      id: 'Acid spines',
+      name: { en: 'Acid spines', ko: 'Acid spines' },
       phase: 'Assault',
       stat: {
         rng: 12,
@@ -92,18 +99,20 @@ export const queen: UnitCard = {
     },
     {
       kind: 'rule',
-      name: 'Devastating Charge',
+      id: 'Devastating Charge',
+      name: { en: 'Devastating Charge', ko: 'Devastating Charge' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (4) 3+ effect.',
-        ko: '이 유닛이 Charge에 성공한 직후, IMPACT (4) 3+ 효과를 해결한다.',
+        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 3+로 임팩트(4)를 입힌다.',
       },
     },
     {
       kind: 'weapon',
-      name: 'Talons',
+      id: 'Talons',
+      name: { en: 'Talons', ko: 'Talons' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -122,13 +131,14 @@ export const queen: UnitCard = {
       pts: 10,
       ability: {
         kind: 'rule',
-        name: 'Creep Speed',
+        id: 'Creep Speed',
+        name: { en: 'Creep Speed', ko: 'Creep Speed' },
         phase: 'Any',
         type: 'Passive',
         cost: 0,
         rule: {
           en: "While this Unit is ON CREEP, increase this Unit's Speed characteristic by 2.",
-          ko: '이 유닛이 ON CREEP인 동안, 이 유닛의 Speed 특성치를 2 증가시킨다.',
+          ko: '이 유닛이 점막 위에 있다면, 이 유닛의 스피드를 2 더한다.',
         },
       },
     },
@@ -136,13 +146,14 @@ export const queen: UnitCard = {
       pts: 10,
       ability: {
         kind: 'rule',
-        name: 'Domineering Presence',
+        id: 'Domineering Presence',
+        name: { en: 'Domineering Presence', ko: 'Domineering Presence' },
         phase: 'Movement',
         type: 'Active',
         cost: 1,
         rule: {
           en: 'Select another Friendly Unit Within 6" (Line of Sight is not required). That Unit\'s Supply characteristic is increased by 1 for Controlling and Contesting Mission Markers and completing objectives.',
-          ko: '6" 이내의 다른 아군 유닛 하나를 선택한다 (Line of Sight는 필요하지 않다). Mission Markers를 점령 및 쟁탈하고 목표를 완수하는 것에 한해, 그 유닛의 Supply 특성치는 1 증가한다.',
+          ko: '이 유닛의 6" 안에 있는 아군 유닛을 고른다 (시야는 필요로 하지 않는다). 그 유닛이 점령, 경쟁, 미션의 목표달성을 판정할 때 서플라이 값을 1 큰 걸로 친다.',
         },
       },
     },

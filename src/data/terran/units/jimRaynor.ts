@@ -2,7 +2,8 @@ import type { UnitCard } from '../../../types'
 
 export const jimRaynor: UnitCard = {
   category: 'unit',
-  name: 'Jim Raynor',
+  id: 'Jim Raynor',
+  name: { en: 'Jim Raynor', ko: 'Jim Raynor' },
   isUnique: true,
   type: 'Hero',
   stat: {
@@ -18,40 +19,44 @@ export const jimRaynor: UnitCard = {
   abilities: [
     {
       kind: 'rule',
-      name: 'Commander',
+      id: 'Commander',
+      name: { en: 'Commander', ko: 'Commander' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: "Treat this Unit's Supply characteristic as increased by 1 for Controlling and Contesting Mission Markers, completing objectives, and resolving Disengage checks.",
-        ko: '이 유닛의 Supply 특성치는 Mission Marker를 점령 및 쟁탈할 때, 목표를 완료할 때, 그리고 Disengage 판정을 해결할 때 1 증가한 것으로 취급한다.',
+        ko: '이 유닛이 미션 마커를 경쟁하거나 점령할 때, 이탈할 때, 미션의 목표 달성을 계산할 때 서플라이 값을 1 높은 것으로 친다.',
       },
     },
     {
       kind: 'rule',
-      name: 'Freedom Fighters',
+      id: 'Freedom Fighters',
+      name: { en: 'Freedom Fighters', ko: 'Freedom Fighters' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'The Supply Value of all Friendly Units Within 8" of this Unit cannot be reduced below 1 for Contesting Mission Markers and completing objectives.',
-        ko: '이 유닛으로부터 8" 이내에 있는 모든 아군 유닛의 Supply 수치는, Mission Marker를 쟁탈하거나 목표를 완료할 때 1 미만으로 줄어들지 않는다.',
+        ko: '이 유닛으로부터 8" 이내에 있는 아군 유닛이 미션 마커를 경쟁하거나 점령할 때, 서플라이 값이 1 이하로 떨어지지 않는다.',
       },
     },
     {
       kind: 'rule',
-      name: 'Orders',
+      id: 'Orders',
+      name: { en: 'Orders', ko: 'Orders' },
       phase: 'Movement',
       type: 'Active',
       cost: 'X',
       rule: {
         en: "REPEATABLE. Select another Friendly Biological Unit Within 8\", spend CP and apply one of the following effects: 1 CP: That Unit's first used weapon gains the CRITICAL HIT (2). 1 CP: That Unit ignores the Disengage penalty for the remainder of the Round. 2 CP: Remove the Activation Marker from that Unit.",
-        ko: 'REPEATABLE. 8" 이내의 다른 아군 Biological 유닛 하나를 선택하고, CP를 소모하여 다음 효과 중 하나를 적용한다: 1 CP: 그 유닛이 처음 사용하는 무기가 CRITICAL HIT (2)를 얻는다. 1 CP: 그 유닛은 이번 라운드의 남은 동안 Disengage 페널티를 무시한다. 2 CP: 그 유닛에서 Activation Marker를 제거한다.',
+        ko: '재사용 가능. 8" 이내의 다른 아군 생체 유닛 하나를 선택하고, CP를 소모하여 다음 효과 중 하나를 적용한다. 1 CP: 그 유닛이 처음으로 사용하는 무기가 크리티컬 힛(2)를 갖는다. 1 CP: 그 유닛은 이번 라운드의 남은 기간 동안 이탈의 페널티를 무시한다. 2 CP: 그 유닛의 활성화 마커를 지운다.',
       },
     },
     {
       kind: 'weapon',
-      name: 'Commando Rifle',
+      id: 'Commando Rifle',
+      name: { en: 'Commando Rifle', ko: 'Commando Rifle' },
       phase: 'Assault',
       stat: {
         rng: 18,
@@ -66,7 +71,8 @@ export const jimRaynor: UnitCard = {
     },
     {
       kind: 'weapon',
-      name: '"Justice" Revolver',
+      id: '"Justice" Revolver',
+      name: { en: '"Justice" Revolver', ko: '"Justice" Revolver' },
       phase: 'Assault',
       stat: {
         rng: 6,
@@ -81,7 +87,8 @@ export const jimRaynor: UnitCard = {
     },
     {
       kind: 'weapon',
-      name: 'Bayonet',
+      id: 'Bayonet',
+      name: { en: 'Bayonet', ko: 'Bayonet' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -100,10 +107,11 @@ export const jimRaynor: UnitCard = {
       // 원본 카드에는 'FOR Commando Rifle'이 붙은 기본 능력으로 표기되어 있었으나,
       // 실제로는 무료로 선택하는 대체무기 업그레이드로 보는 게 맞다고 확인함(원본 표기 오류로 판단).
       pts: 0,
-      for: 'Commando Rifle',
+      forId: 'Commando Rifle',
       ability: {
         kind: 'weapon',
-        name: 'C-14 rifle',
+        id: 'C-14 rifle',
+        name: { en: 'C-14 rifle', ko: 'C-14 rifle' },
         phase: 'Assault',
         stat: {
           rng: 12,

@@ -2,7 +2,8 @@ import type { TacticalCard } from '../../../types'
 
 export const warpPrism: TacticalCard = {
   category: 'tactical',
-  name: 'Warp Prism',
+  id: 'Warp Prism',
+  name: { en: 'Warp Prism', ko: 'Warp Prism' },
   isUnique: true,
   gasPts: 35,
   resource: 1,
@@ -10,24 +11,26 @@ export const warpPrism: TacticalCard = {
   cardAbilities: [
     {
       kind: 'rule',
-      name: 'Phase',
+      id: 'Phase',
+      name: { en: 'Phase', ko: 'Phase' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
       rule: {
         en: 'The active Unit resolves the PLACE (3) effect.',
-        ko: '활성화 중인 유닛이 PLACE (3) 효과를 처리한다.',
+        ko: '활성화된 유닛은 위치(3)을 받는다.',
       },
     },
     {
       kind: 'rule',
-      name: 'Warp Conduit',
+      id: 'Warp Conduit',
+      name: { en: 'Warp Conduit', ko: 'Warp Conduit' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
       rule: {
         en: 'Set a Faction Indicator anywhere on the battlefield more than 10" away from any Enemy model. At the End of the Round, the controlling player may Deploy one Ground Unit from Reserves in base-to-base contact with this Faction Indicator.',
-        ko: '적 모델로부터 10" 넘게 떨어진 전장의 아무 곳에나 Faction Indicator를 놓는다. 라운드 종료 시, 소유 플레이어는 Reserves에서 지상 유닛 하나를 이 Faction Indicator와 베이스를 맞닿게 Deploy할 수 있다.',
+        ko: '팩션 마커를 다른 적 유닛과 10”이상 떨어지게 놓는다. 라운드 종료 시 리저브된 지상유닛 하나를 마커와 베이스접촉된 상태로 배치시킬 수 있다.',
       },
     },
   ],

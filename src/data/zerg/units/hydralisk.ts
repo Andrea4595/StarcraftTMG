@@ -2,7 +2,8 @@ import type { UnitCard } from '../../../types'
 
 export const hydralisk: UnitCard = {
   category: 'unit',
-  name: 'Hydralisk',
+  id: 'Hydralisk',
+  name: { en: 'Hydralisk', ko: 'Hydralisk' },
   isUnique: false,
   type: 'Elite',
   stat: {
@@ -22,18 +23,20 @@ export const hydralisk: UnitCard = {
   abilities: [
     {
       kind: 'rule',
-      name: 'Squadron',
+      id: 'Squadron',
+      name: { en: 'Squadron', ko: 'Squadron' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: "This Unit's Horizontal Coherency is 4\".",
-        ko: '이 유닛의 Horizontal Coherency는 4"이다.',
+        ko: '이 유닛의 코헤런시는 4"이다.',
       },
     },
     {
       kind: 'weapon',
-      name: 'Needle Spines',
+      id: 'Needle Spines',
+      name: { en: 'Needle Spines', ko: 'Needle Spines' },
       phase: 'Assault',
       stat: {
         rng: 12,
@@ -48,18 +51,20 @@ export const hydralisk: UnitCard = {
     },
     {
       kind: 'rule',
-      name: 'Lunge',
+      id: 'Lunge',
+      name: { en: 'Lunge', ko: 'Lunge' },
       phase: 'Assault',
       type: 'Reaction',
       cost: 1,
       rule: {
         en: 'When another Friendly Unit Within 10" is the target of a Ranged Attack, after the attack is fully resolved, this Unit, if Unengaged, may perform a Move action Directly Towards the attacking Unit.',
-        ko: '10" 이내의 다른 아군 유닛이 원거리 공격의 대상이 되었을 때, 그 공격이 완전히 해결된 후, 이 유닛이 Unengaged 상태라면 공격한 유닛을 향해 Directly Towards Move action을 수행할 수 있다.',
+        ko: '다른 10" 이내에 있는 아군 유닛이 원거리 공격의 대상이 되었을 때, 그 공격이 완전히 처리된 후, 이 유닛이 인게이지 상태가 아닐 경우, 공격했던 유닛에게 곧바로 이동할 수 있다.',
       },
     },
     {
       kind: 'weapon',
-      name: 'Scythe',
+      id: 'Scythe',
+      name: { en: 'Scythe', ko: 'Scythe' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -78,13 +83,14 @@ export const hydralisk: UnitCard = {
       pts: [20, 20, 40],
       ability: {
         kind: 'rule',
-        name: 'Ancillary Carapace',
+        id: 'Ancillary Carapace',
+        name: { en: 'Ancillary Carapace', ko: 'Ancillary Carapace' },
         phase: 'Any',
         type: 'Passive',
         cost: 0,
         rule: {
           en: 'This Unit gains TOUGH (1) on the first Armour Roll of each Activation.',
-          ko: '이 유닛은 각 Activation의 첫 번째 Armour Roll에 TOUGH (1)을 얻는다.',
+          ko: '이 유닛은 각 활성화의 첫 아머 롤에서 터프(1)을 갖는다.',
         },
       },
     },
@@ -92,13 +98,14 @@ export const hydralisk: UnitCard = {
       pts: [10, 10, 20],
       ability: {
         kind: 'rule',
-        name: 'Lurking',
+        id: 'Lurking',
+        name: { en: 'Lurking', ko: 'Lurking' },
         phase: 'Any',
         type: 'Passive',
         cost: 0,
         rule: {
           en: 'If this Unit has Stationary Status, it is eligible to make an Evade Roll against the first Ranged Attack targeting it this Round. If this Unit is ON CREEP, it gains +1 Modifier to the Evade Roll.',
-          ko: '이 유닛이 Stationary Status를 가지고 있다면, 이번 라운드에 이 유닛을 대상으로 지정된 첫 번째 원거리 공격에 대해 Evade Roll을 할 수 있다. 이 유닛이 ON CREEP이라면, 그 Evade Roll에 +1 수정치를 얻는다.',
+          ko: '이 유닛이 정지 상태이면 이 라운드에서 받는 첫 사격에서 이 유닛이 회피 롤을 할 수 있다. 점막 위에 있다면 추가로 그 회피 롤에서 +1를 얻는다.',
         },
       },
     },
@@ -106,13 +113,14 @@ export const hydralisk: UnitCard = {
       pts: [20, 20, 40],
       ability: {
         kind: 'rule',
-        name: 'Burrow Ambush',
+        id: 'Burrow Ambush',
+        name: { en: 'Burrow Ambush', ko: 'Burrow Ambush' },
         phase: 'Movement',
         type: 'Passive',
         cost: 0,
         rule: {
           en: "When this Unit is nominated to deploy from the Reserves, it may resolve the PLACE (18) effect from the controlling player's Entry Edge. No model may be set Within 10\" of any Enemy model. This Unit's Activation ends.",
-          ko: '이 유닛이 Reserves에서 Deploy하도록 지명되었을 때, 소유 플레이어의 Entry Edge에서 PLACE (18) 효과를 해결할 수 있다. 어떤 모델도 적 모델의 10" 이내에 놓을 수 없다. 이 유닛의 Activation이 종료된다.',
+          ko: '이 유닛이 리저브에서 나올 때, 조종하는 플레이어의 엔트리 엣지에서 배치(18)을 적용해 배치될 수 있다. 10" 이내에 다른 적 유닛이 없어야 하며, 이렇게 배치된 후에는 이 유닛의 활성화가 종료된다.',
         },
       },
     },
@@ -120,13 +128,14 @@ export const hydralisk: UnitCard = {
       pts: [20, 20, 40],
       ability: {
         kind: 'rule',
-        name: 'Grooved Spines',
+        id: 'Grooved Spines',
+        name: { en: 'Grooved Spines', ko: 'Grooved Spines' },
         phase: 'Assault',
         type: 'Passive',
         cost: 0,
         rule: {
           en: 'This Unit\'s Needle Spines ranged weapon gains LONG RANGE (16").',
-          ko: '이 유닛의 Needle Spines 원거리 무기는 LONG RANGE (16")를 얻는다.',
+          ko: '이 유닛의 바늘 가시뼈는 롱 레인지(16")을 갖는다.',
         },
       },
     },

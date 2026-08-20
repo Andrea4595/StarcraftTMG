@@ -2,7 +2,8 @@ import type { TacticalCard } from '../../../types'
 
 export const raynorsRaiders: TacticalCard = {
   category: 'tactical',
-  name: "Raynor's Raiders",
+  id: "Raynor's Raiders",
+  name: { en: "Raynor's Raiders", ko: "Raynor's Raiders" },
   isUnique: true,
   resource: 1,
   slot: [
@@ -13,24 +14,26 @@ export const raynorsRaiders: TacticalCard = {
   cardAbilities: [
     {
       kind: 'rule',
-      name: 'Rapid Ingress',
+      id: 'Rapid Ingress',
+      name: { en: 'Rapid Ingress', ko: 'Rapid Ingress' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
       rule: {
         en: 'Set a Friendly Point Defence Drone Unit anywhere on the battlefield, more than 1" away from any Enemy model. Remove this Unit at the End of the Round.',
-        ko: '아군 Point Defence Drone 유닛을 전장의 어디든 모든 적 모델로부터 1" 넘게 떨어진 곳에 놓는다. 라운드 종료 시 이 유닛을 제거한다.',
+        ko: '전장에 다른 적 유닛으로부터 1" 이상 떨어지게 국지 방어기 유닛을 배치한다. 이 유닛은 라운드 종료 시에 제거된다.',
       },
     },
     {
       kind: 'rule',
-      name: 'Ready for Pickup?',
+      id: 'Ready for Pickup?',
+      name: { en: 'Ready for Pickup?', ko: 'Ready for Pickup?' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
       rule: {
         en: 'Once per Game. The active Unit resolves the PLACE (12) effect. Models set by this effect cannot be set up Within the Engagement Range of any Enemy Unit. This resolves instead of performing a standard action.',
-        ko: '게임당 1회. 활성화 중인 유닛이 PLACE (12) 효과를 해결한다. 이 효과로 놓이는 모델은 어떤 적 유닛의 Engagement Range 이내에도 놓을 수 없다. 이것은 표준 행동을 수행하는 대신 해결한다.',
+        ko: '게임당 한 번, 활성화된 유닛이 일반적인 액션을 하는 대신 위치(12)한다. 이 능력을 사용해서 적 유닛과 인게이지 상태로 배치될 수는 없다.',
       },
     },
   ],

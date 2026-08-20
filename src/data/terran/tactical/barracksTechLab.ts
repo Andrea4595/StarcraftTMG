@@ -2,7 +2,8 @@ import type { TacticalCard } from '../../../types'
 
 export const barracksTechLab: TacticalCard = {
   category: 'tactical',
-  name: 'Barracks (Tech Lab)',
+  id: 'Barracks (Tech Lab)',
+  name: { en: 'Barracks (Tech Lab)', ko: 'Barracks (Tech Lab)' },
   isUnique: true,
   gasPts: 45,
   resource: 2,
@@ -13,24 +14,26 @@ export const barracksTechLab: TacticalCard = {
   cardAbilities: [
     {
       kind: 'rule',
-      name: 'Go! Go! Go!',
+      id: 'Go! Go! Go!',
+      name: { en: 'Go! Go! Go!', ko: 'Go! Go! Go!' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
       rule: {
         en: 'The active Biological Unit performs a 2" Move action. This does not count towards its action limit.',
-        ko: '활성화 중인 Biological 유닛이 2" Move action을 수행한다. 이는 해당 유닛의 행동 제한에 포함되지 않는다.',
+        ko: '활성화중인 아군 생체 유닛은 2" 이동 액션을 한다. 이 이동은 액션을 제한하는 조건이 되지 않는다.',
       },
     },
     {
       kind: 'rule',
-      name: "Let's Have a Blast!",
+      id: "Let's Have a Blast!",
+      name: { en: "Let's Have a Blast!", ko: "Let's Have a Blast!" },
       phase: 'Assault',
       type: 'Active',
       cost: 0,
       rule: {
         en: "The active Biological Unit's first Ranged Weapon used gain ANTI-EVADE (1).",
-        ko: '활성화 중인 Biological 유닛이 처음 사용하는 원거리 무기가 ANTI-EVADE (1)을 얻는다.',
+        ko: '활성화중인 생체 유닛이 처음으로 사용하는 사격무기는 안티-회피(1)를 갖는다.',
       },
     },
   ],

@@ -2,7 +2,8 @@ import type { UnitCard } from '../../../types'
 
 export const sentry: UnitCard = {
   category: 'unit',
-  name: 'Sentry',
+  id: 'Sentry',
+  name: { en: 'Sentry', ko: 'Sentry' },
   isUnique: false,
   type: 'Support',
   stat: {
@@ -21,40 +22,44 @@ export const sentry: UnitCard = {
   abilities: [
     {
       kind: 'rule',
-      name: 'Restoration',
+      id: 'Restoration',
+      name: { en: 'Restoration', ko: 'Restoration' },
       phase: 'Any',
       type: 'Reaction',
       cost: 1,
       rule: {
         en: 'Use when a Friendly Unit Within 4" receives a DEBUFF. Remove all DEBUFFS from it.',
-        ko: '4" 이내의 아군 유닛이 DEBUFF를 받을 때 사용한다. 그 유닛의 모든 DEBUFFS를 제거한다.',
+        ko: '디버프를 받게 된 4”이내의 아군 유닛을 고른다. 해당 유닛이 받을 모든 디버프를 제거한다.',
       },
     },
     {
       kind: 'rule',
-      name: 'Force Field',
+      id: 'Force Field',
+      name: { en: 'Force Field', ko: 'Force Field' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
       rule: {
         en: "Set a Force Field token Within 8\" in an unoccupied space. Units of Size 2 or lower cannot move across Force Fields. Models of Size 3 or more can move over it, and it's then removed.",
-        ko: '8" 이내의 비어 있는 공간에 Force Field 토큰을 놓는다. Size 2 이하의 유닛은 Force Field를 가로질러 이동할 수 없다. Size 3 이상의 모델은 그 위로 이동할 수 있으며, 그 후 Force Field는 제거된다.',
+        ko: '이 유닛의 8”이내에 역장 토큰을 전장의 빈 공간에 둔다. 사이즈 2 이하의 유닛은 그 역장을 통과해서 이동할 수 없다. 사이즈 3 이상의 유닛이라면 그 역장을 통과해 이동할 수 있으며, 그 경우 토큰은 제거된다.',
       },
     },
     {
       kind: 'rule',
-      name: 'Guardian Shield',
+      id: 'Guardian Shield',
+      name: { en: 'Guardian Shield', ko: 'Guardian Shield' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
       rule: {
         en: 'All Ranged Attacks targeting a Friendly Unit Within 4" (Line of Sight is not required) are made with 1 fewer die in the Attack Pool.',
-        ko: '4" 이내의 아군 유닛을 대상으로 지정한 모든 원거리 공격은 (Line of Sight는 필요하지 않다) Attack Pool의 주사위 1개가 줄어든 채로 수행한다.',
+        ko: '이 유닛의 4”이내에 아군 유닛이 사격의 대상이 될 때, 그 공격의 어택 풀에서 주사위를 하나 줄인다. (효과를 적용받을 아군에게 시야를 필요로 하지 않는다.)',
       },
     },
     {
       kind: 'weapon',
-      name: 'Disruption Beam',
+      id: 'Disruption Beam',
+      name: { en: 'Disruption Beam', ko: 'Disruption Beam' },
       phase: 'Assault',
       stat: {
         rng: 8,
@@ -69,7 +74,8 @@ export const sentry: UnitCard = {
     },
     {
       kind: 'weapon',
-      name: 'Beam',
+      id: 'Beam',
+      name: { en: 'Beam', ko: 'Beam' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -88,13 +94,14 @@ export const sentry: UnitCard = {
       pts: 20,
       ability: {
         kind: 'rule',
-        name: 'Solid-Field Projectors',
+        id: 'Solid-Field Projectors',
+        name: { en: 'Solid-Field Projectors', ko: 'Solid-Field Projectors' },
         phase: 'Movement',
         type: 'Active',
         cost: 1,
         rule: {
           en: "Set a Force Field token Within 8\" in an unoccupied space. Units of Size 2 or lower cannot move across Force Fields. Models of Size 3 or more can move over it, and it's then removed.",
-          ko: '8" 이내의 비어 있는 공간에 Force Field 토큰을 놓는다. Size 2 이하의 유닛은 Force Field를 가로질러 이동할 수 없다. Size 3 이상의 모델은 그 위로 이동할 수 있으며, 그 후 Force Field는 제거된다.',
+          ko: '이 유닛의 8”이내에 역장 토큰을 전장의 빈 공간에 둔다. 사이즈 2 이하의 유닛은 그 역장을 통과해서 이동할 수 없다. 사이즈 3 이상의 유닛이라면 그 역장을 통과해 이동할 수 있으며, 그 경우 토큰은 제거된다.',
         },
       },
     },
@@ -102,13 +109,14 @@ export const sentry: UnitCard = {
       pts: 30,
       ability: {
         kind: 'rule',
-        name: 'Hallucination',
+        id: 'Hallucination',
+        name: { en: 'Hallucination', ko: 'Hallucination' },
         phase: 'Assault',
         type: 'Reaction',
         cost: 0,
         rule: {
           en: 'When an Enemy Unit declares a Ranged Attack against a Friendly Unit Within 4", the targeted Friendly Unit is eligible to make an Evade Roll against that attack.',
-          ko: '적 유닛이 4" 이내의 아군 유닛에게 원거리 공격을 선언할 때, 대상으로 지정된 아군 유닛은 그 공격에 대해 Evade Roll을 할 수 있다.',
+          ko: '이 유닛의 4”이내에 아군 유닛이 적의 사격의 대상이 될 경우 그 대상은 해당 공격에 대해 회피 롤을 할 수 있다.',
         },
       },
     },

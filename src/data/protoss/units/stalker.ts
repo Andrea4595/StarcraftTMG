@@ -2,7 +2,8 @@ import type { UnitCard } from '../../../types'
 
 export const stalker: UnitCard = {
   category: 'unit',
-  name: 'Stalker',
+  id: 'Stalker',
+  name: { en: 'Stalker', ko: 'Stalker' },
   isUnique: false,
   type: 'Elite',
   stat: {
@@ -21,29 +22,32 @@ export const stalker: UnitCard = {
   abilities: [
     {
       kind: 'rule',
-      name: 'Squadron',
+      id: 'Squadron',
+      name: { en: 'Squadron', ko: 'Squadron' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: "This Unit's Horizontal Coherency is 4\".",
-        ko: '이 유닛의 Horizontal Coherency는 4"이다.',
+        ko: '이 유닛의 코헤런시는 4”이다.',
       },
     },
     {
       kind: 'rule',
-      name: 'Blink',
+      id: 'Blink',
+      name: { en: 'Blink', ko: 'Blink' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
       rule: {
         en: 'Resolve the PLACE (6) effect. Models set by this effect cannot be set up Within the Engagement Range of any Enemy Unit.',
-        ko: 'PLACE (6) 효과를 처리한다. 이 효과로 배치되는 모델은 적 유닛의 Engagement Range 이내에 배치할 수 없다.',
+        ko: '위치(6)한다, 적 유닛과 인게이지 상태가 되게 배치될 수 없다.',
       },
     },
     {
       kind: 'weapon',
-      name: 'Particle Disruptors',
+      id: 'Particle Disruptors',
+      name: { en: 'Particle Disruptors', ko: 'Particle Disruptors' },
       phase: 'Assault',
       stat: {
         rng: 12,
@@ -58,7 +62,8 @@ export const stalker: UnitCard = {
     },
     {
       kind: 'weapon',
-      name: 'Stomp',
+      id: 'Stomp',
+      name: { en: 'Stomp', ko: 'Stomp' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -77,13 +82,14 @@ export const stalker: UnitCard = {
       pts: [20, 40],
       ability: {
         kind: 'rule',
-        name: 'Path of Shadows',
+        id: 'Path of Shadows',
+        name: { en: 'Path of Shadows', ko: 'Path of Shadows' },
         phase: 'Any',
         type: 'Active',
         cost: 1,
         rule: {
           en: 'This Unit gains HIDDEN Status until it performs another action.',
-          ko: '이 유닛은 다른 action을 수행할 때까지 HIDDEN Status를 얻는다.',
+          ko: '이 유닛은 다른 액션을 할 때까지 은폐 상태를 갖는다.',
         },
       },
     },
@@ -91,13 +97,14 @@ export const stalker: UnitCard = {
       pts: [20, 30],
       ability: {
         kind: 'rule',
-        name: 'Fury of the Nerazim',
+        id: 'Fury of the Nerazim',
+        name: { en: 'Fury of the Nerazim', ko: 'Fury of the Nerazim' },
         phase: 'Assault',
         type: 'Passive',
         cost: 0,
         rule: {
           en: 'When this Unit attacks an Enemy Unit that has already been Activated during this Phase, its Particle Disruptors gain INSTANT for that attack.',
-          ko: '이 유닛이 이번 Phase에 이미 Activated된 적 유닛을 공격할 때, 그 공격에 한해 Particle Disruptors는 INSTANT를 얻는다.',
+          ko: '이 유닛이 공격하는 대상이 이 페이즈에 이미 활성화된 유닛이라면, 입자분열기는 그 공격에서 인스턴트를 갖는다.',
         },
       },
     },

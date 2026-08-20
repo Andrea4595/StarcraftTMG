@@ -2,7 +2,8 @@ import type { UnitCard } from '../../../types'
 
 export const marine: UnitCard = {
   category: 'unit',
-  name: 'Marine',
+  id: 'Marine',
+  name: { en: 'Marine', ko: 'Marine' },
   isUnique: false,
   type: 'Core',
   stat: {
@@ -22,18 +23,20 @@ export const marine: UnitCard = {
   abilities: [
     {
       kind: 'rule',
-      name: 'Stimpack',
+      id: 'Stimpack',
+      name: { en: 'Stimpack', ko: 'Stimpack' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
       rule: {
         en: 'This Unit suffers NON-LETHAL DAMAGE (2). This Unit gains BUFF Speed (3). Additionally, its C-14 Rifle and all Close Combat Weapons gain PRECISION (3).',
-        ko: '이 유닛은 NON-LETHAL DAMAGE (2)를 받는다. 이 유닛은 BUFF Speed (3)을 얻는다. 추가로, 이 유닛의 C-14 Rifle과 모든 근접 무기는 PRECISION (3)을 얻는다.',
+        ko: '이 유닛은 논 리썰 데미지(2)를 받고 버프 스피드(3)를 받는다. 추가로 C-14 소총과 모든 근접무기가 프리시전(3)을 갖는다.',
       },
     },
     {
       kind: 'weapon',
-      name: 'C-14 rifle',
+      id: 'C-14 Rifle',
+      name: { en: 'C-14 Rifle', ko: 'C-14 Rifle' },
       phase: 'Assault',
       stat: {
         rng: 12,
@@ -48,7 +51,8 @@ export const marine: UnitCard = {
     },
     {
       kind: 'weapon',
-      name: 'Strike',
+      id: 'Strike',
+      name: { en: 'Strike', ko: 'Strike' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -67,22 +71,24 @@ export const marine: UnitCard = {
       pts: [20, 20, 30],
       ability: {
         kind: 'rule',
-        name: 'Combat Shield',
+        id: 'Combat Shield',
+        name: { en: 'Combat Shield', ko: 'Combat Shield' },
         phase: 'Movement',
         type: 'Active',
         cost: 1,
         rule: {
           en: 'This Unit is always eligible to make an Evade Roll against any Close Combat Attack targeting it and any Damage from an Enemy Special Ability.',
-          ko: '이 유닛은 자신을 대상으로 지정한 모든 근접 공격과 적 Special Ability로 인한 모든 데미지에 대해 항상 Evade Roll을 할 수 있다.',
+          ko: '적의 근접공격과 적의 특수능력으로 인해 발생하는 데미지에 대해 회피 롤을 할 수 있다.',
         },
       },
     },
     {
       pts: 10,
-      for: 'C-14 Rifle',
+      forId: 'C-14 Rifle',
       ability: {
         kind: 'weapon',
-        name: 'AGG-12',
+        id: 'AGG-12',
+        name: { en: 'AGG-12', ko: 'AGG-12' },
         phase: 'Assault',
         stat: {
           rng: 12,
@@ -103,7 +109,8 @@ export const marine: UnitCard = {
       pts: 40,
       ability: {
         kind: 'weapon',
-        name: 'Rocket Launcher',
+        id: 'Rocket Launcher',
+        name: { en: 'Rocket Launcher', ko: 'Rocket Launcher' },
         phase: 'Assault',
         stat: {
           rng: 12,
@@ -126,13 +133,14 @@ export const marine: UnitCard = {
       pts: [10, 10, 20],
       ability: {
         kind: 'rule',
-        name: 'Slugthrower',
+        id: 'Slugthrower',
+        name: { en: 'Slugthrower', ko: 'Slugthrower' },
         phase: 'Assault',
         type: 'Passive',
         cost: 0,
         rule: {
           en: 'When this Unit makes a Ranged Attack with a C-14 Rifle and the target is Within 8", that weapon gains ANTI-EVADE (1).',
-          ko: '이 유닛이 C-14 Rifle로 원거리 공격을 할 때 대상이 8" 이내라면, 해당 무기는 ANTI-EVADE (1)을 얻는다.',
+          ko: '이 유닛이 8" 이내의 적 유닛을 상대로 C-14 소총을 사용해 사격할 때, 그 무기에 안티-회피(1)을 준다.',
         },
       },
     },
@@ -140,22 +148,24 @@ export const marine: UnitCard = {
       pts: 10,
       ability: {
         kind: 'rule',
-        name: 'Grenades - Frag',
+        id: 'Grenades - Frag',
+        name: { en: 'Grenades - Frag', ko: 'Grenades - Frag' },
         phase: 'Assault',
         type: 'Passive',
         cost: 0,
         rule: {
           en: "When this Unit makes a Ranged Attack with a C-14 Rifle and the target is Within 8\", that weapon's S Dice is replaced by D6.",
-          ko: '이 유닛이 C-14 Rifle로 원거리 공격을 할 때 대상이 8" 이내라면, 해당 무기의 S Dice는 D6으로 대체된다.',
+          ko: '이 유닛이 8" 이내의 적 유닛을 상대로 C-14 소총을 사용해 사격을 할 때, 그 무기의 S Dice에 D6을 준다.',
         },
       },
     },
     {
       pts: [20, 20, 30],
-      for: 'Strike',
+      forId: 'Strike',
       ability: {
         kind: 'weapon',
-        name: 'Bayonet',
+        id: 'Bayonet',
+        name: { en: 'Bayonet', ko: 'Bayonet' },
         phase: 'Combat',
         stat: {
           rng: 'E',

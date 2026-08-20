@@ -2,7 +2,8 @@ import type { UnitCard } from '../../../types'
 
 export const zergling: UnitCard = {
   category: 'unit',
-  name: 'Zergling',
+  id: 'Zergling',
+  name: { en: 'Zergling', ko: 'Zergling' },
   isUnique: false,
   type: 'Core',
   stat: {
@@ -22,40 +23,44 @@ export const zergling: UnitCard = {
   abilities: [
     {
       kind: 'rule',
-      name: 'Squadron',
+      id: 'Squadron',
+      name: { en: 'Squadron', ko: 'Squadron' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: "This Unit's Horizontal Coherency is 4\".",
-        ko: '이 유닛의 Horizontal Coherency는 4"이다.',
+        ko: '이 유닛의 코헤런시는 4"이다.',
       },
     },
     {
       kind: 'rule',
-      name: 'Metabolic Boost',
+      id: 'Metabolic Boost',
+      name: { en: 'Metabolic Boost', ko: 'Metabolic Boost' },
       phase: 'Assault',
       type: 'Active',
       cost: 1,
       rule: {
         en: "When determining Charge Distance for this Unit, roll 2D6 instead of D6 and use the higher result to add to the Unit's Speed characteristic.",
-        ko: '이 유닛의 Charge Distance를 결정할 때, D6 대신 2D6을 굴려 더 높은 결과를 유닛의 Speed 특성치에 더한다.',
+        ko: '이 유닛이 차지할 때 차지 값을 정할 때 기존의 D6 대신 2D6를 굴려서 그중 더 높은 값을 스피드 능력치에 더한다.',
       },
     },
     {
       kind: 'rule',
-      name: 'Devastating Charge',
+      id: 'Devastating Charge',
+      name: { en: 'Devastating Charge', ko: 'Devastating Charge' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (1) 5+ effect.',
-        ko: '이 유닛이 Charge에 성공한 직후, IMPACT (1) 5+ 효과를 해결한다.',
+        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 5+로 임팩트(1)를 입힌다.',
       },
     },
     {
       kind: 'weapon',
-      name: 'Claws',
+      id: 'Claws',
+      name: { en: 'Claws', ko: 'Claws' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -74,22 +79,24 @@ export const zergling: UnitCard = {
       pts: [20, 20, 30],
       ability: {
         kind: 'rule',
-        name: 'Burrow Ambush',
+        id: 'Burrow Ambush',
+        name: { en: 'Burrow Ambush', ko: 'Burrow Ambush' },
         phase: 'Movement',
         type: 'Passive',
         cost: 0,
         rule: {
           en: "When this Unit is nominated to deploy from the Reserves, it may resolve the PLACE (18) effect from the controlling player's Entry Edge. No model may be set Within 10\" of any Enemy model. This Unit's Activation ends.",
-          ko: '이 유닛이 Reserves에서 Deploy하도록 지명되었을 때, 소유 플레이어의 Entry Edge에서 PLACE (18) 효과를 해결할 수 있다. 어떤 모델도 적 모델의 10" 이내에 놓을 수 없다. 이 유닛의 Activation이 종료된다.',
+          ko: '이 유닛이 리저브에서 나올 때, 조종하는 플레이어의 엔트리 엣지에서 위치(18)를 적용해 배치될 수 있다. 10" 이내에 다른 적 유닛이 없어야 하며, 이렇게 배치된 후에는 이 유닛의 활성화가 종료된다.',
         },
       },
     },
     {
       pts: 10,
-      for: 'Claws',
+      forId: 'Claws',
       ability: {
         kind: 'weapon',
-        name: 'Shredding Claws',
+        id: 'Shredding Claws',
+        name: { en: 'Shredding Claws', ko: 'Shredding Claws' },
         phase: 'Combat',
         stat: {
           rng: 'E',
@@ -107,13 +114,14 @@ export const zergling: UnitCard = {
       pts: 20,
       ability: {
         kind: 'rule',
-        name: 'Adrenal Glands',
+        id: 'Adrenal Glands',
+        name: { en: 'Adrenal Glands', ko: 'Adrenal Glands' },
         phase: 'Any',
         type: 'Passive',
         cost: 0,
         rule: {
           en: "This Unit's Claws and Shredding Claws weapons gain PRECISION (2).",
-          ko: '이 유닛의 Claws 및 Shredding Claws 무기는 PRECISION (2)를 얻는다.',
+          ko: '이 유닛의 발톱, 분쇄하는 발톱은 프리시전(2)을 갖는다.',
         },
       },
     },

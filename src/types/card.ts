@@ -29,7 +29,9 @@ export interface Keyword {
 }
 
 interface AbilityBase {
-  name: string
+  /** 안정적인 영문 식별자. 기존 영문 name 문자열과 동일한 값 (sealed weapon 판정, 즐겨찾기 등에 쓰임) */
+  id: string
+  name: Rule
   phase: Phase
 }
 
@@ -72,12 +74,17 @@ export type SquadScaledCost = number | number[]
 export interface Upgrade {
   ability: Ability
   pts: SquadScaledCost
-  /** 이 업그레이드가 대체/강화하는 기본 무기·능력 이름. 없으면 undefined ('FOR -') */
-  for?: string
+  /** 이 업그레이드가 대체/강화하는 기본 무기·능력의 id. 없으면 undefined ('FOR -') */
+  forId?: string
 }
 
 interface CardBase {
-  name: string
+  /**
+   * 안정적인 영문 식별자. 원래 name이 하던 역할(로스터 저장 데이터, 즐겨찾기, 팩션/택티컬 카드
+   * 선택 상태 등에서의 식별키)을 그대로 이어받는다 — 기존 영문 name 문자열과 동일한 값을 쓴다.
+   */
+  id: string
+  name: Rule
   /** 유니크일 경우 로스터에 하나만 포함시킬 수 있다. */
   isUnique: boolean
   /** 프로젝트 내 이미지 경로. 텍스트 기반 렌더링에서는 사용하지 않을 수 있음 */
