@@ -18,10 +18,10 @@ export const KEYWORDS: KeywordEntry[] = [
   },
   {
     id: 'ACTIVATION MARKER',
-    name: { en: 'ACTIVATION MARKER', ko: 'ACTIVATION MARKER' },
+    name: { en: 'ACTIVATION MARKER', ko: '활성화 마커' },
     definition: {
       en: 'A physical marker set beside a Unit that has completed its turn in the current Phase. Activation Markers are double-sided: the arrow-up side shows the Unit has finished its turn in the Movement Phase (Phase 1), and the reverse side shows it has finished its turn in the Assault Phase (Phase 2) (Part 7.3.2).',
-      ko: '현재 Phase에서 차례를 마친 유닛 옆에 놓는 실물 마커. Activation Marker는 양면으로 되어 있으며, 화살표가 위를 향한 면은 그 유닛이 Movement Phase(Phase 1)에서 차례를 마쳤음을, 뒷면은 Assault Phase(Phase 2)에서 차례를 마쳤음을 나타낸다 (Part 7.3.2).',
+      ko: '현재 페이즈에서 차례를 마친 유닛 옆에 놓는 실물 마커. 양면으로 되어 있으며, 화살표가 위를 향한 면은 무브먼트 페이즈에서, 뒷면은 어썰트 페이즈에서 차례를 마쳤음을 나타낸다.',
     },
   },
   {
@@ -42,10 +42,10 @@ export const KEYWORDS: KeywordEntry[] = [
   },
   {
     id: 'ARMOUR POOL',
-    name: { en: 'ARMOUR POOL', ko: 'ARMOUR POOL' },
+    name: { en: 'ARMOUR POOL', ko: '아머 풀' },
     definition: {
       en: "The second of the three dice pools used to resolve an attack. The defender rolls all dice in the Armour Pool against the target Unit's Armour characteristic: each die that meets or exceeds the Armour value is a success and is discarded, while each failure moves to the Damage Pool. Dice moved out of the Armour Pool by Surge or CRITICAL HIT are set directly into the Damage Pool without an Armour Roll (Part 8.7.4).",
-      ko: '공격을 처리할 때 사용하는 세 개의 주사위 풀 중 두 번째 풀. 방어자는 Armour Pool에 있는 모든 주사위를 대상 유닛의 Armour 특성치에 대해 굴린다: Armour 수치 이상이 나온 주사위는 성공으로 버려지고, 실패한 주사위는 Damage Pool로 옮겨진다. Surge나 CRITICAL HIT으로 Armour Pool에서 빠져나온 주사위는 Armour Roll 없이 곧바로 Damage Pool로 들어간다 (Part 8.7.4).',
+      ko: '공격을 처리할 때 사용하는 세 개의 주사위 풀 중 두 번째 풀. 방어자는 아머 풀에 있는 모든 주사위를 대상 유닛의 아머 능력치에 대해 굴린다: 아머 수치 이상이 나온 주사위는 성공으로 버려지고, 실패한 주사위는 데미지 풀로 옮겨진다. 서지나 크리티컬 힛으로 아머 풀에서 빠져나온 주사위는 아머 롤 없이 곧바로 데미지 풀로 들어간다.',
     },
   },
   {
@@ -58,10 +58,10 @@ export const KEYWORDS: KeywordEntry[] = [
   },
   {
     id: 'ATTACK POOL',
-    name: { en: 'ATTACK POOL', ko: 'ATTACK POOL' },
+    name: { en: 'ATTACK POOL', ko: '어택 풀' },
     definition: {
       en: "The first of the three dice pools used to resolve an attack. Generate a number of dice equal to each attacking model's Rate of Attack (RoA), plus a Surge Die if the weapon has an S Dice characteristic. Roll all dice against the weapon's Hit characteristic: each die that meets or exceeds the Hit value is a success and moves to the Armour Pool, while failures are discarded (Part 8.7.4).",
-      ko: '공격을 처리할 때 사용하는 세 개의 주사위 풀 중 첫 번째 풀. 공격하는 각 모델의 Rate of Attack(RoA)만큼 주사위를 생성하고, 무기에 S Dice 특성치가 있다면 Surge Die를 하나 추가한다. 모든 주사위를 무기의 Hit 특성치에 대해 굴린다: Hit 수치 이상이 나온 주사위는 성공으로 Armour Pool로 옮기고, 실패한 주사위는 버린다 (Part 8.7.4).',
+      ko: '공격을 처리할 때 사용하는 세 개의 주사위 풀 중 첫 번째 풀. 공격하는 각 모델의 RoA만큼 주사위를 생성하고, 무기에 S Dice 특성치가 있다면 서지 다이스를 하나 추가한다. 모든 주사위를 무기의 힛 특성치에 대해 굴린다: 힛 수치 이상이 나온 주사위는 성공으로 아머 풀로 옮기고, 실패한 주사위는 버린다.',
     },
   },
   {
@@ -73,19 +73,11 @@ export const KEYWORDS: KeywordEntry[] = [
     },
   },
   {
-    id: 'BASE-TO-BASE CONTACT',
-    name: { en: 'BASE-TO-BASE CONTACT', ko: 'BASE-TO-BASE CONTACT' },
-    definition: {
-      en: 'Two models are in Base-to-Base Contact when their bases are physically touching. The distance between models in Base-to-Base Contact is 0" (Part 4.1).',
-      ko: '두 모델의 베이스가 물리적으로 맞닿아 있으면 Base-to-Base Contact 상태다. Base-to-Base Contact 상태인 모델 사이의 거리는 0"이다 (Part 4.1).',
-    },
-  },
-  {
     id: 'BATCH',
-    name: { en: 'BATCH', ko: 'BATCH' },
+    name: { en: 'BATCH', ko: '공격 묶음' },
     definition: {
       en: "A Batch consists of all models firing the same weapon at the same target. All models using the same Weapon Profile must fire at the same target - a single profile's fire cannot be split. When a Unit has multiple Weapon Profiles or fires at different targets, each is resolved as a separate Batch: declare the target of one Batch, resolve it fully, then declare the next (Part 8.7.3).",
-      ko: 'Batch는 같은 무기로 같은 대상을 쏘는 모든 모델로 구성된다. 같은 Weapon Profile을 사용하는 모든 모델은 같은 대상을 쏴야 한다 - 하나의 프로필의 사격을 나눠서 쏠 수 없다. 유닛이 여러 Weapon Profile을 가지고 있거나 서로 다른 대상을 쏠 때는 각각을 별도의 Batch로 처리한다: 한 Batch의 대상을 선언하고 완전히 처리한 다음, 다음 Batch의 대상을 선언한다 (Part 8.7.3).',
+      ko: '공격 묶음은 같은 무기로 같은 대상을 쏘는 모든 모델로 구성된다. 같은 무기 프로필을 사용하는 모든 모델은 같은 대상을 쏴야 한다 - 하나의 프로필의 사격을 나눠서 쏠 수 없다. 유닛이 여러 무기 프로필을 가지고 있거나 서로 다른 대상을 쏠 때는 각각을 별도의 공격 묶음으로 처리한다: 한 공격 묶음의 대상을 선언하고 완전히 처리한 다음, 다음 공격 묶음의 대상을 선언한다.',
     },
   },
   {
@@ -130,18 +122,18 @@ export const KEYWORDS: KeywordEntry[] = [
   },
   {
     id: 'COHERENCY',
-    name: { en: 'COHERENCY', ko: 'COHERENCY' },
+    name: { en: 'COHERENCY', ko: '코헤런시' },
     definition: {
       en: 'Coherency is checked at the end of any action that repositions models, including Move, Deploy, Charge, Disengage, Close Ranks, Run, PLACE, and SUMMON. At the end of such an action, all models in the Unit must be Wholly Within 3" of the Leading Model and able to trace a valid Coherency Link to it - if met, the Unit is In Coherency. A Unit with one or more models set beyond 3" (as close as possible while maintaining a valid Coherency Link) is Out of Coherency; Out of Coherency Units cannot control or contest Mission Markers. Casualties from any source never trigger a Coherency check and never cause a Unit to become Out of Coherency (Part 4.4).',
-      ko: 'Coherency는 모델을 재배치하는 모든 행동(Move, Deploy, Charge, Disengage, Close Ranks, Run, PLACE, SUMMON 포함)이 끝날 때 확인한다. 그런 행동이 끝나면, 유닛의 모든 모델은 Leading Model로부터 3" 이내에 완전히(Wholly Within) 있어야 하고 그것까지 유효한 Coherency Link를 그을 수 있어야 한다 - 이 조건을 만족하면 그 유닛은 In Coherency 상태다. 하나 이상의 모델이 (유효한 Coherency Link를 유지하는 선에서 가능한 한 가깝게 놓았음에도) 3"를 벗어나 있는 유닛은 Out of Coherency 상태이며, Out of Coherency 유닛은 Mission Marker를 Control하거나 Contest할 수 없다. 어떤 원인으로 인한 casualty도 Coherency 확인을 유발하지 않으며, 유닛을 Out of Coherency로 만들지 않는다 (Part 4.4).',
+      ko: '코헤런시는 이동, 배치, 차지, 이탈, 진형 유지, 질주, 위치, 소환을 포함해 모델의 위치를 재조정하는 모든 액션이 끝날 때 확인한다. 그런 액션이 끝나면 유닛의 모든 모델은 리딩 모델로부터 3" 안에 완전히 들어와 있어야 하고, 리딩 모델까지 유효한 코헤런시 링크를 그을 수 있어야 한다 - 이 조건을 만족하면 유닛은 코헤런시가 유지된 상태다. 하나 이상의 모델이 (유효한 코헤런시 링크를 유지하는 선에서 가능한 한 가깝게 놓았음에도) 3"를 벗어나 있으면 그 유닛은 코헤런시 이탈 상태이며, 코헤런시 이탈 상태인 유닛은 미션 마커를 점령하거나 경쟁할 수 없다. 어떤 원인으로 인한 사상자도 코헤런시 확인을 유발하지 않으며, 유닛을 코헤런시 이탈 상태로 만들지 않는다.',
     },
   },
   {
     id: 'COHERENCY LINK',
-    name: { en: 'COHERENCY LINK', ko: 'COHERENCY LINK' },
+    name: { en: 'COHERENCY LINK', ko: '코헤런시 링크' },
     definition: {
       en: 'A Coherency Link is a chain of imaginary lines drawn model-to-model through models of the same Unit, used to check whether a model can legally be set In Coherency. Links cannot pass through models from other Units, terrain, or gaps that the Leading Model itself could not move through, though a link may pass through Enemy models the Unit is currently Engaged with. A model that cannot find a legal position while maintaining a valid Coherency Link is immediately removed as a casualty. For a Flying Unit, Coherency Links ignore terrain and may pass through models from other Units (Part 4.4).',
-      ko: 'Coherency Link는 같은 유닛의 모델들을 모델 대 모델로 이어 그은 가상의 선들이며, 어떤 모델이 In Coherency 상태로 합법적으로 배치될 수 있는지 확인하는 데 쓰인다. Link는 다른 유닛의 모델, 지형, 또는 Leading Model 자신이 통과해서 이동할 수 없었을 틈을 통과할 수 없다. 다만 그 유닛이 현재 Engaged 상태인 적 모델은 통과할 수 있다. 유효한 Coherency Link를 유지하면서 합법적인 위치를 찾을 수 없는 모델은 즉시 casualty로 제거된다. Flying 유닛의 경우 Coherency Link는 지형을 무시하며 다른 유닛의 모델도 통과할 수 있다 (Part 4.4).',
+      ko: '코헤런시 링크는 같은 유닛의 모델들을 모델 대 모델로 이어 그은 가상의 선이며, 어떤 모델이 코헤런시가 유지된 상태로 합법적으로 배치될 수 있는지 확인하는 데 쓰인다. 이 링크는 다른 유닛의 모델, 지형, 또는 리딩 모델 자신이 통과할 수 없는 틈을 통과할 수 없다. 다만 그 유닛이 현재 인게이지 상태인 적 모델은 통과할 수 있다. 유효한 코헤런시 링크를 유지하면서 합법적인 위치를 찾을 수 없는 모델은 즉시 사상자로 제거된다. 비행 유닛의 경우 코헤런시 링크는 지형을 무시하며 다른 유닛의 모델도 통과할 수 있다.',
     },
   },
   {
@@ -186,10 +178,10 @@ export const KEYWORDS: KeywordEntry[] = [
   },
   {
     id: 'DAMAGE POOL',
-    name: { en: 'DAMAGE POOL', ko: 'DAMAGE POOL' },
+    name: { en: 'DAMAGE POOL', ko: '데미지 풀' },
     definition: {
       en: "The third of the three dice pools used to resolve an attack. Each die remaining in the Damage Pool inflicts Damage equal to the weapon's Damage characteristic. If the target Unit is eligible for an Evade Roll, the defender rolls all dice in the Damage Pool against the Unit's Evade characteristic before Damage is applied - each die that meets or exceeds the Evade value is removed, and the remaining dice are confirmed Damage (Part 8.7.4).",
-      ko: '공격을 처리할 때 사용하는 세 개의 주사위 풀 중 세 번째 풀. Damage Pool에 남은 주사위 하나마다 무기의 Damage 특성치만큼 Damage를 입힌다. 대상 유닛이 Evade Roll을 할 자격이 있다면, Damage를 적용하기 전에 방어자는 Damage Pool의 모든 주사위를 그 유닛의 Evade 특성치에 대해 굴린다 - Evade 수치 이상이 나온 주사위는 제거되고, 남은 주사위만큼 Damage가 확정된다 (Part 8.7.4).',
+      ko: '공격을 처리할 때 사용하는 세 개의 주사위 풀 중 세 번째 풀. 데미지 풀에 남은 주사위 하나마다 무기의 데미지 능력치만큼 데미지를 입힌다. 대상 유닛이 회피 롤을 할 자격이 있다면, 데미지를 적용하기 전에 방어자는 데미지 풀의 모든 주사위를 그 유닛의 이베이드 능력치에 대해 굴린다 - 이베이드 수치 이상이 나온 주사위는 제거되고, 남은 주사위만큼 데미지가 확정된다.',
     },
   },
   {
@@ -266,18 +258,18 @@ export const KEYWORDS: KeywordEntry[] = [
   },
   {
     id: 'EVADE ROLL',
-    name: { en: 'EVADE ROLL', ko: 'EVADE ROLL' },
+    name: { en: 'EVADE ROLL', ko: '회피 롤' },
     definition: {
       en: 'A defensive roll made in the Damage Pool step of an attack, performed only if the target Unit qualifies: either a Special Ability or keyword grants an Evade Roll, or the target is Engaged and suffering Damage from a Ranged Attack. The defender rolls all dice in the Damage Pool against the Unit\'s Evade characteristic; each die that meets or exceeds the Evade value is a success and is removed (Part 8.7.4).',
-      ko: '공격의 Damage Pool 단계에서 이루어지는 방어 굴림으로, 대상 유닛이 다음 조건 중 하나를 만족할 때만 진행한다: Special Ability나 키워드가 Evade Roll을 부여하거나, 대상이 Engaged 상태에서 Ranged Attack으로 인한 Damage를 받고 있을 때. 방어자는 Damage Pool의 모든 주사위를 그 유닛의 Evade 특성치에 대해 굴린다; Evade 수치 이상이 나온 주사위는 성공으로 제거된다 (Part 8.7.4).',
+      ko: '공격의 데미지 풀 단계에서 이루어지는 방어 굴림으로, 대상 유닛이 다음 조건 중 하나를 만족할 때만 진행한다: 특수 능력이나 키워드가 회피 롤을 부여하거나, 대상이 인게이지 상태에서 사격으로 인한 데미지를 받고 있을 때. 방어자는 데미지 풀의 모든 주사위를 그 유닛의 이베이드 능력치에 대해 굴린다; 이베이드 수치 이상이 나온 주사위는 성공으로 제거된다.',
     },
   },
   {
     id: 'FACTION INDICATOR',
-    name: { en: 'FACTION INDICATOR', ko: 'FACTION INDICATOR' },
+    name: { en: 'FACTION INDICATOR', ko: '팩션 마커' },
     definition: {
       en: 'A Marker used on Mission Markers to show which player currently controls that Mission Marker. Some Special Abilities also use Faction Indicators to mark an area of the battlefield (Part 7.3.2).',
-      ko: '어느 플레이어가 그 Mission Marker를 현재 Control하고 있는지 표시하기 위해 Mission Marker 위에 놓는 마커. 일부 Special Ability는 전장의 특정 구역을 표시하기 위해 Faction Indicator를 사용하기도 한다 (Part 7.3.2).',
+      ko: '어느 플레이어가 그 미션 마커를 현재 점령하고 있는지 표시하기 위해 미션 마커 위에 놓는 마커. 일부 특수 능력은 전장의 특정 구역을 표시하기 위해 팩션 마커를 사용하기도 한다.',
     },
   },
   {
@@ -322,18 +314,18 @@ export const KEYWORDS: KeywordEntry[] = [
   },
   {
     id: 'GAP CLEARANCE',
-    name: { en: 'GAP CLEARANCE', ko: 'GAP CLEARANCE' },
+    name: { en: 'GAP CLEARANCE', ko: '틈새 통과' },
     definition: {
       en: 'A gap is any physical space between terrain pieces or models through which a model\'s path of movement passes. The Leading Model can pass through a gap depending on the Unit\'s Size: Size 2 or lower requires a gap at least 1" wide; Size 3 or larger requires a gap at least 3" wide. This applies to Move, Run, Charge, Disengage, and Close Ranks. Flying Units ignore Gap Clearance during movement (Part 4.6).',
-      ko: 'gap(틈)이란 모델의 이동 경로가 지나가는, 지형물이나 모델 사이의 물리적 공간을 말한다. Leading Model이 gap을 통과할 수 있는지는 유닛의 Size에 따라 다르다: Size 2 이하는 폭 1" 이상의 gap이 필요하고, Size 3 이상은 폭 3" 이상의 gap이 필요하다. 이는 Move, Run, Charge, Disengage, Close Ranks에 모두 적용된다. Flying 유닛은 이동 중 Gap Clearance를 무시한다 (Part 4.6).',
+      ko: '틈새란 모델의 이동 경로가 지나가는, 지형물이나 모델 사이의 물리적 공간을 말한다. 리딩 모델이 틈새를 통과할 수 있는지는 유닛의 사이즈에 따라 다르다: 사이즈 2 이하는 폭 1" 이상의 틈새가 필요하고, 사이즈 3 이상은 폭 3" 이상의 틈새가 필요하다. 이는 이동, 질주, 차지, 이탈, 진형 유지에 모두 적용된다. 비행 유닛은 이동 중 틈새 통과 규칙을 무시한다.',
     },
   },
   {
     id: 'GRASS',
-    name: { en: 'GRASS', ko: 'GRASS' },
+    name: { en: 'GRASS', ko: '풀숲' },
     definition: {
       en: "A terrain piece with a Size of 2 that follows special rules. Unlike other Size 2 terrain, Grass does not block movement but does block Line of Sight, following the standard Cover rules (Part 7.1.1).\nGrass is destroyed by the passage of war. If a Leading Model's path of travel passes through or any model of a Unit ends on a Grass terrain piece during any movement action (Move, Deploy, Run, Charge, Disengage or Close Ranks), that Grass terrain piece is immediately removed from the game. It does not return during Cleanup & Refresh and cannot be replaced by any means.\nA Flying Unit moving over Grass does not destroy the Grass terrain piece. Flying models pass above the terrain, not through it. If any model of a Flying Unit ends on a Grass terrain piece, it is removed as normal.",
-      ko: 'Size 2이면서 특수 규칙을 따르는 지형물. 다른 Size 2 지형과 달리 Grass는 이동을 막지 않지만, 표준 Cover 규칙(Part 7.1.1)에 따라 Line of Sight는 막는다.\nGrass는 전투가 지나가면 파괴된다. Leading Model의 이동 경로가 Grass 지형물을 통과하거나, 어떤 이동 행동(Move, Deploy, Run, Charge, Disengage, Close Ranks) 중에 유닛의 모델이 Grass 지형물 위에서 이동을 마치면, 그 Grass 지형물은 즉시 게임에서 제거된다. Cleanup & Refresh 때도 되돌아오지 않으며 어떤 방법으로도 다시 놓을 수 없다.\nFlying 유닛이 Grass 위로 지나가는 것만으로는 그 Grass 지형물이 파괴되지 않는다. Flying 모델은 지형을 통과하는 게 아니라 그 위를 지나가는 것으로 취급한다. Flying 유닛의 모델이 Grass 지형물 위에서 이동을 마치면 평소처럼 제거된다.',
+      ko: '사이즈 2이면서 특수 규칙을 따르는 지형물. 다른 사이즈 2 지형과 달리 풀숲은 이동을 막지 않지만, 표준 커버 규칙에 따라 시야는 차단한다.\n풀숲은 전투가 지나가면 파괴된다. 리딩 모델의 이동 경로가 풀숲 지형을 통과하거나, 어떤 이동 액션(이동, 배치, 질주, 차지, 이탈, 진형 유지) 중에 유닛의 모델이 풀숲 지형 위에서 이동을 마치면, 그 풀숲 지형은 즉시 게임에서 제거되며 다시 놓을 수 없다.\n비행 유닛이 풀숲 위로 지나가는 것만으로는 그 풀숲 지형이 파괴되지 않는다. 비행 모델은 지형 내부가 아니라 그 위를 지나가는 것으로 취급하기 때문이다. 하지만 비행 유닛의 모델이 풀숲 지형 위에서 이동을 마치면 평소처럼 제거된다.',
     },
   },
   {
@@ -650,10 +642,10 @@ export const KEYWORDS: KeywordEntry[] = [
   },
   {
     id: 'SURGE',
-    name: { en: 'SURGE', ko: 'SURGE' },
+    name: { en: 'SURGE', ko: '서지' },
     definition: {
       en: "A weapon's Surge Die (rolled alongside the Attack Roll if the weapon has an S Dice characteristic) is resolved after the Roll to Hit. Check if the target Unit's Combat Tag matches the weapon's Surge Type: if not, the Surge Die result is discarded and no dice move. If it matches, move a number of dice equal to the Surge Die result from the Armour Pool directly to the Damage Pool, bypassing Armour entirely - Surge can never move more dice than are currently in the Armour Pool (Part 8.7.4).",
-      ko: '무기의 Surge Die(무기에 S Dice 특성치가 있으면 Attack Roll과 함께 굴림)는 Roll to Hit 이후에 처리한다. 대상 유닛의 Combat Tag가 무기의 Surge Type과 일치하는지 확인한다: 일치하지 않으면 Surge Die 결과는 버려지며 어떤 주사위도 옮기지 않는다. 일치하면 Surge Die 결과만큼의 주사위를 Armour Pool에서 곧바로 Damage Pool로 옮기며, 이는 Armour를 완전히 건너뛴다 - Surge는 그 시점에 Armour Pool에 있는 주사위 수보다 더 많이 옮길 수 없다 (Part 8.7.4).',
+      ko: '무기의 서지 다이스(무기에 S Dice 특성치가 있으면 힛 롤에 함께 섞어서 굴림)는 힛 롤 결과가 나온 후에 처리한다. 대상 유닛의 전투 태그가 무기의 서지 타입과 일치하는지 확인한다: 일치하지 않으면 서지 다이스 결과는 버려지며 어떤 주사위도 옮기지 않는다. 일치하면 서지 다이스 결과만큼의 주사위를 아머 풀에서 곧바로 데미지 풀로 옮기며, 이는 아머 능력치를 완전히 건너뛴다 - 서지로 옮길 수 있는 주사위 수는 그 시점에 아머 풀에 있는 주사위 수보다 많을 수 없다.',
     },
   },
   {
@@ -666,10 +658,10 @@ export const KEYWORDS: KeywordEntry[] = [
   },
   {
     id: 'TARGET POINT',
-    name: { en: 'TARGET POINT', ko: 'TARGET POINT' },
+    name: { en: 'TARGET POINT', ko: '조준점' },
     definition: {
       en: 'The reference point used to align a Template Weapon: the centre of the target model\'s base. For a Blast Template (BT), the template must cover as much of the target model\'s base as possible; for a Flamer Template (FT), the narrow end must be flush with the attacking model\'s base edge and aimed at the target. Templates affect only models on the same elevation level as the Target Point (Part 8.7.6).',
-      ko: 'Template Weapon(템플릿 무기)의 정렬 기준점으로, 대상 모델 베이스의 중심을 가리킨다. Blast Template(BT)는 대상 모델의 베이스를 최대한 많이 덮도록 놓아야 하고, Flamer Template(FT)는 좁은 끝이 공격 모델의 베이스 가장자리에 맞닿은 채 대상을 겨냥해야 한다. 템플릿은 Target Point와 같은 고도에 있는 모델에게만 영향을 준다 (Part 8.7.6).',
+      ko: '템플릿 무기의 정렬 기준점으로, 대상 모델 베이스의 중심을 가리킨다. 블래스트 템플릿(BT)은 대상 모델의 베이스를 최대한 많이 덮도록 놓아야 하고, 플레이머 템플릿(FT)은 좁은 끝이 공격 모델의 베이스 가장자리에 맞닿은 채 대상을 겨냥해야 한다. 템플릿은 조준점과 같은 고도에 있는 모델에게만 영향을 준다.',
     },
   },
   {
