@@ -275,6 +275,14 @@ export function RosterProvider({ children }: { children: ReactNode }) {
     }
   }, [state])
 
+  // 각 로스터가 마지막으로 어느 계정 소속으로 동기화됐는지 기록한다 (Firestore엔 안 남기는 이
+  // 세션 안에서만 쓰는 메모리 기록). 로그인 한 번 안 한 순수 로컬 로스터는 여기 안 잡힌다.
+  const rosterOwnerRef = useRef<Map<string, string>>(new Map())
+  // 로그아웃 상태를 거쳐도 안 지워지는, "마지막으로 실제 로그인했던 계정"의 uid. 계정 A -> 로그아웃 ->
+  // 계정 B로 갈아탈 때, 로그아웃 자체는 계정이 바뀐 게 아니므로 이 값을 안 건드려야 A -> B 전환을
+  // 정확히 감지할 수 있다.
+  const lastUidRef = useRef<string | null>(null)
+
   // 로그인 중일 때만 Firestore users/{uid}/rosters 컬렉션을 구독한다. 로그아웃 상태에서는 이 effect가
   // 아무 일도 하지 않으므로, 로그인 안 한 사용자는 지금까지와 100% 동일하게 localStorage만 쓰는 셈이다.
   // docChanges()는 마지막 스냅샷 이후 무엇이 추가/수정/삭제됐는지만 알려줘서, 다른 기기에서의 삭제가
@@ -290,11 +298,37 @@ export function RosterProvider({ children }: { children: ReactNode }) {
           type: c.type,
           roster: c.type === 'removed' ? undefined : (c.doc.data() as Roster),
         }))
+        for (const c of changes) {
+          if (c.type === 'removed') rosterOwnerRef.current.delete(c.docId)
+          else rosterOwnerRef.current.set(c.docId, user.uid)
+        }
         if (changes.length > 0) dispatch({ type: 'applyCloudChanges', changes })
       },
       (err) => console.error(err),
     )
     return unsub
+  }, [user])
+
+  // 로그인 중인 계정이 실제로 바뀌면(로그아웃 자체는 해당 안 됨 - lastUidRef는 로그아웃 때 안 지워짐),
+  // 이전 계정 소속으로 기록된 로스터를 화면에서 내린다. Firestore에서 지우는 게 아니라 로컬 상태에서만
+  // 빼는 것이므로, 그 로스터는 원래 계정 클라우드에 그대로 안전하게 남아있고 그 계정으로 다시 로그인하면
+  // 돌아온다. 한 번도 동기화된 적 없는 순수 로컬 로스터는 계정이 바뀌어도 그대로 남아 새 계정에 합쳐진다.
+  useEffect(() => {
+    if (user && lastUidRef.current && user.uid !== lastUidRef.current) {
+      const staleIds = state.rosters
+        .filter((r) => {
+          const owner = rosterOwnerRef.current.get(r.id)
+          return owner !== undefined && owner !== user.uid
+        })
+        .map((r) => r.id)
+      if (staleIds.length > 0) {
+        for (const id of staleIds) rosterOwnerRef.current.delete(id)
+        dispatch({ type: 'applyCloudChanges', changes: staleIds.map((docId) => ({ docId, type: 'removed' })) })
+      }
+    }
+    if (user) lastUidRef.current = user.uid
+    // state.rosters는 의도적으로 deps에서 뺐다: 이 effect는 "계정이 바뀐 순간"에만 반응해야 하고,
+    // 로스터가 편집될 때마다 다시 도는 건 원하지 않는다 (그건 아래 push effect의 몫이다).
   }, [user])
 
   // 로그인 중일 때, 실제로 내용이 바뀐 로스터만 Firestore에 올린다. 리듀서가 불변성을 지키기 때문에
@@ -312,6 +346,7 @@ export function RosterProvider({ children }: { children: ReactNode }) {
     for (const roster of state.rosters) {
       const prevRoster = prev.find((r) => r.id === roster.id)
       if (prevRoster !== roster) {
+        rosterOwnerRef.current.set(roster.id, user.uid)
         setDoc(doc(db, 'users', user.uid, 'rosters', roster.id), roster).catch(console.error)
       }
     }
