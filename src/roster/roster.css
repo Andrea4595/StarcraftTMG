@@ -824,6 +824,11 @@ button.roster-slot-pill:hover {
   overflow: hidden;
 }
 
+/* 짧은 텍스트만 보여주는 모달(크레딧 등)은 기본 1100px이 너무 넓어서 내용에 맞춰 좁힌다 */
+.modal-panel-narrow {
+  max-width: 420px;
+}
+
 .modal-header {
   display: flex;
   align-items: center;
