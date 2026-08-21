@@ -3,6 +3,7 @@ import type { RaceData, Roster } from '../../types'
 import { useRosterStore } from '../RosterContext'
 import { RACE_THEME_COLORS } from '../raceThemeColor'
 import { RosterExportButton } from './RosterExportButton'
+import { CreditButton } from './CreditButton'
 
 export function RosterSwitcher({
   race,
@@ -60,20 +61,24 @@ export function RosterSwitcher({
         + 새 로스터
       </button>
 
-      {race && roster && (
-        <>
-          <RosterExportButton race={race} roster={roster} />
-          <button
-            type="button"
-            className="btn roster-icon-btn"
-            onClick={onOpenReference}
-            aria-label="게임 레퍼런스"
-            title="게임 레퍼런스"
-          >
-            <span className="roster-icon roster-icon-reference" aria-hidden="true" />
-          </button>
-        </>
-      )}
+      <div className="roster-switcher-actions">
+        {race && roster && (
+          <>
+            <RosterExportButton race={race} roster={roster} />
+            <button
+              type="button"
+              className="btn roster-icon-btn"
+              onClick={onOpenReference}
+              aria-label="게임 레퍼런스"
+              title="게임 레퍼런스"
+            >
+              <span className="roster-icon roster-icon-reference" aria-hidden="true" />
+            </button>
+          </>
+        )}
+
+        <CreditButton />
+      </div>
     </div>
   )
 }
