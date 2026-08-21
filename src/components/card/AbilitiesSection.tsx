@@ -2,6 +2,7 @@ import { PHASES, type Ability, type RuleAbility, type Upgrade, type WeaponProfil
 import { WeaponTable, type WeaponRow } from './WeaponTable'
 import { RuleAbilityBlock } from './RuleAbilityBlock'
 import { formatScaledCost, resolveScaledCost } from './costDisplay'
+import { useLocalize } from '../../LangContext'
 
 export interface UpgradeToggleState {
   /** 비용 계산 기준이 되는 현재 선택된 스쿼드 등급 */
@@ -13,8 +14,8 @@ export interface UpgradeToggleState {
 
 /** 이 카드/유닛에 속한 RuleAbility들의 즐겨찾기 상태를 조회/토글하는 창구 (게임 레퍼런스 화면 전용) */
 export interface FavoriteToggle {
-  isFavorite: (abilityName: string) => boolean
-  onToggle: (abilityName: string) => void
+  isFavorite: (abilityId: string) => boolean
+  onToggle: (abilityId: string) => void
 }
 
 /**
@@ -59,6 +60,7 @@ export function AbilitiesSection({
   /** 다른 유닛/카드에서 즐겨찾기한 능력들. 같은 phase의 그룹 하단에 이름만 덧붙인다 (게임 레퍼런스 유닛 상세 모달 전용) */
   crossFavorites?: CrossFavoriteRef[]
 }) {
+  const localize = useLocalize()
   const entries: Entry[] = [
     ...abilities.map((ability): Entry => ({ kind: 'ability', ability })),
     ...upgrades.map((upgrade, index): Entry => ({ kind: 'upgrade', upgrade, index })),
@@ -78,21 +80,21 @@ export function AbilitiesSection({
       ? { active: upgradeToggle.activeIndexes.includes(index), onToggle: () => upgradeToggle.onToggle(index) }
       : undefined
   const favoriteFor = (ability: RuleAbility) =>
-    favorite ? { active: favorite.isFavorite(ability.name), onToggle: () => favorite.onToggle(ability.name) } : undefined
+    favorite ? { active: favorite.isFavorite(ability.id), onToggle: () => favorite.onToggle(ability.id) } : undefined
 
   /**
-   * 현재 활성화된 업그레이드가 대체(봉인)하는 기본 무기 이름들.
+   * 현재 활성화된 업그레이드가 대체(봉인)하는 기본 무기 id들.
    * SPECIALIST 키워드가 붙은 업그레이드 무기는 유닛의 모델 중 하나만 사용하는 것이라, 나머지 모델은
    * 여전히 원래 무기를 쓰므로 원본을 봉인하지 않는다.
    */
-  const sealedWeaponNames = new Set<string>()
+  const sealedWeaponIds = new Set<string>()
   if (upgradeToggle) {
     for (const index of upgradeToggle.activeIndexes) {
       const upgrade = upgrades[index]
-      if (!upgrade?.for || upgrade.ability.kind !== 'weapon') continue
+      if (!upgrade?.forId || upgrade.ability.kind !== 'weapon') continue
       const isSpecialist = upgrade.ability.stat.keyword.some((k) => k.name === 'SPECIALIST')
       if (isSpecialist) continue
-      sealedWeaponNames.add(upgrade.for)
+      sealedWeaponIds.add(upgrade.forId)
     }
   }
 
@@ -113,11 +115,11 @@ export function AbilitiesSection({
                 <WeaponTable
                   rows={weapons.map((e): WeaponRow => {
                     if (e.kind === 'ability') {
-                      return { weapon: e.ability as WeaponProfile, sealed: sealedWeaponNames.has(e.ability.name) }
+                      return { weapon: e.ability as WeaponProfile, sealed: sealedWeaponIds.has(e.ability.id) }
                     }
                     return {
                       weapon: e.upgrade.ability as WeaponProfile,
-                      for: e.upgrade.for,
+                      for: e.upgrade.forId,
                       ptsLabel: ptsLabelFor(e.upgrade),
                       interactive: interactiveFor(e.index),
                     }
@@ -138,7 +140,7 @@ export function AbilitiesSection({
                     key={i}
                     ability={ability}
                     resourceLabel={resourceLabel}
-                    forWeapon={e.upgrade.for}
+                    forWeapon={e.upgrade.forId}
                     ptsLabel={ptsLabelFor(e.upgrade)}
                     interactive={interactiveFor(e.index)}
                     favorite={favoriteFor(ability)}
@@ -150,7 +152,7 @@ export function AbilitiesSection({
                   {g.extra.map((f, i) => (
                     <button type="button" className="card-cross-favorite" key={i} onClick={f.onSelect}>
                       <span className="card-favorite-star card-favorite-star-active">★</span>
-                      {f.ability.name}
+                      {localize(f.ability.name)}
                     </button>
                   ))}
                 </div>

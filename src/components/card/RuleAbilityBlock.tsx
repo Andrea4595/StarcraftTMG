@@ -1,5 +1,5 @@
 import type { RuleAbility } from '../../types'
-import { useLang } from '../../LangContext'
+import { localize, useLang } from '../../LangContext'
 
 function formatBadge(ability: RuleAbility, resourceLabel: string): string {
   if (ability.type === 'Passive') return 'PASSIVE'
@@ -28,6 +28,7 @@ export function RuleAbilityBlock({
 }) {
   const { lang } = useLang()
   const text = lang === 'en' ? ability.rule.en : ability.rule.ko || ability.rule.en
+  const name = localize(ability.name, lang)
 
   return (
     <div className={`card-rule-ability ${interactive && !interactive.active ? 'card-rule-ability-dim' : ''}`}>
@@ -38,12 +39,12 @@ export function RuleAbilityBlock({
               type="button"
               className={`card-favorite-star ${favorite.active ? 'card-favorite-star-active' : ''}`}
               onClick={favorite.onToggle}
-              aria-label={favorite.active ? `${ability.name} 즐겨찾기 해제` : `${ability.name} 즐겨찾기 추가`}
+              aria-label={favorite.active ? `${name} 즐겨찾기 해제` : `${name} 즐겨찾기 추가`}
             >
               {favorite.active ? '★' : '☆'}
             </button>
           )}
-          <span className="card-rule-ability-name">{ability.name}</span>
+          <span className="card-rule-ability-name">{name}</span>
         </div>
         <div className="card-rule-ability-right">
           {ptsLabel !== undefined &&

@@ -17,7 +17,7 @@ export function RosterDetailPanel({
 }) {
   if (detail?.kind === 'unit') {
     const entry = roster.units.find((e) => e.id === detail.entryId)
-    const unit = entry ? findUnit(race, entry.unitName) : undefined
+    const unit = entry ? findUnit(race, entry.unitId) : undefined
     if (entry && unit) {
       return (
         <div className="roster-detail-content">

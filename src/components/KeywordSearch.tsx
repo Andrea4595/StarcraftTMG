@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { KEYWORDS, type KeywordEntry } from '../data/keywords'
-import { useLang } from '../LangContext'
+import { localize, useLang } from '../LangContext'
 import { Modal } from '../roster/components/Modal'
 
 export function KeywordSearch() {
@@ -11,7 +11,9 @@ export function KeywordSearch() {
   const matches = useMemo(() => {
     const q = query.trim().toLowerCase()
     if (!q) return []
-    return KEYWORDS.filter((k) => k.name.toLowerCase().includes(q)).slice(0, 8)
+    return KEYWORDS.filter(
+      (k) => k.name.en.toLowerCase().includes(q) || k.name.ko.toLowerCase().includes(q),
+    ).slice(0, 8)
   }, [query])
 
   return (
@@ -28,20 +30,20 @@ export function KeywordSearch() {
           {matches.map((k) => (
             <button
               type="button"
-              key={k.name}
+              key={k.id}
               className="keyword-search-result"
               onClick={() => {
                 setSelected(k)
                 setQuery('')
               }}
             >
-              {k.name}
+              {localize(k.name, lang)}
             </button>
           ))}
         </div>
       )}
       {selected && (
-        <Modal title={selected.name} onClose={() => setSelected(null)}>
+        <Modal title={localize(selected.name, lang)} onClose={() => setSelected(null)}>
           <p className="keyword-search-definition">
             {lang === 'en' ? selected.definition.en : selected.definition.ko}
           </p>

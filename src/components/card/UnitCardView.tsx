@@ -4,6 +4,7 @@ import { SquadTable, type SquadTableSelection } from './SquadTable'
 import { KeywordList } from './KeywordText'
 import { AbilitiesSection, type CrossFavoriteRef, type FavoriteToggle, type UpgradeToggleState } from './AbilitiesSection'
 import { formatScaledCost } from './costDisplay'
+import { useLocalize } from '../../LangContext'
 
 export function UnitCardView({
   unit,
@@ -36,6 +37,7 @@ export function UnitCardView({
   /** 다른 유닛/카드에서 즐겨찾기한 능력들을 같은 페이즈 그룹 하단에 덧붙인다 (게임 레퍼런스 유닛 상세 모달 전용) */
   crossFavorites?: CrossFavoriteRef[]
 }) {
+  const localize = useLocalize()
   const pts = formatScaledCost(unit.squad.map((s) => s.pts))
 
   return (
@@ -43,7 +45,7 @@ export function UnitCardView({
       <div className="card-header">
         <div>
           <div className="card-title">
-            {unit.name}
+            {localize(unit.name)}
             {unit.isUnique && <span className="card-unique-badge">UNIQUE</span>}
           </div>
           <div className="card-subtitle">{unit.type}</div>

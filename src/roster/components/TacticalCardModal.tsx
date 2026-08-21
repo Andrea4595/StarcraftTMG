@@ -3,6 +3,7 @@ import type { RaceData, Roster, TacticalCard, UnitType } from '../../types'
 import { useRosterStore } from '../RosterContext'
 import { TacticalCardView } from '../../components/card/TacticalCardView'
 import { rosterGasCap, rosterGasTotal, rosterResourceTotal, rosterSlotUsage, TRACKED_UNIT_TYPES } from '../rosterCalc'
+import { useLocalize } from '../../LangContext'
 import { UNIT_TYPE_COLORS } from '../unitTypeColor'
 import { Modal } from './Modal'
 import { SlotUsageRow } from './SlotUsageRow'
@@ -28,25 +29,26 @@ function useIsMobile() {
 export function TacticalCardModal({
   race,
   roster,
-  focusCardName,
+  focusCardId,
   onClose,
 }: {
   race: RaceData
   roster: Roster
   /** 지정하면 열리자마자 왼쪽 상세 패널에 이 카드를 보여준다 */
-  focusCardName?: string
+  focusCardId?: string
   onClose: () => void
 }) {
   const store = useRosterStore()
+  const localize = useLocalize()
   const isMobile = useIsMobile()
   const [typeFilter, setTypeFilter] = useState<UnitType | null>(null)
-  const [focusedName, setFocusedName] = useState<string | null>(focusCardName ?? null)
+  const [focusedId, setFocusedId] = useState<string | null>(focusCardId ?? null)
   /** 모바일에서는 상세 패널 대신 별도 모달로 카드 상세를 보여준다 */
-  const [mobileDetailOpen, setMobileDetailOpen] = useState(isMobile && !!focusCardName)
+  const [mobileDetailOpen, setMobileDetailOpen] = useState(isMobile && !!focusCardId)
 
   /** 카드를 눌러 상세를 확인한다: 데스크톱은 왼쪽 패널에, 모바일은 새 모달에 표시한다 */
-  function openDetail(name: string) {
-    setFocusedName(name)
+  function openDetail(id: string) {
+    setFocusedId(id)
     if (isMobile) setMobileDetailOpen(true)
   }
 
@@ -68,8 +70,8 @@ export function TacticalCardModal({
     ? race.tacticalCards.filter((card) => card.slot.some((s) => s.unitType === typeFilter))
     : race.tacticalCards
 
-  const focusedFaction = race.factionCards.find((c) => c.name === focusedName)
-  const focusedTactical = !focusedFaction ? race.tacticalCards.find((c) => c.name === focusedName) : undefined
+  const focusedFaction = race.factionCards.find((c) => c.id === focusedId)
+  const focusedTactical = !focusedFaction ? race.tacticalCards.find((c) => c.id === focusedId) : undefined
 
   return (
     <Modal title="택티컬 카드 선택" onClose={onClose}>
@@ -109,13 +111,13 @@ export function TacticalCardModal({
           <div className="tactical-picker-rows">
             {factionCards.map((card) => (
               <FactionPickerRow
-                key={card.name}
+                key={card.id}
                 card={card}
                 resourceAbbr={race.resourceLabel.abbr}
-                active={roster.factionCardName === card.name}
-                focused={focusedName === card.name}
-                onOpenDetail={() => openDetail(card.name)}
-                onSelect={() => store.setFactionCard(roster.id, card.name)}
+                active={roster.factionCardId === card.id}
+                focused={focusedId === card.id}
+                onOpenDetail={() => openDetail(card.id)}
+                onSelect={() => store.setFactionCard(roster.id, card.id)}
               />
             ))}
           </div>
@@ -124,15 +126,15 @@ export function TacticalCardModal({
           <div className="tactical-picker-rows">
             {cards.map((card) => (
               <TacticalPickerRow
-                key={card.name}
+                key={card.id}
                 card={card}
                 resourceAbbr={race.resourceLabel.abbr}
-                count={roster.tacticalCardNames.filter((n) => n === card.name).length}
-                focused={focusedName === card.name}
-                onOpenDetail={() => openDetail(card.name)}
-                onFocus={() => setFocusedName(card.name)}
-                onAdd={() => store.addTacticalCard(roster.id, card.name)}
-                onRemove={() => store.removeTacticalCard(roster.id, card.name)}
+                count={roster.tacticalCardIds.filter((id) => id === card.id).length}
+                focused={focusedId === card.id}
+                onOpenDetail={() => openDetail(card.id)}
+                onFocus={() => setFocusedId(card.id)}
+                onAdd={() => store.addTacticalCard(roster.id, card.id)}
+                onRemove={() => store.removeTacticalCard(roster.id, card.id)}
               />
             ))}
           </div>
@@ -140,7 +142,11 @@ export function TacticalCardModal({
       </div>
 
       {isMobile && mobileDetailOpen && (focusedFaction || focusedTactical) && (
-        <Modal title={focusedName ?? ''} onClose={() => setMobileDetailOpen(false)} nested>
+        <Modal
+          title={localize((focusedFaction ?? focusedTactical)?.name ?? { en: '', ko: '' })}
+          onClose={() => setMobileDetailOpen(false)}
+          nested
+        >
           {focusedFaction ? (
             <TacticalCardView card={focusedFaction} resourceLabel={race.resourceLabel} isFactionCard />
           ) : (
@@ -192,6 +198,7 @@ function FactionPickerRow({
   onOpenDetail: () => void
   onSelect: () => void
 }) {
+  const localize = useLocalize()
   return (
     <div
       className={`tactical-picker-row ${focused ? 'tactical-picker-row-active' : ''} ${
@@ -205,7 +212,7 @@ function FactionPickerRow({
       }}
     >
       <div className="tactical-picker-row-name">
-        {card.name}
+        {localize(card.name)}
         {card.isUnique && <span className="tactical-picker-row-unique">UNIQUE</span>}
       </div>
       <CardCapacityMeta card={card} resourceAbbr={resourceAbbr} />
@@ -242,7 +249,9 @@ function TacticalPickerRow({
   onAdd: () => void
   onRemove: () => void
 }) {
+  const localize = useLocalize()
   const atMax = card.isUnique && count > 0
+  const cardName = localize(card.name)
 
   return (
     <div
@@ -255,7 +264,7 @@ function TacticalPickerRow({
       }}
     >
       <div className="tactical-picker-row-name">
-        {card.name}
+        {cardName}
         {card.isUnique && <span className="tactical-picker-row-unique">UNIQUE</span>}
       </div>
       <CardCapacityMeta card={card} resourceAbbr={resourceAbbr} />
@@ -278,7 +287,7 @@ function TacticalPickerRow({
                   onFocus()
                   onRemove()
                 }}
-                aria-label={`${card.name} 1장 빼기`}
+                aria-label={`${cardName} 1장 빼기`}
               >
                 −
               </button>
@@ -294,7 +303,7 @@ function TacticalPickerRow({
               onFocus()
               onAdd()
             }}
-            aria-label={`${card.name} 추가`}
+            aria-label={`${cardName} 추가`}
           >
             +
           </button>
