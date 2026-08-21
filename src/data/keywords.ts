@@ -69,7 +69,7 @@ export const KEYWORDS: KeywordEntry[] = [
     name: { en: 'AVAILABLE SUPPLY', ko: '가용 서플라이' },
     definition: {
       en: 'Available Supply is the remaining Supply capacity available for new deployments. It equals the current Supply Pool minus the Total Current Supply Value of all Friendly Units on the battlefield (Part 8.3.2).\nA Unit may only be deployed from Reserves if its Current Supply Value is less than or equal to the Available Supply. At no point may the Total Current Supply of a player\'s on-table Units exceed the Supply Pool. Units Destroyed or reduced by casualties free up Available Supply for new arrivals. In the final Round of the game, the Supply Pool becomes unlimited, and the Available Supply restrictions are lifted.',
-      ko: '새로 배치에 사용할 수 있는 남은 서플라이의 양으로, 서플라이 풀 전체에서 전장에 있는 모든 아군 유닛의 서플라이값 총합을 뺀 값이다. 새로 배치를 할 때는 이 가용 서플라이값 이하의 서플라이를 지닌 유닛만 리저브에서 배치할 수 있다. 유닛이 파괴되거나 모델이 줄어들면 가용 서플라이가 늘어난다. 마지막 라운드에는 가용 서플라이의 제한이 사라진다.',
+      ko: '새로 배치에 사용할 수 있는 남은 서플라이의 양으로, 서플라이 풀 전체에서 전장에 있는 모든 아군 유닛의 서플라이 값 총합을 뺀 값이다. 새로 배치를 할 때는 이 가용 서플라이 값 이하의 서플라이를 지닌 유닛만 리저브에서 배치할 수 있다. 유닛이 파괴되거나 모델이 줄어들면 가용 서플라이가 늘어난다. 마지막 라운드에는 가용 서플라이의 제한이 사라진다.',
     },
   },
   {
@@ -109,7 +109,7 @@ export const KEYWORDS: KeywordEntry[] = [
     name: { en: 'BURROWED', ko: '잠복' },
     definition: {
       en: '• BURROWED is classified as a Status.\n• A BURROWED Unit has the HIDDEN Status.\n• Its Size is treated as 0 for all purposes\n• Its Current Supply Value is treated as 0 for Disengage checks.\n• A BURROWED Unit cannot Control or Contest Mission Markers (overrides Parts 6.2 and 8.9.1).\n• While BURROWED, the Unit may only perform Deploy, Move, Disengage, Run, Hold and Close Ranks actions. Performing any of these (except Hold) immediately removes the BURROWED status.\n• BURROWED Units may use Special Abilities unless stated otherwise.\n• BURROWED Units may make an Evade Roll against every attack targeting them.\n• Other models may move through a BURROWED Unit\'s models, provided they do not end Within the Engagement Range of the BURROWED Unit (overrides Part 8.5.3).\n• If a BURROWED Unit is Engaged at the start of the Combat Phase, it must be Activated but cannot perform a Close Combat Attack in its BURROWED state. The Unit may perform Close Ranks as its first step, which immediately removes the BURROWED status. Once the status is removed, the Unit completes the remaining steps of the Close Combat Attack normally. If the Unit does not or cannot perform Close Ranks, it does not attack. Enemy Units Engaged with a BURROWED Unit may attack it as normal regardless of its status.',
-      ko: '• 잠복은 Status로 분류된다.\n• 히든 상태를 지니며 사이즈는 0으로 취급되고 이탈 판정 시 서플라이값을 0으로 친다.\n• 미션 마커를 점령하거나 경쟁할 수 없다.\n• 배치, 이동, 이탈, 질주, 대기, 진형유지 액션만 가능하며, 대기를 제외한 액션 시 즉시 잠복을 해제시킨다.\n• 자신에게 가해지는 모든 공격에 회피 롤이 가능하게 된다.\n• 다른 모델은 잠복 상태인 모델을 통과해서 이동할 수 있다. 하지만 잠복 상태인 모델의 인게이지 거리 안에서 이동을 마칠 순 없다.\n• 컴뱃 페이즈 시작 시 인게이지 상태라면, 공격은 불가능하지만 진형유지는 가능하다. 그럴 경우 잠복은 해제된다.\n• 상태가 제거되면, 이 유닛은 정상적으로 근접 공격의 남은 단계들을 수행한다. 이 유닛이 진형유지를 수행하지 않거나 할 수 없다면, 공격하지 않는다.\n• 잠복 상태인 유닛과 인게이지된 적 유닛은 그 상태와 무관하게 정상적으로 공격할 수 있다.',
+      ko: '• 잠복은 Status로 분류된다.\n• 히든 상태를 지니며 사이즈는 0으로 취급되고 이탈 판정 시 서플라이 값을 0으로 친다.\n• 미션 마커를 점령하거나 경쟁할 수 없다.\n• 배치, 이동, 이탈, 질주, 대기, 진형유지 액션만 가능하며, 대기를 제외한 액션 시 즉시 잠복을 해제시킨다.\n• 자신에게 가해지는 모든 공격에 회피 롤이 가능하게 된다.\n• 다른 모델은 잠복 상태인 모델을 통과해서 이동할 수 있다. 하지만 잠복 상태인 모델의 인게이지 거리 안에서 이동을 마칠 순 없다.\n• 컴뱃 페이즈 시작 시 인게이지 상태라면, 공격은 불가능하지만 진형유지는 가능하다. 그럴 경우 잠복은 해제된다.\n• 상태가 제거되면, 이 유닛은 정상적으로 근접 공격의 남은 단계들을 수행한다. 이 유닛이 진형유지를 수행하지 않거나 할 수 없다면, 공격하지 않는다.\n• 잠복 상태인 유닛과 인게이지된 적 유닛은 그 상태와 무관하게 정상적으로 공격할 수 있다.',
     },
   },
   {
@@ -170,10 +170,10 @@ export const KEYWORDS: KeywordEntry[] = [
   },
   {
     id: 'CURRENT SUPPLY VALUE',
-    name: { en: 'CURRENT SUPPLY VALUE', ko: '현재 서플라이값' },
+    name: { en: 'CURRENT SUPPLY VALUE', ko: '현재 서플라이 값' },
     definition: {
       en: 'The Current Supply Value of a Unit is its Supply Value at this moment, based on the number of models remaining in the Unit as shown on the Supply Profile (Part 6.1). Update the Current Supply Value immediately whenever a casualty reduces the model count into a lower bracket.\nThe Current Supply Value is referenced when checking whether a Unit may be deployed from Reserves (Part 8.3.2), when determining Mission Marker Control (Part 8.9.1), when evaluating Tactical Mass for Disengage (Part 8.5.4), and when calculating Victory Points for Supply-based scoring conditions.',
-      ko: '유닛에 남은 모델 수를 기준으로 한 현재 시점의 서플라이값이다. 모델 수가 줄어들어 이 수치가 바뀌어야 한다면 즉시 반영한다. 리저브 배치나 미션 마커 점령 판정 등에 쓰인다.',
+      ko: '유닛에 남은 모델 수를 기준으로 한 현재 시점의 서플라이 값이다. 모델 수가 줄어들어 이 수치가 바뀌어야 한다면 즉시 반영한다. 리저브 배치나 미션 마커 점령 판정 등에 쓰인다.',
     },
   },
   {
@@ -445,7 +445,7 @@ export const KEYWORDS: KeywordEntry[] = [
     name: { en: 'MISSION MARKERS', ko: '미션 마커' },
     definition: {
       en: 'Numbered Markers are set on the battlefield during Setup at the coordinates shown on the Deployment Card. Each Marker is 32mm in diameter and has two sides: Activated or Deactivated. Markers 1 & 3 are Red, Markers 2 & 4 are Blue, and Marker 5 is Neutral.\nMission Markers are the primary scoring mechanism. At the end of each Round, players determine Control of each Marker by comparing the Total Current Supply Value of their eligible contesting Units (Part 8.9.1). A Unit may Contest a Mission Marker only if it is on the battlefield, In Coherency, and has at least one model Within 3" with Line of Sight to the Marker on the same elevation. Flying Units and BURROWED Units cannot Contest or Control Mission Markers.\nControl is Sticky- once a player Controls a Marker, it remains under their control until the opponent reclaims it with a higher contesting Supply total. A tied result never transfers control.',
-      ko: '번호가 매겨진 마커는 배치 카드에 표시된 위치에 따라 전장 설정 단계에서 전장에 배치된다. 마커의 지름은 32mm이며 활성화와 비활성화의 양면을 지닌다. 1, 3은 빨강, 2, 4는 파랑, 5는 중립이다. 마커는 점령할 수 있는 요소이며 점수 획득 수단이다. 각 라운드 종료 시 플레이어는 마커의 3" 이내에 있는 모델들을 사용해서 제어권을 경쟁한다. 경쟁하기 위해선 그 유닛이 코헤런시를 유지하며 마커와 동일한 고도이며 마커에 대해 시야가 확보되어야 한다. 비행 유닛과 잠복 중인 유닛은 경쟁하거나 제어할 수 없다. 제어권은 유지되며, 한번 플레이어가 마커를 제어하면 상대가 더 높은 경쟁을 위한 서플라이값으로 경쟁에서 승리해서 제어권을 찾기 전까지는 그 제어권이 사라지지 않는다.',
+      ko: '번호가 매겨진 마커는 배치 카드에 표시된 위치에 따라 전장 설정 단계에서 전장에 배치된다. 마커의 지름은 32mm이며 활성화와 비활성화의 양면을 지닌다. 1, 3은 빨강, 2, 4는 파랑, 5는 중립이다. 마커는 점령할 수 있는 요소이며 점수 획득 수단이다. 각 라운드 종료 시 플레이어는 마커의 3" 이내에 있는 모델들을 사용해서 제어권을 경쟁한다. 경쟁하기 위해선 그 유닛이 코헤런시를 유지하며 마커와 동일한 고도이며 마커에 대해 시야가 확보되어야 한다. 비행 유닛과 잠복 중인 유닛은 경쟁하거나 제어할 수 없다. 제어권은 유지되며, 한번 플레이어가 마커를 제어하면 상대가 더 높은 경쟁을 위한 서플라이 값으로 경쟁에서 승리해서 제어권을 찾기 전까지는 그 제어권이 사라지지 않는다.',
     },
   },
   {
@@ -533,7 +533,7 @@ export const KEYWORDS: KeywordEntry[] = [
     name: { en: 'RESERVES', ko: '리저브' },
     definition: {
       en: 'A holding area off the battlefield where Units remain until they are deployed. All Units begin the game in Reserves.\nWhile in Reserves, a Unit:\n• Cannot be targeted by attacks or abilities unless an ability explicitly states it affects Units in Reserves.\n• Cannot use Active Abilities, Passive Abilities, or Reaction Abilities unless the ability explicitly states otherwise.\n• Cannot Control or Contest Mission Markers.\n• Does not contribute its Current Supply Value to the player\'s Total Current Supply on the battlefield.\n• Retains all equipment, upgrades, and weapon selections assigned during Army Building.\nA Unit leaves Reserves when it is deployed to the battlefield via a Deploy action (Part 8.5.5). Some rules may return a Unit to Reserves during play- see Part 8.5.5 for how Damage, effects, and Supply are handled. In the final Round of the game, all Units still in Reserves that are not deployed are treated as Destroyed for scoring purposes (Part 8.10).',
-      ko: '유닛이 배치되기 전까지 머무는 전장 밖의 대기 구역이다. 모든 유닛은 리저브에서 시작한다. 리저브 중인 유닛은 명시되지 않는 한 아무런 능력의 영향을 줄 수도 받을 수도 없다. 명시되지 않는 한 어떠한 능력도 발동시킬 수 없다. 명시되지 않는 한 미션 마커 제어나 경쟁할 수 없다. 전장의 현재 총 서플라이값에 기여하지 않는다. 유닛은 배치 능력을 통해 리저브에서 전장으로 떠날 수 있다. 특정한 능력을 이용해 전장에서 리저브로 되돌아갈 수 있다. 게임의 종료 시 마지막까지 리저브에 남아 있는 모든 유닛은 점수 계산을 위해서 파괴된 것으로 취급된다.',
+      ko: '유닛이 배치되기 전까지 머무는 전장 밖의 대기 구역이다. 모든 유닛은 리저브에서 시작한다. 리저브 중인 유닛은 명시되지 않는 한 아무런 능력의 영향을 줄 수도 받을 수도 없다. 명시되지 않는 한 어떠한 능력도 발동시킬 수 없다. 명시되지 않는 한 미션 마커 제어나 경쟁할 수 없다. 전장의 현재 총 서플라이 값에 기여하지 않는다. 유닛은 배치 능력을 통해 리저브에서 전장으로 떠날 수 있다. 특정한 능력을 이용해 전장에서 리저브로 되돌아갈 수 있다. 게임의 종료 시 마지막까지 리저브에 남아 있는 모든 유닛은 점수 계산을 위해서 파괴된 것으로 취급된다.',
     },
   },
   {
@@ -541,7 +541,7 @@ export const KEYWORDS: KeywordEntry[] = [
     name: { en: 'RESPAWN (X)', ko: '리스폰(X)' },
     definition: {
       en: "Return up to X Destroyed models to this Unit.\n• The return cannot increase the Unit's Current Supply Value. Do not return a model if doing so would push the Unit into a higher Supply bracket.\n• Set each returned model in Base-to-Base contact with an existing model in the Unit. Returned models cannot be set Within the Engagement Range of any Enemy Unit.\n• If a model cannot be set legally, it cannot be returned.",
-      ko: '그 유닛의 파괴된 모델을 X개까지 유닛에 복귀시킨다. 유닛의 서플라이값을 넘어서 복귀시킬 수 없다. 만약 모델 복귀로 인해 서플라이값이 변동하게 되는 경우 모델은 복귀되지 못한다. 복귀한 각 모델은 기존에 남은 다른 모델과 베이스 접촉되게 놓인다. 복귀한 각 모델은 적과 인게이지되지 못한다. 일반적으로 배치될 수 없는 모델은 복귀되지 못한다.',
+      ko: '그 유닛의 파괴된 모델을 X개까지 유닛에 복귀시킨다. 유닛의 서플라이 값을 넘어서 복귀시킬 수 없다. 만약 모델 복귀로 인해 서플라이 값이 변동하게 되는 경우 모델은 복귀되지 못한다. 복귀한 각 모델은 기존에 남은 다른 모델과 베이스 접촉되게 놓인다. 복귀한 각 모델은 적과 인게이지되지 못한다. 일반적으로 배치될 수 없는 모델은 복귀되지 못한다.',
     },
   },
   {
@@ -626,10 +626,10 @@ export const KEYWORDS: KeywordEntry[] = [
   },
   {
     id: 'SUPPLY VALUE',
-    name: { en: 'SUPPLY VALUE', ko: '서플라이값' },
+    name: { en: 'SUPPLY VALUE', ko: '서플라이 값' },
     definition: {
       en: "The Supply Value of a Unit is the value shown on the Unit Card's Supply Profile corresponding to the Unit's current model count. A Unit's starting Supply Value is determined during Army Building by the Composition Option selected (Part 9.1.6) and defines how many Army Slots the Unit occupies.\nSupply Value is a dynamic characteristic- as casualties reduce the model count into a lower bracket on the Supply Profile, the Supply Value decreases. Update immediately when a casualty moves the Unit into a lower bracket. Supply is used for Deployment, Mission Marker Control, Tactical Mass, and scoring.",
-      ko: '유닛의 서플라이값이다. 아미 구성 옵션에 의해 결정되며 아미 슬롯을 차지하는 것을 정의한다. 서플라이값은 유닛의 잔여 모델로 인해 변동이 가능하다. 이 수치를 반영하는 것은 서플라이값이 전환될 정도로 수가 변했을 때 즉시 반영된다.',
+      ko: '유닛의 서플라이 값이다. 아미 구성 옵션에 의해 결정되며 아미 슬롯을 차지하는 것을 정의한다. 서플라이 값은 유닛의 잔여 모델로 인해 변동이 가능하다. 이 수치를 반영하는 것은 서플라이 값이 전환될 정도로 수가 변했을 때 즉시 반영된다.',
     },
   },
   {
@@ -653,7 +653,7 @@ export const KEYWORDS: KeywordEntry[] = [
     name: { en: 'TACTICAL MASS', ko: '전술적질량' },
     definition: {
       en: 'A Unit has Tactical Mass when its Current Supply Value exceeds the Combined Current Supply Value of all Enemy Units it is Engaged with. A Unit with Tactical Mass ignores the Disengage penalty (Part 8.5.4): it may Ranged Attack and Charge normally in the following Assault Phase after Disengaging.',
-      ko: '유닛 자신의 서플라이값이 자신이 인게이지하고 있는 모든 적 유닛의 서플라이값을 초과한다면 전술적질량을 가진다. 전술적질량을 가진 유닛은 이탈 액션의 디메리트를 무시한다.',
+      ko: '유닛 자신의 서플라이 값이 자신이 인게이지하고 있는 모든 적 유닛의 서플라이 값을 초과한다면 전술적질량을 가진다. 전술적질량을 가진 유닛은 이탈 액션의 디메리트를 무시한다.',
     },
   },
   {

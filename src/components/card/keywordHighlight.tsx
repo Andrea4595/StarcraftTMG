@@ -71,7 +71,12 @@ const PATTERN_SOURCES = KEYWORDS.filter((k) => !EXCLUDED_IDS.has(k.id))
   // (예: '상태'보다 '인게이지 상태'가 먼저 매칭되어야 함)
   .sort((a, b) => b.length - a.length)
 
-const COMBINED = PATTERN_SOURCES.length > 0 ? new RegExp(PATTERN_SOURCES.map((p) => `(?:${p})`).join('|'), 'g') : null
+// 'i' 플래그: 키워드 사전의 영문 이름은 전부 대문자(예: 'ENGAGED')인데, 실제 능력 설명 영문
+// 본문은 일반 문장 표기('Engaged')를 쓰기 때문에 대소문자를 구분하면 영문 쪽은 거의 매칭되지
+// 않는다. 한글에는 대소문자가 없어 영향이 없다. 실제로 강조되는 텍스트는 match[0]을 그대로
+// 쓰므로 표기(대소문자)는 원문 그대로 보여진다.
+const COMBINED =
+  PATTERN_SOURCES.length > 0 ? new RegExp(PATTERN_SOURCES.map((p) => `(?:${p})`).join('|'), 'gi') : null
 
 /** 능력 설명 본문에서 키워드 용어를 찾아 <span className="card-rule-keyword">로 감싼 노드 배열을 만든다 */
 export function highlightKeywords(text: string): ReactNode {
