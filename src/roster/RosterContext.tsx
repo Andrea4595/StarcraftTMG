@@ -1,6 +1,9 @@
-import { createContext, useContext, useEffect, useReducer, type ReactNode } from 'react'
+import { createContext, useContext, useEffect, useReducer, useRef, type ReactNode } from 'react'
+import { collection, deleteDoc, doc, onSnapshot, setDoc } from 'firebase/firestore'
 import type { Roster, RosterUnitEntry } from '../types'
 import { makeId } from './makeId'
+import { useAuth } from '../AuthContext'
+import { db } from '../firebase'
 
 const STORAGE_KEY = 'tmg-roster-builder-state'
 
@@ -40,6 +43,14 @@ type Action =
       exclusiveWith?: number[]
     }
   | { type: 'toggleFavoriteAbility'; rosterId: string; sourceId: string; abilityId: string }
+  | { type: 'applyCloudChanges'; changes: CloudChange[] }
+
+/** Firestore users/{uid}/rosters 컬렉션 구독에서 오는 문서 단위 변경 사항 */
+interface CloudChange {
+  docId: string
+  type: 'added' | 'modified' | 'removed'
+  roster?: Roster
+}
 
 interface State {
   rosters: Roster[]
@@ -200,6 +211,32 @@ function reducer(state: State, action: Action): State {
             : [...r.favoriteAbilities, { sourceId: action.sourceId, abilityId: action.abilityId }],
         }
       })
+    case 'applyCloudChanges': {
+      let rosters = state.rosters
+      let changed = false
+      for (const c of action.changes) {
+        if (c.type === 'removed') {
+          if (rosters.some((r) => r.id === c.docId)) {
+            rosters = rosters.filter((r) => r.id !== c.docId)
+            changed = true
+          }
+        } else if (c.roster) {
+          const idx = rosters.findIndex((r) => r.id === c.docId)
+          if (idx === -1) {
+            rosters = [...rosters, c.roster]
+            changed = true
+          } else if (JSON.stringify(rosters[idx]) !== JSON.stringify(c.roster)) {
+            rosters = rosters.map((r, i) => (i === idx ? c.roster! : r))
+            changed = true
+          }
+        }
+      }
+      // 내용이 실제로 안 바뀌었으면 이전 state를 그대로 반환한다. 그래야 로컬 편집 -> Firestore 업로드
+      // -> 동일한 내용의 onSnapshot 콜백 -> 다시 dispatch로 이어지는 흐름이 여기서 끊긴다 (무한 루프 방지)
+      if (!changed) return state
+      const activeRosterId = state.activeRosterId ?? rosters[0]?.id ?? null
+      return { rosters, activeRosterId }
+    }
     default:
       return state
   }
@@ -228,6 +265,7 @@ const RosterStoreContext = createContext<RosterStore | null>(null)
 
 export function RosterProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, undefined, loadState)
+  const { user } = useAuth()
 
   useEffect(() => {
     try {
@@ -237,11 +275,57 @@ export function RosterProvider({ children }: { children: ReactNode }) {
     }
   }, [state])
 
+  // 로그인 중일 때만 Firestore users/{uid}/rosters 컬렉션을 구독한다. 로그아웃 상태에서는 이 effect가
+  // 아무 일도 하지 않으므로, 로그인 안 한 사용자는 지금까지와 100% 동일하게 localStorage만 쓰는 셈이다.
+  // docChanges()는 마지막 스냅샷 이후 무엇이 추가/수정/삭제됐는지만 알려줘서, 다른 기기에서의 삭제가
+  // 자동으로 전파되고 아직 한 번도 업로드 안 한 로컬 전용 로스터는 애초에 여기 안 잡혀 안전하다.
+  useEffect(() => {
+    if (!user) return
+    const colRef = collection(db, 'users', user.uid, 'rosters')
+    const unsub = onSnapshot(
+      colRef,
+      (snap) => {
+        const changes: CloudChange[] = snap.docChanges().map((c) => ({
+          docId: c.doc.id,
+          type: c.type,
+          roster: c.type === 'removed' ? undefined : (c.doc.data() as Roster),
+        }))
+        if (changes.length > 0) dispatch({ type: 'applyCloudChanges', changes })
+      },
+      (err) => console.error(err),
+    )
+    return unsub
+  }, [user])
+
+  // 로그인 중일 때, 실제로 내용이 바뀐 로스터만 Firestore에 올린다. 리듀서가 불변성을 지키기 때문에
+  // (안 바뀐 로스터는 객체 참조가 그대로 유지됨) 참조 비교만으로 싼값에 "무엇이 바뀌었는지" 알 수 있다.
+  // 최초 로그인 시점에는 prevRostersRef가 비어있는 상태([])와 비교되므로, 그 시점의 로컬 로스터 전부가
+  // "바뀐 것"으로 잡혀 업로드된다 - 이게 곧 "로그인하면 로컬 로스터가 계정에 합쳐진다"는 동작이다.
+  const prevRostersRef = useRef<Roster[]>([])
+  useEffect(() => {
+    // 로그아웃 상태에서는 prevRostersRef를 절대 갱신하지 않고 그대로 둔다(초기값 []). 그래야 로그인하는
+    // 순간 "지금까지의 로컬 로스터 전부가 비어있던 이전 상태와 다르다"로 잡혀서 전부 업로드된다.
+    // 여기서 매 렌더마다 prevRostersRef를 state.rosters로 갱신해버리면, 로그인 시점엔 이미 prev와
+    // state.rosters가 같은 참조가 되어버려서 아무것도 "바뀐 것"으로 안 잡히는 버그가 생긴다.
+    if (!user) return
+    const prev = prevRostersRef.current
+    for (const roster of state.rosters) {
+      const prevRoster = prev.find((r) => r.id === roster.id)
+      if (prevRoster !== roster) {
+        setDoc(doc(db, 'users', user.uid, 'rosters', roster.id), roster).catch(console.error)
+      }
+    }
+    prevRostersRef.current = state.rosters
+  }, [state.rosters, user])
+
   const store: RosterStore = {
     ...state,
     activeRoster: state.rosters.find((r) => r.id === state.activeRosterId),
     createRoster: (name) => dispatch({ type: 'createRoster', name }),
-    deleteRoster: (rosterId) => dispatch({ type: 'deleteRoster', rosterId }),
+    deleteRoster: (rosterId) => {
+      dispatch({ type: 'deleteRoster', rosterId })
+      if (user) deleteDoc(doc(db, 'users', user.uid, 'rosters', rosterId)).catch(console.error)
+    },
     renameRoster: (rosterId, name) => dispatch({ type: 'renameRoster', rosterId, name }),
     selectRoster: (rosterId) => dispatch({ type: 'selectRoster', rosterId }),
     setRosterRace: (rosterId, raceId) => dispatch({ type: 'setRosterRace', rosterId, raceId }),

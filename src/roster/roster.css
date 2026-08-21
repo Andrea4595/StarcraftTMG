@@ -1236,6 +1236,14 @@ button.roster-slot-pill:hover {
   mask-image: url('./assets/thumbUp.png');
 }
 
+/* 로그인한 구글 계정의 프로필 사진. 구글 로고와 마찬가지로 다색이라 마스크 기법을 안 쓴다 */
+.roster-auth-avatar {
+  width: 16.8px;
+  height: 16.8px;
+  border-radius: 50%;
+  display: block;
+}
+
 /* 내보내기 방식(상세/간소화) 선택 모달 */
 .roster-export-choice {
   display: flex;
