@@ -22,7 +22,7 @@
   color: var(--gc-text);
   border: 1px solid var(--gc-border);
   border-radius: 8px;
-  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--sans);
   font-size: 13px;
   text-align: left;
   overflow: hidden;
