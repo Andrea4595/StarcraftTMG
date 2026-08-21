@@ -4,6 +4,7 @@ import { useRosterStore } from '../RosterContext'
 import { RACE_THEME_COLORS } from '../raceThemeColor'
 import { RosterExportButton } from './RosterExportButton'
 import { CreditButton } from './CreditButton'
+import { AuthButton } from './AuthButton'
 
 export function RosterSwitcher({
   race,
@@ -78,6 +79,7 @@ export function RosterSwitcher({
         )}
 
         <CreditButton />
+        <AuthButton />
       </div>
     </div>
   )
