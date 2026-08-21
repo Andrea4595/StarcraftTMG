@@ -10,47 +10,68 @@
   box-sizing: border-box;
 }
 
-/* The Jamsil (더 잠실체). 실제로 쓰이는 font-weight로 매칭될 때만 브라우저가 해당 굵기 파일을
+/* Pretendard. 실제로 쓰이는 font-weight로 매칭될 때만 브라우저가 해당 굵기 파일을
    내려받으므로, 사용하지 않는 굵기를 선언해 둬도 로딩 비용은 없다. */
 @font-face {
-  font-family: 'The Jamsil';
-  src: url('/fonts/The Jamsil 1 Thin.ttf') format('truetype');
+  font-family: 'Pretendard';
+  src: local('Pretendard Thin'), url('/fonts/pretendard/Pretendard-Thin.woff2') format('woff2');
   font-weight: 100;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: 'The Jamsil';
-  src: url('/fonts/The Jamsil 2 Light.ttf') format('truetype');
+  font-family: 'Pretendard';
+  src: local('Pretendard ExtraLight'), url('/fonts/pretendard/Pretendard-ExtraLight.woff2') format('woff2');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Pretendard';
+  src: local('Pretendard Light'), url('/fonts/pretendard/Pretendard-Light.woff2') format('woff2');
   font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: 'The Jamsil';
-  src: url('/fonts/The Jamsil 3 Regular.ttf') format('truetype');
+  font-family: 'Pretendard';
+  src: local('Pretendard Regular'), url('/fonts/pretendard/Pretendard-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: 'The Jamsil';
-  src: url('/fonts/The Jamsil 4 Medium.ttf') format('truetype');
+  font-family: 'Pretendard';
+  src: local('Pretendard Medium'), url('/fonts/pretendard/Pretendard-Medium.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: 'The Jamsil';
-  src: url('/fonts/The Jamsil 5 Bold.ttf') format('truetype');
+  font-family: 'Pretendard';
+  src: local('Pretendard SemiBold'), url('/fonts/pretendard/Pretendard-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Pretendard';
+  src: local('Pretendard Bold'), url('/fonts/pretendard/Pretendard-Bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: 'The Jamsil';
-  src: url('/fonts/The Jamsil 6 ExtraBold.ttf') format('truetype');
+  font-family: 'Pretendard';
+  src: local('Pretendard ExtraBold'), url('/fonts/pretendard/Pretendard-ExtraBold.woff2') format('woff2');
   font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Pretendard';
+  src: local('Pretendard Black'), url('/fonts/pretendard/Pretendard-Black.woff2') format('woff2');
+  font-weight: 900;
   font-style: normal;
   font-display: swap;
 }
@@ -68,8 +89,8 @@
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
-  --sans: 'The Jamsil', system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: 'The Jamsil', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --sans: 'Pretendard', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: 'Pretendard', system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
   font: 18px/145% var(--sans);
