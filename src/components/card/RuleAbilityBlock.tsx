@@ -1,5 +1,6 @@
 import type { RuleAbility } from '../../types'
 import { localize, useLang } from '../../LangContext'
+import { highlightKeywords } from './keywordHighlight'
 
 function formatBadge(ability: RuleAbility, resourceLabel: string): string {
   if (ability.type === 'Passive') return 'PASSIVE'
@@ -65,7 +66,7 @@ export function RuleAbilityBlock({
         </div>
       </div>
       {forWeapon && <div className="card-weapon-for">FOR {forWeapon}</div>}
-      <p className="card-rule-text">{text}</p>
+      <p className="card-rule-text">{highlightKeywords(text)}</p>
     </div>
   )
 }
