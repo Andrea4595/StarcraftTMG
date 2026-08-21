@@ -1309,7 +1309,7 @@ button.roster-slot-pill:hover {
   padding: 32px;
   background: #0c0d12;
   color: #e5e7eb;
-  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--sans);
 }
 
 /* 간소화 로스터: 모바일 화면에서도 부담 없이 보이도록 폭을 크게 줄인다. 유닛 한 줄이 두 줄로

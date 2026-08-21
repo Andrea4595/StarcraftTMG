@@ -2,7 +2,8 @@ import type { UnitCard } from '../../../types'
 
 export const raynorsRaiderMarine: UnitCard = {
   category: 'unit',
-  name: "Raynor's Raider (Marine)",
+  id: "Raynor's Raider (Marine)",
+  name: { en: "Raynor's Raider (Marine)", ko: '레이너 특공대 해병' },
   isUnique: false,
   type: 'Core',
   stat: {
@@ -18,40 +19,44 @@ export const raynorsRaiderMarine: UnitCard = {
   abilities: [
     {
       kind: 'rule',
-      name: 'Stimpack',
+      id: 'Stimpack',
+      name: { en: 'Stimpack', ko: '전투 자극제' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
       rule: {
         en: 'This Unit suffers NON-LETHAL DAMAGE (2). This Unit gains BUFF Speed (3). Additionally, its C-14 Rifle and all Close Combat Weapons gain PRECISION (3).',
-        ko: '이 유닛은 NON-LETHAL DAMAGE (2)를 받는다. 이 유닛은 BUFF Speed (3)을 얻는다. 추가로, 이 유닛의 C-14 Rifle과 모든 근접 무기는 PRECISION (3)을 얻는다.',
+        ko: '이 유닛은 논 리썰 데미지(2)를 받고 버프 스피드(3)를 받는다. 추가로 C-14 소총과 모든 근접무기가 프리시전(3)을 갖는다.',
       },
     },
     {
       kind: 'rule',
-      name: 'Raiders Roll!',
+      id: 'Raiders Roll!',
+      name: { en: 'Raiders Roll!', ko: '특공대 나가신다!' },
       phase: 'Movement',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'When this Unit is nominated to deploy from Reserves, it may resolve its Stimpack ability with the CP cost reduced by 1 (to a minimum of 0).',
-        ko: '이 유닛이 Reserves에서 배치되도록 지명되었을 때, CP 비용을 1 감소시켜(최소 0) Stimpack 능력을 해결할 수 있다.',
+        ko: '이 유닛이 리저브에서 배치될 경우, 전투 자극제 능력의 CP 소모를 1 줄인 상태로 발동할 수 있다. (소모량은 최소 0까지 줄어든다)',
       },
     },
     {
       kind: 'rule',
-      name: 'Rapid Reinforcements',
+      id: 'Rapid Reinforcements',
+      name: { en: 'Rapid Reinforcements', ko: '신속 증원' },
       phase: 'Movement',
       type: 'Passive',
       cost: 0,
       rule: {
         en: "When this Unit is nominated to deploy from Reserves, it may resolve the PLACE (10) effect from another Friendly Unit. No model may be set Within 8\" of any Enemy model. This Unit's Activation ends.",
-        ko: '이 유닛이 Reserves에서 배치되도록 지명되었을 때, 다른 아군 유닛으로부터 PLACE (10) 효과를 해결할 수 있다. 어떤 모델도 적 모델로부터 8" 이내에 놓을 수 없다. 이 유닛의 Activation이 종료된다.',
+        ko: '이 유닛이 리저브에서 배치될 때, 다른 아군 유닛으로부터 위치(10) 효과를 받아 배치될 수 있다. 이 배치로 적 유닛의 8" 이내에 배치될 수 없다. 이 능력을 사용한 후, 활성화는 종료된다.',
       },
     },
     {
       kind: 'weapon',
-      name: 'C-14 rifle',
+      id: 'C-14 rifle',
+      name: { en: 'C-14 rifle', ko: 'C-14 소총' },
       phase: 'Assault',
       stat: {
         rng: 12,
@@ -66,29 +71,32 @@ export const raynorsRaiderMarine: UnitCard = {
     },
     {
       kind: 'rule',
-      name: 'Slugthrower',
+      id: 'Slugthrower',
+      name: { en: 'Slugthrower', ko: '슬러그 쓰로워' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'When this Unit makes a Ranged Attack with a C-14 Rifle and the target is Within 8", that weapon gains ANTI-EVADE (1).',
-        ko: '이 유닛이 C-14 Rifle로 원거리 공격을 할 때 대상이 8" 이내라면, 해당 무기는 ANTI-EVADE (1)을 얻는다.',
+        ko: '이 유닛이 8" 이내의 적 유닛을 상대로 C-14 소총을 사용해 사격할 때, 그 무기에 안티-회피(1)을 준다.',
       },
     },
     {
       kind: 'rule',
-      name: 'Grenades - Frag',
+      id: 'Grenades - Frag',
+      name: { en: 'Grenades - Frag', ko: '분쇄 수류탄' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
       rule: {
         en: "When this Unit makes a Ranged Attack with a C-14 Rifle and the target is Within 8\", that weapon's S Dice is replaced by D6.",
-        ko: '이 유닛이 C-14 Rifle로 원거리 공격을 할 때 대상이 8" 이내라면, 해당 무기의 S Dice는 D6으로 대체된다.',
+        ko: '이 유닛이 8" 이내의 적 유닛을 상대로 C-14 소총을 사용해 사격을 할 때, 그 무기의 S Dice에 D6을 준다.',
       },
     },
     {
       kind: 'weapon',
-      name: 'Bayonet',
+      id: 'Bayonet',
+      name: { en: 'Bayonet', ko: '총검' },
       phase: 'Combat',
       stat: {
         rng: 'E',

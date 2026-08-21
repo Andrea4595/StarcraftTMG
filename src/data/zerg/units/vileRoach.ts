@@ -2,7 +2,8 @@ import type { UnitCard } from '../../../types'
 
 export const vileRoach: UnitCard = {
   category: 'unit',
-  name: 'Vile (Roach)',
+  id: 'Vile (Roach)',
+  name: { en: 'Vile (Roach)', ko: '고름 변종 [바퀴]' },
   isUnique: false,
   type: 'Core',
   stat: {
@@ -21,29 +22,32 @@ export const vileRoach: UnitCard = {
   abilities: [
     {
       kind: 'rule',
-      name: 'Debilitating Saliva',
+      id: 'Debilitating Saliva',
+      name: { en: 'Debilitating Saliva', ko: '힘을 빼앗는 타액' },
       phase: 'Any',
       type: 'Reaction',
       cost: 1,
       rule: {
         en: "Use when an Enemy Unit Within 8\" of this Unit declares a Ranged Attack. Apply DEBUFF Hit (1) to each of that Unit's Ranged Weapons.",
-        ko: '이 유닛의 8" 이내에 있는 적 유닛이 원거리 공격을 선언할 때 사용한다. 그 유닛의 각 원거리 무기에 DEBUFF Hit (1)을 적용한다.',
+        ko: '이 유닛의 8" 이내의 상대 유닛이 사격을 선언할 때 사용할 수 있다. 그 사격에 디버프 힛(1)를 적용한다.',
       },
     },
     {
       kind: 'rule',
-      name: 'Burrow',
+      id: 'Burrow',
+      name: { en: 'Burrow', ko: '잠복' },
       phase: 'Any',
       type: 'Active',
       cost: 2,
       rule: {
         en: 'If this Unit is Unengaged, it gains or loses the Burrowed Status.',
-        ko: '이 유닛이 Unengaged 상태라면, Burrowed Status를 얻거나 잃는다.',
+        ko: '이 유닛이 인게이지 상태가 아니라면, 이 유닛이 잠복 상태를 잃거나, 얻을 수 있다.',
       },
     },
     {
       kind: 'weapon',
-      name: 'Acid Saliva',
+      id: 'Acid Saliva',
+      name: { en: 'Acid Saliva', ko: '산성 타액' },
       phase: 'Assault',
       stat: {
         rng: 8,
@@ -58,29 +62,32 @@ export const vileRoach: UnitCard = {
     },
     {
       kind: 'rule',
-      name: 'Regeneration',
+      id: 'Regeneration',
+      name: { en: 'Regeneration', ko: '재생' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'When this Unit becomes Activated, if it has the Burrowed Status, resolve the HEAL (2) effect.',
-        ko: '이 유닛이 Activated될 때, Burrowed Status를 가지고 있다면 HEAL (2) 효과를 해결한다.',
+        ko: '이 유닛이 활성화될 때 잠복 상태라면, 치유(2)한다.',
       },
     },
     {
       kind: 'rule',
-      name: 'Devastating Charge',
+      id: 'Devastating Charge',
+      name: { en: 'Devastating Charge', ko: '파괴적인 돌진' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (1) 4+ effect.',
-        ko: '이 유닛이 Charge에 성공한 직후, IMPACT (1) 4+ 효과를 해결한다.',
+        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 4+로 임팩트(1)를 입힌다.',
       },
     },
     {
       kind: 'weapon',
-      name: 'Vile Claws',
+      id: 'Vile Claws',
+      name: { en: 'Vile Claws', ko: '발톱' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -99,13 +106,14 @@ export const vileRoach: UnitCard = {
       pts: 10,
       ability: {
         kind: 'rule',
-        name: 'Tunneling Claws',
+        id: 'Tunneling Claws',
+        name: { en: 'Tunneling Claws', ko: '땅굴 발톱' },
         phase: 'Any',
         type: 'Passive',
         cost: 0,
         rule: {
           en: "While this Unit has the Burrowed Status, it may perform the Move and Run actions without losing that Status. It may also move through other Units' bases.",
-          ko: '이 유닛이 Burrowed Status를 가지고 있는 동안, 그 Status를 잃지 않고 Move 및 Run action을 수행할 수 있다. 또한 다른 유닛의 베이스를 통과해 이동할 수 있다.',
+          ko: '이 유닛이 잠복 상태일 때, 이동과 질주를 해도 잠복 상태를 잃지 않는다. 또한 이렇게 이동할 때 다른 유닛의 베이스를 존재하지 않는 것처럼 통과해 이동할 수 있다.',
         },
       },
     },
@@ -113,13 +121,14 @@ export const vileRoach: UnitCard = {
       pts: 20,
       ability: {
         kind: 'rule',
-        name: 'Burrow Ambush',
+        id: 'Burrow Ambush',
+        name: { en: 'Burrow Ambush', ko: '잠복 기습' },
         phase: 'Movement',
         type: 'Passive',
         cost: 0,
         rule: {
           en: "When this Unit is nominated to deploy from the Reserves, it may resolve the PLACE (18) effect from the controlling player's Entry Edge. No model may be set Within 10\" of any Enemy model. This Unit's Activation ends.",
-          ko: '이 유닛이 Reserves에서 Deploy하도록 지명되었을 때, 소유 플레이어의 Entry Edge에서 PLACE (18) 효과를 해결할 수 있다. 어떤 모델도 적 모델의 10" 이내에 놓을 수 없다. 이 유닛의 Activation이 종료된다.',
+          ko: '이 유닛이 리저브에서 나올 때, 조종하는 플레이어의 엔트리 엣지에서 위치(18)를 적용해 배치될 수 있다. 10" 이내에 다른 적 유닛이 없어야 하며, 이렇게 배치된 후에는 이 유닛의 활성화가 종료된다.',
         },
       },
     },
@@ -127,13 +136,14 @@ export const vileRoach: UnitCard = {
       pts: 20,
       ability: {
         kind: 'rule',
-        name: 'Glial Reconstitution',
+        id: 'Glial Reconstitution',
+        name: { en: 'Glial Reconstitution', ko: '신경 재구성' },
         phase: 'Movement',
         type: 'Active',
         cost: 1,
         rule: {
           en: 'This Unit gains BUFF SPEED (1), or BUFF SPEED (2) if the Unit is ON CREEP.',
-          ko: '이 유닛은 BUFF SPEED (1)을 얻는다. 유닛이 ON CREEP이라면 대신 BUFF SPEED (2)를 얻는다.',
+          ko: '이 유닛이 버프 스피드(1)을 얻는다. 점막 위라면 대신 버프 스피드(2)를 얻는다.',
         },
       },
     },
@@ -141,13 +151,14 @@ export const vileRoach: UnitCard = {
       pts: 10,
       ability: {
         kind: 'rule',
-        name: 'Hydriodic Bile',
+        id: 'Hydriodic Bile',
+        name: { en: 'Hydriodic Bile', ko: '요오드화 담즙' },
         phase: 'Assault',
         type: 'Passive',
         cost: 0,
         rule: {
           en: "This Unit's Acid Saliva weapon gains Surge Type: Light, and S Dice: D3+1.",
-          ko: '이 유닛의 Acid Saliva 무기는 Surge Type: Light와 S Dice: D3+1을 얻는다.',
+          ko: '이 유닛의 산성 타액은 서지 타입: 경장갑과 S DICE: D3+1을 얻는다.',
         },
       },
     },

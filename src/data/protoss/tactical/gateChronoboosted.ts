@@ -2,7 +2,8 @@ import type { TacticalCard } from '../../../types'
 
 export const gateChronoboosted: TacticalCard = {
   category: 'tactical',
-  name: 'Gate Chronoboosted',
+  id: 'Gate Chronoboosted',
+  name: { en: 'Gate Chronoboosted', ko: '시간 가속 관문' },
   isUnique: true,
   gasPts: 35,
   resource: 1,
@@ -13,24 +14,26 @@ export const gateChronoboosted: TacticalCard = {
   cardAbilities: [
     {
       kind: 'rule',
-      name: 'Zealous Charge',
+      id: 'Zealous Charge',
+      name: { en: 'Zealous Charge', ko: '광신적 돌진' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
       rule: {
         en: 'The active Unit gains BUFF Speed (2).',
-        ko: '활성화 중인 유닛은 BUFF Speed (2)를 얻는다.',
+        ko: '활성화된 유닛은 버프 스피드(2)를 갖는다.',
       },
     },
     {
       kind: 'rule',
-      name: 'Quick Strikes',
+      id: 'Quick Strikes',
+      name: { en: 'Quick Strikes', ko: '속공' },
       phase: 'Combat',
       type: 'Active',
       cost: 0,
       rule: {
         en: "The active Unit's first Close Combat Weapon used gains PRECISION (2).",
-        ko: '활성화 중인 유닛이 처음 사용하는 근접 무기는 PRECISION (2)를 얻는다.',
+        ko: '활성화된 유닛이 처음으로 하는 근접공격에서 무기에 프리시전(2)를 갖는다.',
       },
     },
   ],

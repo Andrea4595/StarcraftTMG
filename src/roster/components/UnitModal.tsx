@@ -3,6 +3,7 @@ import { useRosterStore } from '../RosterContext'
 import { catalogSquadTierIndexes, rosterMineralTotal, rosterSlotUsage } from '../rosterCalc'
 import { makeId } from '../makeId'
 import { UNIT_TYPE_COLORS } from '../unitTypeColor'
+import { useLocalize } from '../../LangContext'
 import { Modal } from './Modal'
 import { SlotUsageRow } from './SlotUsageRow'
 
@@ -19,6 +20,7 @@ export function UnitModal({
   onClose: () => void
 }) {
   const store = useRosterStore()
+  const localize = useLocalize()
 
   const mineralTotal = rosterMineralTotal(race, roster)
   const overMineralCap = mineralTotal > roster.mineralCap
@@ -42,17 +44,17 @@ export function UnitModal({
     <Modal title="유닛 선택" subHeader={subHeader} onClose={onClose}>
       <div className="unit-picker-grid">
         {race.units.map((unit) => {
-          const alreadyIncluded = unit.isUnique && roster.units.some((e) => e.unitName === unit.name)
+          const alreadyIncluded = unit.isUnique && roster.units.some((e) => e.unitId === unit.id)
           /** 'Other'는 어떤 카드로도 슬롯을 부여받지 않아 예산 개념이 없으므로 강조하지 않는다 */
           const typeColor = unit.type === 'Other' ? undefined : UNIT_TYPE_COLORS[unit.type]
           return (
             <div
-              key={unit.name}
+              key={unit.id}
               className={`game-card unit-picker-tile ${alreadyIncluded ? 'unit-picker-tile-disabled' : ''}`}
               style={typeColor ? { borderLeftWidth: 3, borderLeftColor: typeColor } : undefined}
             >
               <div className="unit-picker-name">
-                {unit.name}
+                {localize(unit.name)}
                 {unit.isUnique && <span className="card-unique-badge">UNIQUE</span>}
               </div>
               <div className="unit-picker-type" style={typeColor ? { color: typeColor } : undefined}>
@@ -69,7 +71,7 @@ export function UnitModal({
                       disabled={alreadyIncluded}
                       onClick={() => {
                         const id = makeId()
-                        store.addUnitEntry(roster.id, unit.name, tierIndex, id)
+                        store.addUnitEntry(roster.id, unit.id, tierIndex, id)
                         onAdded(id)
                       }}
                     >

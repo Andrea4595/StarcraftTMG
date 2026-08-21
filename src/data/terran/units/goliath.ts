@@ -2,7 +2,8 @@ import type { UnitCard } from '../../../types'
 
 export const goliath: UnitCard = {
   category: 'unit',
-  name: 'Goliath',
+  id: 'Goliath',
+  name: { en: 'Goliath', ko: '골리앗' },
   isUnique: false,
   type: 'Elite',
   stat: {
@@ -18,18 +19,20 @@ export const goliath: UnitCard = {
   abilities: [
     {
       kind: 'rule',
-      name: 'Target Lock',
+      id: 'Target Lock',
+      name: { en: 'Target Lock', ko: '목표물 고정' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
       rule: {
         en: 'Select one Enemy Unit Within 12". Whenever a Friendly Goliath Unit targets that enemy with an Autocannon, that weapon gains Surge Type: Light, Armoured, and S Dice: D3+1.',
-        ko: '12" 이내의 적 유닛 하나를 선택한다. 아군 Goliath 유닛이 Autocannon으로 그 적을 목표로 할 때마다, 해당 무기는 Surge Type: Light, Armoured와 S Dice: D3+1을 얻는다.',
+        ko: '12" 이내의 적 유닛 하나를 고른다. 아군 골리앗 유닛이 그 대상을 자동포로 목표로 할 때마다, 그 무기는 서지 타입: 경장갑, 중장갑과 S Dice: D3+1을 얻는다.',
       },
     },
     {
       kind: 'weapon',
-      name: 'Autocannon',
+      id: 'Autocannon',
+      name: { en: 'Autocannon', ko: '자동포' },
       phase: 'Assault',
       stat: {
         rng: 12,
@@ -44,7 +47,8 @@ export const goliath: UnitCard = {
     },
     {
       kind: 'weapon',
-      name: 'Underbelly Machine Gun',
+      id: 'Underbelly Machine Gun',
+      name: { en: 'Underbelly Machine Gun', ko: '하부 기관총' },
       phase: 'Assault',
       stat: {
         rng: 8,
@@ -59,7 +63,8 @@ export const goliath: UnitCard = {
     },
     {
       kind: 'weapon',
-      name: 'Hellfire Missiles',
+      id: 'Hellfire Missiles',
+      name: { en: 'Hellfire Missiles', ko: '지옥불 미사일' },
       phase: 'Assault',
       stat: {
         rng: 16,
@@ -74,29 +79,32 @@ export const goliath: UnitCard = {
     },
     {
       kind: 'rule',
-      name: 'Indomitable',
+      id: 'Indomitable',
+      name: { en: 'Indomitable', ko: '불굴' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'While Engaged, this Unit may target and be targeted by Unengaged Enemy Units. In both cases, the defending Unit gains an Evade Roll against those attacks.',
-        ko: 'Engaged 상태인 동안, 이 유닛은 Unengaged 적 유닛을 목표로 할 수 있고 그들의 대상이 될 수도 있다. 두 경우 모두, 방어하는 유닛은 그 공격에 대해 Evade Roll을 얻는다.',
+        ko: '인게이지 상태일 때에도 이 유닛은 인게이지되지 않은 적 유닛을 공격의 목표로 삼을 수 있다. 상대도 마찬가지로 이 유닛이 인게이지된 상태에서 공격의 대상으로 삼을 수 있다. 그럴 경우 공격의 대상이 된 유닛은 그 공격에 대해 회피 롤을 할 수 있다.',
       },
     },
     {
       kind: 'rule',
-      name: 'Devastating Charge',
+      id: 'Devastating Charge',
+      name: { en: 'Devastating Charge', ko: '파괴적인 돌진' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (4) 3+ effect.',
-        ko: '이 유닛이 Charge를 성공적으로 완료한 직후, IMPACT (4) 3+ 효과를 해결한다.',
+        ko: '이 유닛이 차지를 성공적으로 마친 직후, 즉시 임팩트(4) 3+ 효과를 적용한다.',
       },
     },
     {
       kind: 'weapon',
-      name: 'Stomp',
+      id: 'Stomp',
+      name: { en: 'Stomp', ko: '짓밟기' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -115,22 +123,24 @@ export const goliath: UnitCard = {
       pts: 20,
       ability: {
         kind: 'rule',
-        name: 'Ares-Class Targeting System',
+        id: 'Ares-Class Targeting System',
+        name: { en: 'Ares-Class Targeting System', ko: '아레스급 목표물 설정 시스템' },
         phase: 'Any',
         type: 'Passive',
         cost: 0,
         rule: {
           en: "This Unit's Autocannon and Underbelly Machine Gun weapons gain PRECISION (1).",
-          ko: '이 유닛의 Autocannon과 Underbelly Machine Gun 무기는 PRECISION (1)을 얻는다.',
+          ko: '이 유닛의 자동포와 하부 기관총은 프리시전(1)을 지닌다.',
         },
       },
     },
     {
       pts: 30,
-      for: 'Hellfire Missiles',
+      forId: 'Hellfire Missiles',
       ability: {
         kind: 'weapon',
-        name: 'Scatter Missiles',
+        id: 'Scatter Missiles',
+        name: { en: 'Scatter Missiles', ko: '확산 미사일' },
         phase: 'Assault',
         stat: {
           rng: 18,
@@ -151,10 +161,11 @@ export const goliath: UnitCard = {
     },
     {
       pts: 40,
-      for: 'Hellfire Missiles',
+      forId: 'Hellfire Missiles',
       ability: {
         kind: 'weapon',
-        name: 'Haywire Missiles',
+        id: 'Haywire Missiles',
+        name: { en: 'Haywire Missiles', ko: '폭주 미사일' },
         phase: 'Assault',
         stat: {
           rng: 12,

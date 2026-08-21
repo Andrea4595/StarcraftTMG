@@ -2,7 +2,8 @@ import type { TacticalCard } from '../../../types'
 
 export const barracks: TacticalCard = {
   category: 'tactical',
-  name: 'Barracks',
+  id: 'Barracks',
+  name: { en: 'Barracks', ko: '병영' },
   isUnique: false,
   gasPts: 25,
   resource: 1,
@@ -10,13 +11,14 @@ export const barracks: TacticalCard = {
   cardAbilities: [
     {
       kind: 'rule',
-      name: 'Go! Go! Go!',
+      id: 'Go! Go! Go!',
+      name: { en: 'Go! Go! Go!', ko: '자,빨리빨리!' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
       rule: {
         en: 'The active Biological Unit performs a 2" Move action. This does not count towards its action limit.',
-        ko: '활성화 중인 Biological 유닛이 2" Move action을 수행한다. 이는 해당 유닛의 행동 제한에 포함되지 않는다.',
+        ko: '활성화중인 아군 생체 유닛은 2" 이동 액션을 한다. 이 이동은 액션을 제한하는 조건이 되지 않는다.',
       },
     },
   ],

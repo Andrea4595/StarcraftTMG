@@ -17,12 +17,15 @@
   --gc-orange: #ff8a5b;
   --gc-red: #f87171;
   --gc-purple: #c084fc;
+  /* 룰 텍스트 안에 등장하는 키워드 용어 강조색. 다른 --gc-* 색들은 전부 유닛 타입/자원/배지 등
+     이미 다른 의미로 쓰이고 있어서, 혼동을 피하려고 이 용도로는 아직 쓰이지 않은 청록색을 쓴다 */
+  --gc-keyword: #2dd4bf;
 
   background: var(--gc-bg);
   color: var(--gc-text);
   border: 1px solid var(--gc-border);
   border-radius: 8px;
-  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--sans);
   font-size: 13px;
   text-align: left;
   overflow: hidden;
@@ -489,9 +492,19 @@
   line-height: 145%;
 }
 
+/* 룰 텍스트 안에서 자동으로 감지된 키워드 용어. 볼드 대신 색상만 살짝 다르게 줘서
+   문단 흐름을 깨지 않으면서 눈에 띄게 한다 */
+.card-rule-keyword {
+  color: var(--gc-keyword);
+}
+
 /* 꺼진 업그레이드: 텍스트를 어둡게 눌러서 비활성 상태를 표현 */
 .card-rule-ability-dim .card-rule-ability-name,
 .card-rule-ability-dim .card-rule-text {
+  color: var(--gc-text-disabled);
+}
+
+.card-rule-ability-dim .card-rule-keyword {
   color: var(--gc-text-disabled);
 }
 

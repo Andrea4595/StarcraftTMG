@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { RaceData, Roster, RuleAbility, UnitType } from '../../types'
 import { findFactionCard, findUnit, isFavoriteAbility, rosterFavoriteAbilities, unitActiveAbilities } from '../rosterCalc'
 import { useRosterStore } from '../RosterContext'
+import { useLang, localize } from '../../LangContext'
 import { UNIT_TYPE_COLORS } from '../unitTypeColor'
 import { Modal } from './Modal'
 import { GameReferenceCardsView } from './GameReferenceCardsView'
@@ -14,7 +15,7 @@ import '../gameReference.css'
 
 export type ReferenceDetailTarget =
   | { kind: 'faction' }
-  | { kind: 'tactical'; name: string }
+  | { kind: 'tactical'; id: string }
   | { kind: 'unit'; entryId: string }
 
 type Mode = 'cards' | 'favorites'
@@ -23,7 +24,7 @@ type Mode = 'cards' | 'favorites'
 interface FavoriteAbilityRef {
   ability: RuleAbility
   sourceLabel: string
-  sourceName: string
+  sourceId: string
   /** 유닛에서 나온 능력일 때만 지정된다 (UNIT/TACTICAL 배지, 배지 색 결정용) */
   unitType?: UnitType
 }
@@ -38,15 +39,16 @@ export function GameReferencePage({
   onClose: () => void
 }) {
   const store = useRosterStore()
+  const { lang } = useLang()
   const [mode, setMode] = useState<Mode>('cards')
   const [detail, setDetail] = useState<ReferenceDetailTarget | null>(null)
   const [favoriteAbilityDetail, setFavoriteAbilityDetail] = useState<FavoriteAbilityRef | null>(null)
 
-  /** 지정한 소스(유닛/카드 원본 이름)의 RuleAbility 즐겨찾기 상태를 읽고 토글하는 창구를 만든다 */
-  function favoriteToggleFor(sourceName: string): FavoriteToggle {
+  /** 지정한 소스(유닛/카드 원본 id)의 RuleAbility 즐겨찾기 상태를 읽고 토글하는 창구를 만든다 */
+  function favoriteToggleFor(sourceId: string): FavoriteToggle {
     return {
-      isFavorite: (abilityName) => isFavoriteAbility(roster, sourceName, abilityName),
-      onToggle: (abilityName) => store.toggleFavoriteAbility(roster.id, sourceName, abilityName),
+      isFavorite: (abilityId) => isFavoriteAbility(roster, sourceId, abilityId),
+      onToggle: (abilityId) => store.toggleFavoriteAbility(roster.id, sourceId, abilityId),
     }
   }
 
@@ -57,29 +59,29 @@ export function GameReferencePage({
       const factionCard = findFactionCard(race, roster)
       if (!factionCard) return null
       return {
-        title: factionCard.name,
+        title: localize(factionCard.name, lang),
         node: (
           <TacticalCardView
             card={factionCard}
             resourceLabel={race.resourceLabel}
             isFactionCard
-            favorite={favoriteToggleFor(factionCard.name)}
+            favorite={favoriteToggleFor(factionCard.id)}
           />
         ),
       }
     }
 
     if (detail.kind === 'tactical') {
-      const card = race.tacticalCards.find((c) => c.name === detail.name)
+      const card = race.tacticalCards.find((c) => c.id === detail.id)
       if (!card) return null
       return {
-        title: card.name,
-        node: <TacticalCardView card={card} resourceLabel={race.resourceLabel} favorite={favoriteToggleFor(card.name)} />,
+        title: localize(card.name, lang),
+        node: <TacticalCardView card={card} resourceLabel={race.resourceLabel} favorite={favoriteToggleFor(card.id)} />,
       }
     }
 
     const entry = roster.units.find((e) => e.id === detail.entryId)
-    const unit = entry ? findUnit(race, entry.unitName) : undefined
+    const unit = entry ? findUnit(race, entry.unitId) : undefined
     if (!entry || !unit) return null
 
     /**
@@ -87,26 +89,26 @@ export function GameReferencePage({
      * 같은 phase의 기존 PHASE 그룹 하단에 이름만 덧붙여서, 지금 이 유닛을 보는 도중에도 체크해야 할
      * 다른 카드의 정보를 놓치지 않도록 한다.
      */
-    const crossFavorites: CrossFavoriteRef[] = rosterFavoriteAbilities(race, roster)
-      .filter((g) => g.sourceName !== unit.name)
+    const crossFavorites: CrossFavoriteRef[] = rosterFavoriteAbilities(race, roster, lang)
+      .filter((g) => g.sourceId !== unit.id)
       .flatMap((g) =>
         (g.abilities as RuleAbility[]).map((ability) => ({
           ability,
           sourceLabel: g.sourceLabel,
           onSelect: () =>
-            setFavoriteAbilityDetail({ ability, sourceLabel: g.sourceLabel, sourceName: g.sourceName, unitType: g.unitType }),
+            setFavoriteAbilityDetail({ ability, sourceLabel: g.sourceLabel, sourceId: g.sourceId, unitType: g.unitType }),
         })),
       )
 
     return {
-      title: unit.name,
+      title: localize(unit.name, lang),
       node: (
         <UnitCardView
           unit={unit}
           resourceLabel={race.resourceLabel.abbr}
           abilitiesOverride={unitActiveAbilities(unit, entry)}
           squadHighlightIndex={entry.squadTierIndex}
-          favorite={favoriteToggleFor(unit.name)}
+          favorite={favoriteToggleFor(unit.id)}
           crossFavorites={crossFavorites}
         />
       ),
@@ -177,9 +179,9 @@ export function GameReferencePage({
                 ability={favoriteAbilityDetail.ability}
                 resourceLabel={race.resourceLabel.abbr}
                 favorite={{
-                  active: isFavoriteAbility(roster, favoriteAbilityDetail.sourceName, favoriteAbilityDetail.ability.name),
+                  active: isFavoriteAbility(roster, favoriteAbilityDetail.sourceId, favoriteAbilityDetail.ability.id),
                   onToggle: () =>
-                    store.toggleFavoriteAbility(roster.id, favoriteAbilityDetail.sourceName, favoriteAbilityDetail.ability.name),
+                    store.toggleFavoriteAbility(roster.id, favoriteAbilityDetail.sourceId, favoriteAbilityDetail.ability.id),
                 }}
               />
             </div>

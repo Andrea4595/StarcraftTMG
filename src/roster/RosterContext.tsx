@@ -9,9 +9,9 @@ function createEmptyRoster(name: string): Roster {
     id: makeId(),
     name,
     raceId: null,
-    factionCardName: null,
+    factionCardId: null,
     mineralCap: 2000,
-    tacticalCardNames: [],
+    tacticalCardIds: [],
     units: [],
     favoriteAbilities: [],
   }
@@ -23,11 +23,11 @@ type Action =
   | { type: 'renameRoster'; rosterId: string; name: string }
   | { type: 'selectRoster'; rosterId: string }
   | { type: 'setRosterRace'; rosterId: string; raceId: string }
-  | { type: 'setFactionCard'; rosterId: string; factionCardName: string | null }
+  | { type: 'setFactionCard'; rosterId: string; factionCardId: string | null }
   | { type: 'setMineralCap'; rosterId: string; mineralCap: number }
-  | { type: 'addTacticalCard'; rosterId: string; cardName: string }
-  | { type: 'removeTacticalCard'; rosterId: string; cardName: string }
-  | { type: 'addUnitEntry'; rosterId: string; unitName: string; squadTierIndex: number; id: string }
+  | { type: 'addTacticalCard'; rosterId: string; cardId: string }
+  | { type: 'removeTacticalCard'; rosterId: string; cardId: string }
+  | { type: 'addUnitEntry'; rosterId: string; unitId: string; squadTierIndex: number; id: string }
   | { type: 'removeUnitEntry'; rosterId: string; entryId: string }
   | { type: 'moveUnitEntry'; rosterId: string; entryId: string; direction: 'up' | 'down' }
   | { type: 'setUnitEntrySquadTier'; rosterId: string; entryId: string; squadTierIndex: number }
@@ -39,7 +39,7 @@ type Action =
       /** 이 업그레이드를 켤 때 함께 꺼야 하는 다른 업그레이드 인덱스들 (같은 무기를 대체하는 상호 배타 업그레이드) */
       exclusiveWith?: number[]
     }
-  | { type: 'toggleFavoriteAbility'; rosterId: string; source: string; name: string }
+  | { type: 'toggleFavoriteAbility'; rosterId: string; sourceId: string; abilityId: string }
 
 interface State {
   rosters: Roster[]
@@ -48,6 +48,33 @@ interface State {
 
 const emptyState: State = { rosters: [], activeRosterId: null }
 
+/**
+ * 이전 버전(카드/능력 name이 곧 식별자였던 시절)에 저장된 로스터를 새 스키마로 옮긴다.
+ * 그때의 name 문자열은 지금의 id 값과 동일하므로, 필드 이름만 바꿔주면 된다.
+ */
+function migrateLegacyRoster(r: Record<string, unknown>): Roster {
+  const legacyUnits = Array.isArray(r.units) ? (r.units as Record<string, unknown>[]) : []
+  const legacyFavorites = Array.isArray(r.favoriteAbilities) ? (r.favoriteAbilities as Record<string, unknown>[]) : []
+  return {
+    id: r.id as string,
+    name: r.name as string,
+    raceId: (r.raceId as string | null) ?? null,
+    factionCardId: ((r.factionCardId ?? r.factionCardName) as string | null) ?? null,
+    mineralCap: r.mineralCap as number,
+    tacticalCardIds: (r.tacticalCardIds as string[] | undefined) ?? (r.tacticalCardNames as string[] | undefined) ?? [],
+    units: legacyUnits.map((u) => ({
+      id: u.id as string,
+      unitId: (u.unitId ?? u.unitName) as string,
+      squadTierIndex: u.squadTierIndex as number,
+      upgradeIndexes: u.upgradeIndexes as number[],
+    })),
+    favoriteAbilities: legacyFavorites.map((f) => ({
+      sourceId: (f.sourceId ?? f.source) as string,
+      abilityId: (f.abilityId ?? f.name) as string,
+    })),
+  }
+}
+
 /** localStorage에 저장된 이전 상태를 불러온다. 없거나 손상됐으면 빈 상태로 시작한다 */
 function loadState(): State {
   try {
@@ -55,8 +82,7 @@ function loadState(): State {
     if (!raw) return emptyState
     const parsed = JSON.parse(raw)
     if (!parsed || !Array.isArray(parsed.rosters)) return emptyState
-    // favoriteAbilities는 즐겨찾기 기능 추가 이전에 저장된 로스터엔 없을 수 있어 기본값을 채워준다
-    const rosters: Roster[] = parsed.rosters.map((r: Roster) => ({ ...r, favoriteAbilities: r.favoriteAbilities ?? [] }))
+    const rosters: Roster[] = parsed.rosters.map((r: Record<string, unknown>) => migrateLegacyRoster(r))
     return { rosters, activeRosterId: parsed.activeRosterId ?? null }
   } catch {
     return emptyState
@@ -92,26 +118,26 @@ function reducer(state: State, action: Action): State {
       return mapRoster(state, action.rosterId, (r) => ({
         ...r,
         raceId: action.raceId,
-        factionCardName: null,
-        tacticalCardNames: [],
+        factionCardId: null,
+        tacticalCardIds: [],
         units: [],
       }))
     case 'setFactionCard':
-      return mapRoster(state, action.rosterId, (r) => ({ ...r, factionCardName: action.factionCardName }))
+      return mapRoster(state, action.rosterId, (r) => ({ ...r, factionCardId: action.factionCardId }))
     case 'setMineralCap':
       return mapRoster(state, action.rosterId, (r) => ({ ...r, mineralCap: action.mineralCap }))
     case 'addTacticalCard':
       return mapRoster(state, action.rosterId, (r) => ({
         ...r,
-        tacticalCardNames: [...r.tacticalCardNames, action.cardName],
+        tacticalCardIds: [...r.tacticalCardIds, action.cardId],
       }))
     case 'removeTacticalCard':
       return mapRoster(state, action.rosterId, (r) => {
-        const idx = r.tacticalCardNames.indexOf(action.cardName)
+        const idx = r.tacticalCardIds.indexOf(action.cardId)
         if (idx === -1) return r
-        const tacticalCardNames = [...r.tacticalCardNames]
-        tacticalCardNames.splice(idx, 1)
-        return { ...r, tacticalCardNames }
+        const tacticalCardIds = [...r.tacticalCardIds]
+        tacticalCardIds.splice(idx, 1)
+        return { ...r, tacticalCardIds }
       })
     case 'addUnitEntry':
       return mapRoster(state, action.rosterId, (r) => ({
@@ -120,7 +146,7 @@ function reducer(state: State, action: Action): State {
           ...r.units,
           {
             id: action.id,
-            unitName: action.unitName,
+            unitId: action.unitId,
             squadTierIndex: action.squadTierIndex,
             upgradeIndexes: [],
           },
@@ -164,12 +190,14 @@ function reducer(state: State, action: Action): State {
       )
     case 'toggleFavoriteAbility':
       return mapRoster(state, action.rosterId, (r) => {
-        const exists = r.favoriteAbilities.some((f) => f.source === action.source && f.name === action.name)
+        const exists = r.favoriteAbilities.some(
+          (f) => f.sourceId === action.sourceId && f.abilityId === action.abilityId,
+        )
         return {
           ...r,
           favoriteAbilities: exists
-            ? r.favoriteAbilities.filter((f) => !(f.source === action.source && f.name === action.name))
-            : [...r.favoriteAbilities, { source: action.source, name: action.name }],
+            ? r.favoriteAbilities.filter((f) => !(f.sourceId === action.sourceId && f.abilityId === action.abilityId))
+            : [...r.favoriteAbilities, { sourceId: action.sourceId, abilityId: action.abilityId }],
         }
       })
     default:
@@ -184,16 +212,16 @@ interface RosterStore extends State {
   renameRoster: (rosterId: string, name: string) => void
   selectRoster: (rosterId: string) => void
   setRosterRace: (rosterId: string, raceId: string) => void
-  setFactionCard: (rosterId: string, factionCardName: string | null) => void
+  setFactionCard: (rosterId: string, factionCardId: string | null) => void
   setMineralCap: (rosterId: string, mineralCap: number) => void
-  addTacticalCard: (rosterId: string, cardName: string) => void
-  removeTacticalCard: (rosterId: string, cardName: string) => void
-  addUnitEntry: (rosterId: string, unitName: string, squadTierIndex: number, id: string) => void
+  addTacticalCard: (rosterId: string, cardId: string) => void
+  removeTacticalCard: (rosterId: string, cardId: string) => void
+  addUnitEntry: (rosterId: string, unitId: string, squadTierIndex: number, id: string) => void
   removeUnitEntry: (rosterId: string, entryId: string) => void
   moveUnitEntry: (rosterId: string, entryId: string, direction: 'up' | 'down') => void
   setUnitEntrySquadTier: (rosterId: string, entryId: string, squadTierIndex: number) => void
   toggleUnitUpgrade: (rosterId: string, entryId: string, upgradeIndex: number, exclusiveWith?: number[]) => void
-  toggleFavoriteAbility: (rosterId: string, source: string, name: string) => void
+  toggleFavoriteAbility: (rosterId: string, sourceId: string, abilityId: string) => void
 }
 
 const RosterStoreContext = createContext<RosterStore | null>(null)
@@ -217,19 +245,20 @@ export function RosterProvider({ children }: { children: ReactNode }) {
     renameRoster: (rosterId, name) => dispatch({ type: 'renameRoster', rosterId, name }),
     selectRoster: (rosterId) => dispatch({ type: 'selectRoster', rosterId }),
     setRosterRace: (rosterId, raceId) => dispatch({ type: 'setRosterRace', rosterId, raceId }),
-    setFactionCard: (rosterId, factionCardName) => dispatch({ type: 'setFactionCard', rosterId, factionCardName }),
+    setFactionCard: (rosterId, factionCardId) => dispatch({ type: 'setFactionCard', rosterId, factionCardId }),
     setMineralCap: (rosterId, mineralCap) => dispatch({ type: 'setMineralCap', rosterId, mineralCap }),
-    addTacticalCard: (rosterId, cardName) => dispatch({ type: 'addTacticalCard', rosterId, cardName }),
-    removeTacticalCard: (rosterId, cardName) => dispatch({ type: 'removeTacticalCard', rosterId, cardName }),
-    addUnitEntry: (rosterId, unitName, squadTierIndex, id) =>
-      dispatch({ type: 'addUnitEntry', rosterId, unitName, squadTierIndex, id }),
+    addTacticalCard: (rosterId, cardId) => dispatch({ type: 'addTacticalCard', rosterId, cardId }),
+    removeTacticalCard: (rosterId, cardId) => dispatch({ type: 'removeTacticalCard', rosterId, cardId }),
+    addUnitEntry: (rosterId, unitId, squadTierIndex, id) =>
+      dispatch({ type: 'addUnitEntry', rosterId, unitId, squadTierIndex, id }),
     removeUnitEntry: (rosterId, entryId) => dispatch({ type: 'removeUnitEntry', rosterId, entryId }),
     moveUnitEntry: (rosterId, entryId, direction) => dispatch({ type: 'moveUnitEntry', rosterId, entryId, direction }),
     setUnitEntrySquadTier: (rosterId, entryId, squadTierIndex) =>
       dispatch({ type: 'setUnitEntrySquadTier', rosterId, entryId, squadTierIndex }),
     toggleUnitUpgrade: (rosterId, entryId, upgradeIndex, exclusiveWith) =>
       dispatch({ type: 'toggleUnitUpgrade', rosterId, entryId, upgradeIndex, exclusiveWith }),
-    toggleFavoriteAbility: (rosterId, source, name) => dispatch({ type: 'toggleFavoriteAbility', rosterId, source, name }),
+    toggleFavoriteAbility: (rosterId, sourceId, abilityId) =>
+      dispatch({ type: 'toggleFavoriteAbility', rosterId, sourceId, abilityId }),
   }
 
   return <RosterStoreContext.Provider value={store}>{children}</RosterStoreContext.Provider>

@@ -2,7 +2,8 @@ import type { TacticalCard } from '../../../types'
 
 export const academy: TacticalCard = {
   category: 'tactical',
-  name: 'Academy',
+  id: 'Academy',
+  name: { en: 'Academy', ko: '사관학교' },
   isUnique: true,
   gasPts: 35,
   resource: 1,
@@ -10,13 +11,14 @@ export const academy: TacticalCard = {
   cardAbilities: [
     {
       kind: 'rule',
-      name: 'Advanced Training',
+      id: 'Advanced Training',
+      name: { en: 'Advanced Training', ko: '진보된 훈련' },
       phase: 'Any',
       type: 'Reaction',
       cost: 0,
       rule: {
         en: 'Once per Round, when a Friendly Support Unit activates a Special Ability that costs CP, resolve that ability with its CP cost reduced by 1 (to a minimum of 0). Do not Exhaust this card.',
-        ko: '라운드당 1회, 아군 Support 유닛이 CP를 소모하는 Special Ability를 발동할 때, 그 능력의 CP 비용을 1 감소시켜(최소 0) 해결한다. 이 카드를 Exhaust하지 않는다.',
+        ko: '라운드당 한 번, 아군 서포트 유닛이 특수능력을 사용할 때 CP를 소모한다면, 그 CP 소모치를 1 줄인다 (최소 0). 그 후 이 카드는 탈진되지 않는다.',
       },
     },
   ],

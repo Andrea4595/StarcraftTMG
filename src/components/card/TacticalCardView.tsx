@@ -1,5 +1,6 @@
 import type { TacticalCard } from '../../types'
 import { AbilitiesSection, type FavoriteToggle } from './AbilitiesSection'
+import { useLocalize } from '../../LangContext'
 
 export function TacticalCardView({
   card,
@@ -18,6 +19,7 @@ export function TacticalCardView({
   /** 지정하면 능력 이름 옆에 즐겨찾기 별 버튼이 붙는다 (게임 레퍼런스 화면 전용) */
   favorite?: FavoriteToggle
 }) {
+  const localize = useLocalize()
   const subtitle = isFactionCard ? 'Faction Card' : card.gasPts !== undefined ? `${card.gasPts} Gas` : ''
 
   return (
@@ -25,7 +27,7 @@ export function TacticalCardView({
       <div className="card-header">
         <div>
           <div className="card-title">
-            {card.name}
+            {localize(card.name)}
             {card.isUnique && <span className="card-unique-badge">UNIQUE</span>}
             {count !== undefined && count > 1 && <span className="card-count-badge">x{count}</span>}
           </div>

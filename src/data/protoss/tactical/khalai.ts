@@ -2,7 +2,8 @@ import type { TacticalCard } from '../../../types'
 
 export const khalai: TacticalCard = {
   category: 'tactical',
-  name: 'Khalai',
+  id: 'Khalai',
+  name: { en: 'Khalai', ko: '칼라이' },
   isUnique: true,
   resource: 1,
   slot: [
@@ -13,24 +14,26 @@ export const khalai: TacticalCard = {
   cardAbilities: [
     {
       kind: 'rule',
-      name: 'Pylon Warp-In',
+      id: 'Pylon Warp-In',
+      name: { en: 'Pylon Warp-In', ko: '수정탑 소환' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
       rule: {
         en: 'If there is no Friendly Pylon on the battlefield, set a Friendly Pylon Unit anywhere on the GROUND LEVEL of the battlefield more than 10" away from any Enemy model. This Round, the Pylon is not eligible to use its Special Abilities (excluding Structure).',
-        ko: '전장에 아군 Pylon이 없다면, 적 모델로부터 10" 넘게 떨어진 전장의 GROUND LEVEL 아무 곳에나 아군 Pylon 유닛을 놓는다. 이번 라운드에 그 Pylon은 자신의 Special Ability를 사용할 수 없다 (Structure 제외).',
+        ko: '만약 전장에 아군 수정탑이 없다면 수정탑을 전장의 지면 아무곳에나 배치한다. 다른 적 유닛에게서 10”이상 떨어져 있어야 한다. 그 라운드에 수정탑의 특수능력은 사용되지 못한다. (구조물 규칙은 제외한다)',
       },
     },
     {
       kind: 'rule',
-      name: 'Bound by the Khala',
+      id: 'Bound by the Khala',
+      name: { en: 'Bound by the Khala', ko: '칼라의 연결' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
       rule: {
         en: "At the end of the active Unit's Activation, select one other Friendly Unit eligible to Activate in the current Phase. Immediately Activate that Unit.",
-        ko: '활성화 중인 유닛의 Activation이 끝날 때, 현재 Phase에 Activate할 수 있는 다른 아군 유닛 하나를 선택한다. 그 유닛을 즉시 Activate한다.',
+        ko: '활성화중인 유닛의 활성화가 마쳐진 후, 그 페이즈에 활성화가 가능한 다른 아군유닛을 하나 선택해서 즉시 활성화시킨다.',
       },
     },
   ],

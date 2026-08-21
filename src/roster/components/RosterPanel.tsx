@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { RaceData, Roster } from '../../types'
 import { useRosterStore } from '../RosterContext'
+import { useLocalize } from '../../LangContext'
 import {
   findFactionCard,
   findUnit,
@@ -17,7 +18,7 @@ import { UnitModal } from './UnitModal'
 import { SlotUsageRow } from './SlotUsageRow'
 import type { DetailState } from './RosterDetailPanel'
 
-type ModalState = { kind: 'tactical'; focusCardName?: string } | { kind: 'unit-add' } | null
+type ModalState = { kind: 'tactical'; focusCardId?: string } | { kind: 'unit-add' } | null
 
 export function RosterPanel({
   races,
@@ -84,6 +85,7 @@ function RosterPanelBody({
   onSelectDetail: (detail: DetailState) => void
 }) {
   const store = useRosterStore()
+  const localize = useLocalize()
   const [modal, setModal] = useState<ModalState>(null)
   const mineralTotal = rosterMineralTotal(race, roster)
   const gasTotal = rosterGasTotal(race, roster)
@@ -96,8 +98,8 @@ function RosterPanelBody({
   const factionCard = findFactionCard(race, roster)
 
   const tacticalCardCounts = new Map<string, number>()
-  for (const name of roster.tacticalCardNames) {
-    tacticalCardCounts.set(name, (tacticalCardCounts.get(name) ?? 0) + 1)
+  for (const id of roster.tacticalCardIds) {
+    tacticalCardCounts.set(id, (tacticalCardCounts.get(id) ?? 0) + 1)
   }
 
   return (
@@ -126,13 +128,13 @@ function RosterPanelBody({
             className="roster-tactical-chip roster-tactical-chip-faction roster-tactical-chip-clickable"
             role="button"
             tabIndex={0}
-            onClick={() => setModal({ kind: 'tactical', focusCardName: factionCard.name })}
+            onClick={() => setModal({ kind: 'tactical', focusCardId: factionCard.id })}
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === ' ')
-                setModal({ kind: 'tactical', focusCardName: factionCard.name })
+                setModal({ kind: 'tactical', focusCardId: factionCard.id })
             }}
           >
-            {factionCard.name}
+            {localize(factionCard.name)}
             <button
               type="button"
               className="roster-tactical-chip-remove"
@@ -158,32 +160,36 @@ function RosterPanelBody({
             팩션 카드 선택
           </div>
         )}
-        {[...tacticalCardCounts.entries()].map(([name, count]) => (
-          <div
-            className="roster-tactical-chip roster-tactical-chip-clickable"
-            key={name}
-            role="button"
-            tabIndex={0}
-            onClick={() => setModal({ kind: 'tactical', focusCardName: name })}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') setModal({ kind: 'tactical', focusCardName: name })
-            }}
-          >
-            {name}
-            {count > 1 ? ` x${count}` : ''}
-            <button
-              type="button"
-              className="roster-tactical-chip-remove"
-              onClick={(e) => {
-                e.stopPropagation()
-                store.removeTacticalCard(roster.id, name)
+        {[...tacticalCardCounts.entries()].map(([id, count]) => {
+          const card = race.tacticalCards.find((c) => c.id === id)
+          const cardName = card ? localize(card.name) : id
+          return (
+            <div
+              className="roster-tactical-chip roster-tactical-chip-clickable"
+              key={id}
+              role="button"
+              tabIndex={0}
+              onClick={() => setModal({ kind: 'tactical', focusCardId: id })}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') setModal({ kind: 'tactical', focusCardId: id })
               }}
-              aria-label={`${name} 제거`}
             >
-              ✕
-            </button>
-          </div>
-        ))}
+              {cardName}
+              {count > 1 ? ` x${count}` : ''}
+              <button
+                type="button"
+                className="roster-tactical-chip-remove"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  store.removeTacticalCard(roster.id, id)
+                }}
+                aria-label={`${cardName} 제거`}
+              >
+                ✕
+              </button>
+            </div>
+          )
+        })}
         <button type="button" className="btn" onClick={() => setModal({ kind: 'tactical' })}>
           + 카드 추가
         </button>
@@ -208,7 +214,7 @@ function RosterPanelBody({
           <div className="roster-unit-list">
             {roster.units.length === 0 && <div className="roster-empty">유닛을 추가하세요.</div>}
             {roster.units.map((entry) => {
-              const unit = findUnit(race, entry.unitName)
+              const unit = findUnit(race, entry.unitId)
               if (!unit) return null
               return (
                 <UnitEntryRow
@@ -232,7 +238,7 @@ function RosterPanelBody({
         <TacticalCardModal
           race={race}
           roster={roster}
-          focusCardName={modal.focusCardName}
+          focusCardId={modal.focusCardId}
           onClose={() => setModal(null)}
         />
       )}

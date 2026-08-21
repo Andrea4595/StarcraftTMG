@@ -2,7 +2,8 @@ import type { TacticalCard } from '../../../types'
 
 export const dropship: TacticalCard = {
   category: 'tactical',
-  name: 'Dropship',
+  id: 'Dropship',
+  name: { en: 'Dropship', ko: '수송선' },
   isUnique: true,
   gasPts: 40,
   resource: 1,
@@ -13,24 +14,26 @@ export const dropship: TacticalCard = {
   cardAbilities: [
     {
       kind: 'rule',
-      name: 'Strap in!',
+      id: 'Strap in!',
+      name: { en: 'Strap in!', ko: '자, 안전띠 매시고' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
       rule: {
         en: 'The active, Unengaged Ground Unit is returned to Reserves instead of performing an action.',
-        ko: '활성화 중인 Unengaged 지상 유닛이 행동을 수행하는 대신 Reserves로 돌아간다.',
+        ko: '활성화중인 인게이지 상태가 아닌 지상 유닛을 액션을 하는 대신 리저브 상태로 되돌린다.',
       },
     },
     {
       kind: 'rule',
-      name: 'Ready For Dust-off',
+      id: 'Ready For Dust-off',
+      name: { en: 'Ready For Dust-off', ko: '후송준비 완료' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
       rule: {
         en: 'Set a Faction Indicator anywhere on the battlefield more than 10" away from any Enemy model. At the End of the Round, the controlling player may Deploy one Ground Unit from Reserves in base-to-base contact with this Faction Indicator.',
-        ko: 'Faction Indicator를 전장의 어디든 모든 적 모델로부터 10" 넘게 떨어진 곳에 놓는다. 라운드 종료 시, 소유 플레이어는 Reserves에서 지상 유닛 하나를 이 Faction Indicator와 베이스를 맞대어 Deploy할 수 있다.',
+        ko: '다른 적 유닛의 10" 밖에 팩션 마커를 설치한다. 라운드 종료 시 플레이어는 리저브 상태의 지상 유닛 하나를 팩션 마커와 베이스 접촉되게 배치할 수 있다.',
       },
     },
   ],

@@ -1,15 +1,27 @@
-import type { Ability, Phase, RaceData, Roster, RosterUnitEntry, TacticalCard, UnitCard, UnitType, Upgrade } from '../types'
+import type {
+  Ability,
+  Phase,
+  RaceData,
+  Roster,
+  RosterUnitEntry,
+  Rule,
+  TacticalCard,
+  UnitCard,
+  UnitType,
+  Upgrade,
+} from '../types'
+import { localize, type Lang } from '../LangContext'
 import { UNIT_TYPES } from '../types'
 import { resolveScaledCost } from '../components/card/costDisplay'
 
 export { resolveScaledCost }
 
-export function findUnit(race: RaceData, unitName: string): UnitCard | undefined {
-  return race.units.find((u) => u.name === unitName)
+export function findUnit(race: RaceData, unitId: string): UnitCard | undefined {
+  return race.units.find((u) => u.id === unitId)
 }
 
 export function findFactionCard(race: RaceData, roster: Roster): TacticalCard | undefined {
-  return race.factionCards.find((c) => c.name === roster.factionCardName)
+  return race.factionCards.find((c) => c.id === roster.factionCardId)
 }
 
 /**
@@ -50,38 +62,38 @@ export function unitEntryMineralCost(unit: UnitCard, entry: RosterUnitEntry): nu
 
 export function rosterMineralTotal(race: RaceData, roster: Roster): number {
   return roster.units.reduce((sum, entry) => {
-    const unit = findUnit(race, entry.unitName)
+    const unit = findUnit(race, entry.unitId)
     if (!unit) return sum
     return sum + unitEntryMineralCost(unit, entry)
   }, 0)
 }
 
-/** tacticalCardNames는 멀티셋(중복 이름 = 여러 장)이므로 이름마다 race.tacticalCards에서 다시 찾아 개수만큼 나열한다 */
+/** tacticalCardIds는 멀티셋(중복 id = 여러 장)이므로 id마다 race.tacticalCards에서 다시 찾아 개수만큼 나열한다 */
 function includedTacticalCards(race: RaceData, roster: Roster): TacticalCard[] {
   const factionCard = findFactionCard(race, roster)
-  const picked = roster.tacticalCardNames
-    .map((name) => race.tacticalCards.find((c) => c.name === name))
+  const picked = roster.tacticalCardIds
+    .map((id) => race.tacticalCards.find((c) => c.id === id))
     .filter((c): c is TacticalCard => c !== undefined)
   return [...(factionCard ? [factionCard] : []), ...picked]
 }
 
-/** 로스터에 포함된 택티컬 카드(팩션 카드 제외)를 이름별로 묶어 카드 원본과 개수를 함께 반환한다 */
+/** 로스터에 포함된 택티컬 카드(팩션 카드 제외)를 id별로 묶어 카드 원본과 개수를 함께 반환한다 */
 export function groupedTacticalCards(race: RaceData, roster: Roster): { card: TacticalCard; count: number }[] {
   const counts = new Map<string, number>()
-  for (const name of roster.tacticalCardNames) {
-    counts.set(name, (counts.get(name) ?? 0) + 1)
+  for (const id of roster.tacticalCardIds) {
+    counts.set(id, (counts.get(id) ?? 0) + 1)
   }
   return [...counts.entries()]
-    .map(([name, count]) => {
-      const card = race.tacticalCards.find((c) => c.name === name)
+    .map(([id, count]) => {
+      const card = race.tacticalCards.find((c) => c.id === id)
       return card ? { card, count } : null
     })
     .filter((v): v is { card: TacticalCard; count: number } => v !== null)
 }
 
 export function rosterGasTotal(race: RaceData, roster: Roster): number {
-  return roster.tacticalCardNames.reduce((sum, name) => {
-    const card = race.tacticalCards.find((c) => c.name === name)
+  return roster.tacticalCardIds.reduce((sum, id) => {
+    const card = race.tacticalCards.find((c) => c.id === id)
     return sum + (card?.gasPts ?? 0)
   }, 0)
 }
@@ -115,7 +127,7 @@ export function rosterSlotUsage(race: RaceData, roster: Roster): SlotUsage[] {
 
   const used = new Map<UnitType, number>()
   for (const entry of roster.units) {
-    const unit = findUnit(race, entry.unitName)
+    const unit = findUnit(race, entry.unitId)
     const tier = unit?.squad[entry.squadTierIndex]
     if (!unit || !tier) continue
     used.set(unit.type, (used.get(unit.type) ?? 0) + tier.supply)
@@ -128,26 +140,26 @@ export function rosterSlotUsage(race: RaceData, roster: Roster): SlotUsage[] {
   }))
 }
 
-/** isUnique 유닛/택티컬 카드가 중복 포함됐는지 검사 (이름 기준) */
-export function rosterUniqueViolations(race: RaceData, roster: Roster): string[] {
-  const violations: string[] = []
+/** isUnique 유닛/택티컬 카드가 중복 포함됐는지 검사 (id 기준). 화면에 표시할 이름은 호출부에서 localize한다 */
+export function rosterUniqueViolations(race: RaceData, roster: Roster): Rule[] {
+  const violations: Rule[] = []
 
-  const unitNameCounts = new Map<string, number>()
+  const unitIdCounts = new Map<string, number>()
   for (const entry of roster.units) {
-    unitNameCounts.set(entry.unitName, (unitNameCounts.get(entry.unitName) ?? 0) + 1)
+    unitIdCounts.set(entry.unitId, (unitIdCounts.get(entry.unitId) ?? 0) + 1)
   }
-  for (const [name, count] of unitNameCounts) {
-    const unit = findUnit(race, name)
-    if (unit?.isUnique && count > 1) violations.push(name)
+  for (const [id, count] of unitIdCounts) {
+    const unit = findUnit(race, id)
+    if (unit?.isUnique && count > 1) violations.push(unit.name)
   }
 
-  const tacticalCardNameCounts = new Map<string, number>()
-  for (const name of roster.tacticalCardNames) {
-    tacticalCardNameCounts.set(name, (tacticalCardNameCounts.get(name) ?? 0) + 1)
+  const tacticalCardIdCounts = new Map<string, number>()
+  for (const id of roster.tacticalCardIds) {
+    tacticalCardIdCounts.set(id, (tacticalCardIdCounts.get(id) ?? 0) + 1)
   }
-  for (const [name, count] of tacticalCardNameCounts) {
-    const card = race.tacticalCards.find((c) => c.name === name)
-    if (card?.isUnique && count > 1) violations.push(name)
+  for (const [id, count] of tacticalCardIdCounts) {
+    const card = race.tacticalCards.find((c) => c.id === id)
+    if (card?.isUnique && count > 1) violations.push(card.name)
   }
 
   return violations
@@ -163,56 +175,61 @@ export function unitActiveAbilities(unit: UnitCard, entry: RosterUnitEntry): Abi
     .map((i) => unit.upgrades[i])
     .filter((u): u is UnitCard['upgrades'][number] => u !== undefined)
 
-  const sealedNames = new Set<string>()
+  const sealedIds = new Set<string>()
   for (const upgrade of activeUpgrades) {
-    if (!upgrade.for || upgrade.ability.kind !== 'weapon') continue
+    if (!upgrade.forId || upgrade.ability.kind !== 'weapon') continue
     const isSpecialist = upgrade.ability.stat.keyword.some((k) => k.name === 'SPECIALIST')
     if (isSpecialist) continue
-    sealedNames.add(upgrade.for)
+    sealedIds.add(upgrade.forId)
   }
 
-  const baseAbilities = unit.abilities.filter((a) => !sealedNames.has(a.name))
+  const baseAbilities = unit.abilities.filter((a) => !sealedIds.has(a.id))
   return [...baseAbilities, ...activeUpgrades.map((u) => u.ability)]
 }
 
 export interface PhaseAbilityGroup {
-  /** 화면에 보여줄 이름. 같은 유닛이 로스터에 여러 장이면 "Marine #2"처럼 번호가 붙는다 */
+  /** 화면에 보여줄 이름. 같은 유닛이 로스터에 여러 장이면 "해병 #2"처럼 번호가 붙는다 */
   sourceLabel: string
   /**
-   * 즐겨찾기 식별에 쓰는 안정적인 이름(유닛/카드 원본 이름). sourceLabel과 달리 로스터에 같은 유닛이
+   * 즐겨찾기 식별에 쓰는 안정적인 id(유닛/카드 원본 id). sourceLabel과 달리 로스터에 같은 유닛이
    * 몇 장 있든 항상 같은 값이라, 즐겨찾기는 유닛/카드 종류 단위로 공유된다.
    */
-  sourceName: string
+  sourceId: string
   /** 유닛에서 나온 그룹일 때만 지정 (색상 강조용) */
   unitType?: UnitType
   abilities: Ability[]
 }
 
 /** 로스터에 포함된 모든 카드/유닛의 능력을 출처별로 묶는다 (페이즈/즐겨찾기 필터는 호출부에서 따로 적용) */
-function rosterAbilitySources(race: RaceData, roster: Roster): PhaseAbilityGroup[] {
+function rosterAbilitySources(race: RaceData, roster: Roster, lang: Lang): PhaseAbilityGroup[] {
   const groups: PhaseAbilityGroup[] = []
 
   const factionCard = findFactionCard(race, roster)
   if (factionCard) {
-    groups.push({ sourceLabel: factionCard.name, sourceName: factionCard.name, abilities: factionCard.cardAbilities })
+    groups.push({
+      sourceLabel: localize(factionCard.name, lang),
+      sourceId: factionCard.id,
+      abilities: factionCard.cardAbilities,
+    })
   }
 
   for (const { card } of groupedTacticalCards(race, roster)) {
-    groups.push({ sourceLabel: card.name, sourceName: card.name, abilities: card.cardAbilities })
+    groups.push({ sourceLabel: localize(card.name, lang), sourceId: card.id, abilities: card.cardAbilities })
   }
 
-  const nameTotal = new Map<string, number>()
-  for (const entry of roster.units) nameTotal.set(entry.unitName, (nameTotal.get(entry.unitName) ?? 0) + 1)
-  const nameSeen = new Map<string, number>()
+  const idTotal = new Map<string, number>()
+  for (const entry of roster.units) idTotal.set(entry.unitId, (idTotal.get(entry.unitId) ?? 0) + 1)
+  const idSeen = new Map<string, number>()
 
   for (const entry of roster.units) {
-    const unit = findUnit(race, entry.unitName)
+    const unit = findUnit(race, entry.unitId)
     if (!unit) continue
-    const seen = (nameSeen.get(entry.unitName) ?? 0) + 1
-    nameSeen.set(entry.unitName, seen)
-    const sourceLabel = (nameTotal.get(entry.unitName) ?? 0) > 1 ? `${unit.name} #${seen}` : unit.name
+    const seen = (idSeen.get(entry.unitId) ?? 0) + 1
+    idSeen.set(entry.unitId, seen)
+    const unitLabel = localize(unit.name, lang)
+    const sourceLabel = (idTotal.get(entry.unitId) ?? 0) > 1 ? `${unitLabel} #${seen}` : unitLabel
 
-    groups.push({ sourceLabel, sourceName: unit.name, unitType: unit.type, abilities: unitActiveAbilities(unit, entry) })
+    groups.push({ sourceLabel, sourceId: unit.id, unitType: unit.type, abilities: unitActiveAbilities(unit, entry) })
   }
 
   return groups
@@ -223,22 +240,22 @@ function byPhase(ability: Ability, phase: Phase): boolean {
 }
 
 /** 로스터에 포함된 모든 카드/유닛 중, 지정한 페이즈(+Any)에 실제로 쓸 수 있는 능력만 출처별로 묶어 반환한다 */
-export function rosterAbilitiesByPhase(race: RaceData, roster: Roster, phase: Phase): PhaseAbilityGroup[] {
-  return rosterAbilitySources(race, roster)
+export function rosterAbilitiesByPhase(race: RaceData, roster: Roster, phase: Phase, lang: Lang): PhaseAbilityGroup[] {
+  return rosterAbilitySources(race, roster, lang)
     .map((g) => ({ ...g, abilities: g.abilities.filter((a) => byPhase(a, phase)) }))
     .filter((g) => g.abilities.length > 0)
 }
 
-export function isFavoriteAbility(roster: Roster, sourceName: string, abilityName: string): boolean {
-  return roster.favoriteAbilities.some((f) => f.source === sourceName && f.name === abilityName)
+export function isFavoriteAbility(roster: Roster, sourceId: string, abilityId: string): boolean {
+  return roster.favoriteAbilities.some((f) => f.sourceId === sourceId && f.abilityId === abilityId)
 }
 
 /** 로스터 전체에서 즐겨찾기된 능력만 출처별로 묶어 반환한다. 무기 프로필은 즐겨찾기 대상이 아니다 */
-export function rosterFavoriteAbilities(race: RaceData, roster: Roster): PhaseAbilityGroup[] {
-  return rosterAbilitySources(race, roster)
+export function rosterFavoriteAbilities(race: RaceData, roster: Roster, lang: Lang): PhaseAbilityGroup[] {
+  return rosterAbilitySources(race, roster, lang)
     .map((g) => ({
       ...g,
-      abilities: g.abilities.filter((a) => a.kind === 'rule' && isFavoriteAbility(roster, g.sourceName, a.name)),
+      abilities: g.abilities.filter((a) => a.kind === 'rule' && isFavoriteAbility(roster, g.sourceId, a.id)),
     }))
     .filter((g) => g.abilities.length > 0)
 }

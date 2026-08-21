@@ -2,7 +2,8 @@ import type { TacticalCard } from '../../../types'
 
 export const gateway: TacticalCard = {
   category: 'tactical',
-  name: 'Gateway',
+  id: 'Gateway',
+  name: { en: 'Gateway', ko: '관문' },
   isUnique: false,
   gasPts: 25,
   resource: 1,
@@ -10,13 +11,14 @@ export const gateway: TacticalCard = {
   cardAbilities: [
     {
       kind: 'rule',
-      name: 'Quick Strikes',
+      id: 'Quick Strikes',
+      name: { en: 'Quick Strikes', ko: '속공' },
       phase: 'Combat',
       type: 'Active',
       cost: 0,
       rule: {
         en: "The active Unit's first Close Combat Weapon used gains PRECISION (2).",
-        ko: '활성화 중인 유닛이 처음 사용하는 근접 무기는 PRECISION (2)를 얻는다.',
+        ko: '활성화된 유닛이 처음으로 하는 근접공격에서 무기에 프리시전(2)를 갖는다.',
       },
     },
   ],

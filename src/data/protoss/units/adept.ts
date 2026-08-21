@@ -2,7 +2,8 @@ import type { UnitCard } from '../../../types'
 
 export const adept: UnitCard = {
   category: 'unit',
-  name: 'Adept',
+  id: 'Adept',
+  name: { en: 'Adept', ko: '사도' },
   isUnique: false,
   type: 'Core',
   stat: {
@@ -21,29 +22,32 @@ export const adept: UnitCard = {
   abilities: [
     {
       kind: 'rule',
-      name: 'Psionic Presence',
+      id: 'Psionic Presence',
+      name: { en: 'Psionic Presence', ko: '사이오닉 영향력' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: "All Weapons of Friendly Units targeting an Enemy Unit Within 4\" of this Unit's Shade token gain PRECISION (1).",
-        ko: '이 유닛의 Shade 토큰에서 4" 이내에 있는 적 유닛을 대상으로 지정한 아군 유닛의 모든 무기는 PRECISION (1)을 얻는다.',
+        ko: '그림자 토큰의 4”이내의 적 유닛을 목표로 하는 공격에서 아군 유닛의 모든 무기는 프리시전(1)를 얻는다.',
       },
     },
     {
       kind: 'rule',
-      name: 'Psionic Transfer',
+      id: 'Psionic Transfer',
+      name: { en: 'Psionic Transfer', ko: '사이오닉 이동' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
       rule: {
         en: "Set a Shade token Wholly Within 12\" of any model in this Unit. At the End of the Round, the controlling player may set all models of this Unit in Coherency, treating the Shade token as the Leading Model. The Shade token has DISPLACEMENT.",
-        ko: '이 유닛의 모델 하나로부터 12" 이내에 완전히 들어오도록 Shade 토큰을 놓는다. 라운드 종료 시, 소유 플레이어는 Shade 토큰을 Leading Model로 취급하여 이 유닛의 모든 모델을 Coherency에 맞게 배치할 수 있다. Shade 토큰은 DISPLACEMENT를 가진다.',
+        ko: '이 유닛의 아무런 모델에서 12”안에 완전히 들어오게 그림자 토큰을 둔다. 라운드 종료 시, 플레이어는 이 유닛의 모든 모델을 그 토큰을 리딩모델삼아 토큰의 위치에 맞춰 이동시킨다. 그림자 토큰은 변위이다.',
       },
     },
     {
       kind: 'weapon',
-      name: 'Glaive Cannon',
+      id: 'Glaive Cannon',
+      name: { en: 'Glaive Cannon', ko: '쐐기포' },
       phase: 'Assault',
       stat: {
         rng: 8,
@@ -58,7 +62,8 @@ export const adept: UnitCard = {
     },
     {
       kind: 'weapon',
-      name: 'Strike',
+      id: 'Strike',
+      name: { en: 'Strike', ko: '타격' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -75,40 +80,43 @@ export const adept: UnitCard = {
   upgrades: [
     {
       pts: 20,
-      for: 'Glaive Cannon',
+      forId: 'Glaive Cannon',
       ability: {
         kind: 'rule',
-        name: 'Resonating Glaives',
+        id: 'Resonating Glaives',
+        name: { en: 'Resonating Glaives', ko: '공명 파열포' },
         phase: 'Assault',
         type: 'Active',
         cost: 1,
         rule: {
           en: "This Unit's Glaive Cannon gains BUFF RoA (1).",
-          ko: '이 유닛의 Glaive Cannon은 BUFF RoA (1)을 얻는다.',
+          ko: '이 유닛의 쐐기포는 버프 Roa(1)를 얻는다.',
         },
       },
     },
     {
       pts: 10,
-      for: 'Glaive Cannon',
+      forId: 'Glaive Cannon',
       ability: {
         kind: 'rule',
-        name: 'Guidance',
+        id: 'Guidance',
+        name: { en: 'Guidance', ko: '인도' },
         phase: 'Assault',
         type: 'Passive',
         cost: 0,
         rule: {
           en: "This Unit's Glaive Cannon Ranged weapon gains ANTI-EVADE (2).",
-          ko: '이 유닛의 Glaive Cannon 원거리 무기는 ANTI-EVADE (2)를 얻는다.',
+          ko: '이 유닛의 사격무기인 쐐기포는 안티-회피(2)를 얻는다.',
         },
       },
     },
     {
       pts: 20,
-      for: 'Strike',
+      forId: 'Strike',
       ability: {
         kind: 'weapon',
-        name: 'Glaive Strike',
+        id: 'Glaive Strike',
+        name: { en: 'Glaive Strike', ko: '쐐기 타격' },
         phase: 'Combat',
         stat: {
           rng: 'E',

@@ -2,6 +2,7 @@ import type { Roster, RosterUnitEntry, UnitCard } from '../../types'
 import { useRosterStore } from '../RosterContext'
 import { resolveScaledCost, unitEntryMineralCost, unitEquippedUpgrades } from '../rosterCalc'
 import { StatBoxes } from '../../components/card/StatBoxes'
+import { useLocalize } from '../../LangContext'
 
 export function UnitEntryRow({
   roster,
@@ -18,6 +19,7 @@ export function UnitEntryRow({
   onEdit: () => void
 }) {
   const store = useRosterStore()
+  const localize = useLocalize()
   const tier = unit.squad[entry.squadTierIndex]
   const cost = unitEntryMineralCost(unit, entry)
   const equippedUpgrades = unitEquippedUpgrades(unit, entry)
@@ -35,7 +37,7 @@ export function UnitEntryRow({
     >
       <div className="roster-entry-header">
         <div className="roster-entry-title">
-          <span className="roster-entry-name">{unit.name}</span>
+          <span className="roster-entry-name">{localize(unit.name)}</span>
           {unit.isUnique && <span className="card-unique-badge">UNIQUE</span>}
         </div>
         <StatBoxes unit={unit} />
@@ -56,7 +58,7 @@ export function UnitEntryRow({
         <div className="roster-entry-ability-chips">
           {unit.abilities.map((a, i) => (
             <span className="roster-chip" key={i}>
-              {a.name}
+              {localize(a.name)}
             </span>
           ))}
         </div>
@@ -66,7 +68,7 @@ export function UnitEntryRow({
         <div className="roster-entry-ability-chips">
           {equippedUpgrades.map((upgrade, i) => (
             <span className="roster-chip roster-chip-upgrade" key={i}>
-              {upgrade.ability.name} (+{resolveScaledCost(upgrade.pts, entry.squadTierIndex)})
+              {localize(upgrade.ability.name)} (+{resolveScaledCost(upgrade.pts, entry.squadTierIndex)})
             </span>
           ))}
         </div>

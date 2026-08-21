@@ -2,7 +2,8 @@ import type { TacticalCard } from '../../../types'
 
 export const zergSwarm: TacticalCard = {
   category: 'tactical',
-  name: 'Zerg Swarm',
+  id: 'Zerg Swarm',
+  name: { en: 'Zerg Swarm', ko: '저그 군단' },
   isUnique: true,
   resource: 1,
   slot: [
@@ -13,35 +14,38 @@ export const zergSwarm: TacticalCard = {
   cardAbilities: [
     {
       kind: 'rule',
-      name: 'Brood Instinct',
+      id: 'Brood Instinct',
+      name: { en: 'Brood Instinct', ko: '무리 본능' },
       phase: 'Any',
       type: 'Reaction',
       cost: 0,
       rule: {
         en: 'Use before a Friendly Unit makes an Evade Roll. Apply a +1 Modifier to that roll.',
-        ko: '아군 유닛이 Evade Roll을 하기 전에 사용한다. 그 굴림에 +1 수정치를 적용한다.',
+        ko: '아군 유닛이 회피 롤을 할 때 그 굴림에 +1',
       },
     },
     {
       kind: 'rule',
-      name: 'Zerg Creep',
+      id: 'Zerg Creep',
+      name: { en: 'Zerg Creep', ko: '저그 점막' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'During Army Building, select exactly one Creep Card and add it to their Army List, paying its listed cost (if any).',
-        ko: '부대 편성 중에, Creep Card를 정확히 하나 선택해 표기된 비용(있다면)을 지불하고 부대 목록에 추가한다.',
+        ko: '아미 구성 시, 점막 카드 중 하나를 선택해 아미에 넣는다. (그 카드가 자원을 소모한다면 그만큼 소모한다)',
       },
     },
     {
       kind: 'rule',
-      name: 'Rapid Burrowing',
+      id: 'Rapid Burrowing',
+      name: { en: 'Rapid Burrowing', ko: '신속한 잠복' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
       rule: {
         en: 'Select one Friendly, Unengaged Ground Zerg Unit on the battlefield. That Unit gains the Burrowed Status, even if it has already been Activated this Round.',
-        ko: '전장에 있는 아군 Unengaged 지상 Zerg 유닛 하나를 선택한다. 그 유닛은 이번 라운드에 이미 Activated되었더라도 Burrowed Status를 얻는다.',
+        ko: '인게이지 상태가 아닌 아군 지상 저그 유닛을 하나 고른다. 그 유닛은 잠복 상태를 얻는다. 그 유닛이 이번 라운드에서 이미 활성화 되었다더라도 대상이 될 수 있다.',
       },
     },
   ],

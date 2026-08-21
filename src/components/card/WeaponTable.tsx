@@ -1,5 +1,6 @@
 import type { WeaponProfile } from '../../types'
 import { KeywordList } from './KeywordText'
+import { useLocalize } from '../../LangContext'
 
 export interface WeaponRow {
   weapon: WeaponProfile
@@ -14,6 +15,7 @@ export interface WeaponRow {
 }
 
 export function WeaponTable({ rows }: { rows: WeaponRow[] }) {
+  const localize = useLocalize()
   const showPts = rows.some((r) => r.ptsLabel !== undefined)
   return (
     <div className="card-weapon-table-wrap">
@@ -39,7 +41,7 @@ export function WeaponTable({ rows }: { rows: WeaponRow[] }) {
             className={(row.interactive && !row.interactive.active) || row.sealed ? 'card-weapon-row-dim' : ''}
           >
             <td className="card-weapon-name-col">
-              <div className="card-weapon-name">{row.weapon.name}</div>
+              <div className="card-weapon-name">{localize(row.weapon.name)}</div>
               <div className="card-weapon-for">FOR {row.for ?? '-'}</div>
             </td>
             <td>{row.weapon.stat.rng}</td>

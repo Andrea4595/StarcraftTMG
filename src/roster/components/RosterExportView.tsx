@@ -15,6 +15,7 @@ import {
 } from '../rosterCalc'
 import { TacticalCardView } from '../../components/card/TacticalCardView'
 import { UnitCardView } from '../../components/card/UnitCardView'
+import { useLocalize } from '../../LangContext'
 
 export type ExportMode = 'detailed' | 'simple'
 
@@ -93,7 +94,7 @@ function DetailedBody({
           <div className="roster-export-cards-grid">
             {factionCard && <TacticalCardView card={factionCard} resourceLabel={race.resourceLabel} isFactionCard />}
             {tacticalCardGroups.map(({ card, count }) => (
-              <TacticalCardView card={card} resourceLabel={race.resourceLabel} count={count} key={card.name} />
+              <TacticalCardView card={card} resourceLabel={race.resourceLabel} count={count} key={card.id} />
             ))}
           </div>
         </>
@@ -105,7 +106,7 @@ function DetailedBody({
           {/* 유닛은 카드를 나란히 배열하지 않고 한 행을 다 채워, 가로로 넓게 정보를 한눈에 볼 수 있도록 한다 */}
           <div className="roster-export-units-list">
             {roster.units.map((entry) => {
-              const unit = findUnit(race, entry.unitName)
+              const unit = findUnit(race, entry.unitId)
               if (!unit) return null
               return (
                 <UnitCardView
@@ -144,6 +145,8 @@ function SimpleBody({
   factionCard: TacticalCard | undefined
   tacticalCardGroups: { card: TacticalCard; count: number }[]
 }) {
+  const localize = useLocalize()
+
   return (
     <>
       <div className="roster-export-section-title">택티컬 카드</div>
@@ -151,7 +154,7 @@ function SimpleBody({
         {factionCard && (
           <li className="roster-export-simple-item">
             <div className="roster-export-simple-item-row">
-              <span className="roster-export-simple-item-name">{factionCard.name}</span>
+              <span className="roster-export-simple-item-name">{localize(factionCard.name)}</span>
               <span className="roster-export-simple-item-upgrades">Faction Card</span>
               {factionCard.resource > 0 && (
                 <span className="roster-export-resource-badge">
@@ -162,9 +165,9 @@ function SimpleBody({
           </li>
         )}
         {tacticalCardGroups.map(({ card, count }) => (
-          <li className="roster-export-simple-item" key={card.name}>
+          <li className="roster-export-simple-item" key={card.id}>
             <div className="roster-export-simple-item-row">
-              <span className="roster-export-simple-item-name">{card.name}</span>
+              <span className="roster-export-simple-item-name">{localize(card.name)}</span>
               {count > 1 && <span className="roster-export-simple-item-upgrades">x{count}</span>}
               {card.resource > 0 && (
                 <span className="roster-export-resource-badge">
@@ -179,7 +182,7 @@ function SimpleBody({
       <div className="roster-export-section-title">유닛 ({roster.units.length})</div>
       <ul className="roster-export-simple-list">
         {roster.units.map((entry) => {
-          const unit = findUnit(race, entry.unitName)
+          const unit = findUnit(race, entry.unitId)
           if (!unit) return null
           const tier = unit.squad[entry.squadTierIndex]
           const upgrades = unitEquippedUpgrades(unit, entry)
@@ -191,7 +194,7 @@ function SimpleBody({
                     <span className="roster-export-supply-square" key={i} />
                   ))}
                 </span>
-                <span className="roster-export-simple-item-name">{unit.name}</span>
+                <span className="roster-export-simple-item-name">{localize(unit.name)}</span>
                 {tier && <span className="roster-export-simple-item-squad">{tier.modelMax} Models</span>}
                 <span className="roster-export-simple-item-cost">{unitEntryMineralCost(unit, entry)}</span>
               </div>
@@ -199,7 +202,7 @@ function SimpleBody({
                 <div className="roster-export-simple-upgrades-row">
                   {upgrades.map((upgrade, i) => (
                     <span className="roster-export-upgrade-chip" key={i}>
-                      {upgrade.ability.name} (+{resolveScaledCost(upgrade.pts, entry.squadTierIndex)})
+                      {localize(upgrade.ability.name)} (+{resolveScaledCost(upgrade.pts, entry.squadTierIndex)})
                     </span>
                   ))}
                 </div>

@@ -2,7 +2,8 @@ import type { TacticalCard } from '../../../types'
 
 export const supplyDepot: TacticalCard = {
   category: 'tactical',
-  name: 'Supply Depot',
+  id: 'Supply Depot',
+  name: { en: 'Supply Depot', ko: '보급고' },
   isUnique: true,
   gasPts: 40,
   resource: 1,
@@ -14,13 +15,14 @@ export const supplyDepot: TacticalCard = {
   cardAbilities: [
     {
       kind: 'rule',
-      name: 'Additional Supply Depots',
+      id: 'Additional Supply Depots',
+      name: { en: 'Additional Supply Depots', ko: '추가 보급품' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
       rule: {
         en: "The active Unit's Supply Value is improved by 1 for Controlling and Contesting Mission Markers and completing objectives.",
-        ko: '활성화 중인 유닛의 Supply 수치는 Mission Marker를 점령 및 쟁탈하고 목표를 완료할 때 1 증가한다.',
+        ko: '활성화중인 유닛이 미션 마커를 제어, 경쟁, 점령, 목표 달성 조건 계산에서 서플라이 값을 1 증가시킨다.',
       },
     },
   ],

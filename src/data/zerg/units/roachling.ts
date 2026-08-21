@@ -2,7 +2,8 @@ import type { UnitCard } from '../../../types'
 
 export const roachling: UnitCard = {
   category: 'unit',
-  name: 'Roachling',
+  id: 'Roachling',
+  name: { en: 'Roachling', ko: '애바퀴' },
   isUnique: false,
   type: 'Other',
   stat: {
@@ -18,18 +19,20 @@ export const roachling: UnitCard = {
   abilities: [
     {
       kind: 'rule',
-      name: 'Underdeveloped Claws',
+      id: 'Underdeveloped Claws',
+      name: { en: 'Underdeveloped Claws', ko: '발달되지 않은 발톱' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'This Unit cannot gain Burrowed Status.',
-        ko: '이 유닛은 Burrowed Status를 얻을 수 없다.',
+        ko: '이 유닛은 잠복상태가 될 수 없다.',
       },
     },
     {
       kind: 'weapon',
-      name: 'Claws',
+      id: 'Claws',
+      name: { en: 'Claws', ko: '발톱' },
       phase: 'Combat',
       stat: {
         rng: 'E',
