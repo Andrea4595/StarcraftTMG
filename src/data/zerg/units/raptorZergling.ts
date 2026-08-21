@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const raptorZergling: UnitCard = {
   category: 'unit',
   id: 'Raptor (Zergling)',
-  name: { en: 'Raptor (Zergling)', ko: 'Raptor (Zergling)' },
+  name: { en: 'Raptor (Zergling)', ko: '랩터 [저글링]' },
   isUnique: false,
   type: 'Elite',
   stat: {
@@ -24,7 +24,7 @@ export const raptorZergling: UnitCard = {
     {
       kind: 'rule',
       id: 'Squadron',
-      name: { en: 'Squadron', ko: 'Squadron' },
+      name: { en: 'Squadron', ko: '부대' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
@@ -36,7 +36,7 @@ export const raptorZergling: UnitCard = {
     {
       kind: 'rule',
       id: 'Raptor Strain',
-      name: { en: 'Raptor Strain', ko: 'Raptor Strain' },
+      name: { en: 'Raptor Strain', ko: '랩터 변종' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
@@ -48,7 +48,7 @@ export const raptorZergling: UnitCard = {
     {
       kind: 'rule',
       id: 'Adrenal Overload',
-      name: { en: 'Adrenal Overload', ko: 'Adrenal Overload' },
+      name: { en: 'Adrenal Overload', ko: '아드레날린 과부화' },
       phase: 'Assault',
       type: 'Active',
       cost: 1,
@@ -60,7 +60,7 @@ export const raptorZergling: UnitCard = {
     {
       kind: 'rule',
       id: 'Metabolic Boost',
-      name: { en: 'Metabolic Boost', ko: 'Metabolic Boost' },
+      name: { en: 'Metabolic Boost', ko: '대사 촉진' },
       phase: 'Assault',
       type: 'Active',
       cost: 1,
@@ -72,7 +72,7 @@ export const raptorZergling: UnitCard = {
     {
       kind: 'rule',
       id: 'Devastating Charge',
-      name: { en: 'Devastating Charge', ko: 'Devastating Charge' },
+      name: { en: 'Devastating Charge', ko: '파괴적인 돌진' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
@@ -84,7 +84,7 @@ export const raptorZergling: UnitCard = {
     {
       kind: 'weapon',
       id: 'Claws',
-      name: { en: 'Claws', ko: 'Claws' },
+      name: { en: 'Claws', ko: '발톱' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -104,7 +104,7 @@ export const raptorZergling: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Burrow Ambush',
-        name: { en: 'Burrow Ambush', ko: 'Burrow Ambush' },
+        name: { en: 'Burrow Ambush', ko: '잠복 기습' },
         phase: 'Movement',
         type: 'Passive',
         cost: 0,
@@ -120,7 +120,7 @@ export const raptorZergling: UnitCard = {
       ability: {
         kind: 'weapon',
         id: 'Shredding Claws',
-        name: { en: 'Shredding Claws', ko: 'Shredding Claws' },
+        name: { en: 'Shredding Claws', ko: '분쇄하는 발톱' },
         phase: 'Combat',
         stat: {
           rng: 'E',
@@ -139,7 +139,7 @@ export const raptorZergling: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Adrenal Glands',
-        name: { en: 'Adrenal Glands', ko: 'Adrenal Glands' },
+        name: { en: 'Adrenal Glands', ko: '아드레날린 분비선' },
         phase: 'Any',
         type: 'Passive',
         cost: 0,

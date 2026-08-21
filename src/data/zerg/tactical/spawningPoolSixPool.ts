@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const spawningPoolSixPool: TacticalCard = {
   category: 'tactical',
   id: 'Spawning Pool (Six Pool)',
-  name: { en: 'Spawning Pool (Six Pool)', ko: 'Spawning Pool (Six Pool)' },
+  name: { en: 'Spawning Pool (Six Pool)', ko: '패스트 산란못' },
   isUnique: true,
   gasPts: 40,
   resource: 2,
@@ -12,7 +12,7 @@ export const spawningPoolSixPool: TacticalCard = {
     {
       kind: 'rule',
       id: 'Timing Push',
-      name: { en: 'Timing Push', ko: 'Timing Push' },
+      name: { en: 'Timing Push', ko: '타이밍 러시' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
@@ -24,7 +24,7 @@ export const spawningPoolSixPool: TacticalCard = {
     {
       kind: 'rule',
       id: 'Feral Rage',
-      name: { en: 'Feral Rage', ko: 'Feral Rage' },
+      name: { en: 'Feral Rage', ko: '야생의 분노' },
       phase: 'Combat',
       type: 'Active',
       cost: 0,

@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const barracksProxy: TacticalCard = {
   category: 'tactical',
   id: 'Barracks (Proxy)',
-  name: { en: 'Barracks (Proxy)', ko: 'Barracks (Proxy)' },
+  name: { en: 'Barracks (Proxy)', ko: '전진 병영' },
   isUnique: true,
   gasPts: 40,
   resource: 2,
@@ -12,7 +12,7 @@ export const barracksProxy: TacticalCard = {
     {
       kind: 'rule',
       id: 'Go! Go! Go!',
-      name: { en: 'Go! Go! Go!', ko: 'Go! Go! Go!' },
+      name: { en: 'Go! Go! Go!', ko: '자,빨리빨리!' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
@@ -24,7 +24,7 @@ export const barracksProxy: TacticalCard = {
     {
       kind: 'rule',
       id: 'Armed and Ready',
-      name: { en: 'Armed and Ready', ko: 'Armed and Ready' },
+      name: { en: 'Armed and Ready', ko: '출동준비 완료' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,

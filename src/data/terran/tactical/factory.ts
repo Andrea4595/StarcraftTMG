@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const factory: TacticalCard = {
   category: 'tactical',
   id: 'Factory',
-  name: { en: 'Factory', ko: 'Factory' },
+  name: { en: 'Factory', ko: '군수 공장' },
   isUnique: false,
   gasPts: 35,
   resource: 1,
@@ -12,7 +12,7 @@ export const factory: TacticalCard = {
     {
       kind: 'rule',
       id: 'Field Repair',
-      name: { en: 'Field Repair', ko: 'Field Repair' },
+      name: { en: 'Field Repair', ko: '야전 수리' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,

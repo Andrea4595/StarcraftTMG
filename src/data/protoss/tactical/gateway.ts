@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const gateway: TacticalCard = {
   category: 'tactical',
   id: 'Gateway',
-  name: { en: 'Gateway', ko: 'Gateway' },
+  name: { en: 'Gateway', ko: '관문' },
   isUnique: false,
   gasPts: 25,
   resource: 1,
@@ -12,7 +12,7 @@ export const gateway: TacticalCard = {
     {
       kind: 'rule',
       id: 'Quick Strikes',
-      name: { en: 'Quick Strikes', ko: 'Quick Strikes' },
+      name: { en: 'Quick Strikes', ko: '속공' },
       phase: 'Combat',
       type: 'Active',
       cost: 0,

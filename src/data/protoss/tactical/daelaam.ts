@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const daelaam: TacticalCard = {
   category: 'tactical',
   id: 'Daelaam',
-  name: { en: 'Daelaam', ko: 'Daelaam' },
+  name: { en: 'Daelaam', ko: '댈람' },
   isUnique: true,
   resource: 1,
   slot: [
@@ -15,7 +15,7 @@ export const daelaam: TacticalCard = {
     {
       kind: 'rule',
       id: "Dae'Uhl",
-      name: { en: "Dae'Uhl", ko: "Dae'Uhl" },
+      name: { en: "Dae'Uhl", ko: "대'울" },
       phase: 'Any',
       type: 'Reaction',
       cost: 0,
@@ -27,7 +27,7 @@ export const daelaam: TacticalCard = {
     {
       kind: 'rule',
       id: 'Mass Recall',
-      name: { en: 'Mass Recall', ko: 'Mass Recall' },
+      name: { en: 'Mass Recall', ko: '대규모 귀환' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,

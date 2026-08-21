@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const roach: UnitCard = {
   category: 'unit',
   id: 'Roach',
-  name: { en: 'Roach', ko: 'Roach' },
+  name: { en: 'Roach', ko: '바퀴' },
   isUnique: false,
   type: 'Core',
   stat: {
@@ -23,7 +23,7 @@ export const roach: UnitCard = {
     {
       kind: 'rule',
       id: 'Burrow',
-      name: { en: 'Burrow', ko: 'Burrow' },
+      name: { en: 'Burrow', ko: '잠복' },
       phase: 'Any',
       type: 'Active',
       cost: 2,
@@ -35,7 +35,7 @@ export const roach: UnitCard = {
     {
       kind: 'weapon',
       id: 'Acid Saliva',
-      name: { en: 'Acid Saliva', ko: 'Acid Saliva' },
+      name: { en: 'Acid Saliva', ko: '산성 타액' },
       phase: 'Assault',
       stat: {
         rng: 8,
@@ -51,7 +51,7 @@ export const roach: UnitCard = {
     {
       kind: 'rule',
       id: 'Regeneration',
-      name: { en: 'Regeneration', ko: 'Regeneration' },
+      name: { en: 'Regeneration', ko: '재생' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
@@ -63,7 +63,7 @@ export const roach: UnitCard = {
     {
       kind: 'rule',
       id: 'Devastating Charge',
-      name: { en: 'Devastating Charge', ko: 'Devastating Charge' },
+      name: { en: 'Devastating Charge', ko: '파괴적인 돌진' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
@@ -75,7 +75,7 @@ export const roach: UnitCard = {
     {
       kind: 'weapon',
       id: 'Claws',
-      name: { en: 'Claws', ko: 'Claws' },
+      name: { en: 'Claws', ko: '발톱' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -95,7 +95,7 @@ export const roach: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Tunneling Claws',
-        name: { en: 'Tunneling Claws', ko: 'Tunneling Claws' },
+        name: { en: 'Tunneling Claws', ko: '땅굴 발톱' },
         phase: 'Any',
         type: 'Passive',
         cost: 0,
@@ -110,7 +110,7 @@ export const roach: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Burrow Ambush',
-        name: { en: 'Burrow Ambush', ko: 'Burrow Ambush' },
+        name: { en: 'Burrow Ambush', ko: '잠복 기습' },
         phase: 'Movement',
         type: 'Passive',
         cost: 0,
@@ -125,7 +125,7 @@ export const roach: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Glial Reconstitution',
-        name: { en: 'Glial Reconstitution', ko: 'Glial Reconstitution' },
+        name: { en: 'Glial Reconstitution', ko: '신경 재구성' },
         phase: 'Movement',
         type: 'Active',
         cost: 1,
@@ -140,7 +140,7 @@ export const roach: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Hydriodic Bile',
-        name: { en: 'Hydriodic Bile', ko: 'Hydriodic Bile' },
+        name: { en: 'Hydriodic Bile', ko: '요오드화 담즙' },
         phase: 'Assault',
         type: 'Passive',
         cost: 0,

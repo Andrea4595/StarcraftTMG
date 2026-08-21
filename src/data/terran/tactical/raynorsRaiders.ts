@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const raynorsRaiders: TacticalCard = {
   category: 'tactical',
   id: "Raynor's Raiders",
-  name: { en: "Raynor's Raiders", ko: "Raynor's Raiders" },
+  name: { en: "Raynor's Raiders", ko: '레이너 특공대' },
   isUnique: true,
   resource: 1,
   slot: [
@@ -15,7 +15,7 @@ export const raynorsRaiders: TacticalCard = {
     {
       kind: 'rule',
       id: 'Rapid Ingress',
-      name: { en: 'Rapid Ingress', ko: 'Rapid Ingress' },
+      name: { en: 'Rapid Ingress', ko: '신속 증원' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
@@ -27,7 +27,7 @@ export const raynorsRaiders: TacticalCard = {
     {
       kind: 'rule',
       id: 'Ready for Pickup?',
-      name: { en: 'Ready for Pickup?', ko: 'Ready for Pickup?' },
+      name: { en: 'Ready for Pickup?', ko: '탑승 준비 됐나요?' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,

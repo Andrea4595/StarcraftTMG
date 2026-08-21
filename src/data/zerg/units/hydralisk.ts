@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const hydralisk: UnitCard = {
   category: 'unit',
   id: 'Hydralisk',
-  name: { en: 'Hydralisk', ko: 'Hydralisk' },
+  name: { en: 'Hydralisk', ko: '히드라리스크' },
   isUnique: false,
   type: 'Elite',
   stat: {
@@ -24,7 +24,7 @@ export const hydralisk: UnitCard = {
     {
       kind: 'rule',
       id: 'Squadron',
-      name: { en: 'Squadron', ko: 'Squadron' },
+      name: { en: 'Squadron', ko: '부대' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
@@ -36,7 +36,7 @@ export const hydralisk: UnitCard = {
     {
       kind: 'weapon',
       id: 'Needle Spines',
-      name: { en: 'Needle Spines', ko: 'Needle Spines' },
+      name: { en: 'Needle Spines', ko: '바늘 가시뼈' },
       phase: 'Assault',
       stat: {
         rng: 12,
@@ -52,7 +52,7 @@ export const hydralisk: UnitCard = {
     {
       kind: 'rule',
       id: 'Lunge',
-      name: { en: 'Lunge', ko: 'Lunge' },
+      name: { en: 'Lunge', ko: '달려들기' },
       phase: 'Assault',
       type: 'Reaction',
       cost: 1,
@@ -64,7 +64,7 @@ export const hydralisk: UnitCard = {
     {
       kind: 'weapon',
       id: 'Scythe',
-      name: { en: 'Scythe', ko: 'Scythe' },
+      name: { en: 'Scythe', ko: '낫' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -84,7 +84,7 @@ export const hydralisk: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Ancillary Carapace',
-        name: { en: 'Ancillary Carapace', ko: 'Ancillary Carapace' },
+        name: { en: 'Ancillary Carapace', ko: '보조갑피' },
         phase: 'Any',
         type: 'Passive',
         cost: 0,
@@ -99,7 +99,7 @@ export const hydralisk: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Lurking',
-        name: { en: 'Lurking', ko: 'Lurking' },
+        name: { en: 'Lurking', ko: '숨기' },
         phase: 'Any',
         type: 'Passive',
         cost: 0,
@@ -114,7 +114,7 @@ export const hydralisk: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Burrow Ambush',
-        name: { en: 'Burrow Ambush', ko: 'Burrow Ambush' },
+        name: { en: 'Burrow Ambush', ko: '잠복 기습' },
         phase: 'Movement',
         type: 'Passive',
         cost: 0,
@@ -129,7 +129,7 @@ export const hydralisk: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Grooved Spines',
-        name: { en: 'Grooved Spines', ko: 'Grooved Spines' },
+        name: { en: 'Grooved Spines', ko: '가시 홈' },
         phase: 'Assault',
         type: 'Passive',
         cost: 0,

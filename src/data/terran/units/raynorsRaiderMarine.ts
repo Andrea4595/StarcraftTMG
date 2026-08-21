@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const raynorsRaiderMarine: UnitCard = {
   category: 'unit',
   id: "Raynor's Raider (Marine)",
-  name: { en: "Raynor's Raider (Marine)", ko: "Raynor's Raider (Marine)" },
+  name: { en: "Raynor's Raider (Marine)", ko: '레이너 특공대 해병' },
   isUnique: false,
   type: 'Core',
   stat: {
@@ -20,7 +20,7 @@ export const raynorsRaiderMarine: UnitCard = {
     {
       kind: 'rule',
       id: 'Stimpack',
-      name: { en: 'Stimpack', ko: 'Stimpack' },
+      name: { en: 'Stimpack', ko: '전투 자극제' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
@@ -32,7 +32,7 @@ export const raynorsRaiderMarine: UnitCard = {
     {
       kind: 'rule',
       id: 'Raiders Roll!',
-      name: { en: 'Raiders Roll!', ko: 'Raiders Roll!' },
+      name: { en: 'Raiders Roll!', ko: '특공대 나가신다!' },
       phase: 'Movement',
       type: 'Passive',
       cost: 0,
@@ -44,7 +44,7 @@ export const raynorsRaiderMarine: UnitCard = {
     {
       kind: 'rule',
       id: 'Rapid Reinforcements',
-      name: { en: 'Rapid Reinforcements', ko: 'Rapid Reinforcements' },
+      name: { en: 'Rapid Reinforcements', ko: '신속 증원' },
       phase: 'Movement',
       type: 'Passive',
       cost: 0,
@@ -56,7 +56,7 @@ export const raynorsRaiderMarine: UnitCard = {
     {
       kind: 'weapon',
       id: 'C-14 rifle',
-      name: { en: 'C-14 rifle', ko: 'C-14 rifle' },
+      name: { en: 'C-14 rifle', ko: 'C-14 소총' },
       phase: 'Assault',
       stat: {
         rng: 12,
@@ -72,7 +72,7 @@ export const raynorsRaiderMarine: UnitCard = {
     {
       kind: 'rule',
       id: 'Slugthrower',
-      name: { en: 'Slugthrower', ko: 'Slugthrower' },
+      name: { en: 'Slugthrower', ko: '슬러그 쓰로워' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
@@ -84,7 +84,7 @@ export const raynorsRaiderMarine: UnitCard = {
     {
       kind: 'rule',
       id: 'Grenades - Frag',
-      name: { en: 'Grenades - Frag', ko: 'Grenades - Frag' },
+      name: { en: 'Grenades - Frag', ko: '분쇄 수류탄' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
@@ -96,7 +96,7 @@ export const raynorsRaiderMarine: UnitCard = {
     {
       kind: 'weapon',
       id: 'Bayonet',
-      name: { en: 'Bayonet', ko: 'Bayonet' },
+      name: { en: 'Bayonet', ko: '총검' },
       phase: 'Combat',
       stat: {
         rng: 'E',

@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const overchargedNexus: TacticalCard = {
   category: 'tactical',
   id: 'Overcharged Nexus',
-  name: { en: 'Overcharged Nexus', ko: 'Overcharged Nexus' },
+  name: { en: 'Overcharged Nexus', ko: '과부화 연결체' },
   isUnique: true,
   gasPts: 35,
   resource: 1,
@@ -15,7 +15,7 @@ export const overchargedNexus: TacticalCard = {
     {
       kind: 'rule',
       id: 'Photon Overcharge',
-      name: { en: 'Photon Overcharge', ko: 'Photon Overcharge' },
+      name: { en: 'Photon Overcharge', ko: '광자 과충전' },
       phase: 'Any',
       type: 'Reaction',
       cost: 0,
@@ -27,7 +27,7 @@ export const overchargedNexus: TacticalCard = {
     {
       kind: 'rule',
       id: 'Strategic Recall',
-      name: { en: 'Strategic Recall', ko: 'Strategic Recall' },
+      name: { en: 'Strategic Recall', ko: '전략 귀환' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,

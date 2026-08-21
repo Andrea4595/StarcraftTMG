@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const nexus: TacticalCard = {
   category: 'tactical',
   id: 'Nexus',
-  name: { en: 'Nexus', ko: 'Nexus' },
+  name: { en: 'Nexus', ko: '연결체' },
   isUnique: true,
   gasPts: 35,
   resource: 1,
@@ -12,7 +12,7 @@ export const nexus: TacticalCard = {
     {
       kind: 'rule',
       id: 'Ancient Pride',
-      name: { en: 'Ancient Pride', ko: 'Ancient Pride' },
+      name: { en: 'Ancient Pride', ko: '고대의 긍지' },
       phase: 'Any',
       type: 'Active',
       cost: 0,
@@ -24,7 +24,7 @@ export const nexus: TacticalCard = {
     {
       kind: 'rule',
       id: 'Strategic Recall',
-      name: { en: 'Strategic Recall', ko: 'Strategic Recall' },
+      name: { en: 'Strategic Recall', ko: '전략 귀환' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,

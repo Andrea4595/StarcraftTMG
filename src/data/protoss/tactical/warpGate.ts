@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const warpGate: TacticalCard = {
   category: 'tactical',
   id: 'Warp Gate',
-  name: { en: 'Warp Gate', ko: 'Warp Gate' },
+  name: { en: 'Warp Gate', ko: '차원 관문' },
   isUnique: true,
   gasPts: 40,
   resource: 1,
@@ -12,7 +12,7 @@ export const warpGate: TacticalCard = {
     {
       kind: 'rule',
       id: 'Warp In',
-      name: { en: 'Warp In', ko: 'Warp In' },
+      name: { en: 'Warp In', ko: '소환' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
@@ -24,7 +24,7 @@ export const warpGate: TacticalCard = {
     {
       kind: 'rule',
       id: 'Quick Strikes',
-      name: { en: 'Quick Strikes', ko: 'Quick Strikes' },
+      name: { en: 'Quick Strikes', ko: '속공' },
       phase: 'Combat',
       type: 'Active',
       cost: 0,

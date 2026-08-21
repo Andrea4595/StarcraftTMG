@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const acceleratingCreep: TacticalCard = {
   category: 'tactical',
   id: 'Accelerating Creep',
-  name: { en: 'Accelerating Creep', ko: 'Accelerating Creep' },
+  name: { en: 'Accelerating Creep', ko: '가속 점막' },
   isUnique: true,
   gasPts: 0,
   resource: 0,
@@ -12,7 +12,7 @@ export const acceleratingCreep: TacticalCard = {
     {
       kind: 'rule',
       id: 'Speed on Creep',
-      name: { en: 'Speed on Creep', ko: 'Speed on Creep' },
+      name: { en: 'Speed on Creep', ko: '빠른 점막' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
@@ -24,7 +24,7 @@ export const acceleratingCreep: TacticalCard = {
     {
       kind: 'rule',
       id: 'Living Glob of Tissue',
-      name: { en: 'Living Glob of Tissue', ko: 'Living Glob of Tissue' },
+      name: { en: 'Living Glob of Tissue', ko: '살아있는 조직 덩어리' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
@@ -36,7 +36,7 @@ export const acceleratingCreep: TacticalCard = {
     {
       kind: 'rule',
       id: 'Creep Removal',
-      name: { en: 'Creep Removal', ko: 'Creep Removal' },
+      name: { en: 'Creep Removal', ko: '점막 제거' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,

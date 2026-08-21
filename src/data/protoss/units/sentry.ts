@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const sentry: UnitCard = {
   category: 'unit',
   id: 'Sentry',
-  name: { en: 'Sentry', ko: 'Sentry' },
+  name: { en: 'Sentry', ko: '파수기' },
   isUnique: false,
   type: 'Support',
   stat: {
@@ -23,7 +23,7 @@ export const sentry: UnitCard = {
     {
       kind: 'rule',
       id: 'Restoration',
-      name: { en: 'Restoration', ko: 'Restoration' },
+      name: { en: 'Restoration', ko: '회복' },
       phase: 'Any',
       type: 'Reaction',
       cost: 1,
@@ -35,7 +35,7 @@ export const sentry: UnitCard = {
     {
       kind: 'rule',
       id: 'Force Field',
-      name: { en: 'Force Field', ko: 'Force Field' },
+      name: { en: 'Force Field', ko: '역장' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
@@ -47,7 +47,7 @@ export const sentry: UnitCard = {
     {
       kind: 'rule',
       id: 'Guardian Shield',
-      name: { en: 'Guardian Shield', ko: 'Guardian Shield' },
+      name: { en: 'Guardian Shield', ko: '수호 방벽' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
@@ -59,7 +59,7 @@ export const sentry: UnitCard = {
     {
       kind: 'weapon',
       id: 'Disruption Beam',
-      name: { en: 'Disruption Beam', ko: 'Disruption Beam' },
+      name: { en: 'Disruption Beam', ko: '분해 광선' },
       phase: 'Assault',
       stat: {
         rng: 8,
@@ -75,7 +75,7 @@ export const sentry: UnitCard = {
     {
       kind: 'weapon',
       id: 'Beam',
-      name: { en: 'Beam', ko: 'Beam' },
+      name: { en: 'Beam', ko: '광선' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -95,7 +95,7 @@ export const sentry: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Solid-Field Projectors',
-        name: { en: 'Solid-Field Projectors', ko: 'Solid-Field Projectors' },
+        name: { en: 'Solid-Field Projectors', ko: '물리역장 투사기' },
         phase: 'Movement',
         type: 'Active',
         cost: 1,
@@ -110,7 +110,7 @@ export const sentry: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Hallucination',
-        name: { en: 'Hallucination', ko: 'Hallucination' },
+        name: { en: 'Hallucination', ko: '환상' },
         phase: 'Assault',
         type: 'Reaction',
         cost: 0,

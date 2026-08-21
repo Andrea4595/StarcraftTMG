@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const goliath: UnitCard = {
   category: 'unit',
   id: 'Goliath',
-  name: { en: 'Goliath', ko: 'Goliath' },
+  name: { en: 'Goliath', ko: '골리앗' },
   isUnique: false,
   type: 'Elite',
   stat: {
@@ -20,7 +20,7 @@ export const goliath: UnitCard = {
     {
       kind: 'rule',
       id: 'Target Lock',
-      name: { en: 'Target Lock', ko: 'Target Lock' },
+      name: { en: 'Target Lock', ko: '목표물 고정' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
@@ -32,7 +32,7 @@ export const goliath: UnitCard = {
     {
       kind: 'weapon',
       id: 'Autocannon',
-      name: { en: 'Autocannon', ko: 'Autocannon' },
+      name: { en: 'Autocannon', ko: '자동포' },
       phase: 'Assault',
       stat: {
         rng: 12,
@@ -48,7 +48,7 @@ export const goliath: UnitCard = {
     {
       kind: 'weapon',
       id: 'Underbelly Machine Gun',
-      name: { en: 'Underbelly Machine Gun', ko: 'Underbelly Machine Gun' },
+      name: { en: 'Underbelly Machine Gun', ko: '하부 기관총' },
       phase: 'Assault',
       stat: {
         rng: 8,
@@ -64,7 +64,7 @@ export const goliath: UnitCard = {
     {
       kind: 'weapon',
       id: 'Hellfire Missiles',
-      name: { en: 'Hellfire Missiles', ko: 'Hellfire Missiles' },
+      name: { en: 'Hellfire Missiles', ko: '지옥불 미사일' },
       phase: 'Assault',
       stat: {
         rng: 16,
@@ -80,7 +80,7 @@ export const goliath: UnitCard = {
     {
       kind: 'rule',
       id: 'Indomitable',
-      name: { en: 'Indomitable', ko: 'Indomitable' },
+      name: { en: 'Indomitable', ko: '불굴' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
@@ -92,7 +92,7 @@ export const goliath: UnitCard = {
     {
       kind: 'rule',
       id: 'Devastating Charge',
-      name: { en: 'Devastating Charge', ko: 'Devastating Charge' },
+      name: { en: 'Devastating Charge', ko: '파괴적인 돌진' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
@@ -104,7 +104,7 @@ export const goliath: UnitCard = {
     {
       kind: 'weapon',
       id: 'Stomp',
-      name: { en: 'Stomp', ko: 'Stomp' },
+      name: { en: 'Stomp', ko: '짓밟기' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -124,7 +124,7 @@ export const goliath: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Ares-Class Targeting System',
-        name: { en: 'Ares-Class Targeting System', ko: 'Ares-Class Targeting System' },
+        name: { en: 'Ares-Class Targeting System', ko: '아레스급 목표물 설정 시스템' },
         phase: 'Any',
         type: 'Passive',
         cost: 0,
@@ -140,7 +140,7 @@ export const goliath: UnitCard = {
       ability: {
         kind: 'weapon',
         id: 'Scatter Missiles',
-        name: { en: 'Scatter Missiles', ko: 'Scatter Missiles' },
+        name: { en: 'Scatter Missiles', ko: '확산 미사일' },
         phase: 'Assault',
         stat: {
           rng: 18,
@@ -165,7 +165,7 @@ export const goliath: UnitCard = {
       ability: {
         kind: 'weapon',
         id: 'Haywire Missiles',
-        name: { en: 'Haywire Missiles', ko: 'Haywire Missiles' },
+        name: { en: 'Haywire Missiles', ko: '폭주 미사일' },
         phase: 'Assault',
         stat: {
           rng: 12,

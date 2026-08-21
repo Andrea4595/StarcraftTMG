@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const kerrigansSwarm: TacticalCard = {
   category: 'tactical',
   id: "Kerrigan's Swarm",
-  name: { en: "Kerrigan's Swarm", ko: "Kerrigan's Swarm" },
+  name: { en: "Kerrigan's Swarm", ko: '케리건의 군단' },
   isUnique: true,
   resource: 1,
   slot: [
@@ -15,7 +15,7 @@ export const kerrigansSwarm: TacticalCard = {
     {
       kind: 'rule',
       id: 'Wild Mutation',
-      name: { en: 'Wild Mutation', ko: 'Wild Mutation' },
+      name: { en: 'Wild Mutation', ko: '야생 변이' },
       phase: 'Any',
       type: 'Active',
       cost: 0,
@@ -27,7 +27,7 @@ export const kerrigansSwarm: TacticalCard = {
     {
       kind: 'rule',
       id: 'Zerg Creep',
-      name: { en: 'Zerg Creep', ko: 'Zerg Creep' },
+      name: { en: 'Zerg Creep', ko: '저그 점막' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
@@ -39,7 +39,7 @@ export const kerrigansSwarm: TacticalCard = {
     {
       kind: 'rule',
       id: 'Omega Network',
-      name: { en: 'Omega Network', ko: 'Omega Network' },
+      name: { en: 'Omega Network', ko: '오메가 망' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,

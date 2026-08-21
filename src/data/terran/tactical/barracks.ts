@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const barracks: TacticalCard = {
   category: 'tactical',
   id: 'Barracks',
-  name: { en: 'Barracks', ko: 'Barracks' },
+  name: { en: 'Barracks', ko: '병영' },
   isUnique: false,
   gasPts: 25,
   resource: 1,
@@ -12,7 +12,7 @@ export const barracks: TacticalCard = {
     {
       kind: 'rule',
       id: 'Go! Go! Go!',
-      name: { en: 'Go! Go! Go!', ko: 'Go! Go! Go!' },
+      name: { en: 'Go! Go! Go!', ko: '자,빨리빨리!' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,

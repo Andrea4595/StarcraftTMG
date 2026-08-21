@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const engineeringBay: TacticalCard = {
   category: 'tactical',
   id: 'Engineering Bay',
-  name: { en: 'Engineering Bay', ko: 'Engineering Bay' },
+  name: { en: 'Engineering Bay', ko: '공학 연구소' },
   isUnique: false,
   gasPts: 25,
   resource: 1,
@@ -12,7 +12,7 @@ export const engineeringBay: TacticalCard = {
     {
       kind: 'rule',
       id: 'Infantry Armor',
-      name: { en: 'Infantry Armor', ko: 'Infantry Armor' },
+      name: { en: 'Infantry Armor', ko: '보병 장갑' },
       phase: 'Any',
       type: 'Reaction',
       cost: 0,
@@ -24,7 +24,7 @@ export const engineeringBay: TacticalCard = {
     {
       kind: 'rule',
       id: 'Infantry Weapons',
-      name: { en: 'Infantry Weapons', ko: 'Infantry Weapons' },
+      name: { en: 'Infantry Weapons', ko: '보병 무기' },
       phase: 'Assault',
       type: 'Active',
       cost: 0,

@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const gateChronoboosted: TacticalCard = {
   category: 'tactical',
   id: 'Gate Chronoboosted',
-  name: { en: 'Gate Chronoboosted', ko: 'Gate Chronoboosted' },
+  name: { en: 'Gate Chronoboosted', ko: '시간 가속 관문' },
   isUnique: true,
   gasPts: 35,
   resource: 1,
@@ -15,7 +15,7 @@ export const gateChronoboosted: TacticalCard = {
     {
       kind: 'rule',
       id: 'Zealous Charge',
-      name: { en: 'Zealous Charge', ko: 'Zealous Charge' },
+      name: { en: 'Zealous Charge', ko: '광신적 돌진' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
@@ -27,7 +27,7 @@ export const gateChronoboosted: TacticalCard = {
     {
       kind: 'rule',
       id: 'Quick Strikes',
-      name: { en: 'Quick Strikes', ko: 'Quick Strikes' },
+      name: { en: 'Quick Strikes', ko: '속공' },
       phase: 'Combat',
       type: 'Active',
       cost: 0,

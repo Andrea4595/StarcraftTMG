@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const kerriganSwarmRaptorZergling: UnitCard = {
   category: 'unit',
   id: 'Kerrigan Swarm Raptor (Zergling)',
-  name: { en: 'Kerrigan Swarm Raptor (Zergling)', ko: 'Kerrigan Swarm Raptor (Zergling)' },
+  name: { en: 'Kerrigan Swarm Raptor (Zergling)', ko: '케리건 군단 랩터 [저글링]' },
   isUnique: true,
   type: 'Elite',
   stat: {
@@ -29,7 +29,7 @@ export const kerriganSwarmRaptorZergling: UnitCard = {
     {
       kind: 'rule',
       id: 'Squadron',
-      name: { en: 'Squadron', ko: 'Squadron' },
+      name: { en: 'Squadron', ko: '부대' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
@@ -41,7 +41,7 @@ export const kerriganSwarmRaptorZergling: UnitCard = {
     {
       kind: 'rule',
       id: 'Raptor Strain',
-      name: { en: 'Raptor Strain', ko: 'Raptor Strain' },
+      name: { en: 'Raptor Strain', ko: '랩터 변종' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
@@ -53,7 +53,7 @@ export const kerriganSwarmRaptorZergling: UnitCard = {
     {
       kind: 'rule',
       id: 'Leap',
-      name: { en: 'Leap', ko: 'Leap' },
+      name: { en: 'Leap', ko: '도약' },
       phase: 'Assault',
       type: 'Active',
       cost: 1,
@@ -65,7 +65,7 @@ export const kerriganSwarmRaptorZergling: UnitCard = {
     {
       kind: 'rule',
       id: 'Adrenal Overload',
-      name: { en: 'Adrenal Overload', ko: 'Adrenal Overload' },
+      name: { en: 'Adrenal Overload', ko: '아드레날린 과부화' },
       phase: 'Assault',
       type: 'Active',
       cost: 1,
@@ -77,7 +77,7 @@ export const kerriganSwarmRaptorZergling: UnitCard = {
     {
       kind: 'rule',
       id: 'Devastating Charge',
-      name: { en: 'Devastating Charge', ko: 'Devastating Charge' },
+      name: { en: 'Devastating Charge', ko: '파괴적인 돌진' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
@@ -89,7 +89,7 @@ export const kerriganSwarmRaptorZergling: UnitCard = {
     {
       kind: 'weapon',
       id: 'Claws',
-      name: { en: 'Claws', ko: 'Claws' },
+      name: { en: 'Claws', ko: '발톱' },
       phase: 'Combat',
       stat: {
         rng: 'E',

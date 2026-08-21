@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const zealot: UnitCard = {
   category: 'unit',
   id: 'Zealot',
-  name: { en: 'Zealot', ko: 'Zealot' },
+  name: { en: 'Zealot', ko: '광전사' },
   isUnique: false,
   type: 'Core',
   stat: {
@@ -23,7 +23,7 @@ export const zealot: UnitCard = {
     {
       kind: 'rule',
       id: 'Charge',
-      name: { en: 'Charge', ko: 'Charge' },
+      name: { en: 'Charge', ko: '돌진' },
       phase: 'Assault',
       type: 'Active',
       cost: 1,
@@ -35,7 +35,7 @@ export const zealot: UnitCard = {
     {
       kind: 'rule',
       id: 'Devastating Charge',
-      name: { en: 'Devastating Charge', ko: 'Devastating Charge' },
+      name: { en: 'Devastating Charge', ko: '파괴적인 돌진' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
@@ -47,7 +47,7 @@ export const zealot: UnitCard = {
     {
       kind: 'weapon',
       id: 'Psi Blades',
-      name: { en: 'Psi Blades', ko: 'Psi Blades' },
+      name: { en: 'Psi Blades', ko: '사이오닉 검' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -67,7 +67,7 @@ export const zealot: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'My Life for Aiur',
-        name: { en: 'My Life for Aiur', ko: 'My Life for Aiur' },
+        name: { en: 'My Life for Aiur', ko: '내 목숨을 아이어에' },
         phase: 'Any',
         type: 'Passive',
         cost: 0,
@@ -82,7 +82,7 @@ export const zealot: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Leg Enhancements',
-        name: { en: 'Leg Enhancements', ko: 'Leg Enhancements' },
+        name: { en: 'Leg Enhancements', ko: '각력 강화' },
         phase: 'Movement',
         type: 'Active',
         cost: 1,
@@ -97,7 +97,7 @@ export const zealot: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Zealous Round',
-        name: { en: 'Zealous Round', ko: 'Zealous Round' },
+        name: { en: 'Zealous Round', ko: '광전사의 원' },
         phase: 'Assault',
         type: 'Reaction',
         cost: 0,
@@ -112,7 +112,7 @@ export const zealot: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'We Stand as One',
-        name: { en: 'We Stand as One', ko: 'We Stand as One' },
+        name: { en: 'We Stand as One', ko: '우리는 하나되어 싸운다' },
         phase: 'Combat',
         type: 'Passive',
         cost: 0,

@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const jimRaynor: UnitCard = {
   category: 'unit',
   id: 'Jim Raynor',
-  name: { en: 'Jim Raynor', ko: 'Jim Raynor' },
+  name: { en: 'Jim Raynor', ko: '짐 레이너' },
   isUnique: true,
   type: 'Hero',
   stat: {
@@ -20,7 +20,7 @@ export const jimRaynor: UnitCard = {
     {
       kind: 'rule',
       id: 'Commander',
-      name: { en: 'Commander', ko: 'Commander' },
+      name: { en: 'Commander', ko: '지휘관' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
@@ -32,7 +32,7 @@ export const jimRaynor: UnitCard = {
     {
       kind: 'rule',
       id: 'Freedom Fighters',
-      name: { en: 'Freedom Fighters', ko: 'Freedom Fighters' },
+      name: { en: 'Freedom Fighters', ko: '자유 투사' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
@@ -44,7 +44,7 @@ export const jimRaynor: UnitCard = {
     {
       kind: 'rule',
       id: 'Orders',
-      name: { en: 'Orders', ko: 'Orders' },
+      name: { en: 'Orders', ko: '명령' },
       phase: 'Movement',
       type: 'Active',
       cost: 'X',
@@ -56,7 +56,7 @@ export const jimRaynor: UnitCard = {
     {
       kind: 'weapon',
       id: 'Commando Rifle',
-      name: { en: 'Commando Rifle', ko: 'Commando Rifle' },
+      name: { en: 'Commando Rifle', ko: '지휘관용 소총' },
       phase: 'Assault',
       stat: {
         rng: 18,
@@ -72,7 +72,7 @@ export const jimRaynor: UnitCard = {
     {
       kind: 'weapon',
       id: '"Justice" Revolver',
-      name: { en: '"Justice" Revolver', ko: '"Justice" Revolver' },
+      name: { en: '"Justice" Revolver', ko: '"정의" 리볼버' },
       phase: 'Assault',
       stat: {
         rng: 6,
@@ -88,7 +88,7 @@ export const jimRaynor: UnitCard = {
     {
       kind: 'weapon',
       id: 'Bayonet',
-      name: { en: 'Bayonet', ko: 'Bayonet' },
+      name: { en: 'Bayonet', ko: '총검' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -111,7 +111,7 @@ export const jimRaynor: UnitCard = {
       ability: {
         kind: 'weapon',
         id: 'C-14 rifle',
-        name: { en: 'C-14 rifle', ko: 'C-14 rifle' },
+        name: { en: 'C-14 rifle', ko: 'C-14 소총' },
         phase: 'Assault',
         stat: {
           rng: 12,

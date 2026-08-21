@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const forge: TacticalCard = {
   category: 'tactical',
   id: 'Forge',
-  name: { en: 'Forge', ko: 'Forge' },
+  name: { en: 'Forge', ko: '제련소' },
   isUnique: false,
   gasPts: 30,
   resource: 1,
@@ -12,7 +12,7 @@ export const forge: TacticalCard = {
     {
       kind: 'rule',
       id: 'Ground Armor',
-      name: { en: 'Ground Armor', ko: 'Ground Armor' },
+      name: { en: 'Ground Armor', ko: '지상 장갑' },
       phase: 'Any',
       type: 'Reaction',
       cost: 0,
@@ -24,7 +24,7 @@ export const forge: TacticalCard = {
     {
       kind: 'rule',
       id: 'Ground Weapons',
-      name: { en: 'Ground Weapons', ko: 'Ground Weapons' },
+      name: { en: 'Ground Weapons', ko: '지상 무기' },
       phase: 'Assault',
       type: 'Active',
       cost: 0,

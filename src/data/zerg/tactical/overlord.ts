@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const overlord: TacticalCard = {
   category: 'tactical',
   id: 'Overlord',
-  name: { en: 'Overlord', ko: 'Overlord' },
+  name: { en: 'Overlord', ko: '대군주' },
   isUnique: true,
   gasPts: 35,
   resource: 1,
@@ -16,7 +16,7 @@ export const overlord: TacticalCard = {
     {
       kind: 'rule',
       id: 'Ventral Sacs',
-      name: { en: 'Ventral Sacs', ko: 'Ventral Sacs' },
+      name: { en: 'Ventral Sacs', ko: '배주머니' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
@@ -28,7 +28,7 @@ export const overlord: TacticalCard = {
     {
       kind: 'rule',
       id: 'Excrete Creep',
-      name: { en: 'Excrete Creep', ko: 'Excrete Creep' },
+      name: { en: 'Excrete Creep', ko: '점막 생성' },
       phase: 'Assault',
       type: 'Active',
       cost: 0,

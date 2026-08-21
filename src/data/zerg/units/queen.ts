@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const queen: UnitCard = {
   category: 'unit',
   id: 'Queen',
-  name: { en: 'Queen', ko: 'Queen' },
+  name: { en: 'Queen', ko: '여왕' },
   isUnique: false,
   type: 'Support',
   stat: {
@@ -20,7 +20,7 @@ export const queen: UnitCard = {
     {
       kind: 'rule',
       id: 'Spawn Creep Tumor',
-      name: { en: 'Spawn Creep Tumor', ko: 'Spawn Creep Tumor' },
+      name: { en: 'Spawn Creep Tumor', ko: '점막 종양 생성' },
       phase: 'Any',
       type: 'Active',
       cost: 1,
@@ -32,7 +32,7 @@ export const queen: UnitCard = {
     {
       kind: 'rule',
       id: 'Transfusion',
-      name: { en: 'Transfusion', ko: 'Transfusion' },
+      name: { en: 'Transfusion', ko: '수혈' },
       phase: 'Any',
       type: 'Reaction',
       cost: 1,
@@ -44,7 +44,7 @@ export const queen: UnitCard = {
     {
       kind: 'rule',
       id: 'Restoration',
-      name: { en: 'Restoration', ko: 'Restoration' },
+      name: { en: 'Restoration', ko: '회복' },
       phase: 'Any',
       type: 'Reaction',
       cost: 1,
@@ -56,7 +56,7 @@ export const queen: UnitCard = {
     {
       kind: 'rule',
       id: 'Psionic Link',
-      name: { en: 'Psionic Link', ko: 'Psionic Link' },
+      name: { en: 'Psionic Link', ko: '사이오닉 연결' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
@@ -68,7 +68,7 @@ export const queen: UnitCard = {
     {
       kind: 'weapon',
       id: 'Talons',
-      name: { en: 'Talons', ko: 'Talons' },
+      name: { en: 'Talons', ko: '발톱' },
       phase: 'Assault',
       stat: {
         rng: 6,
@@ -84,7 +84,7 @@ export const queen: UnitCard = {
     {
       kind: 'weapon',
       id: 'Acid spines',
-      name: { en: 'Acid spines', ko: 'Acid spines' },
+      name: { en: 'Acid spines', ko: '산성 가시뼈' },
       phase: 'Assault',
       stat: {
         rng: 12,
@@ -100,7 +100,7 @@ export const queen: UnitCard = {
     {
       kind: 'rule',
       id: 'Devastating Charge',
-      name: { en: 'Devastating Charge', ko: 'Devastating Charge' },
+      name: { en: 'Devastating Charge', ko: '파괴적인 돌진' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
@@ -112,7 +112,7 @@ export const queen: UnitCard = {
     {
       kind: 'weapon',
       id: 'Talons',
-      name: { en: 'Talons', ko: 'Talons' },
+      name: { en: 'Talons', ko: '발톱' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -132,7 +132,7 @@ export const queen: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Creep Speed',
-        name: { en: 'Creep Speed', ko: 'Creep Speed' },
+        name: { en: 'Creep Speed', ko: '빠른 점막' },
         phase: 'Any',
         type: 'Passive',
         cost: 0,
@@ -147,7 +147,7 @@ export const queen: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Domineering Presence',
-        name: { en: 'Domineering Presence', ko: 'Domineering Presence' },
+        name: { en: 'Domineering Presence', ko: '지배적인 존재감' },
         phase: 'Movement',
         type: 'Active',
         cost: 1,

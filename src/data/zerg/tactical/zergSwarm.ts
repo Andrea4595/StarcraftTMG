@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const zergSwarm: TacticalCard = {
   category: 'tactical',
   id: 'Zerg Swarm',
-  name: { en: 'Zerg Swarm', ko: 'Zerg Swarm' },
+  name: { en: 'Zerg Swarm', ko: '저그 군단' },
   isUnique: true,
   resource: 1,
   slot: [
@@ -15,7 +15,7 @@ export const zergSwarm: TacticalCard = {
     {
       kind: 'rule',
       id: 'Brood Instinct',
-      name: { en: 'Brood Instinct', ko: 'Brood Instinct' },
+      name: { en: 'Brood Instinct', ko: '무리 본능' },
       phase: 'Any',
       type: 'Reaction',
       cost: 0,
@@ -27,7 +27,7 @@ export const zergSwarm: TacticalCard = {
     {
       kind: 'rule',
       id: 'Zerg Creep',
-      name: { en: 'Zerg Creep', ko: 'Zerg Creep' },
+      name: { en: 'Zerg Creep', ko: '저그 점막' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
@@ -39,7 +39,7 @@ export const zergSwarm: TacticalCard = {
     {
       kind: 'rule',
       id: 'Rapid Burrowing',
-      name: { en: 'Rapid Burrowing', ko: 'Rapid Burrowing' },
+      name: { en: 'Rapid Burrowing', ko: '신속한 잠복' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,

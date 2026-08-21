@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const kerrigan: UnitCard = {
   category: 'unit',
   id: 'Kerrigan',
-  name: { en: 'Kerrigan', ko: 'Kerrigan' },
+  name: { en: 'Kerrigan', ko: '케리건' },
   isUnique: true,
   type: 'Hero',
   stat: {
@@ -20,7 +20,7 @@ export const kerrigan: UnitCard = {
     {
       kind: 'rule',
       id: 'Commander',
-      name: { en: 'Commander', ko: 'Commander' },
+      name: { en: 'Commander', ko: '지휘관' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
@@ -32,7 +32,7 @@ export const kerrigan: UnitCard = {
     {
       kind: 'rule',
       id: 'Crushing Grip',
-      name: { en: 'Crushing Grip', ko: 'Crushing Grip' },
+      name: { en: 'Crushing Grip', ko: '파괴의 손아귀' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
@@ -44,7 +44,7 @@ export const kerrigan: UnitCard = {
     {
       kind: 'rule',
       id: 'Mutating Carapace',
-      name: { en: 'Mutating Carapace', ko: 'Mutating Carapace' },
+      name: { en: 'Mutating Carapace', ko: '변이 갑피' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
@@ -56,7 +56,7 @@ export const kerrigan: UnitCard = {
     {
       kind: 'weapon',
       id: 'Energy Blast',
-      name: { en: 'Energy Blast', ko: 'Energy Blast' },
+      name: { en: 'Energy Blast', ko: '에너지 폭발' },
       phase: 'Assault',
       stat: {
         rng: 8,
@@ -72,7 +72,7 @@ export const kerrigan: UnitCard = {
     {
       kind: 'rule',
       id: 'Leaping Strike',
-      name: { en: 'Leaping Strike', ko: 'Leaping Strike' },
+      name: { en: 'Leaping Strike', ko: '도약 공격' },
       phase: 'Assault',
       type: 'Active',
       cost: 1,
@@ -84,7 +84,7 @@ export const kerrigan: UnitCard = {
     {
       kind: 'rule',
       id: 'Devastating Charge',
-      name: { en: 'Devastating Charge', ko: 'Devastating Charge' },
+      name: { en: 'Devastating Charge', ko: '파괴적인 돌진' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
@@ -96,7 +96,7 @@ export const kerrigan: UnitCard = {
     {
       kind: 'weapon',
       id: 'Blades',
-      name: { en: 'Blades', ko: 'Blades' },
+      name: { en: 'Blades', ko: '칼날' },
       phase: 'Combat',
       stat: {
         rng: 'E',

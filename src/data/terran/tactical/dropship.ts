@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const dropship: TacticalCard = {
   category: 'tactical',
   id: 'Dropship',
-  name: { en: 'Dropship', ko: 'Dropship' },
+  name: { en: 'Dropship', ko: '수송선' },
   isUnique: true,
   gasPts: 40,
   resource: 1,
@@ -15,7 +15,7 @@ export const dropship: TacticalCard = {
     {
       kind: 'rule',
       id: 'Strap in!',
-      name: { en: 'Strap in!', ko: 'Strap in!' },
+      name: { en: 'Strap in!', ko: '자, 안전띠 매시고' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
@@ -27,7 +27,7 @@ export const dropship: TacticalCard = {
     {
       kind: 'rule',
       id: 'Ready For Dust-off',
-      name: { en: 'Ready For Dust-off', ko: 'Ready For Dust-off' },
+      name: { en: 'Ready For Dust-off', ko: '후송준비 완료' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,

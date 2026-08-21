@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const swarmlingZergling: UnitCard = {
   category: 'unit',
   id: 'Swarmling (Zergling)',
-  name: { en: 'Swarmling (Zergling)', ko: 'Swarmling (Zergling)' },
+  name: { en: 'Swarmling (Zergling)', ko: '군단충 [저글링]' },
   isUnique: false,
   type: 'Core',
   stat: {
@@ -23,7 +23,7 @@ export const swarmlingZergling: UnitCard = {
     {
       kind: 'rule',
       id: 'Squadron',
-      name: { en: 'Squadron', ko: 'Squadron' },
+      name: { en: 'Squadron', ko: '부대' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
@@ -35,7 +35,7 @@ export const swarmlingZergling: UnitCard = {
     {
       kind: 'rule',
       id: 'Zergling Reconstitution',
-      name: { en: 'Zergling Reconstitution', ko: 'Zergling Reconstitution' },
+      name: { en: 'Zergling Reconstitution', ko: '저글링 재구성' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
@@ -47,7 +47,7 @@ export const swarmlingZergling: UnitCard = {
     {
       kind: 'rule',
       id: 'Metabolic Boost',
-      name: { en: 'Metabolic Boost', ko: 'Metabolic Boost' },
+      name: { en: 'Metabolic Boost', ko: '대사 촉진' },
       phase: 'Assault',
       type: 'Active',
       cost: 1,
@@ -59,7 +59,7 @@ export const swarmlingZergling: UnitCard = {
     {
       kind: 'rule',
       id: 'Devastating Charge',
-      name: { en: 'Devastating Charge', ko: 'Devastating Charge' },
+      name: { en: 'Devastating Charge', ko: '파괴적인 돌진' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
@@ -71,7 +71,7 @@ export const swarmlingZergling: UnitCard = {
     {
       kind: 'weapon',
       id: 'Claws',
-      name: { en: 'Claws', ko: 'Claws' },
+      name: { en: 'Claws', ko: '발톱' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -91,7 +91,7 @@ export const swarmlingZergling: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Burrow Ambush',
-        name: { en: 'Burrow Ambush', ko: 'Burrow Ambush' },
+        name: { en: 'Burrow Ambush', ko: '잠복 기습' },
         phase: 'Movement',
         type: 'Passive',
         cost: 0,

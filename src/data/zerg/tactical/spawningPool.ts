@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const spawningPool: TacticalCard = {
   category: 'tactical',
   id: 'Spawning Pool',
-  name: { en: 'Spawning Pool', ko: 'Spawning Pool' },
+  name: { en: 'Spawning Pool', ko: '산란못' },
   isUnique: false,
   gasPts: 25,
   resource: 1,
@@ -12,7 +12,7 @@ export const spawningPool: TacticalCard = {
     {
       kind: 'rule',
       id: 'Feral Rage',
-      name: { en: 'Feral Rage', ko: 'Feral Rage' },
+      name: { en: 'Feral Rage', ko: '야생의 분노' },
       phase: 'Combat',
       type: 'Active',
       cost: 0,

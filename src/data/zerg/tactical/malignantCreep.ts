@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const malignantCreep: TacticalCard = {
   category: 'tactical',
   id: 'Malignant Creep',
-  name: { en: 'Malignant Creep', ko: 'Malignant Creep' },
+  name: { en: 'Malignant Creep', ko: '악성 점막' },
   isUnique: true,
   gasPts: 10,
   resource: 0,
@@ -12,7 +12,7 @@ export const malignantCreep: TacticalCard = {
     {
       kind: 'rule',
       id: 'Living Glob of Tissue',
-      name: { en: 'Living Glob of Tissue', ko: 'Living Glob of Tissue' },
+      name: { en: 'Living Glob of Tissue', ko: '살아있는 조직 덩어리' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
@@ -24,7 +24,7 @@ export const malignantCreep: TacticalCard = {
     {
       kind: 'rule',
       id: 'Creep Removal',
-      name: { en: 'Creep Removal', ko: 'Creep Removal' },
+      name: { en: 'Creep Removal', ko: '점막 제거' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
@@ -36,7 +36,7 @@ export const malignantCreep: TacticalCard = {
     {
       kind: 'rule',
       id: 'Malevolent Matriarch',
-      name: { en: 'Malevolent Matriarch', ko: 'Malevolent Matriarch' },
+      name: { en: 'Malevolent Matriarch', ko: '사악한 대모' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,

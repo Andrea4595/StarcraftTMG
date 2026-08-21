@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const praetorGuardZealot: UnitCard = {
   category: 'unit',
   id: 'Praetor Guard (Zealot)',
-  name: { en: 'Praetor Guard (Zealot)', ko: 'Praetor Guard (Zealot)' },
+  name: { en: 'Praetor Guard (Zealot)', ko: '집정관 근위대 [광전사]' },
   isUnique: true,
   type: 'Elite',
   stat: {
@@ -29,7 +29,7 @@ export const praetorGuardZealot: UnitCard = {
     {
       kind: 'rule',
       id: 'Shield Overcharge',
-      name: { en: 'Shield Overcharge', ko: 'Shield Overcharge' },
+      name: { en: 'Shield Overcharge', ko: '보호막 과충전' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
@@ -41,7 +41,7 @@ export const praetorGuardZealot: UnitCard = {
     {
       kind: 'rule',
       id: 'Leg Enhancements',
-      name: { en: 'Leg Enhancements', ko: 'Leg Enhancements' },
+      name: { en: 'Leg Enhancements', ko: '각력 강화' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
@@ -53,7 +53,7 @@ export const praetorGuardZealot: UnitCard = {
     {
       kind: 'rule',
       id: 'Charge',
-      name: { en: 'Charge', ko: 'Charge' },
+      name: { en: 'Charge', ko: '돌진' },
       phase: 'Assault',
       type: 'Active',
       cost: 1,
@@ -65,7 +65,7 @@ export const praetorGuardZealot: UnitCard = {
     {
       kind: 'rule',
       id: 'Devastating Charge',
-      name: { en: 'Devastating Charge', ko: 'Devastating Charge' },
+      name: { en: 'Devastating Charge', ko: '파괴적인 돌진' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
@@ -77,7 +77,7 @@ export const praetorGuardZealot: UnitCard = {
     {
       kind: 'weapon',
       id: 'Psi Blades',
-      name: { en: 'Psi Blades', ko: 'Psi Blades' },
+      name: { en: 'Psi Blades', ko: '사이오닉 검' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -93,7 +93,7 @@ export const praetorGuardZealot: UnitCard = {
     {
       kind: 'rule',
       id: 'Titan Killers',
-      name: { en: 'Titan Killers', ko: 'Titan Killers' },
+      name: { en: 'Titan Killers', ko: '거인 살해자' },
       phase: 'Combat',
       type: 'Passive',
       cost: 0,
@@ -105,7 +105,7 @@ export const praetorGuardZealot: UnitCard = {
     {
       kind: 'rule',
       id: 'Precognition',
-      name: { en: 'Precognition', ko: 'Precognition' },
+      name: { en: 'Precognition', ko: '예지' },
       phase: 'Combat',
       type: 'Passive',
       cost: 0,

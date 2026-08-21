@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const lair: TacticalCard = {
   category: 'tactical',
   id: 'Lair',
-  name: { en: 'Lair', ko: 'Lair' },
+  name: { en: 'Lair', ko: '번식지' },
   isUnique: true,
   gasPts: 35,
   resource: 1,
@@ -15,7 +15,7 @@ export const lair: TacticalCard = {
     {
       kind: 'rule',
       id: 'Predation',
-      name: { en: 'Predation', ko: 'Predation' },
+      name: { en: 'Predation', ko: '포식' },
       phase: 'Any',
       type: 'Active',
       cost: 0,
@@ -27,7 +27,7 @@ export const lair: TacticalCard = {
     {
       kind: 'rule',
       id: 'Creep Spread',
-      name: { en: 'Creep Spread', ko: 'Creep Spread' },
+      name: { en: 'Creep Spread', ko: '점막 살포' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,

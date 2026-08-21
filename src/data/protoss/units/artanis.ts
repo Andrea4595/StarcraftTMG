@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const artanis: UnitCard = {
   category: 'unit',
   id: 'Artanis',
-  name: { en: 'Artanis', ko: 'Artanis' },
+  name: { en: 'Artanis', ko: '아르타니스' },
   isUnique: true,
   type: 'Hero',
   stat: {
@@ -20,7 +20,7 @@ export const artanis: UnitCard = {
     {
       kind: 'rule',
       id: 'Commander',
-      name: { en: 'Commander', ko: 'Commander' },
+      name: { en: 'Commander', ko: '지휘관' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
@@ -32,7 +32,7 @@ export const artanis: UnitCard = {
     {
       kind: 'rule',
       id: 'Phase Prism',
-      name: { en: 'Phase Prism', ko: 'Phase Prism' },
+      name: { en: 'Phase Prism', ko: '위상 분광기' },
       phase: 'Movement',
       type: 'Passive',
       cost: 0,
@@ -44,7 +44,7 @@ export const artanis: UnitCard = {
     {
       kind: 'rule',
       id: "Hierarch's Stand",
-      name: { en: "Hierarch's Stand", ko: "Hierarch's Stand" },
+      name: { en: "Hierarch's Stand", ko: '신관의 싸움' },
       phase: 'Assault',
       type: 'Reaction',
       cost: 1,
@@ -56,7 +56,7 @@ export const artanis: UnitCard = {
     {
       kind: 'rule',
       id: 'Lightning Dash',
-      name: { en: 'Lightning Dash', ko: 'Lightning Dash' },
+      name: { en: 'Lightning Dash', ko: '번개 돌진' },
       phase: 'Assault',
       type: 'Reaction',
       cost: 1,
@@ -68,7 +68,7 @@ export const artanis: UnitCard = {
     {
       kind: 'rule',
       id: 'Devastating Charge',
-      name: { en: 'Devastating Charge', ko: 'Devastating Charge' },
+      name: { en: 'Devastating Charge', ko: '파괴적인 돌진' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
@@ -80,7 +80,7 @@ export const artanis: UnitCard = {
     {
       kind: 'weapon',
       id: 'Twilight Blades Strike',
-      name: { en: 'Twilight Blades Strike', ko: 'Twilight Blades Strike' },
+      name: { en: 'Twilight Blades Strike', ko: '황혼검 - 타격' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -96,7 +96,7 @@ export const artanis: UnitCard = {
     {
       kind: 'weapon',
       id: 'Twilight Blades Sweep',
-      name: { en: 'Twilight Blades Sweep', ko: 'Twilight Blades Sweep' },
+      name: { en: 'Twilight Blades Sweep', ko: '황혼검 - 휩쓸기' },
       phase: 'Combat',
       stat: {
         rng: 'E',

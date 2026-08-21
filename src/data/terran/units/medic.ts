@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const medic: UnitCard = {
   category: 'unit',
   id: 'Medic',
-  name: { en: 'Medic', ko: 'Medic' },
+  name: { en: 'Medic', ko: '의무관' },
   isUnique: false,
   type: 'Support',
   stat: {
@@ -23,7 +23,7 @@ export const medic: UnitCard = {
     {
       kind: 'rule',
       id: 'Life Support',
-      name: { en: 'Life Support', ko: 'Life Support' },
+      name: { en: 'Life Support', ko: '연명처치' },
       phase: 'Any',
       type: 'Reaction',
       cost: 1,
@@ -35,7 +35,7 @@ export const medic: UnitCard = {
     {
       kind: 'rule',
       id: 'Restoration',
-      name: { en: 'Restoration', ko: 'Restoration' },
+      name: { en: 'Restoration', ko: '회복' },
       phase: 'Any',
       type: 'Reaction',
       cost: 1,
@@ -47,7 +47,7 @@ export const medic: UnitCard = {
     {
       kind: 'rule',
       id: 'Medpack',
-      name: { en: 'Medpack', ko: 'Medpack' },
+      name: { en: 'Medpack', ko: '의료 팩' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
@@ -59,7 +59,7 @@ export const medic: UnitCard = {
     {
       kind: 'rule',
       id: 'Optical Flare',
-      name: { en: 'Optical Flare', ko: 'Optical Flare' },
+      name: { en: 'Optical Flare', ko: '광학 섬광탄' },
       phase: 'Movement',
       type: 'Active',
       cost: 2,
@@ -71,7 +71,7 @@ export const medic: UnitCard = {
     {
       kind: 'weapon',
       id: 'Strike',
-      name: { en: 'Strike', ko: 'Strike' },
+      name: { en: 'Strike', ko: '타격' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -91,7 +91,7 @@ export const medic: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Advanced Medic Facilities',
-        name: { en: 'Advanced Medic Facilities', ko: 'Advanced Medic Facilities' },
+        name: { en: 'Advanced Medic Facilities', ko: '고급 의무관 시설' },
         phase: 'Any',
         type: 'Passive',
         cost: 0,
@@ -106,7 +106,7 @@ export const medic: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'A-13 Flash Grenade Launcher',
-        name: { en: 'A-13 Flash Grenade Launcher', ko: 'A-13 Flash Grenade Launcher' },
+        name: { en: 'A-13 Flash Grenade Launcher', ko: 'A-13 섬광탄 발사기' },
         phase: 'Any',
         type: 'Passive',
         cost: 0,
@@ -121,7 +121,7 @@ export const medic: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Stabilizer Medpacks',
-        name: { en: 'Stabilizer Medpacks', ko: 'Stabilizer Medpacks' },
+        name: { en: 'Stabilizer Medpacks', ko: '전투 안정제' },
         phase: 'Any',
         type: 'Passive',
         cost: 0,

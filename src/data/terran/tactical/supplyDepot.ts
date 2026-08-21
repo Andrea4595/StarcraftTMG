@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const supplyDepot: TacticalCard = {
   category: 'tactical',
   id: 'Supply Depot',
-  name: { en: 'Supply Depot', ko: 'Supply Depot' },
+  name: { en: 'Supply Depot', ko: '보급고' },
   isUnique: true,
   gasPts: 40,
   resource: 1,
@@ -16,7 +16,7 @@ export const supplyDepot: TacticalCard = {
     {
       kind: 'rule',
       id: 'Additional Supply Depots',
-      name: { en: 'Additional Supply Depots', ko: 'Additional Supply Depots' },
+      name: { en: 'Additional Supply Depots', ko: '추가 보급품' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,

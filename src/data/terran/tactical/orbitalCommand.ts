@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const orbitalCommand: TacticalCard = {
   category: 'tactical',
   id: 'Orbital Command',
-  name: { en: 'Orbital Command', ko: 'Orbital Command' },
+  name: { en: 'Orbital Command', ko: '궤도 사령부' },
   isUnique: true,
   gasPts: 25,
   resource: 1,
@@ -12,7 +12,7 @@ export const orbitalCommand: TacticalCard = {
     {
       kind: 'rule',
       id: 'ComSat Station',
-      name: { en: 'ComSat Station', ko: 'ComSat Station' },
+      name: { en: 'ComSat Station', ko: '통신 위성 중계소' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
@@ -24,7 +24,7 @@ export const orbitalCommand: TacticalCard = {
     {
       kind: 'rule',
       id: 'Scanner Sweep',
-      name: { en: 'Scanner Sweep', ko: 'Scanner Sweep' },
+      name: { en: 'Scanner Sweep', ko: '스캐너 탐색' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,

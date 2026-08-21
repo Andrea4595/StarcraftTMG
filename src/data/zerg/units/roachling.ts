@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const roachling: UnitCard = {
   category: 'unit',
   id: 'Roachling',
-  name: { en: 'Roachling', ko: 'Roachling' },
+  name: { en: 'Roachling', ko: '애바퀴' },
   isUnique: false,
   type: 'Other',
   stat: {
@@ -20,7 +20,7 @@ export const roachling: UnitCard = {
     {
       kind: 'rule',
       id: 'Underdeveloped Claws',
-      name: { en: 'Underdeveloped Claws', ko: 'Underdeveloped Claws' },
+      name: { en: 'Underdeveloped Claws', ko: '발달되지 않은 발톱' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
@@ -32,7 +32,7 @@ export const roachling: UnitCard = {
     {
       kind: 'weapon',
       id: 'Claws',
-      name: { en: 'Claws', ko: 'Claws' },
+      name: { en: 'Claws', ko: '발톱' },
       phase: 'Combat',
       stat: {
         rng: 'E',

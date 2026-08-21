@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const armory: TacticalCard = {
   category: 'tactical',
   id: 'Armory',
-  name: { en: 'Armory', ko: 'Armory' },
+  name: { en: 'Armory', ko: '무기고' },
   isUnique: false,
   gasPts: 30,
   resource: 1,
@@ -12,7 +12,7 @@ export const armory: TacticalCard = {
     {
       kind: 'rule',
       id: 'Vehicle Plating',
-      name: { en: 'Vehicle Plating', ko: 'Vehicle Plating' },
+      name: { en: 'Vehicle Plating', ko: '차량 장갑' },
       phase: 'Any',
       type: 'Reaction',
       cost: 0,
@@ -24,7 +24,7 @@ export const armory: TacticalCard = {
     {
       kind: 'rule',
       id: 'Vehicle Weapons',
-      name: { en: 'Vehicle Weapons', ko: 'Vehicle Weapons' },
+      name: { en: 'Vehicle Weapons', ko: '차량 무기' },
       phase: 'Assault',
       type: 'Active',
       cost: 0,

@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const hydraliskDen: TacticalCard = {
   category: 'tactical',
   id: 'Hydralisk Den',
-  name: { en: 'Hydralisk Den', ko: 'Hydralisk Den' },
+  name: { en: 'Hydralisk Den', ko: '히드라리스크 굴' },
   isUnique: false,
   gasPts: 35,
   resource: 1,
@@ -12,7 +12,7 @@ export const hydraliskDen: TacticalCard = {
     {
       kind: 'rule',
       id: 'Missile Attacks',
-      name: { en: 'Missile Attacks', ko: 'Missile Attacks' },
+      name: { en: 'Missile Attacks', ko: '발사 공격' },
       phase: 'Assault',
       type: 'Active',
       cost: 0,

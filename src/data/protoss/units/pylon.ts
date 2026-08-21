@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const pylon: UnitCard = {
   category: 'unit',
   id: 'Pylon',
-  name: { en: 'Pylon', ko: 'Pylon' },
+  name: { en: 'Pylon', ko: '수정탑' },
   isUnique: false,
   type: 'Other',
   stat: {
@@ -20,7 +20,7 @@ export const pylon: UnitCard = {
     {
       kind: 'rule',
       id: 'Structure',
-      name: { en: 'Structure', ko: 'Structure' },
+      name: { en: 'Structure', ko: '구조물' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
@@ -32,7 +32,7 @@ export const pylon: UnitCard = {
     {
       kind: 'rule',
       id: 'Khalai Ingenuity',
-      name: { en: 'Khalai Ingenuity', ko: 'Khalai Ingenuity' },
+      name: { en: 'Khalai Ingenuity', ko: '칼라이의 재능' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
@@ -44,7 +44,7 @@ export const pylon: UnitCard = {
     {
       kind: 'rule',
       id: 'Warp Conduit',
-      name: { en: 'Warp Conduit', ko: 'Warp Conduit' },
+      name: { en: 'Warp Conduit', ko: '차원로' },
       phase: 'Movement',
       type: 'Passive',
       cost: 0,

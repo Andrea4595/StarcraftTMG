@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const evolutionChamber: TacticalCard = {
   category: 'tactical',
   id: 'Evolution Chamber',
-  name: { en: 'Evolution Chamber', ko: 'Evolution Chamber' },
+  name: { en: 'Evolution Chamber', ko: '진화장' },
   isUnique: false,
   gasPts: 30,
   resource: 1,
@@ -12,7 +12,7 @@ export const evolutionChamber: TacticalCard = {
     {
       kind: 'rule',
       id: 'Carapace',
-      name: { en: 'Carapace', ko: 'Carapace' },
+      name: { en: 'Carapace', ko: '갑피' },
       phase: 'Any',
       type: 'Reaction',
       cost: 0,
@@ -24,7 +24,7 @@ export const evolutionChamber: TacticalCard = {
     {
       kind: 'rule',
       id: 'Extended Claws',
-      name: { en: 'Extended Claws', ko: 'Extended Claws' },
+      name: { en: 'Extended Claws', ko: '발톱 강화' },
       phase: 'Assault',
       type: 'Active',
       cost: 0,

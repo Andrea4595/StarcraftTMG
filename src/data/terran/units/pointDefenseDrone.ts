@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const pointDefenseDrone: UnitCard = {
   category: 'unit',
   id: 'Point Defense Drone',
-  name: { en: 'Point Defense Drone', ko: 'Point Defense Drone' },
+  name: { en: 'Point Defense Drone', ko: '국지 방어기' },
   isUnique: false,
   type: 'Other',
   stat: {
@@ -20,7 +20,7 @@ export const pointDefenseDrone: UnitCard = {
     {
       kind: 'rule',
       id: 'Point Defense Laser',
-      name: { en: 'Point Defense Laser', ko: 'Point Defense Laser' },
+      name: { en: 'Point Defense Laser', ko: '국지 방어기 레이저' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
@@ -32,7 +32,7 @@ export const pointDefenseDrone: UnitCard = {
     {
       kind: 'rule',
       id: 'Gliding',
-      name: { en: 'Gliding', ko: 'Gliding' },
+      name: { en: 'Gliding', ko: '부유체' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
@@ -44,7 +44,7 @@ export const pointDefenseDrone: UnitCard = {
     {
       kind: 'rule',
       id: 'Structure',
-      name: { en: 'Structure', ko: 'Structure' },
+      name: { en: 'Structure', ko: '구조물' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,

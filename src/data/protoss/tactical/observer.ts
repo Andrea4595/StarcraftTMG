@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const observer: TacticalCard = {
   category: 'tactical',
   id: 'Observer',
-  name: { en: 'Observer', ko: 'Observer' },
+  name: { en: 'Observer', ko: '관측선' },
   isUnique: true,
   gasPts: 25,
   resource: 1,
@@ -12,7 +12,7 @@ export const observer: TacticalCard = {
     {
       kind: 'rule',
       id: 'Surveillance',
-      name: { en: 'Surveillance', ko: 'Surveillance' },
+      name: { en: 'Surveillance', ko: '감시 태세' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
@@ -24,7 +24,7 @@ export const observer: TacticalCard = {
     {
       kind: 'rule',
       id: 'Gravitic Boosters',
-      name: { en: 'Gravitic Boosters', ko: 'Gravitic Boosters' },
+      name: { en: 'Gravitic Boosters', ko: '중력 가속' },
       phase: 'Assault',
       type: 'Reaction',
       cost: 0,

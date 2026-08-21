@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const hatchery: TacticalCard = {
   category: 'tactical',
   id: 'Hatchery',
-  name: { en: 'Hatchery', ko: 'Hatchery' },
+  name: { en: 'Hatchery', ko: '부화장' },
   isUnique: false,
   gasPts: 30,
   resource: 1,
@@ -12,7 +12,7 @@ export const hatchery: TacticalCard = {
     {
       kind: 'rule',
       id: 'Lie in Wait',
-      name: { en: 'Lie in Wait', ko: 'Lie in Wait' },
+      name: { en: 'Lie in Wait', ko: '매복' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
@@ -24,7 +24,7 @@ export const hatchery: TacticalCard = {
     {
       kind: 'rule',
       id: 'Creep Spread',
-      name: { en: 'Creep Spread', ko: 'Creep Spread' },
+      name: { en: 'Creep Spread', ko: '점막 살포' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,

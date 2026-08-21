@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const omegaWorm: UnitCard = {
   category: 'unit',
   id: 'Omega Worm',
-  name: { en: 'Omega Worm', ko: 'Omega Worm' },
+  name: { en: 'Omega Worm', ko: '오메가 벌레' },
   isUnique: false,
   type: 'Other',
   stat: {
@@ -20,7 +20,7 @@ export const omegaWorm: UnitCard = {
     {
       kind: 'rule',
       id: 'Detection',
-      name: { en: 'Detection', ko: 'Detection' },
+      name: { en: 'Detection', ko: '탐지' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
@@ -32,7 +32,7 @@ export const omegaWorm: UnitCard = {
     {
       kind: 'rule',
       id: 'Source of Creep',
-      name: { en: 'Source of Creep', ko: 'Source of Creep' },
+      name: { en: 'Source of Creep', ko: '점막 공급원' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
@@ -44,7 +44,7 @@ export const omegaWorm: UnitCard = {
     {
       kind: 'rule',
       id: 'Structure',
-      name: { en: 'Structure', ko: 'Structure' },
+      name: { en: 'Structure', ko: '구조물' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
@@ -56,7 +56,7 @@ export const omegaWorm: UnitCard = {
     {
       kind: 'rule',
       id: 'Omega Network',
-      name: { en: 'Omega Network', ko: 'Omega Network' },
+      name: { en: 'Omega Network', ko: '오메가 망' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,

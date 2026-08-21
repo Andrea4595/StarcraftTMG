@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const marauder: UnitCard = {
   category: 'unit',
   id: 'Marauder',
-  name: { en: 'Marauder', ko: 'Marauder' },
+  name: { en: 'Marauder', ko: '불곰' },
   isUnique: false,
   type: 'Core',
   stat: {
@@ -24,7 +24,7 @@ export const marauder: UnitCard = {
     {
       kind: 'rule',
       id: 'Stimpack',
-      name: { en: 'Stimpack', ko: 'Stimpack' },
+      name: { en: 'Stimpack', ko: '전투 자극제' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
@@ -36,7 +36,7 @@ export const marauder: UnitCard = {
     {
       kind: 'weapon',
       id: 'Quad K12',
-      name: { en: 'Quad K12', ko: 'Quad K12' },
+      name: { en: 'Quad K12', ko: '쿼드 K12' },
       phase: 'Assault',
       stat: {
         rng: 12,
@@ -52,7 +52,7 @@ export const marauder: UnitCard = {
     {
       kind: 'rule',
       id: 'Concussive Shells',
-      name: { en: 'Concussive Shells', ko: 'Concussive Shells' },
+      name: { en: 'Concussive Shells', ko: '충격탄' },
       phase: 'Assault',
       type: 'Reaction',
       cost: 1,
@@ -64,7 +64,7 @@ export const marauder: UnitCard = {
     {
       kind: 'weapon',
       id: 'Strike',
-      name: { en: 'Strike', ko: 'Strike' },
+      name: { en: 'Strike', ko: '타격' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -84,7 +84,7 @@ export const marauder: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Veteran of Tarsonis',
-        name: { en: 'Veteran of Tarsonis', ko: 'Veteran of Tarsonis' },
+        name: { en: 'Veteran of Tarsonis', ko: '타소니스의 베테랑' },
         phase: 'Any',
         type: 'Passive',
         cost: 0,
@@ -99,7 +99,7 @@ export const marauder: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Kinetic Foam',
-        name: { en: 'Kinetic Foam', ko: 'Kinetic Foam' },
+        name: { en: 'Kinetic Foam', ko: '동역학 충격 완화복' },
         phase: 'Any',
         type: 'Passive',
         cost: 0,
@@ -114,7 +114,7 @@ export const marauder: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Laser Targeting Systems',
-        name: { en: 'Laser Targeting Systems', ko: 'Laser Targeting Systems' },
+        name: { en: 'Laser Targeting Systems', ko: '레이저 조준 시스템' },
         phase: 'Assault',
         type: 'Passive',
         cost: 0,

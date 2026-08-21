@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const stalker: UnitCard = {
   category: 'unit',
   id: 'Stalker',
-  name: { en: 'Stalker', ko: 'Stalker' },
+  name: { en: 'Stalker', ko: '추적자' },
   isUnique: false,
   type: 'Elite',
   stat: {
@@ -23,7 +23,7 @@ export const stalker: UnitCard = {
     {
       kind: 'rule',
       id: 'Squadron',
-      name: { en: 'Squadron', ko: 'Squadron' },
+      name: { en: 'Squadron', ko: '부대' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
@@ -35,7 +35,7 @@ export const stalker: UnitCard = {
     {
       kind: 'rule',
       id: 'Blink',
-      name: { en: 'Blink', ko: 'Blink' },
+      name: { en: 'Blink', ko: '점멸' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
@@ -47,7 +47,7 @@ export const stalker: UnitCard = {
     {
       kind: 'weapon',
       id: 'Particle Disruptors',
-      name: { en: 'Particle Disruptors', ko: 'Particle Disruptors' },
+      name: { en: 'Particle Disruptors', ko: '입자 분열기' },
       phase: 'Assault',
       stat: {
         rng: 12,
@@ -63,7 +63,7 @@ export const stalker: UnitCard = {
     {
       kind: 'weapon',
       id: 'Stomp',
-      name: { en: 'Stomp', ko: 'Stomp' },
+      name: { en: 'Stomp', ko: '짓밟기' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -83,7 +83,7 @@ export const stalker: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Path of Shadows',
-        name: { en: 'Path of Shadows', ko: 'Path of Shadows' },
+        name: { en: 'Path of Shadows', ko: '그림자의 길' },
         phase: 'Any',
         type: 'Active',
         cost: 1,
@@ -98,7 +98,7 @@ export const stalker: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Fury of the Nerazim',
-        name: { en: 'Fury of the Nerazim', ko: 'Fury of the Nerazim' },
+        name: { en: 'Fury of the Nerazim', ko: '네라짐의 격노' },
         phase: 'Assault',
         type: 'Passive',
         cost: 0,

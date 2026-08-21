@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const academy: TacticalCard = {
   category: 'tactical',
   id: 'Academy',
-  name: { en: 'Academy', ko: 'Academy' },
+  name: { en: 'Academy', ko: '사관학교' },
   isUnique: true,
   gasPts: 35,
   resource: 1,
@@ -12,7 +12,7 @@ export const academy: TacticalCard = {
     {
       kind: 'rule',
       id: 'Advanced Training',
-      name: { en: 'Advanced Training', ko: 'Advanced Training' },
+      name: { en: 'Advanced Training', ko: '진보된 훈련' },
       phase: 'Any',
       type: 'Reaction',
       cost: 0,

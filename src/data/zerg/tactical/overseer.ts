@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const overseer: TacticalCard = {
   category: 'tactical',
   id: 'Overseer',
-  name: { en: 'Overseer', ko: 'Overseer' },
+  name: { en: 'Overseer', ko: '감시 군주' },
   isUnique: true,
   gasPts: 25,
   resource: 1,
@@ -12,7 +12,7 @@ export const overseer: TacticalCard = {
     {
       kind: 'rule',
       id: 'Oversight Mode',
-      name: { en: 'Oversight Mode', ko: 'Oversight Mode' },
+      name: { en: 'Oversight Mode', ko: '감시 태세' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
@@ -24,7 +24,7 @@ export const overseer: TacticalCard = {
     {
       kind: 'rule',
       id: 'Pneumatized Carapace',
-      name: { en: 'Pneumatized Carapace', ko: 'Pneumatized Carapace' },
+      name: { en: 'Pneumatized Carapace', ko: '기낭 갑피' },
       phase: 'Assault',
       type: 'Reaction',
       cost: 0,

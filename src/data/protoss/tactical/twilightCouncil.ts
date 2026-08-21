@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const twilightCouncil: TacticalCard = {
   category: 'tactical',
   id: 'Twilight Council',
-  name: { en: 'Twilight Council', ko: 'Twilight Council' },
+  name: { en: 'Twilight Council', ko: '황혼 의회' },
   isUnique: true,
   gasPts: 45,
   resource: 1,
@@ -15,7 +15,7 @@ export const twilightCouncil: TacticalCard = {
     {
       kind: 'rule',
       id: 'Veil of Shadows',
-      name: { en: 'Veil of Shadows', ko: 'Veil of Shadows' },
+      name: { en: 'Veil of Shadows', ko: '그림자 장막' },
       phase: 'Any',
       type: 'Reaction',
       cost: 0,
@@ -27,7 +27,7 @@ export const twilightCouncil: TacticalCard = {
     {
       kind: 'rule',
       id: 'Weapons of the Firstborn',
-      name: { en: 'Weapons of the Firstborn', ko: 'Weapons of the Firstborn' },
+      name: { en: 'Weapons of the Firstborn', ko: '첫번째 자손의 무기' },
       phase: 'Assault',
       type: 'Active',
       cost: 0,

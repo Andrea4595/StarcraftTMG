@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const marine: UnitCard = {
   category: 'unit',
   id: 'Marine',
-  name: { en: 'Marine', ko: 'Marine' },
+  name: { en: 'Marine', ko: '해병' },
   isUnique: false,
   type: 'Core',
   stat: {
@@ -24,7 +24,7 @@ export const marine: UnitCard = {
     {
       kind: 'rule',
       id: 'Stimpack',
-      name: { en: 'Stimpack', ko: 'Stimpack' },
+      name: { en: 'Stimpack', ko: '전투 자극제' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
@@ -36,7 +36,7 @@ export const marine: UnitCard = {
     {
       kind: 'weapon',
       id: 'C-14 Rifle',
-      name: { en: 'C-14 Rifle', ko: 'C-14 Rifle' },
+      name: { en: 'C-14 Rifle', ko: 'C-14 소총' },
       phase: 'Assault',
       stat: {
         rng: 12,
@@ -52,7 +52,7 @@ export const marine: UnitCard = {
     {
       kind: 'weapon',
       id: 'Strike',
-      name: { en: 'Strike', ko: 'Strike' },
+      name: { en: 'Strike', ko: '타격' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -72,7 +72,7 @@ export const marine: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Combat Shield',
-        name: { en: 'Combat Shield', ko: 'Combat Shield' },
+        name: { en: 'Combat Shield', ko: '전투 방패' },
         phase: 'Movement',
         type: 'Active',
         cost: 1,
@@ -110,7 +110,7 @@ export const marine: UnitCard = {
       ability: {
         kind: 'weapon',
         id: 'Rocket Launcher',
-        name: { en: 'Rocket Launcher', ko: 'Rocket Launcher' },
+        name: { en: 'Rocket Launcher', ko: '로켓 발사기' },
         phase: 'Assault',
         stat: {
           rng: 12,
@@ -134,7 +134,7 @@ export const marine: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Slugthrower',
-        name: { en: 'Slugthrower', ko: 'Slugthrower' },
+        name: { en: 'Slugthrower', ko: '슬러그 쓰로워' },
         phase: 'Assault',
         type: 'Passive',
         cost: 0,
@@ -149,7 +149,7 @@ export const marine: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Grenades - Frag',
-        name: { en: 'Grenades - Frag', ko: 'Grenades - Frag' },
+        name: { en: 'Grenades - Frag', ko: '분쇄 수류탄' },
         phase: 'Assault',
         type: 'Passive',
         cost: 0,
@@ -165,7 +165,7 @@ export const marine: UnitCard = {
       ability: {
         kind: 'weapon',
         id: 'Bayonet',
-        name: { en: 'Bayonet', ko: 'Bayonet' },
+        name: { en: 'Bayonet', ko: '총검' },
         phase: 'Combat',
         stat: {
           rng: 'E',

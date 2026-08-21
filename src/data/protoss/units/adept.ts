@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const adept: UnitCard = {
   category: 'unit',
   id: 'Adept',
-  name: { en: 'Adept', ko: 'Adept' },
+  name: { en: 'Adept', ko: '사도' },
   isUnique: false,
   type: 'Core',
   stat: {
@@ -23,7 +23,7 @@ export const adept: UnitCard = {
     {
       kind: 'rule',
       id: 'Psionic Presence',
-      name: { en: 'Psionic Presence', ko: 'Psionic Presence' },
+      name: { en: 'Psionic Presence', ko: '사이오닉 영향력' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
@@ -35,7 +35,7 @@ export const adept: UnitCard = {
     {
       kind: 'rule',
       id: 'Psionic Transfer',
-      name: { en: 'Psionic Transfer', ko: 'Psionic Transfer' },
+      name: { en: 'Psionic Transfer', ko: '사이오닉 이동' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
@@ -47,7 +47,7 @@ export const adept: UnitCard = {
     {
       kind: 'weapon',
       id: 'Glaive Cannon',
-      name: { en: 'Glaive Cannon', ko: 'Glaive Cannon' },
+      name: { en: 'Glaive Cannon', ko: '쐐기포' },
       phase: 'Assault',
       stat: {
         rng: 8,
@@ -63,7 +63,7 @@ export const adept: UnitCard = {
     {
       kind: 'weapon',
       id: 'Strike',
-      name: { en: 'Strike', ko: 'Strike' },
+      name: { en: 'Strike', ko: '타격' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -84,7 +84,7 @@ export const adept: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Resonating Glaives',
-        name: { en: 'Resonating Glaives', ko: 'Resonating Glaives' },
+        name: { en: 'Resonating Glaives', ko: '공명 파열포' },
         phase: 'Assault',
         type: 'Active',
         cost: 1,
@@ -100,7 +100,7 @@ export const adept: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Guidance',
-        name: { en: 'Guidance', ko: 'Guidance' },
+        name: { en: 'Guidance', ko: '인도' },
         phase: 'Assault',
         type: 'Passive',
         cost: 0,
@@ -116,7 +116,7 @@ export const adept: UnitCard = {
       ability: {
         kind: 'weapon',
         id: 'Glaive Strike',
-        name: { en: 'Glaive Strike', ko: 'Glaive Strike' },
+        name: { en: 'Glaive Strike', ko: '쐐기 타격' },
         phase: 'Combat',
         stat: {
           rng: 'E',

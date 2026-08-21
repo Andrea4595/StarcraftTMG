@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const khalai: TacticalCard = {
   category: 'tactical',
   id: 'Khalai',
-  name: { en: 'Khalai', ko: 'Khalai' },
+  name: { en: 'Khalai', ko: '칼라이' },
   isUnique: true,
   resource: 1,
   slot: [
@@ -15,7 +15,7 @@ export const khalai: TacticalCard = {
     {
       kind: 'rule',
       id: 'Pylon Warp-In',
-      name: { en: 'Pylon Warp-In', ko: 'Pylon Warp-In' },
+      name: { en: 'Pylon Warp-In', ko: '수정탑 소환' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
@@ -27,7 +27,7 @@ export const khalai: TacticalCard = {
     {
       kind: 'rule',
       id: 'Bound by the Khala',
-      name: { en: 'Bound by the Khala', ko: 'Bound by the Khala' },
+      name: { en: 'Bound by the Khala', ko: '칼라의 연결' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,

@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const warpPrism: TacticalCard = {
   category: 'tactical',
   id: 'Warp Prism',
-  name: { en: 'Warp Prism', ko: 'Warp Prism' },
+  name: { en: 'Warp Prism', ko: '차원 분광기' },
   isUnique: true,
   gasPts: 35,
   resource: 1,
@@ -12,7 +12,7 @@ export const warpPrism: TacticalCard = {
     {
       kind: 'rule',
       id: 'Phase',
-      name: { en: 'Phase', ko: 'Phase' },
+      name: { en: 'Phase', ko: '위상' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
@@ -24,7 +24,7 @@ export const warpPrism: TacticalCard = {
     {
       kind: 'rule',
       id: 'Warp Conduit',
-      name: { en: 'Warp Conduit', ko: 'Warp Conduit' },
+      name: { en: 'Warp Conduit', ko: '차원로' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,

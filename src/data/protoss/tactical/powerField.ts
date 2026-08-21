@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const powerField: TacticalCard = {
   category: 'tactical',
   id: 'Power Field',
-  name: { en: 'Power Field', ko: 'Power Field' },
+  name: { en: 'Power Field', ko: '동력장' },
   isUnique: true,
   gasPts: 40,
   resource: 1,
@@ -16,7 +16,7 @@ export const powerField: TacticalCard = {
     {
       kind: 'rule',
       id: 'Guardian Shell',
-      name: { en: 'Guardian Shell', ko: 'Guardian Shell' },
+      name: { en: 'Guardian Shell', ko: '수호 보호막' },
       phase: 'Any',
       type: 'Reaction',
       cost: 0,
