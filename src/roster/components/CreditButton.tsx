@@ -28,8 +28,9 @@ export function CreditButton() {
         <Modal title="크레딧" onClose={() => setOpen(false)}>
           <div className="credit-modal">
             <p className="credit-modal-notice">
-              이 앱은 스타크래프트 미니어처 게임에 대한 팬심으로 만든 비공식 팬 프로젝트이며, Blizzard Entertainment와는
-              무관하게 비영리 목적으로만 운영됩니다.
+              이 앱은 스타크래프트 미니어처 게임에 대한 팬심으로 만든 비공식 팬 프로젝트이며,
+              <br />
+              Blizzard Entertainment와는 무관하게 비영리 목적으로만 운영됩니다.
             </p>
             <dl className="credit-modal-list">
               {CREDIT_ITEMS.map((item) => (
