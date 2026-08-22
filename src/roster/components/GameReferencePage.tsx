@@ -180,7 +180,11 @@ export function GameReferencePage({
           onClose={() => setAbilityDetail(null)}
         >
           <div className="game-card">
-            <div className="card-phase-body">
+            <div className="card-phase-header">
+              <span className="card-phase-dot" />
+              {(abilityDetail.ability.phase === 'Any' ? 'ANY' : abilityDetail.ability.phase.toUpperCase())} PHASE
+            </div>
+            <div className="card-phase-body card-ability-detail-body">
               {abilityDetail.ability.kind === 'rule' ? (
                 <RuleAbilityBlock
                   ability={abilityDetail.ability}

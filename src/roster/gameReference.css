@@ -247,12 +247,46 @@
   color: #f0b429;
 }
 
-/* 어빌리티가 쓰이는 페이즈(MOVEMENT/ASSAULT/COMBAT/ANY). .card-phase-header와 같은 파란색(--gc-blue)이지만
-   이 뷰는 .game-card 스코프 밖이라 값을 직접 쓴다 */
-.game-ref-chip-phase {
-  font-size: 9px;
+/*
+  어빌리티가 쓰이는 페이즈(MOVEMENT/ASSAULT/COMBAT)를 나타내는 아이콘. 실제 이미지는 흰색 실루엣이라
+  .roster-icon과 같은 mask 기법으로 색을 입힌다. .card-phase-header와 같은 파란색(--gc-blue)이지만
+  이 뷰는 .game-card 스코프 밖이라 값을 직접 쓴다.
+*/
+.game-ref-chip-phase-icon {
+  display: inline-block;
+  height: 11px;
+  background-color: #5b9dff;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  vertical-align: middle;
+}
+
+.game-ref-chip-phase-icon-movement {
+  aspect-ratio: 512 / 512;
+  -webkit-mask-image: url('./assets/movementPhase.png');
+  mask-image: url('./assets/movementPhase.png');
+}
+
+.game-ref-chip-phase-icon-assault {
+  aspect-ratio: 2000 / 1999;
+  -webkit-mask-image: url('./assets/assaultPhase.png');
+  mask-image: url('./assets/assaultPhase.png');
+}
+
+.game-ref-chip-phase-icon-combat {
+  aspect-ratio: 200 / 264;
+  -webkit-mask-image: url('./assets/combatPhase.png');
+  mask-image: url('./assets/combatPhase.png');
+}
+
+/* ANY 페이즈는 대응하는 공식 페이즈 아이콘이 없어 볼드체 'A'로 대신 표시한다 */
+.game-ref-chip-phase-any {
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.03em;
   color: #5b9dff;
 }
 
