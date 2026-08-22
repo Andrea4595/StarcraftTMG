@@ -1,4 +1,4 @@
-import { PHASES, type Ability, type RuleAbility, type Upgrade, type WeaponProfile } from '../../types'
+import { PHASES, type Ability, type RuleAbility, type UnitCard, type Upgrade, type WeaponProfile } from '../../types'
 import { WeaponTable, type WeaponRow } from './WeaponTable'
 import { RuleAbilityBlock } from './RuleAbilityBlock'
 import { PhaseBadge } from './PhaseBadge'
@@ -6,6 +6,7 @@ import { formatScaledCost, resolveScaledCost } from './costDisplay'
 import { useLocalize } from '../../LangContext'
 import { abilitiesReferencing, abilityReferencesInText } from './abilityReferences'
 import type { RelatedAbilityTarget } from './RelatedAbilities'
+import { abilityActiveState } from '../../roster/rosterCalc'
 
 export interface UpgradeToggleState {
   /** 비용 계산 기준이 되는 현재 선택된 스쿼드 등급 */
@@ -42,6 +43,7 @@ function entryAbility(e: Entry): Ability {
 }
 
 export function AbilitiesSection({
+  unit,
   abilities,
   upgrades = [],
   resourceLabel,
@@ -51,6 +53,9 @@ export function AbilitiesSection({
   crossFavorites = [],
   onSelectAbility,
 }: {
+  /** 연관 어빌리티 항목이 지금 활성인지/비용이 얼마인지 조회할 때 쓴다 (unit.upgrades 전체가 필요).
+   *  택티컬/팩션 카드처럼 유닛이 없는 경우엔 생략 — 그 카드 능력들은 항상 활성으로 취급한다 */
+  unit?: UnitCard
   abilities: Ability[]
   /** 업그레이드로 얻는 능력. 지정하면 기본 능력과 같은 페이즈 그룹 안에 함께 표시된다 */
   upgrades?: Upgrade[]
@@ -81,7 +86,20 @@ export function AbilitiesSection({
    */
   const allAbilities: Ability[] = [...abilities, ...upgrades.map((u) => u.ability)]
   const relatedTargets = (list: Ability[]): RelatedAbilityTarget[] =>
-    list.map((a) => ({ ability: a, onClick: onSelectAbility ? () => onSelectAbility(a) : undefined }))
+    list.map((a) => {
+      const state = unit
+        ? abilityActiveState(unit, a, {
+            activeIndexes: upgradeToggle?.activeIndexes,
+            squadTierIndex: upgradeToggle?.squadTierIndex,
+          })
+        : { active: true, cost: undefined }
+      return {
+        ability: a,
+        onClick: onSelectAbility ? () => onSelectAbility(a) : undefined,
+        active: state.active,
+        cost: state.cost,
+      }
+    })
 
   const groups = PHASES.map((phase) => ({
     phase,

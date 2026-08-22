@@ -1,5 +1,5 @@
 import type { Ability, RaceData, Roster } from '../../types'
-import { abilitySelectionRefFor, findUnit, isFavoriteAbility, resolveScaledCost } from '../rosterCalc'
+import { abilityActiveState, abilitySelectionRefFor, findUnit, isFavoriteAbility, resolveScaledCost } from '../rosterCalc'
 import { useRosterStore } from '../RosterContext'
 import { useLocalize } from '../../LangContext'
 import { UNIT_TYPE_COLORS } from '../unitTypeColor'
@@ -46,27 +46,38 @@ export function AbilityDetailModal({
   const upgradeToggle = detail.upgradeToggle
   const toggleEntry = upgradeToggle ? roster.units.find((e) => e.id === upgradeToggle.entryId) : undefined
   const sourceUnit = detail.unitType ? findUnit(race, detail.sourceId) : undefined
+  const sourceEntry = detail.entryId ? roster.units.find((e) => e.id === detail.entryId) : undefined
   const allAbilities: Ability[] = sourceUnit
     ? [...sourceUnit.abilities, ...sourceUnit.upgrades.map((u) => u.ability)]
     : []
   const relatedTargets = (list: Ability[]): RelatedAbilityTarget[] =>
-    list.map((a) => ({
-      ability: a,
-      onClick:
-        onSelectAbility && sourceUnit
-          ? () =>
-              onSelectAbility(
-                abilitySelectionRefFor(sourceUnit, a, {
-                  sourceId: detail.sourceId,
-                  sourceLabel: detail.sourceLabel,
-                  unitType: detail.unitType,
-                  entryId: detail.entryId,
-                  localize,
-                  interactive: !showFavorite,
-                }),
-              )
-          : undefined,
-    }))
+    list.map((a) => {
+      const state = sourceUnit
+        ? abilityActiveState(sourceUnit, a, {
+            activeIndexes: sourceEntry?.upgradeIndexes,
+            squadTierIndex: sourceEntry?.squadTierIndex,
+          })
+        : { active: true, cost: undefined }
+      return {
+        ability: a,
+        onClick:
+          onSelectAbility && sourceUnit
+            ? () =>
+                onSelectAbility(
+                  abilitySelectionRefFor(sourceUnit, a, {
+                    sourceId: detail.sourceId,
+                    sourceLabel: detail.sourceLabel,
+                    unitType: detail.unitType,
+                    entryId: detail.entryId,
+                    localize,
+                    interactive: !showFavorite,
+                  }),
+                )
+            : undefined,
+        active: state.active,
+        cost: state.cost,
+      }
+    })
 
   return (
     <Modal

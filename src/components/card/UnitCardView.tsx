@@ -87,6 +87,7 @@ export function UnitCardView({
 
       {abilitiesOverride ? (
         <AbilitiesSection
+          unit={unit}
           abilities={abilitiesOverride}
           resourceLabel={resourceLabel}
           favorite={favorite}
@@ -95,6 +96,7 @@ export function UnitCardView({
         />
       ) : (
         <AbilitiesSection
+          unit={unit}
           abilities={unit.abilities}
           upgrades={unit.upgrades}
           resourceLabel={resourceLabel}

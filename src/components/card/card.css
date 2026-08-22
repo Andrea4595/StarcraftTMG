@@ -580,10 +580,10 @@
 }
 
 .card-related-abilities-label {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   color: var(--gc-text-dim);
-  margin-bottom: 3px;
+  margin-bottom: 4px;
 }
 
 .card-related-ability-lines {
@@ -592,7 +592,7 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
 }
 
 .card-related-ability-line {
@@ -605,8 +605,8 @@
   background: none;
   padding: 0;
   font: inherit;
-  font-size: 10px;
-  line-height: 1.3;
+  font-size: 13px;
+  line-height: 1.4;
   text-align: left;
   color: inherit;
   cursor: pointer;
@@ -620,11 +620,17 @@
   cursor: default;
 }
 
+/* 이름 색으로 지금 이 대상이 활성인지 비활성인지 한눈에 드러낸다 — 어빌리티 상세를 눌러가며
+   이동할 때 지금 보는 대상이 실제로 켜져 있는지 계속 헷갈리지 않도록 */
 .card-related-ability-line-name {
   flex: 0 0 auto;
-  color: var(--gc-blue);
+  color: var(--gc-text-disabled);
   font-weight: 700;
   white-space: nowrap;
+}
+
+.card-related-ability-line-active .card-related-ability-line-name {
+  color: var(--gc-text);
 }
 
 .card-related-ability-line-sep {

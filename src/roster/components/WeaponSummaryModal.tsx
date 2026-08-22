@@ -1,5 +1,5 @@
 import type { Ability, RaceData, Roster } from '../../types'
-import { abilitySelectionRefFor, findUnit, resolveScaledCost, unitWeaponSummaryEntries } from '../rosterCalc'
+import { abilityActiveState, abilitySelectionRefFor, findUnit, resolveScaledCost, unitWeaponSummaryEntries } from '../rosterCalc'
 import { useRosterStore } from '../RosterContext'
 import { useLocalize } from '../../LangContext'
 import { UNIT_TYPE_COLORS } from '../unitTypeColor'
@@ -48,23 +48,33 @@ export function WeaponSummaryModal({
   const entries = interactive ? allEntries : allEntries.filter((entry) => entry.tone !== 'inactive')
   const allAbilities: Ability[] = unit ? [...unit.abilities, ...unit.upgrades.map((u) => u.ability)] : []
   const relatedTargets = (list: Ability[]): RelatedAbilityTarget[] =>
-    list.map((a) => ({
-      ability: a,
-      onClick:
-        onSelectAbility && unit
-          ? () =>
-              onSelectAbility(
-                abilitySelectionRefFor(unit, a, {
-                  sourceId: detail.sourceId,
-                  sourceLabel: detail.sourceLabel,
-                  unitType: detail.unitType,
-                  entryId: detail.entryId,
-                  localize,
-                  interactive,
-                }),
-              )
-          : undefined,
-    }))
+    list.map((a) => {
+      const state = unit
+        ? abilityActiveState(unit, a, {
+            activeIndexes: rosterEntry?.upgradeIndexes,
+            squadTierIndex: rosterEntry?.squadTierIndex,
+          })
+        : { active: true, cost: undefined }
+      return {
+        ability: a,
+        onClick:
+          onSelectAbility && unit
+            ? () =>
+                onSelectAbility(
+                  abilitySelectionRefFor(unit, a, {
+                    sourceId: detail.sourceId,
+                    sourceLabel: detail.sourceLabel,
+                    unitType: detail.unitType,
+                    entryId: detail.entryId,
+                    localize,
+                    interactive,
+                  }),
+                )
+            : undefined,
+        active: state.active,
+        cost: state.cost,
+      }
+    })
 
   return (
     <Modal

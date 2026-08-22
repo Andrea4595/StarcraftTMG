@@ -13,7 +13,7 @@ import type {
 } from '../types'
 import { localize, type Lang } from '../LangContext'
 import { UNIT_TYPES } from '../types'
-import { resolveScaledCost } from '../components/card/costDisplay'
+import { formatScaledCost, resolveScaledCost } from '../components/card/costDisplay'
 import type { AbilitySelectionRef, UpgradeToggleRef, WeaponSummaryEntry, WeaponTone } from './components/AbilityChipsRow'
 
 export { resolveScaledCost }
@@ -261,11 +261,37 @@ export function abilitySelectionRefFor(
     sourceLabel: ctx.sourceLabel,
     sourceId: ctx.sourceId,
     unitType: ctx.unitType,
+    entryId: ctx.entryId,
     forLabel: unitForLabelResolver(unit, ctx.localize)(ability),
     upgradeToggle:
       ctx.interactive && upgrade && ctx.entryId
         ? { entryId: ctx.entryId, upgradeIndex, pts: upgrade.pts, exclusiveWith: upgradeExclusiveWith(unit, upgradeIndex) }
         : undefined,
+  }
+}
+
+/**
+ * 이름 직접 언급으로 찾은 연관 어빌리티/무기(ability)가 지금 활성인지, 업그레이드라면 비용이 얼마인지
+ * 알려준다. 기본 능력(업그레이드가 아님)은 항상 활성으로, 비용 없이 취급한다.
+ *
+ * activeIndexes를 지정하지 않으면(예: 다른 유닛에서 즐겨찾기한 능력이라 로스터 항목을 확정할 수
+ * 없을 때) 항상 활성으로 본다 — 게임 레퍼런스 화면의 유닛 상세 카드처럼 애초에 활성인 것만 골라
+ * 넘긴 목록에서도 이 함수를 그대로 쓸 수 있도록 하기 위해서다.
+ */
+export function abilityActiveState(
+  unit: UnitCard,
+  ability: Ability,
+  ctx: { activeIndexes?: number[]; squadTierIndex?: number },
+): { active: boolean; cost?: string } {
+  const upgradeIndex = unit.upgrades.findIndex((u) => u.ability.id === ability.id)
+  if (upgradeIndex === -1) return { active: true }
+  const upgrade = unit.upgrades[upgradeIndex]
+  return {
+    active: ctx.activeIndexes ? ctx.activeIndexes.includes(upgradeIndex) : true,
+    cost:
+      ctx.squadTierIndex !== undefined
+        ? String(resolveScaledCost(upgrade.pts, ctx.squadTierIndex))
+        : formatScaledCost(upgrade.pts),
   }
 }
 
