@@ -299,6 +299,7 @@ function RosterPanelBody({
           detail={abilityDetail}
           onClose={() => setAbilityDetail(null)}
           roster={roster}
+          race={race}
           resourceLabel={race.resourceLabel.abbr}
         />
       )}

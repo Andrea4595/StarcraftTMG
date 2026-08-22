@@ -570,6 +570,30 @@
   color: var(--gc-keyword);
 }
 
+/* 이름 직접 언급으로 감지된 연관 어빌리티/무기 (강화 대상 / 강화 출처). WeaponTable의
+   NAME 셀(FOR 줄 아래)과 RuleAbilityBlock(룰 텍스트 아래) 양쪽에서 함께 쓴다 */
+.card-related-abilities {
+  margin-top: 3px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.card-related-abilities-row {
+  font-size: 10px;
+  line-height: 1.3;
+}
+
+.card-related-abilities-label {
+  color: var(--gc-text-dim);
+  margin-right: 4px;
+}
+
+.card-related-abilities-name {
+  color: var(--gc-blue);
+  font-weight: 700;
+}
+
 /* 어빌리티 상세 모달 전용: 능력 설명 아래에 거기 쓰인 키워드들의 정의를 나열한다 */
 .card-keyword-definitions {
   margin-top: 12px;

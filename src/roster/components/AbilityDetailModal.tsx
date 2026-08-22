@@ -1,5 +1,5 @@
-import type { Roster } from '../../types'
-import { isFavoriteAbility, resolveScaledCost } from '../rosterCalc'
+import type { Ability, RaceData, Roster } from '../../types'
+import { findUnit, isFavoriteAbility, resolveScaledCost } from '../rosterCalc'
 import { useRosterStore } from '../RosterContext'
 import { UNIT_TYPE_COLORS } from '../unitTypeColor'
 import { Modal } from './Modal'
@@ -7,6 +7,7 @@ import { RuleAbilityBlock } from '../../components/card/RuleAbilityBlock'
 import { WeaponTable } from '../../components/card/WeaponTable'
 import { KeywordDefinitionsList } from '../../components/card/keywordHighlight'
 import { PhaseBadge } from '../../components/card/PhaseBadge'
+import { abilitiesReferencing, abilityReferencesInText } from '../../components/card/abilityReferences'
 import type { AbilityDetailRef } from './AbilityChipsRow'
 
 /**
@@ -17,12 +18,16 @@ export function AbilityDetailModal({
   detail,
   onClose,
   roster,
+  race,
   resourceLabel,
   showFavorite = false,
 }: {
   detail: AbilityDetailRef
   onClose: () => void
   roster: Roster
+  /** 이 능력이 속한 유닛을 찾아, 이름으로 서로를 언급하는 연관 어빌리티/무기를 계산하는 데 쓴다.
+   *  타격틱 카드에서 온 능력이면(unitType 없음) 못 찾아도 정상 — 연관 목록이 그냥 비게 된다 */
+  race: RaceData
   resourceLabel: string
   /** 즐겨찾기 별 토글을 보여줄지. 즐겨찾기는 게임 레퍼런스 화면 전용 기능이라 기본은 꺼져 있다 */
   showFavorite?: boolean
@@ -34,6 +39,10 @@ export function AbilityDetailModal({
    */
   const upgradeToggle = detail.upgradeToggle
   const toggleEntry = upgradeToggle ? roster.units.find((e) => e.id === upgradeToggle.entryId) : undefined
+  const sourceUnit = detail.unitType ? findUnit(race, detail.sourceId) : undefined
+  const allAbilities: Ability[] = sourceUnit
+    ? [...sourceUnit.abilities, ...sourceUnit.upgrades.map((u) => u.ability)]
+    : []
 
   return (
     <Modal
@@ -83,9 +92,19 @@ export function AbilityDetailModal({
                     }
                   : undefined
               }
+              relatedTo={abilityReferencesInText(allAbilities, detail.ability)}
+              referencedBy={abilitiesReferencing(allAbilities, detail.ability)}
             />
           ) : (
-            <WeaponTable rows={[{ weapon: detail.ability, for: detail.forLabel }]} />
+            <WeaponTable
+              rows={[
+                {
+                  weapon: detail.ability,
+                  for: detail.forLabel,
+                  referencedBy: abilitiesReferencing(allAbilities, detail.ability),
+                },
+              ]}
+            />
           )}
           <KeywordDefinitionsList ability={detail.ability} />
         </div>

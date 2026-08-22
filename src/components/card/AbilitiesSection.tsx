@@ -4,6 +4,7 @@ import { RuleAbilityBlock } from './RuleAbilityBlock'
 import { PhaseBadge } from './PhaseBadge'
 import { formatScaledCost, resolveScaledCost } from './costDisplay'
 import { useLocalize } from '../../LangContext'
+import { abilitiesReferencing, abilityReferencesInText } from './abilityReferences'
 
 export interface UpgradeToggleState {
   /** 비용 계산 기준이 되는 현재 선택된 스쿼드 등급 */
@@ -68,6 +69,9 @@ export function AbilitiesSection({
   ]
   if (entries.length === 0 && crossFavorites.length === 0) return null
 
+  /** 이름 직접 언급으로 서로를 찾을 수 있는, 이 유닛의 기본+업그레이드 어빌리티/무기 전체 목록 */
+  const allAbilities: Ability[] = [...abilities, ...upgrades.map((u) => u.ability)]
+
   const groups = PHASES.map((phase) => ({
     phase,
     items: entries.filter((e) => entryPhase(e) === phase),
@@ -124,13 +128,18 @@ export function AbilitiesSection({
                 <WeaponTable
                   rows={weapons.map((e): WeaponRow => {
                     if (e.kind === 'ability') {
-                      return { weapon: e.ability as WeaponProfile, sealed: sealedWeaponIds.has(e.ability.id) }
+                      return {
+                        weapon: e.ability as WeaponProfile,
+                        sealed: sealedWeaponIds.has(e.ability.id),
+                        referencedBy: abilitiesReferencing(allAbilities, e.ability),
+                      }
                     }
                     return {
                       weapon: e.upgrade.ability as WeaponProfile,
                       for: resolveForName(e.upgrade.forId),
                       ptsLabel: ptsLabelFor(e.upgrade),
                       interactive: interactiveFor(e.index),
+                      referencedBy: abilitiesReferencing(allAbilities, e.upgrade.ability),
                     }
                   })}
                 />
@@ -143,6 +152,8 @@ export function AbilitiesSection({
                     ability={ability}
                     resourceLabel={resourceLabel}
                     favorite={favoriteFor(ability)}
+                    relatedTo={abilityReferencesInText(allAbilities, ability)}
+                    referencedBy={abilitiesReferencing(allAbilities, ability)}
                   />
                 ) : (
                   <RuleAbilityBlock
@@ -153,6 +164,8 @@ export function AbilitiesSection({
                     ptsLabel={ptsLabelFor(e.upgrade)}
                     interactive={interactiveFor(e.index)}
                     favorite={favoriteFor(ability)}
+                    relatedTo={abilityReferencesInText(allAbilities, ability)}
+                    referencedBy={abilitiesReferencing(allAbilities, ability)}
                   />
                 )
               })}

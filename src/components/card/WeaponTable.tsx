@@ -2,6 +2,8 @@ import type { WeaponProfile } from '../../types'
 import { KeywordList } from './KeywordText'
 import { useLang, useLocalize } from '../../LangContext'
 import { localizeTag } from './tagLabels'
+import { RelatedAbilities } from './RelatedAbilities'
+import type { AbilityReference } from './abilityReferences'
 
 export interface WeaponRow {
   weapon: WeaponProfile
@@ -13,6 +15,8 @@ export interface WeaponRow {
   interactive?: { active: boolean; onToggle: () => void }
   /** 다른 활성화된 업그레이드가 이 무기를 대체해 봉인했음을 표시. 선택되지 못한 업그레이드와 같은 스타일로 어둡게 표시한다 */
   sealed?: boolean
+  /** 이 무기를 이름으로 언급(강화)하는, 같은 유닛의 다른 어빌리티 */
+  referencedBy?: AbilityReference[]
 }
 
 export function WeaponTable({ rows }: { rows: WeaponRow[] }) {
@@ -45,6 +49,7 @@ export function WeaponTable({ rows }: { rows: WeaponRow[] }) {
             <td className="card-weapon-name-col">
               <div className="card-weapon-name">{localize(row.weapon.name)}</div>
               <div className="card-weapon-for">FOR {row.for ?? '-'}</div>
+              <RelatedAbilities referencedBy={row.referencedBy} />
             </td>
             <td>{row.weapon.stat.rng}</td>
             <td>{localizeTag(row.weapon.stat.tgt, lang)}</td>

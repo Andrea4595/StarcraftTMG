@@ -1,4 +1,4 @@
-import type { RaceData, Roster } from '../../types'
+import type { Ability, RaceData, Roster } from '../../types'
 import { findUnit, resolveScaledCost, unitWeaponSummaryEntries } from '../rosterCalc'
 import { useRosterStore } from '../RosterContext'
 import { useLocalize } from '../../LangContext'
@@ -7,6 +7,7 @@ import { Modal } from './Modal'
 import { WeaponTable } from '../../components/card/WeaponTable'
 import { KeywordDefinitionsList } from '../../components/card/keywordHighlight'
 import { PhaseBadge } from '../../components/card/PhaseBadge'
+import { abilitiesReferencing } from '../../components/card/abilityReferences'
 import type { WeaponSummaryRef } from './AbilityChipsRow'
 
 /**
@@ -41,6 +42,7 @@ export function WeaponSummaryModal({
   const unit = rosterEntry ? findUnit(race, rosterEntry.unitId) : undefined
   const allEntries = unit && rosterEntry ? unitWeaponSummaryEntries(unit, rosterEntry, detail.phase, localize) : []
   const entries = interactive ? allEntries : allEntries.filter((entry) => entry.tone !== 'inactive')
+  const allAbilities: Ability[] = unit ? [...unit.abilities, ...unit.upgrades.map((u) => u.ability)] : []
 
   return (
     <Modal
@@ -70,6 +72,7 @@ export function WeaponSummaryModal({
                 weapon: entry.ability,
                 for: entry.forLabel,
                 sealed: entry.tone === 'inactive',
+                referencedBy: abilitiesReferencing(allAbilities, entry.ability),
                 ptsLabel:
                   toggle && rosterEntry ? String(resolveScaledCost(toggle.pts, rosterEntry.squadTierIndex)) : undefined,
                 interactive:
