@@ -22,6 +22,18 @@ import type { DetailState } from './RosterDetailPanel'
 
 type ModalState = { kind: 'tactical'; focusCardId?: string } | { kind: 'unit-add' } | null
 
+/** 카드가 제공하는 자원(CP/BM/EN) 양만큼 노란 사각형을 나열한다. 보통 최대 2개 정도라 텍스트 배지보다 훨씬 작게 보여준다 */
+function ResourceSquares({ count }: { count: number }) {
+  if (count <= 0) return null
+  return (
+    <span className="roster-tactical-chip-resource-squares">
+      {Array.from({ length: count }).map((_, i) => (
+        <span className="roster-tactical-chip-resource-square" key={i} />
+      ))}
+    </span>
+  )
+}
+
 export function RosterPanel({
   races,
   race,
@@ -138,12 +150,8 @@ function RosterPanelBody({
             }}
           >
             <div className="roster-tactical-chip-header">
+              <ResourceSquares count={factionCard.resource} />
               {localize(factionCard.name)}
-              {factionCard.resource > 0 && (
-                <span className="roster-tactical-chip-resource">
-                  +{factionCard.resource} {race.resourceLabel.abbr}
-                </span>
-              )}
               <button
                 type="button"
                 className="roster-tactical-chip-remove"
@@ -193,13 +201,9 @@ function RosterPanelBody({
               }}
             >
               <div className="roster-tactical-chip-header">
+                {card && <ResourceSquares count={card.resource} />}
                 {cardName}
                 {count > 1 ? ` x${count}` : ''}
-                {card && card.resource > 0 && (
-                  <span className="roster-tactical-chip-resource">
-                    +{card.resource} {race.resourceLabel.abbr}
-                  </span>
-                )}
                 <button
                   type="button"
                   className="roster-tactical-chip-remove"
