@@ -6,7 +6,7 @@ import { useLocalize } from '../../LangContext'
 import { UNIT_TYPE_COLORS } from '../unitTypeColor'
 import { Modal } from './Modal'
 import { SlotUsageRow } from './SlotUsageRow'
-import { AbilityChipsRow, type AbilityDetailRef } from './AbilityChipsRow'
+import { AbilityChipsRow, type AbilitySelectionRef } from './AbilityChipsRow'
 import { AbilityDetailModal } from './AbilityDetailModal'
 
 export function TacticalCardModal({
@@ -24,7 +24,7 @@ export function TacticalCardModal({
   const store = useRosterStore()
   const [typeFilter, setTypeFilter] = useState<UnitType | null>(null)
   const [focusedId, setFocusedId] = useState<string | null>(focusCardId ?? null)
-  const [abilityDetail, setAbilityDetail] = useState<AbilityDetailRef | null>(null)
+  const [abilityDetail, setAbilityDetail] = useState<AbilitySelectionRef | null>(null)
 
   const gasTotal = rosterGasTotal(race, roster)
   const gasCap = rosterGasCap(roster)
@@ -103,7 +103,7 @@ export function TacticalCardModal({
         </div>
       </div>
 
-      {abilityDetail && (
+      {abilityDetail?.kind === 'ability' && (
         <AbilityDetailModal
           detail={abilityDetail}
           onClose={() => setAbilityDetail(null)}
@@ -156,7 +156,7 @@ function FactionPickerRow({
   focused: boolean
   onFocusRow: () => void
   onSelect: () => void
-  onSelectAbility: (ref: AbilityDetailRef) => void
+  onSelectAbility: (ref: AbilitySelectionRef) => void
 }) {
   const localize = useLocalize()
   return (
@@ -219,7 +219,7 @@ function TacticalPickerRow({
   onFocusRow: () => void
   onAdd: () => void
   onRemove: () => void
-  onSelectAbility: (ref: AbilityDetailRef) => void
+  onSelectAbility: (ref: AbilitySelectionRef) => void
 }) {
   const localize = useLocalize()
   const atMax = card.isUnique && count > 0

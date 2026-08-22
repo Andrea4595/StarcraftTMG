@@ -17,7 +17,8 @@ import { TacticalCardModal } from './TacticalCardModal'
 import { UnitModal } from './UnitModal'
 import { SlotUsageRow } from './SlotUsageRow'
 import { AbilityDetailModal } from './AbilityDetailModal'
-import { AbilityChipsRow, type AbilityDetailRef } from './AbilityChipsRow'
+import { RangedWeaponSummaryModal } from './RangedWeaponSummaryModal'
+import { AbilityChipsRow, type AbilitySelectionRef } from './AbilityChipsRow'
 import type { DetailState } from './RosterDetailPanel'
 
 type ModalState = { kind: 'tactical'; focusCardId?: string } | { kind: 'unit-add' } | null
@@ -101,7 +102,7 @@ function RosterPanelBody({
   const store = useRosterStore()
   const localize = useLocalize()
   const [modal, setModal] = useState<ModalState>(null)
-  const [abilityDetail, setAbilityDetail] = useState<AbilityDetailRef | null>(null)
+  const [abilityDetail, setAbilityDetail] = useState<AbilitySelectionRef | null>(null)
   const mineralTotal = rosterMineralTotal(race, roster)
   const gasTotal = rosterGasTotal(race, roster)
   const gasCap = rosterGasCap(roster)
@@ -293,13 +294,16 @@ function RosterPanelBody({
           onClose={() => setModal(null)}
         />
       )}
-      {abilityDetail && (
+      {abilityDetail?.kind === 'ability' && (
         <AbilityDetailModal
           detail={abilityDetail}
           onClose={() => setAbilityDetail(null)}
           roster={roster}
           resourceLabel={race.resourceLabel.abbr}
         />
+      )}
+      {abilityDetail?.kind === 'ranged-summary' && (
+        <RangedWeaponSummaryModal detail={abilityDetail} onClose={() => setAbilityDetail(null)} />
       )}
     </>
   )

@@ -184,10 +184,28 @@ export function highlightKeywords(text: string): ReactNode {
   return nodes
 }
 
-/** 어빌리티 상세 모달 전용: 그 능력에 쓰인 키워드들의 이름/설명을 능력 정보 아래에 나열한다 */
-export function KeywordDefinitionsList({ ability }: { ability: Ability }) {
+/** 여러 어빌리티(원거리 무기 종합 모달 전용)에 쓰인 키워드를 (중복 없이) 모아 반환한다 */
+function keywordEntriesForAbilities(abilities: Ability[]): KeywordEntry[] {
+  const found: KeywordEntry[] = []
+  const seen = new Set<string>()
+  for (const ability of abilities) {
+    for (const entry of keywordEntriesForAbility(ability)) {
+      if (!seen.has(entry.id)) {
+        seen.add(entry.id)
+        found.push(entry)
+      }
+    }
+  }
+  return found
+}
+
+/**
+ * 어빌리티 상세 모달 전용: 그 능력(들)에 쓰인 키워드의 이름/설명을 나열한다. ability 하나만 넘기면
+ * 그 능력의 키워드만, abilities를 넘기면(원거리 무기 종합 모달) 전부 모아 중복 없이 보여준다.
+ */
+export function KeywordDefinitionsList({ ability, abilities }: { ability?: Ability; abilities?: Ability[] }) {
   const localize = useLocalize()
-  const entries = keywordEntriesForAbility(ability)
+  const entries = ability ? keywordEntriesForAbility(ability) : abilities ? keywordEntriesForAbilities(abilities) : []
   if (entries.length === 0) return null
 
   return (

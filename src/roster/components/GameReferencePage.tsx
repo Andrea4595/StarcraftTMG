@@ -7,7 +7,8 @@ import { Modal } from './Modal'
 import { GameReferenceCardsView } from './GameReferenceCardsView'
 import { GameReferenceFavoritesView } from './GameReferenceFavoritesView'
 import { AbilityDetailModal } from './AbilityDetailModal'
-import type { AbilityDetailRef } from './AbilityChipsRow'
+import { RangedWeaponSummaryModal } from './RangedWeaponSummaryModal'
+import type { AbilitySelectionRef } from './AbilityChipsRow'
 import { UnitCardView } from '../../components/card/UnitCardView'
 import type { CrossFavoriteRef, FavoriteToggle } from '../../components/card/AbilitiesSection'
 import '../gameReference.css'
@@ -32,7 +33,7 @@ export function GameReferencePage({
   const { lang } = useLang()
   const [mode, setMode] = useState<Mode>('cards')
   const [detail, setDetail] = useState<ReferenceDetailTarget | null>(null)
-  const [abilityDetail, setAbilityDetail] = useState<AbilityDetailRef | null>(null)
+  const [abilityDetail, setAbilityDetail] = useState<AbilitySelectionRef | null>(null)
 
   /** 지정한 소스(유닛/카드 원본 id)의 RuleAbility 즐겨찾기 상태를 읽고 토글하는 창구를 만든다 */
   function favoriteToggleFor(sourceId: string): FavoriteToggle {
@@ -60,7 +61,8 @@ export function GameReferencePage({
         (g.abilities as RuleAbility[]).map((ability) => ({
           ability,
           sourceLabel: g.sourceLabel,
-          onSelect: () => setAbilityDetail({ ability, sourceLabel: g.sourceLabel, sourceId: g.sourceId, unitType: g.unitType }),
+          onSelect: () =>
+            setAbilityDetail({ kind: 'ability', ability, sourceLabel: g.sourceLabel, sourceId: g.sourceId, unitType: g.unitType }),
         })),
       )
 
@@ -124,7 +126,7 @@ export function GameReferencePage({
         </Modal>
       )}
 
-      {abilityDetail && (
+      {abilityDetail?.kind === 'ability' && (
         <AbilityDetailModal
           detail={abilityDetail}
           onClose={() => setAbilityDetail(null)}
@@ -132,6 +134,9 @@ export function GameReferencePage({
           resourceLabel={race.resourceLabel.abbr}
           showFavorite
         />
+      )}
+      {abilityDetail?.kind === 'ranged-summary' && (
+        <RangedWeaponSummaryModal detail={abilityDetail} onClose={() => setAbilityDetail(null)} />
       )}
     </div>
   )

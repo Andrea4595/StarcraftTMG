@@ -6,10 +6,11 @@ import {
   unitActiveAbilities,
   unitEntryMineralCost,
   unitForLabelResolver,
+  unitRangedWeaponEntries,
 } from '../rosterCalc'
 import { StatBoxes } from '../../components/card/StatBoxes'
 import { useLocalize } from '../../LangContext'
-import { AbilityChipsRow, type AbilityDetailRef } from './AbilityChipsRow'
+import { AbilityChipsRow, type AbilitySelectionRef } from './AbilityChipsRow'
 import type { ReferenceDetailTarget } from './GameReferencePage'
 
 export function GameReferenceCardsView({
@@ -21,7 +22,7 @@ export function GameReferenceCardsView({
   race: RaceData
   roster: Roster
   onSelect: (target: ReferenceDetailTarget) => void
-  onSelectAbility: (ref: AbilityDetailRef) => void
+  onSelectAbility: (ref: AbilitySelectionRef) => void
 }) {
   const localize = useLocalize()
   const factionCard = findFactionCard(race, roster)
@@ -98,7 +99,10 @@ export function GameReferenceCardsView({
               const unit = findUnit(race, entry.unitId)
               if (!unit) return null
               const tier = unit.squad[entry.squadTierIndex]
-              const activeAbilities = unitActiveAbilities(unit, entry)
+              const rangedSummary = unitRangedWeaponEntries(unit, entry, localize)
+              const nonRangedAbilities = unitActiveAbilities(unit, entry).filter(
+                (a) => !(a.kind === 'weapon' && a.phase === 'Assault'),
+              )
               const forFor = unitForLabelResolver(unit, localize)
               return (
                 <li key={entry.id}>
@@ -122,7 +126,8 @@ export function GameReferenceCardsView({
                       <StatBoxes unit={unit} />
                     </div>
                     <AbilityChipsRow
-                      abilities={activeAbilities}
+                      abilities={nonRangedAbilities}
+                      rangedSummary={rangedSummary}
                       sourceId={unit.id}
                       sourceLabel={localize(unit.name)}
                       unitType={unit.type}

@@ -9,10 +9,12 @@ import type {
   UnitCard,
   UnitType,
   Upgrade,
+  WeaponProfile,
 } from '../types'
 import { localize, type Lang } from '../LangContext'
 import { UNIT_TYPES } from '../types'
 import { resolveScaledCost } from '../components/card/costDisplay'
+import type { RangedWeaponEntry, WeaponTone } from './components/AbilityChipsRow'
 
 export { resolveScaledCost }
 
@@ -259,6 +261,27 @@ export function unitAbilityChipEntries(unit: UnitCard, entry: RosterUnitEntry): 
   }))
 
   return [...baseEntries, ...upgradeEntries]
+}
+
+/**
+ * 이 유닛이 가진 어썰트 페이즈 무기 프로필을 모두 모아 '사격' 종합 칩에 쓸 형태로 정리한다.
+ * 대체되지 않은 기본 무기는 'base', 활성 업그레이드로 얻은 무기는 'active', 업그레이드가 있지만
+ * 켜지지 않았거나(미선택) 다른 활성 업그레이드에 봉인된 기본 무기는 'inactive'로 분류한다 —
+ * unitAbilityChipEntries가 이미 이 세 가지를 upgradeActive(undefined/true/false)로 구분해주므로
+ * 그대로 물려받는다.
+ */
+export function unitRangedWeaponEntries(
+  unit: UnitCard,
+  entry: RosterUnitEntry,
+  localize: (rule: Rule) => string,
+): RangedWeaponEntry[] {
+  const forFor = unitForLabelResolver(unit, localize)
+  return unitAbilityChipEntries(unit, entry)
+    .filter((e) => e.ability.kind === 'weapon' && e.ability.phase === 'Assault')
+    .map((e) => {
+      const tone: WeaponTone = e.upgradeActive === undefined ? 'base' : e.upgradeActive ? 'active' : 'inactive'
+      return { ability: e.ability as WeaponProfile, tone, forLabel: forFor(e.ability) }
+    })
 }
 
 export interface PhaseAbilityGroup {

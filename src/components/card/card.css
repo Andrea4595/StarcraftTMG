@@ -343,7 +343,7 @@
 }
 
 .card-phase-icon-assault {
-  aspect-ratio: 2000 / 1999;
+  aspect-ratio: 1607 / 1608;
   -webkit-mask-image: url('../../assets/assaultPhase.png');
   mask-image: url('../../assets/assaultPhase.png');
 }
@@ -624,6 +624,20 @@
 
 .ability-chip-dim:hover {
   opacity: 0.7;
+}
+
+/* '사격' 종합 칩 안의 무기 이름 하나하나: 기본 보유(흰색)/업그레이드로 활성화(초록)/업그레이드가
+   있지만 꺼져 있거나 다른 업그레이드에 봉인됨(회색)을 색으로 구분한다 */
+.ability-chip-weapon-name-base {
+  color: var(--gc-text, #e5e7eb);
+}
+
+.ability-chip-weapon-name-active {
+  color: var(--gc-green, #4ade80);
+}
+
+.ability-chip-weapon-name-inactive {
+  color: var(--gc-text-disabled, #565a68);
 }
 
 /* 꺼진 업그레이드: 텍스트를 어둡게 눌러서 비활성 상태를 표현 */
