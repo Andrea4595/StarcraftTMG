@@ -7,6 +7,8 @@ import { useLocalize } from '../../LangContext'
 import { UNIT_TYPE_COLORS } from '../unitTypeColor'
 import { Modal } from './Modal'
 import { SlotUsageRow } from './SlotUsageRow'
+import { AbilityChipsRow, type AbilityDetailRef } from './AbilityChipsRow'
+import { AbilityDetailModal } from './AbilityDetailModal'
 
 /** .tactical-picker가 좌우 2단에서 세로로 쌓이는 폭. roster.css의 같은 미디어 쿼리(700px)와 맞춰야 한다 */
 const MOBILE_BREAKPOINT_PX = 700
@@ -45,6 +47,7 @@ export function TacticalCardModal({
   const [focusedId, setFocusedId] = useState<string | null>(focusCardId ?? null)
   /** 모바일에서는 상세 패널 대신 별도 모달로 카드 상세를 보여준다 */
   const [mobileDetailOpen, setMobileDetailOpen] = useState(isMobile && !!focusCardId)
+  const [abilityDetail, setAbilityDetail] = useState<AbilityDetailRef | null>(null)
 
   /** 카드를 눌러 상세를 확인한다: 데스크톱은 왼쪽 패널에, 모바일은 새 모달에 표시한다 */
   function openDetail(id: string) {
@@ -113,11 +116,13 @@ export function TacticalCardModal({
               <FactionPickerRow
                 key={card.id}
                 card={card}
+                roster={roster}
                 resourceAbbr={race.resourceLabel.abbr}
                 active={roster.factionCardId === card.id}
                 focused={focusedId === card.id}
                 onOpenDetail={() => openDetail(card.id)}
                 onSelect={() => store.setFactionCard(roster.id, card.id)}
+                onSelectAbility={setAbilityDetail}
               />
             ))}
           </div>
@@ -128,6 +133,7 @@ export function TacticalCardModal({
               <TacticalPickerRow
                 key={card.id}
                 card={card}
+                roster={roster}
                 resourceAbbr={race.resourceLabel.abbr}
                 count={roster.tacticalCardIds.filter((id) => id === card.id).length}
                 focused={focusedId === card.id}
@@ -135,6 +141,7 @@ export function TacticalCardModal({
                 onFocus={() => setFocusedId(card.id)}
                 onAdd={() => store.addTacticalCard(roster.id, card.id)}
                 onRemove={() => store.removeTacticalCard(roster.id, card.id)}
+                onSelectAbility={setAbilityDetail}
               />
             ))}
           </div>
@@ -152,6 +159,15 @@ export function TacticalCardModal({
             <TacticalCardView card={focusedTactical!} resourceLabel={race.resourceLabel} />
           )}
         </Modal>
+      )}
+
+      {abilityDetail && (
+        <AbilityDetailModal
+          detail={abilityDetail}
+          onClose={() => setAbilityDetail(null)}
+          roster={roster}
+          resourceLabel={race.resourceLabel.abbr}
+        />
       )}
     </Modal>
   )
@@ -184,18 +200,22 @@ function CardCapacityMeta({ card, resourceAbbr }: { card: TacticalCard; resource
  */
 function FactionPickerRow({
   card,
+  roster,
   resourceAbbr,
   active,
   focused,
   onOpenDetail,
   onSelect,
+  onSelectAbility,
 }: {
   card: TacticalCard
+  roster: Roster
   resourceAbbr: string
   active: boolean
   focused: boolean
   onOpenDetail: () => void
   onSelect: () => void
+  onSelectAbility: (ref: AbilityDetailRef) => void
 }) {
   const localize = useLocalize()
   return (
@@ -215,6 +235,14 @@ function FactionPickerRow({
         {card.isUnique && <span className="tactical-picker-row-unique">UNIQUE</span>}
       </div>
       <CardCapacityMeta card={card} resourceAbbr={resourceAbbr} />
+      <AbilityChipsRow
+        abilities={card.cardAbilities}
+        sourceId={card.id}
+        sourceLabel={localize(card.name)}
+        roster={roster}
+        onSelectAbility={onSelectAbility}
+        localize={localize}
+      />
       <button
         type="button"
         className={`tactical-picker-select-btn ${active ? 'tactical-picker-select-btn-active' : ''}`}
@@ -231,6 +259,7 @@ function FactionPickerRow({
 
 function TacticalPickerRow({
   card,
+  roster,
   resourceAbbr,
   count,
   focused,
@@ -238,8 +267,10 @@ function TacticalPickerRow({
   onFocus,
   onAdd,
   onRemove,
+  onSelectAbility,
 }: {
   card: TacticalCard
+  roster: Roster
   resourceAbbr: string
   count: number
   focused: boolean
@@ -247,6 +278,7 @@ function TacticalPickerRow({
   onFocus: () => void
   onAdd: () => void
   onRemove: () => void
+  onSelectAbility: (ref: AbilityDetailRef) => void
 }) {
   const localize = useLocalize()
   const atMax = card.isUnique && count > 0
@@ -267,6 +299,14 @@ function TacticalPickerRow({
         {card.isUnique && <span className="tactical-picker-row-unique">UNIQUE</span>}
       </div>
       <CardCapacityMeta card={card} resourceAbbr={resourceAbbr} />
+      <AbilityChipsRow
+        abilities={card.cardAbilities}
+        sourceId={card.id}
+        sourceLabel={cardName}
+        roster={roster}
+        onSelectAbility={onSelectAbility}
+        localize={localize}
+      />
       {/*
         가스와 증감 버튼은 항상 같이 붙어 있어야 하는 한 덩어리다. 폭이 좁아 줄바꿈이 필요해지면
         이 덩어리 전체가 통째로 다음 줄로 내려가 깔끔하게 오른쪽 정렬된 채 표시된다 (가스만 먼저
