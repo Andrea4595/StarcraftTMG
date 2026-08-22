@@ -570,28 +570,83 @@
   color: var(--gc-keyword);
 }
 
-/* 이름 직접 언급으로 감지된 연관 어빌리티/무기 (강화 대상 / 강화 출처). WeaponTable의
-   NAME 셀(FOR 줄 아래)과 RuleAbilityBlock(룰 텍스트 아래) 양쪽에서 함께 쓴다 */
+/*
+  이름 직접 언급으로 감지된 연관 어빌리티/무기 ('강화:'). WeaponTable의 NAME 셀(FOR 줄 아래)과
+  RuleAbilityBlock(룰 텍스트 아래) 양쪽에서 함께 쓴다. 대상이 무기 프로필이면 WeaponTable을
+  재사용한 스탯 한 줄로, 룰 어빌리티면 '이름 : 텍스트' 한 줄로 보여준다.
+*/
 .card-related-abilities {
-  margin-top: 3px;
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-}
-
-.card-related-abilities-row {
-  font-size: 10px;
-  line-height: 1.3;
+  margin-top: 6px;
 }
 
 .card-related-abilities-label {
+  font-size: 10px;
+  font-weight: 700;
   color: var(--gc-text-dim);
-  margin-right: 4px;
+  margin-bottom: 3px;
 }
 
-.card-related-abilities-name {
+.card-related-ability-lines {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.card-related-ability-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  width: 100%;
+  min-width: 0;
+  border: none;
+  background: none;
+  padding: 0;
+  font: inherit;
+  font-size: 10px;
+  line-height: 1.3;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+}
+
+.card-related-ability-line:hover .card-related-ability-line-name {
+  text-decoration: underline;
+}
+
+.card-related-ability-line-static {
+  cursor: default;
+}
+
+.card-related-ability-line-name {
+  flex: 0 0 auto;
   color: var(--gc-blue);
   font-weight: 700;
+  white-space: nowrap;
+}
+
+.card-related-ability-line-sep {
+  flex: 0 0 auto;
+  color: var(--gc-text-dim);
+}
+
+.card-related-ability-line-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: var(--gc-text-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-weapon-row-clickable {
+  cursor: pointer;
+}
+
+.card-weapon-row-clickable:hover {
+  background: var(--gc-bg-raised);
 }
 
 /* 어빌리티 상세 모달 전용: 능력 설명 아래에 거기 쓰인 키워드들의 정의를 나열한다 */

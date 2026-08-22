@@ -1,5 +1,5 @@
 import type { Ability, RaceData, Roster } from '../../types'
-import { findUnit, resolveScaledCost, unitWeaponSummaryEntries } from '../rosterCalc'
+import { abilitySelectionRefFor, findUnit, resolveScaledCost, unitWeaponSummaryEntries } from '../rosterCalc'
 import { useRosterStore } from '../RosterContext'
 import { useLocalize } from '../../LangContext'
 import { UNIT_TYPE_COLORS } from '../unitTypeColor'
@@ -8,7 +8,8 @@ import { WeaponTable } from '../../components/card/WeaponTable'
 import { KeywordDefinitionsList } from '../../components/card/keywordHighlight'
 import { PhaseBadge } from '../../components/card/PhaseBadge'
 import { abilitiesReferencing } from '../../components/card/abilityReferences'
-import type { WeaponSummaryRef } from './AbilityChipsRow'
+import type { RelatedAbilityTarget } from '../../components/card/RelatedAbilities'
+import type { AbilitySelectionRef, WeaponSummaryRef } from './AbilityChipsRow'
 
 /**
  * '사격'/'근접 공격' 종합 칩을 눌렀을 때 뜨는 모달. 이 유닛의 해당 페이즈 무기 프로필을 한 표에
@@ -29,12 +30,15 @@ export function WeaponSummaryModal({
   roster,
   race,
   interactive = false,
+  onSelectAbility,
 }: {
   detail: WeaponSummaryRef
   onClose: () => void
   roster: Roster
   race: RaceData
   interactive?: boolean
+  /** 지정하면 연관 어빌리티('강화 출처') 항목을 눌러 그 대상의 상세 모달로 이동할 수 있다 */
+  onSelectAbility?: (ref: AbilitySelectionRef) => void
 }) {
   const store = useRosterStore()
   const localize = useLocalize()
@@ -43,6 +47,24 @@ export function WeaponSummaryModal({
   const allEntries = unit && rosterEntry ? unitWeaponSummaryEntries(unit, rosterEntry, detail.phase, localize) : []
   const entries = interactive ? allEntries : allEntries.filter((entry) => entry.tone !== 'inactive')
   const allAbilities: Ability[] = unit ? [...unit.abilities, ...unit.upgrades.map((u) => u.ability)] : []
+  const relatedTargets = (list: Ability[]): RelatedAbilityTarget[] =>
+    list.map((a) => ({
+      ability: a,
+      onClick:
+        onSelectAbility && unit
+          ? () =>
+              onSelectAbility(
+                abilitySelectionRefFor(unit, a, {
+                  sourceId: detail.sourceId,
+                  sourceLabel: detail.sourceLabel,
+                  unitType: detail.unitType,
+                  entryId: detail.entryId,
+                  localize,
+                  interactive,
+                }),
+              )
+          : undefined,
+    }))
 
   return (
     <Modal
@@ -72,7 +94,7 @@ export function WeaponSummaryModal({
                 weapon: entry.ability,
                 for: entry.forLabel,
                 sealed: entry.tone === 'inactive',
-                referencedBy: abilitiesReferencing(allAbilities, entry.ability),
+                referencedBy: relatedTargets(abilitiesReferencing(allAbilities, entry.ability)),
                 ptsLabel:
                   toggle && rosterEntry ? String(resolveScaledCost(toggle.pts, rosterEntry.squadTierIndex)) : undefined,
                 interactive:

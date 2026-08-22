@@ -1,6 +1,7 @@
 import type { Ability, RaceData, Roster } from '../../types'
-import { findUnit, isFavoriteAbility, resolveScaledCost } from '../rosterCalc'
+import { abilitySelectionRefFor, findUnit, isFavoriteAbility, resolveScaledCost } from '../rosterCalc'
 import { useRosterStore } from '../RosterContext'
+import { useLocalize } from '../../LangContext'
 import { UNIT_TYPE_COLORS } from '../unitTypeColor'
 import { Modal } from './Modal'
 import { RuleAbilityBlock } from '../../components/card/RuleAbilityBlock'
@@ -8,7 +9,8 @@ import { WeaponTable } from '../../components/card/WeaponTable'
 import { KeywordDefinitionsList } from '../../components/card/keywordHighlight'
 import { PhaseBadge } from '../../components/card/PhaseBadge'
 import { abilitiesReferencing, abilityReferencesInText } from '../../components/card/abilityReferences'
-import type { AbilityDetailRef } from './AbilityChipsRow'
+import type { RelatedAbilityTarget } from '../../components/card/RelatedAbilities'
+import type { AbilityDetailRef, AbilitySelectionRef } from './AbilityChipsRow'
 
 /**
  * 어빌리티 칩(AbilityChipsRow)을 눌렀을 때 뜨는 단독 상세 모달. 게임 레퍼런스 화면과 로스터 편집
@@ -21,6 +23,7 @@ export function AbilityDetailModal({
   race,
   resourceLabel,
   showFavorite = false,
+  onSelectAbility,
 }: {
   detail: AbilityDetailRef
   onClose: () => void
@@ -31,8 +34,11 @@ export function AbilityDetailModal({
   resourceLabel: string
   /** 즐겨찾기 별 토글을 보여줄지. 즐겨찾기는 게임 레퍼런스 화면 전용 기능이라 기본은 꺼져 있다 */
   showFavorite?: boolean
+  /** 지정하면 연관 어빌리티/무기 항목을 눌러 그 대상의 상세 모달로 이동할 수 있다 */
+  onSelectAbility?: (ref: AbilitySelectionRef) => void
 }) {
   const store = useRosterStore()
+  const localize = useLocalize()
   /**
    * 모달이 떠 있는 동안 다른 곳에서 이 업그레이드가 켜지거나 꺼져도 실시간으로 반영되도록,
    * active/cost를 detail에 얼려두지 않고 매 렌더 roster에서 직접 읽는다.
@@ -43,6 +49,24 @@ export function AbilityDetailModal({
   const allAbilities: Ability[] = sourceUnit
     ? [...sourceUnit.abilities, ...sourceUnit.upgrades.map((u) => u.ability)]
     : []
+  const relatedTargets = (list: Ability[]): RelatedAbilityTarget[] =>
+    list.map((a) => ({
+      ability: a,
+      onClick:
+        onSelectAbility && sourceUnit
+          ? () =>
+              onSelectAbility(
+                abilitySelectionRefFor(sourceUnit, a, {
+                  sourceId: detail.sourceId,
+                  sourceLabel: detail.sourceLabel,
+                  unitType: detail.unitType,
+                  entryId: detail.entryId,
+                  localize,
+                  interactive: !showFavorite,
+                }),
+              )
+          : undefined,
+    }))
 
   return (
     <Modal
@@ -92,8 +116,8 @@ export function AbilityDetailModal({
                     }
                   : undefined
               }
-              relatedTo={abilityReferencesInText(allAbilities, detail.ability)}
-              referencedBy={abilitiesReferencing(allAbilities, detail.ability)}
+              relatedTo={relatedTargets(abilityReferencesInText(allAbilities, detail.ability))}
+              referencedBy={relatedTargets(abilitiesReferencing(allAbilities, detail.ability))}
             />
           ) : (
             <WeaponTable
@@ -101,7 +125,7 @@ export function AbilityDetailModal({
                 {
                   weapon: detail.ability,
                   for: detail.forLabel,
-                  referencedBy: abilitiesReferencing(allAbilities, detail.ability),
+                  referencedBy: relatedTargets(abilitiesReferencing(allAbilities, detail.ability)),
                 },
               ]}
             />

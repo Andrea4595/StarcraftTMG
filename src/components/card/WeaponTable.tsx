@@ -2,8 +2,7 @@ import type { WeaponProfile } from '../../types'
 import { KeywordList } from './KeywordText'
 import { useLang, useLocalize } from '../../LangContext'
 import { localizeTag } from './tagLabels'
-import { RelatedAbilities } from './RelatedAbilities'
-import type { AbilityReference } from './abilityReferences'
+import { RelatedAbilities, type RelatedAbilityTarget } from './RelatedAbilities'
 
 export interface WeaponRow {
   weapon: WeaponProfile
@@ -16,7 +15,14 @@ export interface WeaponRow {
   /** 다른 활성화된 업그레이드가 이 무기를 대체해 봉인했음을 표시. 선택되지 못한 업그레이드와 같은 스타일로 어둡게 표시한다 */
   sealed?: boolean
   /** 이 무기를 이름으로 언급(강화)하는, 같은 유닛의 다른 어빌리티 */
-  referencedBy?: AbilityReference[]
+  referencedBy?: RelatedAbilityTarget[]
+  /** 지정하면 행 전체를 눌러 이 콜백을 호출한다 (연관 어빌리티 목록에 무기 스탯을 요약해서 보여줄 때만 쓴다) */
+  onClick?: () => void
+  /**
+   * 연관 어빌리티 목록에 무기 스탯을 요약해서 보여줄 때만 true. FOR 줄과 (재귀 방지를 위해) 강화
+   * 목록을 생략해 군더더기를 줄인다.
+   */
+  compact?: boolean
 }
 
 export function WeaponTable({ rows }: { rows: WeaponRow[] }) {
@@ -44,12 +50,18 @@ export function WeaponTable({ rows }: { rows: WeaponRow[] }) {
         {rows.map((row, i) => (
           <tr
             key={i}
-            className={(row.interactive && !row.interactive.active) || row.sealed ? 'card-weapon-row-dim' : ''}
+            className={[
+              (row.interactive && !row.interactive.active) || row.sealed ? 'card-weapon-row-dim' : '',
+              row.onClick ? 'card-weapon-row-clickable' : '',
+            ]
+              .filter(Boolean)
+              .join(' ')}
+            onClick={row.onClick}
           >
             <td className="card-weapon-name-col">
               <div className="card-weapon-name">{localize(row.weapon.name)}</div>
-              <div className="card-weapon-for">FOR {row.for ?? '-'}</div>
-              <RelatedAbilities referencedBy={row.referencedBy} />
+              {!row.compact && <div className="card-weapon-for">FOR {row.for ?? '-'}</div>}
+              {!row.compact && <RelatedAbilities items={row.referencedBy ?? []} />}
             </td>
             <td>{row.weapon.stat.rng}</td>
             <td>{localizeTag(row.weapon.stat.tgt, lang)}</td>

@@ -14,7 +14,7 @@ import type {
 import { localize, type Lang } from '../LangContext'
 import { UNIT_TYPES } from '../types'
 import { resolveScaledCost } from '../components/card/costDisplay'
-import type { UpgradeToggleRef, WeaponSummaryEntry, WeaponTone } from './components/AbilityChipsRow'
+import type { AbilitySelectionRef, UpgradeToggleRef, WeaponSummaryEntry, WeaponTone } from './components/AbilityChipsRow'
 
 export { resolveScaledCost }
 
@@ -219,6 +219,53 @@ export function unitForLabelResolver(
     if (!forId) return undefined
     const found = unit.abilities.find((a) => a.id === forId)
     return found ? localize(found.name) : forId
+  }
+}
+
+/**
+ * 이름 직접 언급으로 찾은 연관 어빌리티/무기(ability)를 눌렀을 때 열 상세 모달의 참조를 만든다.
+ * 무기면 그 무기가 속한 페이즈의 종합 모달(사격/근접 공격)로, 룰 어빌리티면 단독 상세 모달로
+ * 이동한다. entryId가 없으면(예: 다른 유닛에서 즐겨찾기한 능력을 보는 중이라 롤 항목을 확정할 수
+ * 없을 때) 무기 참조의 entryId는 빈 문자열로 채워지므로, 호출부가 entryId 유무로 클릭 가능 여부를
+ * 미리 걸러야 한다.
+ */
+export function abilitySelectionRefFor(
+  unit: UnitCard,
+  ability: Ability,
+  ctx: {
+    sourceId: string
+    sourceLabel: string
+    unitType?: UnitType
+    entryId?: string
+    localize: (rule: Rule) => string
+    /** true면(로스터 편집 화면) 대상이 업그레이드 능력일 때 PTS 토글 버튼 정보를 함께 채운다 */
+    interactive?: boolean
+  },
+): AbilitySelectionRef {
+  if (ability.kind === 'weapon') {
+    return {
+      kind: 'weapon-summary',
+      sourceLabel: ctx.sourceLabel,
+      sourceId: ctx.sourceId,
+      unitType: ctx.unitType,
+      label: ability.phase === 'Assault' ? FIRE_LABEL : MELEE_LABEL,
+      entryId: ctx.entryId ?? '',
+      phase: ability.phase,
+    }
+  }
+  const upgradeIndex = unit.upgrades.findIndex((u) => u.ability.id === ability.id)
+  const upgrade = upgradeIndex >= 0 ? unit.upgrades[upgradeIndex] : undefined
+  return {
+    kind: 'ability',
+    ability,
+    sourceLabel: ctx.sourceLabel,
+    sourceId: ctx.sourceId,
+    unitType: ctx.unitType,
+    forLabel: unitForLabelResolver(unit, ctx.localize)(ability),
+    upgradeToggle:
+      ctx.interactive && upgrade && ctx.entryId
+        ? { entryId: ctx.entryId, upgradeIndex, pts: upgrade.pts, exclusiveWith: upgradeExclusiveWith(unit, upgradeIndex) }
+        : undefined,
   }
 }
 

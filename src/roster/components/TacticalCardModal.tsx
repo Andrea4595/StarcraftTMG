@@ -110,6 +110,7 @@ export function TacticalCardModal({
           roster={roster}
           race={race}
           resourceLabel={race.resourceLabel.abbr}
+          onSelectAbility={setAbilityDetail}
         />
       )}
     </Modal>

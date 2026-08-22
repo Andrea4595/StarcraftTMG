@@ -32,6 +32,12 @@ export interface AbilityDetailRef {
   forLabel?: string
   /** 이 능력이 유닛의 업그레이드일 때만 지정(로스터 편집 화면 전용): 상세 모달 타이틀의 PTS 토글 버튼에 쓰인다 */
   upgradeToggle?: UpgradeToggleRef
+  /**
+   * 유닛에서 나온 능력일 때, 그 유닛의 로스터 항목 id. 이 능력의 룰 텍스트가 언급하는 다른 무기로
+   * 이동할 때(연관 어빌리티 '강화:' 목록) 종합 무기 모달을 열려면 필요하다. 다른 유닛/카드에서
+   * 즐겨찾기한 능력을 볼 때처럼 특정 로스터 항목을 확정할 수 없는 경우 비워둔다.
+   */
+  entryId?: string
 }
 
 /** 무기 하나가 이 유닛에서 지금 어떤 상태인지 */
@@ -93,6 +99,7 @@ export function AbilityChipsRow({
   sourceId,
   sourceLabel,
   unitType,
+  entryId,
   roster,
   onSelectAbility,
   localize,
@@ -110,6 +117,8 @@ export function AbilityChipsRow({
   sourceId: string
   sourceLabel: string
   unitType?: UnitType
+  /** 유닛에서 나온 칩일 때만 지정: 상세 모달에 담아 연관 어빌리티 '강화:' 목록의 무기 이동에 쓴다 */
+  entryId?: string
   roster: Roster
   onSelectAbility: (ref: AbilitySelectionRef) => void
   localize: (rule: Rule) => string
@@ -198,6 +207,7 @@ export function AbilityChipsRow({
                 unitType,
                 forLabel: forFor?.(ability),
                 upgradeToggle: upgradeToggleFor?.(ability),
+                entryId,
               })
             }}
           >

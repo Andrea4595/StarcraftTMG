@@ -1,9 +1,4 @@
-import type { Ability, Rule } from '../../types'
-
-export interface AbilityReference {
-  id: string
-  name: Rule
-}
+import type { Ability } from '../../types'
 
 function escapeRegExp(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -18,10 +13,10 @@ function escapeRegExp(s: string): string {
  * 돌진'을 이름으로 언급하지 않고 IMPACT 키워드만 언급하는 경우 — 는 이 함수로 잡히지 않는다.
  * 이름 직접 언급만 다루는 게 의도된 범위다.
  */
-export function abilityReferencesInText(pool: Ability[], ability: Ability): AbilityReference[] {
+export function abilityReferencesInText(pool: Ability[], ability: Ability): Ability[] {
   if (ability.kind !== 'rule') return []
   const text = `${ability.rule.en} ${ability.rule.ko}`
-  const found: AbilityReference[] = []
+  const found: Ability[] = []
   for (const other of pool) {
     if (other.id === ability.id) continue
     /**
@@ -32,19 +27,20 @@ export function abilityReferencesInText(pool: Ability[], ability: Ability): Abil
      * 식으로 일반 단어와 우연히 겹칠 위험이 훨씬 낮다.
      */
     const name = other.name.ko || other.name.en
-    if (name && new RegExp(escapeRegExp(name), 'i').test(text)) found.push({ id: other.id, name: other.name })
+    if (name && new RegExp(escapeRegExp(name), 'i').test(text)) found.push(other)
   }
   return found
 }
 
-/** ability를 이름으로 언급하는(강화하는) 같은 유닛의 다른 어빌리티들을 찾는다 (역방향) */
-export function abilitiesReferencing(pool: Ability[], ability: Ability): AbilityReference[] {
-  const found: AbilityReference[] = []
+/**
+ * ability를 이름으로 언급하는(강화하는) 같은 유닛의 다른 어빌리티들을 찾는다 (역방향).
+ * 룰 텍스트가 있는 건 RuleAbility뿐이라, 반환값은 항상 RuleAbility들이다.
+ */
+export function abilitiesReferencing(pool: Ability[], ability: Ability): Ability[] {
+  const found: Ability[] = []
   for (const other of pool) {
     if (other.id === ability.id) continue
-    if (abilityReferencesInText(pool, other).some((r) => r.id === ability.id)) {
-      found.push({ id: other.id, name: other.name })
-    }
+    if (abilityReferencesInText(pool, other).some((r) => r.id === ability.id)) found.push(other)
   }
   return found
 }

@@ -100,6 +100,7 @@ export function UnitEntryRow({
         sourceId={unit.id}
         sourceLabel={localize(unit.name)}
         unitType={unit.type}
+        entryId={entry.id}
         roster={roster}
         onSelectAbility={onSelectAbility}
         localize={localize}

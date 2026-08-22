@@ -1,8 +1,7 @@
 import type { RuleAbility } from '../../types'
 import { localize, useLang } from '../../LangContext'
 import { highlightKeywords } from './keywordHighlight'
-import { RelatedAbilities } from './RelatedAbilities'
-import type { AbilityReference } from './abilityReferences'
+import { RelatedAbilities, type RelatedAbilityTarget } from './RelatedAbilities'
 
 function formatBadge(ability: RuleAbility, resourceLabel: string): string {
   if (ability.type === 'Passive') return 'PASSIVE'
@@ -31,9 +30,9 @@ export function RuleAbilityBlock({
   /** 지정하면 이름 왼쪽에 즐겨찾기 별 토글 버튼을 붙인다 (게임 레퍼런스 화면 전용 기능) */
   favorite?: { active: boolean; onToggle: () => void }
   /** 이 능력의 룰 텍스트가 이름으로 직접 언급하는, 같은 유닛의 다른 어빌리티/무기 */
-  relatedTo?: AbilityReference[]
+  relatedTo?: RelatedAbilityTarget[]
   /** 이 능력을 이름으로 언급(강화)하는, 같은 유닛의 다른 어빌리티 */
-  referencedBy?: AbilityReference[]
+  referencedBy?: RelatedAbilityTarget[]
 }) {
   const { lang } = useLang()
   const text = lang === 'en' ? ability.rule.en : ability.rule.ko || ability.rule.en
@@ -75,7 +74,8 @@ export function RuleAbilityBlock({
       </div>
       {forWeapon && <div className="card-weapon-for">FOR {forWeapon}</div>}
       <p className="card-rule-text">{highlightKeywords(text)}</p>
-      <RelatedAbilities relatedTo={relatedTo} referencedBy={referencedBy} />
+      <RelatedAbilities items={relatedTo ?? []} />
+      <RelatedAbilities items={referencedBy ?? []} />
     </div>
   )
 }

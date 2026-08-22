@@ -5,6 +5,7 @@ import { PhaseBadge } from './PhaseBadge'
 import { formatScaledCost, resolveScaledCost } from './costDisplay'
 import { useLocalize } from '../../LangContext'
 import { abilitiesReferencing, abilityReferencesInText } from './abilityReferences'
+import type { RelatedAbilityTarget } from './RelatedAbilities'
 
 export interface UpgradeToggleState {
   /** 비용 계산 기준이 되는 현재 선택된 스쿼드 등급 */
@@ -48,6 +49,7 @@ export function AbilitiesSection({
   upgradeToggle,
   favorite,
   crossFavorites = [],
+  onSelectAbility,
 }: {
   abilities: Ability[]
   /** 업그레이드로 얻는 능력. 지정하면 기본 능력과 같은 페이즈 그룹 안에 함께 표시된다 */
@@ -61,6 +63,8 @@ export function AbilitiesSection({
   favorite?: FavoriteToggle
   /** 다른 유닛/카드에서 즐겨찾기한 능력들. 같은 phase의 그룹 하단에 이름만 덧붙인다 (게임 레퍼런스 유닛 상세 모달 전용) */
   crossFavorites?: CrossFavoriteRef[]
+  /** 지정하면 연관 어빌리티/무기 항목을 눌러 그 대상의 상세 모달로 이동할 수 있다 */
+  onSelectAbility?: (ability: Ability) => void
 }) {
   const localize = useLocalize()
   const entries: Entry[] = [
@@ -69,8 +73,15 @@ export function AbilitiesSection({
   ]
   if (entries.length === 0 && crossFavorites.length === 0) return null
 
-  /** 이름 직접 언급으로 서로를 찾을 수 있는, 이 유닛의 기본+업그레이드 어빌리티/무기 전체 목록 */
+  /**
+   * 이름 직접 언급으로 서로를 찾을 수 있는, 지금 이 섹션에 실제로 표시되는 어빌리티/무기 전체 목록.
+   * abilities/upgrades를 그대로 쓰는 이유는, 게임 레퍼런스 화면처럼 abilitiesOverride로 '지금 실제로
+   * 활성화된 것'만 걸러서 넘긴 경우 연관 표시도 그 범위 안에서만 이뤄져야 하기 때문이다 — 선택하지
+   * 않은 업그레이드를 참조하는 링크가 읽기 전용 화면에 나타나면 안 된다.
+   */
   const allAbilities: Ability[] = [...abilities, ...upgrades.map((u) => u.ability)]
+  const relatedTargets = (list: Ability[]): RelatedAbilityTarget[] =>
+    list.map((a) => ({ ability: a, onClick: onSelectAbility ? () => onSelectAbility(a) : undefined }))
 
   const groups = PHASES.map((phase) => ({
     phase,
@@ -131,7 +142,7 @@ export function AbilitiesSection({
                       return {
                         weapon: e.ability as WeaponProfile,
                         sealed: sealedWeaponIds.has(e.ability.id),
-                        referencedBy: abilitiesReferencing(allAbilities, e.ability),
+                        referencedBy: relatedTargets(abilitiesReferencing(allAbilities, e.ability)),
                       }
                     }
                     return {
@@ -139,7 +150,7 @@ export function AbilitiesSection({
                       for: resolveForName(e.upgrade.forId),
                       ptsLabel: ptsLabelFor(e.upgrade),
                       interactive: interactiveFor(e.index),
-                      referencedBy: abilitiesReferencing(allAbilities, e.upgrade.ability),
+                      referencedBy: relatedTargets(abilitiesReferencing(allAbilities, e.upgrade.ability)),
                     }
                   })}
                 />
@@ -152,8 +163,8 @@ export function AbilitiesSection({
                     ability={ability}
                     resourceLabel={resourceLabel}
                     favorite={favoriteFor(ability)}
-                    relatedTo={abilityReferencesInText(allAbilities, ability)}
-                    referencedBy={abilitiesReferencing(allAbilities, ability)}
+                    relatedTo={relatedTargets(abilityReferencesInText(allAbilities, ability))}
+                    referencedBy={relatedTargets(abilitiesReferencing(allAbilities, ability))}
                   />
                 ) : (
                   <RuleAbilityBlock
@@ -164,8 +175,8 @@ export function AbilitiesSection({
                     ptsLabel={ptsLabelFor(e.upgrade)}
                     interactive={interactiveFor(e.index)}
                     favorite={favoriteFor(ability)}
-                    relatedTo={abilityReferencesInText(allAbilities, ability)}
-                    referencedBy={abilitiesReferencing(allAbilities, ability)}
+                    relatedTo={relatedTargets(abilityReferencesInText(allAbilities, ability))}
+                    referencedBy={relatedTargets(abilitiesReferencing(allAbilities, ability))}
                   />
                 )
               })}

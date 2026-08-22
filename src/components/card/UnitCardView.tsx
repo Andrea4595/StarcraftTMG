@@ -18,6 +18,7 @@ export function UnitCardView({
   squadHighlightIndex,
   favorite,
   crossFavorites,
+  onSelectAbility,
 }: {
   unit: UnitCard
   resourceLabel: string
@@ -44,6 +45,8 @@ export function UnitCardView({
   favorite?: FavoriteToggle
   /** 다른 유닛/카드에서 즐겨찾기한 능력들을 같은 페이즈 그룹 하단에 덧붙인다 (게임 레퍼런스 유닛 상세 모달 전용) */
   crossFavorites?: CrossFavoriteRef[]
+  /** 지정하면 이름 직접 언급으로 찾은 연관 어빌리티/무기 항목을 눌러 그 대상의 상세 모달로 이동할 수 있다 */
+  onSelectAbility?: (ability: Ability) => void
 }) {
   const localize = useLocalize()
   const pts = formatScaledCost(unit.squad.map((s) => s.pts))
@@ -88,6 +91,7 @@ export function UnitCardView({
           resourceLabel={resourceLabel}
           favorite={favorite}
           crossFavorites={crossFavorites}
+          onSelectAbility={onSelectAbility}
         />
       ) : (
         <AbilitiesSection
@@ -97,6 +101,7 @@ export function UnitCardView({
           upgradeToggle={upgradeToggle}
           favorite={favorite}
           crossFavorites={crossFavorites}
+          onSelectAbility={onSelectAbility}
         />
       )}
     </div>

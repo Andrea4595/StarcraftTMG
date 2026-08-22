@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { RaceData, Roster, RuleAbility } from '../../types'
-import { findUnit, isFavoriteAbility, rosterFavoriteAbilities, unitActiveAbilities } from '../rosterCalc'
+import { abilitySelectionRefFor, findUnit, isFavoriteAbility, rosterFavoriteAbilities, unitActiveAbilities } from '../rosterCalc'
 import { useRosterStore } from '../RosterContext'
 import { useLang, localize } from '../../LangContext'
 import { Modal } from './Modal'
@@ -76,6 +76,18 @@ export function GameReferencePage({
           squadHighlightIndex={entry.squadTierIndex}
           favorite={favoriteToggleFor(unit.id)}
           crossFavorites={crossFavorites}
+          onSelectAbility={(ability) =>
+            setAbilityDetail(
+              abilitySelectionRefFor(unit, ability, {
+                sourceId: unit.id,
+                sourceLabel: localize(unit.name, lang),
+                unitType: unit.type,
+                entryId: entry.id,
+                localize: (rule) => localize(rule, lang),
+                interactive: false,
+              }),
+            )
+          }
         />
       ),
     }
@@ -134,10 +146,17 @@ export function GameReferencePage({
           race={race}
           resourceLabel={race.resourceLabel.abbr}
           showFavorite
+          onSelectAbility={setAbilityDetail}
         />
       )}
       {abilityDetail?.kind === 'weapon-summary' && (
-        <WeaponSummaryModal detail={abilityDetail} onClose={() => setAbilityDetail(null)} roster={roster} race={race} />
+        <WeaponSummaryModal
+          detail={abilityDetail}
+          onClose={() => setAbilityDetail(null)}
+          roster={roster}
+          race={race}
+          onSelectAbility={setAbilityDetail}
+        />
       )}
     </div>
   )

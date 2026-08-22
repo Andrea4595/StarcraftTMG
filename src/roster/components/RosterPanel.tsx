@@ -16,8 +16,6 @@ import { UnitEntryRow } from './UnitEntryRow'
 import { TacticalCardModal } from './TacticalCardModal'
 import { UnitModal } from './UnitModal'
 import { SlotUsageRow } from './SlotUsageRow'
-import { AbilityDetailModal } from './AbilityDetailModal'
-import { WeaponSummaryModal } from './WeaponSummaryModal'
 import { AbilityChipsRow, type AbilitySelectionRef } from './AbilityChipsRow'
 import type { DetailState } from './RosterDetailPanel'
 
@@ -41,6 +39,7 @@ export function RosterPanel({
   roster,
   detail,
   onSelectDetail,
+  onSelectAbility,
 }: {
   races: RaceData[]
   /** roster.raceId에 해당하는 종족. 아직 선택 전이면 undefined */
@@ -48,6 +47,8 @@ export function RosterPanel({
   roster: Roster
   detail: DetailState
   onSelectDetail: (detail: DetailState) => void
+  /** 어빌리티/무기 칩을 누르면 이 콜백으로 상세 모달을 요청한다 (모달 자체는 공통 조상인 RosterBuilderPage가 그린다) */
+  onSelectAbility: (ref: AbilitySelectionRef) => void
 }) {
   const store = useRosterStore()
 
@@ -82,7 +83,13 @@ export function RosterPanel({
       {!race ? (
         <div className="roster-empty">종족을 선택하면 예산/슬롯 정보와 카드 선택이 표시됩니다.</div>
       ) : (
-        <RosterPanelBody race={race} roster={roster} detail={detail} onSelectDetail={onSelectDetail} />
+        <RosterPanelBody
+          race={race}
+          roster={roster}
+          detail={detail}
+          onSelectDetail={onSelectDetail}
+          onSelectAbility={onSelectAbility}
+        />
       )}
     </div>
   )
@@ -93,16 +100,17 @@ function RosterPanelBody({
   roster,
   detail,
   onSelectDetail,
+  onSelectAbility,
 }: {
   race: RaceData
   roster: Roster
   detail: DetailState
   onSelectDetail: (detail: DetailState) => void
+  onSelectAbility: (ref: AbilitySelectionRef) => void
 }) {
   const store = useRosterStore()
   const localize = useLocalize()
   const [modal, setModal] = useState<ModalState>(null)
-  const [abilityDetail, setAbilityDetail] = useState<AbilitySelectionRef | null>(null)
   const mineralTotal = rosterMineralTotal(race, roster)
   const gasTotal = rosterGasTotal(race, roster)
   const gasCap = rosterGasCap(roster)
@@ -170,7 +178,7 @@ function RosterPanelBody({
               sourceId={factionCard.id}
               sourceLabel={localize(factionCard.name)}
               roster={roster}
-              onSelectAbility={setAbilityDetail}
+              onSelectAbility={onSelectAbility}
               localize={localize}
             />
           </div>
@@ -223,7 +231,7 @@ function RosterPanelBody({
                   sourceId={card.id}
                   sourceLabel={cardName}
                   roster={roster}
-                  onSelectAbility={setAbilityDetail}
+                  onSelectAbility={onSelectAbility}
                   localize={localize}
                 />
               )}
@@ -264,7 +272,7 @@ function RosterPanelBody({
                   entry={entry}
                   active={detail?.kind === 'unit' && detail.entryId === entry.id}
                   onEdit={() => onSelectDetail({ kind: 'unit', entryId: entry.id })}
-                  onSelectAbility={setAbilityDetail}
+                  onSelectAbility={onSelectAbility}
                 />
               )
             })}
@@ -292,24 +300,6 @@ function RosterPanelBody({
             onSelectDetail({ kind: 'unit', entryId })
           }}
           onClose={() => setModal(null)}
-        />
-      )}
-      {abilityDetail?.kind === 'ability' && (
-        <AbilityDetailModal
-          detail={abilityDetail}
-          onClose={() => setAbilityDetail(null)}
-          roster={roster}
-          race={race}
-          resourceLabel={race.resourceLabel.abbr}
-        />
-      )}
-      {abilityDetail?.kind === 'weapon-summary' && (
-        <WeaponSummaryModal
-          detail={abilityDetail}
-          onClose={() => setAbilityDetail(null)}
-          roster={roster}
-          race={race}
-          interactive
         />
       )}
     </>
