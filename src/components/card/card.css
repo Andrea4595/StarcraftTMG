@@ -415,6 +415,27 @@
   border-bottom: none;
 }
 
+/*
+  무기 행 바로 아래에 그 무기를 강화하는 어빌리티('강화:')를 별도의 열-병합 행으로 붙인다.
+  NAME 열 안에 넣으면 그 열만 내용 길이만큼 넓어지는 문제가 있었고, 다른 무기 행과도 잘
+  구분되지 않았다 — 그래서 테이블 열 구성과 무관하게 전체 폭을 쓰는 행으로 분리하고, 위 무기
+  행에 속한 부가 정보임을 들여쓰기로 드러낸다. 두 행 사이 경계선은 없애 하나로 묶여 보이게 하고,
+  다음 무기 행과의 경계는 이 행 아래에 그대로 남긴다.
+*/
+.card-weapon-row-has-related td {
+  border-bottom: none;
+}
+
+.card-weapon-related-row td {
+  padding: 0 8px 8px 32px;
+  border-bottom: 1px solid var(--gc-border);
+  white-space: normal;
+}
+
+.card-weapon-related-row .card-related-abilities {
+  margin-top: 0;
+}
+
 .card-weapon-name-col {
   min-width: 120px;
 }
