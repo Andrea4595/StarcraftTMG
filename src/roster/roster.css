@@ -780,6 +780,15 @@ button.roster-slot-pill:hover {
   color: var(--text-h);
 }
 
+/* 고를 이유가 없는(dominated) tier: 클릭 불가 — hover 강조도, 포인터 커서도 없앤다 */
+.roster-squad-tier-chip-disabled {
+  cursor: default;
+}
+
+.roster-squad-tier-chip-disabled:hover {
+  border-color: var(--border);
+}
+
 .roster-squad-tier-supply {
   display: inline-flex;
   gap: 2px;
@@ -794,6 +803,12 @@ button.roster-slot-pill:hover {
 
 .roster-squad-tier-chip-active .roster-squad-tier-supply-square {
   background: #5b9dff;
+}
+
+/* dominated tier의 사각형은 채우지 않고 테두리만 그려 '빈 사각형'으로 표시한다 */
+.roster-squad-tier-supply-square-hollow {
+  background: transparent;
+  border: 1px solid #565a68;
 }
 
 .roster-entry-upgrades {

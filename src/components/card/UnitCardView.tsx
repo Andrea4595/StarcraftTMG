@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import type { Ability, UnitCard } from '../../types'
 import { StatBoxes } from './StatBoxes'
 import { SquadTable, type SquadTableSelection } from './SquadTable'
@@ -11,6 +12,7 @@ export function UnitCardView({
   resourceLabel,
   upgradeToggle,
   squadSelection,
+  squadTierSelector,
   finalCost,
   abilitiesOverride,
   squadHighlightIndex,
@@ -23,6 +25,12 @@ export function UnitCardView({
   upgradeToggle?: UpgradeToggleState
   /** 지정하면 스쿼드 등급 박스가 등급을 고르는 버튼이 된다 (유닛 편집 화면) */
   squadSelection?: SquadTableSelection
+  /**
+   * 지정하면 이름 옆에 컴팩트 스쿼드 등급 선택기(SquadTierSelector)를 붙이고, 그 아래 큰 스쿼드
+   * 박스(SquadTable)는 생략한다 — 로스터 편집 화면 전용. 게임 레퍼런스/내보내기 화면은 기존
+   * SquadTable을 그대로 쓴다.
+   */
+  squadTierSelector?: ReactNode
   /** 이 로스터 항목이 스쿼드+업그레이드를 합쳐 실제로 소모하는 최종 미네랄. 지정하면 헤더 우측에 배지로 표시 */
   finalCost?: number
   /**
@@ -47,6 +55,7 @@ export function UnitCardView({
           <div className="card-title">
             {localize(unit.name)}
             {unit.isUnique && <span className="card-unique-badge">UNIQUE</span>}
+            {squadTierSelector}
           </div>
           <div className="card-subtitle">{unit.type}</div>
         </div>
@@ -59,7 +68,9 @@ export function UnitCardView({
         <div className="card-top-right">
           <StatBoxes unit={unit} />
           <div className="card-squad-row">
-            <SquadTable squad={unit.squad} selection={squadSelection} highlightIndex={squadHighlightIndex} />
+            {!squadTierSelector && (
+              <SquadTable squad={unit.squad} selection={squadSelection} highlightIndex={squadHighlightIndex} />
+            )}
             <div className="card-pts-badge card-pts-badge-header">PTS: {pts}</div>
           </div>
           <div className="card-tags">
