@@ -184,7 +184,7 @@
 
 /* 간소화된 유닛 카드의 SHLD/SPD/EVA/ARM/HP/SIZ 요약. 상세 카드의 .card-statbox와 같은 값 서식을
    쓰지만, 목록에서 한눈에 훑어볼 수 있도록 세로 박스 대신 한 줄짜리 작은 칩으로 압축한다.
-   테두리만 있는 업그레이드 칩(.game-ref-upgrade-chip)과 옅은 회색 배경으로 구분한다. */
+   테두리만 있는 어빌리티 칩(.ability-chip, card.css)과 옅은 회색 배경으로 구분한다. */
 .game-ref-item-stats {
   display: flex;
   flex-wrap: wrap;
@@ -213,81 +213,6 @@
   font-weight: 700;
   color: var(--text-h);
   font-variant-numeric: tabular-nums;
-}
-
-.game-ref-upgrades-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 6px;
-}
-
-.game-ref-upgrade-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font: inherit;
-  font-size: 11px;
-  color: inherit;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 2px 8px;
-  background: transparent;
-  opacity: 0.85;
-  cursor: pointer;
-}
-
-.game-ref-upgrade-chip:hover {
-  opacity: 1;
-  border-color: var(--accent, var(--border));
-}
-
-/* .card-favorite-star과 같은 노란색(--gc-yellow)이지만, 이 뷰는 .game-card 스코프 밖이라 값을 직접 쓴다 */
-.game-ref-chip-star {
-  color: #f0b429;
-}
-
-/*
-  어빌리티가 쓰이는 페이즈(MOVEMENT/ASSAULT/COMBAT)를 나타내는 아이콘. 실제 이미지는 흰색 실루엣이라
-  .roster-icon과 같은 mask 기법으로 색을 입힌다. .card-phase-header와 같은 파란색(--gc-blue)이지만
-  이 뷰는 .game-card 스코프 밖이라 값을 직접 쓴다.
-*/
-.game-ref-chip-phase-icon {
-  display: inline-block;
-  height: 11px;
-  background-color: #5b9dff;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  -webkit-mask-size: contain;
-  mask-size: contain;
-  vertical-align: middle;
-}
-
-.game-ref-chip-phase-icon-movement {
-  aspect-ratio: 512 / 512;
-  -webkit-mask-image: url('../assets/movementPhase.png');
-  mask-image: url('../assets/movementPhase.png');
-}
-
-.game-ref-chip-phase-icon-assault {
-  aspect-ratio: 2000 / 1999;
-  -webkit-mask-image: url('../assets/assaultPhase.png');
-  mask-image: url('../assets/assaultPhase.png');
-}
-
-.game-ref-chip-phase-icon-combat {
-  aspect-ratio: 1452 / 1446;
-  -webkit-mask-image: url('../assets/combatPhase.png');
-  mask-image: url('../assets/combatPhase.png');
-}
-
-/* ANY 페이즈는 대응하는 공식 페이즈 아이콘이 없어 볼드체 'A'로 대신 표시한다 */
-.game-ref-chip-phase-any {
-  font-size: 10px;
-  font-weight: 700;
-  color: #5b9dff;
 }
 
 /* 페이즈 화면: 출처(카드/유닛)별 그룹. .game-card를 함께 써서 실제 카드와 같은 다크 배색(--gc-*)을

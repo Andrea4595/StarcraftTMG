@@ -306,11 +306,16 @@
   padding: 8px 12px;
 }
 
-/* MOVEMENT/ASSAULT/COMBAT 페이즈를 나타내는 아이콘. 실제 이미지는 흰색 실루엣이라 mask 기법으로 색을 입힌다 */
+/*
+  MOVEMENT/ASSAULT/COMBAT 페이즈를 나타내는 아이콘. 실제 이미지는 흰색 실루엣이라 mask 기법으로 색을
+  입힌다. --gc-blue는 .game-card 스코프 안에서만 정의되는데, 이 컴포넌트(PhaseBadge)는 로스터 편집
+  화면의 어빌리티 칩처럼 .game-card 밖에서도 쓰이므로, 정의되지 않은 곳에서는 var()의 두 번째 인자
+  (같은 값의 리터럴)로 자연히 대체되게 한다.
+*/
 .card-phase-icon {
   display: inline-block;
   height: 12px;
-  background-color: var(--gc-blue);
+  background-color: var(--gc-blue, #5b9dff);
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -340,6 +345,7 @@
 /* ANY 페이즈는 대응하는 공식 아이콘이 없어 볼드체 'A'로 대신 표시한다 */
 .card-phase-any {
   font-weight: 700;
+  color: var(--gc-blue, #5b9dff);
 }
 
 .card-phase-body {
@@ -558,6 +564,42 @@
   color: var(--gc-text-dim);
   font-size: 12px;
   line-height: 150%;
+}
+
+/*
+  어빌리티/무기 프로필 칩 한 줄 (AbilityChipsRow). 게임 레퍼런스 목록과 로스터 편집 화면의 유닛 행이
+  함께 쓴다. --border/--text는 .game-card 스코프와 무관한 전역 테마 변수라 두 화면 모두에서 그대로
+  통한다.
+*/
+.ability-chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.ability-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font: inherit;
+  font-size: 11px;
+  color: inherit;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 2px 8px;
+  background: transparent;
+  opacity: 0.85;
+  cursor: pointer;
+}
+
+.ability-chip:hover {
+  opacity: 1;
+  border-color: var(--accent, var(--border));
+}
+
+.ability-chip-star {
+  color: var(--gc-yellow, #f0b429);
 }
 
 /* 꺼진 업그레이드: 텍스트를 어둡게 눌러서 비활성 상태를 표현 */

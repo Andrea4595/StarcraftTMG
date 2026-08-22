@@ -571,11 +571,19 @@ button.roster-slot-pill:hover {
   gap: 8px;
 }
 
+/* 카드 이름 줄(.roster-tactical-chip-header) 아래로 어빌리티 칩이 여러 줄 붙을 수 있어 세로로 쌓는다.
+   max-width가 없으면 어빌리티 이름이 긴 카드 하나가 줄 전체를 다 차지해버려 다른 카드가 밀려난다 */
 .roster-tactical-chip {
+  max-width: 340px;
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 4px 8px;
   font-size: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.roster-tactical-chip-header {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -707,27 +715,6 @@ button.roster-slot-pill:hover {
 
 .roster-entry-header .card-statbox-label {
   font-size: 8px;
-}
-
-.roster-entry-ability-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin-top: 6px;
-}
-
-.roster-chip {
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 1px 6px;
-  font-size: 10px;
-  opacity: 0.7;
-}
-
-.roster-chip-upgrade {
-  border-color: #4ade80;
-  color: #4ade80;
-  opacity: 1;
 }
 
 .roster-entry-upgrades {

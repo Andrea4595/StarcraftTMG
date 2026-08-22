@@ -1,18 +1,15 @@
 import { useState } from 'react'
-import type { Ability, RaceData, Roster, RuleAbility, UnitType } from '../../types'
+import type { RaceData, Roster, RuleAbility } from '../../types'
 import { findFactionCard, findUnit, isFavoriteAbility, rosterFavoriteAbilities, unitActiveAbilities } from '../rosterCalc'
 import { useRosterStore } from '../RosterContext'
 import { useLang, localize } from '../../LangContext'
-import { UNIT_TYPE_COLORS } from '../unitTypeColor'
 import { Modal } from './Modal'
 import { GameReferenceCardsView } from './GameReferenceCardsView'
 import { GameReferenceFavoritesView } from './GameReferenceFavoritesView'
+import { AbilityDetailModal } from './AbilityDetailModal'
+import type { AbilityDetailRef } from './AbilityChipsRow'
 import { TacticalCardView } from '../../components/card/TacticalCardView'
 import { UnitCardView } from '../../components/card/UnitCardView'
-import { RuleAbilityBlock } from '../../components/card/RuleAbilityBlock'
-import { WeaponTable } from '../../components/card/WeaponTable'
-import { KeywordDefinitionsList } from '../../components/card/keywordHighlight'
-import { PhaseBadge } from '../../components/card/PhaseBadge'
 import type { CrossFavoriteRef, FavoriteToggle } from '../../components/card/AbilitiesSection'
 import '../gameReference.css'
 
@@ -22,18 +19,6 @@ export type ReferenceDetailTarget =
   | { kind: 'unit'; entryId: string }
 
 type Mode = 'cards' | 'favorites'
-
-/**
- * 어빌리티(룰/무기 프로필) 하나를 단독 모달로 띄울 때 필요한 정보. 유닛/택티컬 카드 목록의 어빌리티
- * 칩을 눌렀을 때, 그리고 다른 유닛/카드에서 즐겨찾기한 능력을 눌렀을 때 모두 이 모달을 함께 쓴다.
- */
-export interface AbilityDetailRef {
-  ability: Ability
-  sourceLabel: string
-  sourceId: string
-  /** 유닛에서 나온 능력일 때만 지정된다 (UNIT/TACTICAL 배지, 배지 색 결정용) */
-  unitType?: UnitType
-}
 
 export function GameReferencePage({
   race,
@@ -166,42 +151,12 @@ export function GameReferencePage({
       )}
 
       {abilityDetail && (
-        <Modal
-          title={
-            <span className="modal-title-row">
-              <span
-                className="modal-source-badge"
-                style={{ color: abilityDetail.unitType ? UNIT_TYPE_COLORS[abilityDetail.unitType] : '#f0b429' }}
-              >
-                {abilityDetail.unitType ? 'UNIT' : 'TACTICAL'}
-              </span>
-              {abilityDetail.sourceLabel}
-            </span>
-          }
+        <AbilityDetailModal
+          detail={abilityDetail}
           onClose={() => setAbilityDetail(null)}
-        >
-          <div className="game-card">
-            <div className="card-phase-header">
-              <PhaseBadge phase={abilityDetail.ability.phase} />
-              {(abilityDetail.ability.phase === 'Any' ? 'ANY' : abilityDetail.ability.phase.toUpperCase())} PHASE
-            </div>
-            <div className="card-phase-body card-ability-detail-body">
-              {abilityDetail.ability.kind === 'rule' ? (
-                <RuleAbilityBlock
-                  ability={abilityDetail.ability}
-                  resourceLabel={race.resourceLabel.abbr}
-                  favorite={{
-                    active: isFavoriteAbility(roster, abilityDetail.sourceId, abilityDetail.ability.id),
-                    onToggle: () => store.toggleFavoriteAbility(roster.id, abilityDetail.sourceId, abilityDetail.ability.id),
-                  }}
-                />
-              ) : (
-                <WeaponTable rows={[{ weapon: abilityDetail.ability }]} />
-              )}
-              <KeywordDefinitionsList ability={abilityDetail.ability} />
-            </div>
-          </div>
-        </Modal>
+          roster={roster}
+          resourceLabel={race.resourceLabel.abbr}
+        />
       )}
     </div>
   )

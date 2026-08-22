@@ -1,8 +1,9 @@
 import type { Roster, RosterUnitEntry, UnitCard } from '../../types'
 import { useRosterStore } from '../RosterContext'
-import { resolveScaledCost, unitEntryMineralCost, unitEquippedUpgrades } from '../rosterCalc'
+import { unitActiveAbilities, unitEntryMineralCost } from '../rosterCalc'
 import { StatBoxes } from '../../components/card/StatBoxes'
 import { useLocalize } from '../../LangContext'
+import { AbilityChipsRow, type AbilityDetailRef } from './AbilityChipsRow'
 
 export function UnitEntryRow({
   roster,
@@ -10,6 +11,7 @@ export function UnitEntryRow({
   entry,
   active,
   onEdit,
+  onSelectAbility,
 }: {
   roster: Roster
   unit: UnitCard
@@ -17,12 +19,13 @@ export function UnitEntryRow({
   /** 이 유닛이 지금 오른쪽 상세 패널에 표시되고 있는지 */
   active?: boolean
   onEdit: () => void
+  onSelectAbility: (ref: AbilityDetailRef) => void
 }) {
   const store = useRosterStore()
   const localize = useLocalize()
   const tier = unit.squad[entry.squadTierIndex]
   const cost = unitEntryMineralCost(unit, entry)
-  const equippedUpgrades = unitEquippedUpgrades(unit, entry)
+  const activeAbilities = unitActiveAbilities(unit, entry)
   const index = roster.units.findIndex((e) => e.id === entry.id)
 
   return (
@@ -54,25 +57,15 @@ export function UnitEntryRow({
         </button>
       </div>
 
-      {unit.abilities.length > 0 && (
-        <div className="roster-entry-ability-chips">
-          {unit.abilities.map((a, i) => (
-            <span className="roster-chip" key={i}>
-              {localize(a.name)}
-            </span>
-          ))}
-        </div>
-      )}
-
-      {equippedUpgrades.length > 0 && (
-        <div className="roster-entry-ability-chips">
-          {equippedUpgrades.map((upgrade, i) => (
-            <span className="roster-chip roster-chip-upgrade" key={i}>
-              {localize(upgrade.ability.name)} (+{resolveScaledCost(upgrade.pts, entry.squadTierIndex)})
-            </span>
-          ))}
-        </div>
-      )}
+      <AbilityChipsRow
+        abilities={activeAbilities}
+        sourceId={unit.id}
+        sourceLabel={localize(unit.name)}
+        unitType={unit.type}
+        roster={roster}
+        onSelectAbility={onSelectAbility}
+        localize={localize}
+      />
 
       <div className="roster-entry-footer">
         <div className="roster-entry-summary">

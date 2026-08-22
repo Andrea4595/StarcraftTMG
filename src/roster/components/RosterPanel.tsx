@@ -16,6 +16,8 @@ import { UnitEntryRow } from './UnitEntryRow'
 import { TacticalCardModal } from './TacticalCardModal'
 import { UnitModal } from './UnitModal'
 import { SlotUsageRow } from './SlotUsageRow'
+import { AbilityDetailModal } from './AbilityDetailModal'
+import { AbilityChipsRow, type AbilityDetailRef } from './AbilityChipsRow'
 import type { DetailState } from './RosterDetailPanel'
 
 type ModalState = { kind: 'tactical'; focusCardId?: string } | { kind: 'unit-add' } | null
@@ -87,6 +89,7 @@ function RosterPanelBody({
   const store = useRosterStore()
   const localize = useLocalize()
   const [modal, setModal] = useState<ModalState>(null)
+  const [abilityDetail, setAbilityDetail] = useState<AbilityDetailRef | null>(null)
   const mineralTotal = rosterMineralTotal(race, roster)
   const gasTotal = rosterGasTotal(race, roster)
   const gasCap = rosterGasCap(roster)
@@ -134,18 +137,28 @@ function RosterPanelBody({
                 setModal({ kind: 'tactical', focusCardId: factionCard.id })
             }}
           >
-            {localize(factionCard.name)}
-            <button
-              type="button"
-              className="roster-tactical-chip-remove"
-              onClick={(e) => {
-                e.stopPropagation()
-                store.setFactionCard(roster.id, null)
-              }}
-              aria-label="팩션 카드 제거"
-            >
-              ✕
-            </button>
+            <div className="roster-tactical-chip-header">
+              {localize(factionCard.name)}
+              <button
+                type="button"
+                className="roster-tactical-chip-remove"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  store.setFactionCard(roster.id, null)
+                }}
+                aria-label="팩션 카드 제거"
+              >
+                ✕
+              </button>
+            </div>
+            <AbilityChipsRow
+              abilities={factionCard.cardAbilities}
+              sourceId={factionCard.id}
+              sourceLabel={localize(factionCard.name)}
+              roster={roster}
+              onSelectAbility={setAbilityDetail}
+              localize={localize}
+            />
           </div>
         ) : (
           <div
@@ -174,19 +187,31 @@ function RosterPanelBody({
                 if (e.key === 'Enter' || e.key === ' ') setModal({ kind: 'tactical', focusCardId: id })
               }}
             >
-              {cardName}
-              {count > 1 ? ` x${count}` : ''}
-              <button
-                type="button"
-                className="roster-tactical-chip-remove"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  store.removeTacticalCard(roster.id, id)
-                }}
-                aria-label={`${cardName} 제거`}
-              >
-                ✕
-              </button>
+              <div className="roster-tactical-chip-header">
+                {cardName}
+                {count > 1 ? ` x${count}` : ''}
+                <button
+                  type="button"
+                  className="roster-tactical-chip-remove"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    store.removeTacticalCard(roster.id, id)
+                  }}
+                  aria-label={`${cardName} 제거`}
+                >
+                  ✕
+                </button>
+              </div>
+              {card && (
+                <AbilityChipsRow
+                  abilities={card.cardAbilities}
+                  sourceId={card.id}
+                  sourceLabel={cardName}
+                  roster={roster}
+                  onSelectAbility={setAbilityDetail}
+                  localize={localize}
+                />
+              )}
             </div>
           )
         })}
@@ -224,6 +249,7 @@ function RosterPanelBody({
                   entry={entry}
                   active={detail?.kind === 'unit' && detail.entryId === entry.id}
                   onEdit={() => onSelectDetail({ kind: 'unit', entryId: entry.id })}
+                  onSelectAbility={setAbilityDetail}
                 />
               )
             })}
@@ -251,6 +277,14 @@ function RosterPanelBody({
             onSelectDetail({ kind: 'unit', entryId })
           }}
           onClose={() => setModal(null)}
+        />
+      )}
+      {abilityDetail && (
+        <AbilityDetailModal
+          detail={abilityDetail}
+          onClose={() => setAbilityDetail(null)}
+          roster={roster}
+          resourceLabel={race.resourceLabel.abbr}
         />
       )}
     </>

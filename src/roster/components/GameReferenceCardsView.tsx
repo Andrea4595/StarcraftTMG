@@ -1,65 +1,9 @@
-import { PHASES, type Ability, type RaceData, type Roster, type Rule, type UnitType } from '../../types'
-import { findFactionCard, findUnit, groupedTacticalCards, isFavoriteAbility, unitActiveAbilities, unitEntryMineralCost } from '../rosterCalc'
+import type { RaceData, Roster } from '../../types'
+import { findFactionCard, findUnit, groupedTacticalCards, unitActiveAbilities, unitEntryMineralCost } from '../rosterCalc'
 import { unitStatEntries } from '../../components/card/StatBoxes'
 import { useLocalize } from '../../LangContext'
-import type { AbilityDetailRef, ReferenceDetailTarget } from './GameReferencePage'
-
-/** 어빌리티/무기 프로필 칩 한 줄. 눌러진 칩은 즉시 그 능력만 담은 상세 모달을 띄운다(부모 카드/유닛의
- *  전체 상세를 여는 클릭과 겹치지 않도록 stopPropagation한다). 즐겨찾기된 룰 능력은 이름 앞에 별표를 붙인다 */
-function AbilityChipsRow({
-  abilities,
-  sourceId,
-  sourceLabel,
-  unitType,
-  roster,
-  onSelectAbility,
-  localize,
-}: {
-  abilities: Ability[]
-  sourceId: string
-  sourceLabel: string
-  unitType?: UnitType
-  roster: Roster
-  onSelectAbility: (ref: AbilityDetailRef) => void
-  localize: (rule: Rule) => string
-}) {
-  if (abilities.length === 0) return null
-  /** ANY > MOVEMENT > ASSAULT > COMBAT 순으로 정렬한다 (원본 데이터 배열 순서는 뒤죽박죽이라 그대로 보여주면 읽기 어렵다) */
-  const sorted = [...abilities].sort((a, b) => PHASES.indexOf(a.phase) - PHASES.indexOf(b.phase))
-  return (
-    <div className="game-ref-upgrades-row">
-      {sorted.map((ability, i) => {
-        const favorited = ability.kind === 'rule' && isFavoriteAbility(roster, sourceId, ability.id)
-        return (
-          <button
-            type="button"
-            className="game-ref-upgrade-chip"
-            key={i}
-            onClick={(e) => {
-              e.stopPropagation()
-              onSelectAbility({ ability, sourceLabel, sourceId, unitType })
-            }}
-          >
-            {ability.phase === 'Any' ? (
-              <span className="game-ref-chip-phase-any" title="ANY PHASE">
-                A
-              </span>
-            ) : (
-              <span
-                className={`game-ref-chip-phase-icon game-ref-chip-phase-icon-${ability.phase.toLowerCase()}`}
-                role="img"
-                aria-label={`${ability.phase} phase`}
-                title={`${ability.phase.toUpperCase()} PHASE`}
-              />
-            )}
-            {favorited && <span className="game-ref-chip-star">★</span>}
-            {localize(ability.name)}
-          </button>
-        )
-      })}
-    </div>
-  )
-}
+import { AbilityChipsRow, type AbilityDetailRef } from './AbilityChipsRow'
+import type { ReferenceDetailTarget } from './GameReferencePage'
 
 export function GameReferenceCardsView({
   race,
