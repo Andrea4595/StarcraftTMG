@@ -54,6 +54,7 @@ export function AbilityDetailModal({
             <RuleAbilityBlock
               ability={detail.ability}
               resourceLabel={resourceLabel}
+              forWeapon={detail.forLabel}
               favorite={
                 showFavorite
                   ? {
@@ -64,7 +65,7 @@ export function AbilityDetailModal({
               }
             />
           ) : (
-            <WeaponTable rows={[{ weapon: detail.ability }]} />
+            <WeaponTable rows={[{ weapon: detail.ability, for: detail.forLabel }]} />
           )}
           <KeywordDefinitionsList ability={detail.ability} />
         </div>

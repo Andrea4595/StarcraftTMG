@@ -187,6 +187,27 @@ export function unitActiveAbilities(unit: UnitCard, entry: RosterUnitEntry): Abi
   return [...baseAbilities, ...activeUpgrades.map((u) => u.ability)]
 }
 
+/**
+ * 이 유닛의 업그레이드 능력이 대체(FOR)하는 원본 능력의 로컬라이즈된 이름을 조회하는 함수를 만든다.
+ * 업그레이드가 아니거나 forId가 없으면 undefined를 돌려준다. AbilityChipsRow처럼 능력 하나만 아는
+ * 문맥(칩, 단독 상세 모달)에서 AbilitiesSection.resolveForName과 동등한 정보를 얻기 위해 쓴다.
+ */
+export function unitForLabelResolver(
+  unit: UnitCard,
+  localize: (rule: Rule) => string,
+): (ability: Ability) => string | undefined {
+  const forIdByAbility = new Map<Ability, string>()
+  for (const upgrade of unit.upgrades) {
+    if (upgrade.forId) forIdByAbility.set(upgrade.ability, upgrade.forId)
+  }
+  return (ability) => {
+    const forId = forIdByAbility.get(ability)
+    if (!forId) return undefined
+    const found = unit.abilities.find((a) => a.id === forId)
+    return found ? localize(found.name) : forId
+  }
+}
+
 /** unitAbilityChipEntries가 돌려주는 능력 하나. 기본 능력이면 upgradeActive가 undefined다 */
 export interface AbilityChipEntry {
   ability: Ability

@@ -1,5 +1,12 @@
 import type { RaceData, Roster } from '../../types'
-import { findFactionCard, findUnit, groupedTacticalCards, unitActiveAbilities, unitEntryMineralCost } from '../rosterCalc'
+import {
+  findFactionCard,
+  findUnit,
+  groupedTacticalCards,
+  unitActiveAbilities,
+  unitEntryMineralCost,
+  unitForLabelResolver,
+} from '../rosterCalc'
 import { StatBoxes } from '../../components/card/StatBoxes'
 import { useLocalize } from '../../LangContext'
 import { AbilityChipsRow, type AbilityDetailRef } from './AbilityChipsRow'
@@ -92,6 +99,7 @@ export function GameReferenceCardsView({
               if (!unit) return null
               const tier = unit.squad[entry.squadTierIndex]
               const activeAbilities = unitActiveAbilities(unit, entry)
+              const forFor = unitForLabelResolver(unit, localize)
               return (
                 <li key={entry.id}>
                   <div
@@ -121,6 +129,7 @@ export function GameReferenceCardsView({
                       roster={roster}
                       onSelectAbility={onSelectAbility}
                       localize={localize}
+                      forFor={forFor}
                       showFavorite
                     />
                     <div className="game-ref-item-mineral-cost">{unitEntryMineralCost(unit, entry)}</div>

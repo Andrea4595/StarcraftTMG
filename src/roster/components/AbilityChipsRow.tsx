@@ -12,6 +12,8 @@ export interface AbilityDetailRef {
   sourceId: string
   /** 유닛에서 나온 능력일 때만 지정된다 (UNIT/TACTICAL 배지, 배지 색 결정용) */
   unitType?: UnitType
+  /** 이 능력이 업그레이드로 나온 것이라면, 대체(FOR)하는 원본 능력의 로컬라이즈된 이름 */
+  forLabel?: string
 }
 
 /** 어빌리티/무기 프로필 칩 한 줄. 눌러진 칩은 즉시 그 능력만 담은 상세 모달을 띄운다(부모 카드/유닛의
@@ -27,6 +29,7 @@ export function AbilityChipsRow({
   localize,
   upgradeStateFor,
   costFor,
+  forFor,
   showFavorite = false,
 }: {
   abilities: Ability[]
@@ -43,6 +46,8 @@ export function AbilityChipsRow({
   upgradeStateFor?: (ability: Ability) => 'active' | 'inactive' | undefined
   /** 업그레이드에서 나온 능력의 비용을 알려준다(로스터 편집 화면 전용). 지정하면 칩 우측에 '(20)' 형태로 붙는다 */
   costFor?: (ability: Ability) => number | undefined
+  /** 업그레이드에서 나온 능력이 대체(FOR)하는 원본 능력의 이름을 알려준다. 지정하면 상세 모달의 FOR 표기에 쓰인다 */
+  forFor?: (ability: Ability) => string | undefined
   /** 즐겨찾기된 칩을 배경색으로 강조할지. 즐겨찾기는 게임 레퍼런스 화면 전용 기능이라 기본은 꺼져 있다 */
   showFavorite?: boolean
 }) {
@@ -62,7 +67,7 @@ export function AbilityChipsRow({
             key={i}
             onClick={(e) => {
               e.stopPropagation()
-              onSelectAbility({ ability, sourceLabel, sourceId, unitType })
+              onSelectAbility({ ability, sourceLabel, sourceId, unitType, forLabel: forFor?.(ability) })
             }}
           >
             <PhaseBadge phase={ability.phase} tone={tone ?? 'default'} />

@@ -1,6 +1,6 @@
 import type { Ability, Roster, RosterUnitEntry, UnitCard } from '../../types'
 import { useRosterStore } from '../RosterContext'
-import { unitAbilityChipEntries, unitEntryMineralCost } from '../rosterCalc'
+import { unitAbilityChipEntries, unitEntryMineralCost, unitForLabelResolver } from '../rosterCalc'
 import { StatBoxes } from '../../components/card/StatBoxes'
 import { useLocalize } from '../../LangContext'
 import { AbilityChipsRow, type AbilityDetailRef } from './AbilityChipsRow'
@@ -34,6 +34,7 @@ export function UnitEntryRow({
   const upgradeCostByAbility = new Map<Ability, number>(
     abilityEntries.filter((e) => e.upgradePts !== undefined).map((e) => [e.ability, e.upgradePts as number]),
   )
+  const forFor = unitForLabelResolver(unit, localize)
   const index = roster.units.findIndex((e) => e.id === entry.id)
 
   return (
@@ -75,6 +76,7 @@ export function UnitEntryRow({
         localize={localize}
         upgradeStateFor={(ability) => upgradeStateByAbility.get(ability)}
         costFor={(ability) => upgradeCostByAbility.get(ability)}
+        forFor={forFor}
       />
 
       <div className="roster-entry-footer">
