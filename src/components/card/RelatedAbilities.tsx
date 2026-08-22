@@ -37,6 +37,7 @@ export function RelatedAbilities({ items }: { items: RelatedAbilityTarget[] }) {
   const weapons = items.filter((i) => i.ability.kind === 'weapon') as {
     ability: WeaponProfile
     onClick?: () => void
+    active?: boolean
   }[]
   const rules = items.filter((i) => i.ability.kind === 'rule') as {
     ability: RuleAbility
@@ -51,7 +52,9 @@ export function RelatedAbilities({ items }: { items: RelatedAbilityTarget[] }) {
       <div className="card-related-abilities-label">강화:</div>
       {weapons.length > 0 && (
         <WeaponTable
-          rows={weapons.map((w): WeaponRow => ({ weapon: w.ability, onClick: w.onClick, compact: true }))}
+          rows={weapons.map(
+            (w): WeaponRow => ({ weapon: w.ability, onClick: w.onClick, compact: true, sealed: w.active === false }),
+          )}
         />
       )}
       {rules.length > 0 && (
