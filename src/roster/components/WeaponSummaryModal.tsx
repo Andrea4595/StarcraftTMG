@@ -10,15 +10,17 @@ import { PhaseBadge } from '../../components/card/PhaseBadge'
 import type { WeaponSummaryRef } from './AbilityChipsRow'
 
 /**
- * '사격'/'근접 공격' 종합 칩을 눌렀을 때 뜨는 모달. 이 유닛의 해당 페이즈 무기 프로필을 한 표에 모두
- * 보여준다(기본/활성 업그레이드 무기는 그대로, 비활성·미선택 업그레이드 무기는 어둡게).
+ * '사격'/'근접 공격' 종합 칩을 눌렀을 때 뜨는 모달. 이 유닛의 해당 페이즈 무기 프로필을 한 표에
+ * 보여준다.
  *
  * entries를 detail에서 그대로 쓰지 않고 race+roster에서 매 렌더 다시 계산하는 이유는, 모달이 떠
  * 있는 동안 이 안(또는 다른 곳)에서 업그레이드를 껐다 켜면 — 특히 FOR 대상 기본 무기가 봉인/해제될
  * 때 — 그 변화가 실시간으로 반영돼야 하기 때문이다.
  *
- * interactive가 켜져 있으면(로스터 편집 화면 전용) 업그레이드 무기 행마다 PTS 켜기/끄기 버튼이
- * 붙는다. 게임 레퍼런스 화면은 읽기 전용이라 interactive를 켜지 않는다.
+ * interactive가 켜져 있으면(로스터 편집 화면 전용) 기본/활성 업그레이드 무기는 그대로, 비활성·
+ * 미선택 업그레이드 무기는 어둡게 보여주고 행마다 PTS 켜기/끄기 버튼이 붙는다. 게임 레퍼런스
+ * 화면은 읽기 전용이라 interactive를 켜지 않는데, 이때는 비활성 무기를 아예 목록에서 뺀다 —
+ * "지금 실제로 쓰이는 것"만 보여주는 그 화면의 다른 부분과 일관되게.
  */
 export function WeaponSummaryModal({
   detail,
@@ -37,7 +39,8 @@ export function WeaponSummaryModal({
   const localize = useLocalize()
   const rosterEntry = roster.units.find((u) => u.id === detail.entryId)
   const unit = rosterEntry ? findUnit(race, rosterEntry.unitId) : undefined
-  const entries = unit && rosterEntry ? unitWeaponSummaryEntries(unit, rosterEntry, detail.phase, localize) : []
+  const allEntries = unit && rosterEntry ? unitWeaponSummaryEntries(unit, rosterEntry, detail.phase, localize) : []
+  const entries = interactive ? allEntries : allEntries.filter((entry) => entry.tone !== 'inactive')
 
   return (
     <Modal
