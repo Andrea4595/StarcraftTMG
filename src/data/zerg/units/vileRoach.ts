@@ -81,7 +81,7 @@ export const vileRoach: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (1) 4+ effect.',
-        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 4+로 임팩트(1)를 입힌다.',
+        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 임팩트(1)를 4+로 입힌다.',
       },
     },
     {

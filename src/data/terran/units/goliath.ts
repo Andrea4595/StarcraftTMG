@@ -98,7 +98,7 @@ export const goliath: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (4) 3+ effect.',
-        ko: '이 유닛이 차지를 성공적으로 마친 직후, 즉시 임팩트(4) 3+ 효과를 적용한다.',
+        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 임팩트(4)를 3+로 입힌다.',
       },
     },
     {
