@@ -927,11 +927,18 @@ button.roster-slot-pill:hover {
   border: 1px solid currentColor;
 }
 
-/* 어빌리티 상세 모달 타이틀의 업그레이드 켜기/끄기 버튼 (로스터 편집 화면 전용). 모달 헤더는
+/* 모달 헤더 우측: 닫기 버튼 왼쪽에 붙는 부가 액션(예: 업그레이드 켜기/끄기 토글)을 닫기 버튼과 함께 묶는다 */
+.modal-header-actions {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 어빌리티 상세 모달의 업그레이드 켜기/끄기 버튼 (로스터 편집 화면 전용). 모달 헤더는
    .game-card 스코프 밖이라 --gc-* 변수가 없으므로, 같은 의미(활성=초록)를 고정값으로 재현한다 */
 .modal-title-toggle {
   flex: 0 0 auto;
-  margin-left: 4px;
   border: 1px solid var(--border);
   border-radius: 6px;
   background: transparent;

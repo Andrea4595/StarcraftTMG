@@ -46,18 +46,21 @@ export function AbilityDetailModal({
             {detail.unitType ? 'UNIT' : 'TACTICAL'}
           </span>
           {detail.sourceLabel}
-          {upgradeToggle && toggleEntry && (
-            <button
-              type="button"
-              className={`modal-title-toggle ${toggleEntry.upgradeIndexes.includes(upgradeToggle.upgradeIndex) ? 'modal-title-toggle-active' : ''}`}
-              onClick={() =>
-                store.toggleUnitUpgrade(roster.id, toggleEntry.id, upgradeToggle.upgradeIndex, upgradeToggle.exclusiveWith)
-              }
-            >
-              PTS: {resolveScaledCost(upgradeToggle.pts, toggleEntry.squadTierIndex)}
-            </button>
-          )}
         </span>
+      }
+      headerActions={
+        upgradeToggle &&
+        toggleEntry && (
+          <button
+            type="button"
+            className={`modal-title-toggle ${toggleEntry.upgradeIndexes.includes(upgradeToggle.upgradeIndex) ? 'modal-title-toggle-active' : ''}`}
+            onClick={() =>
+              store.toggleUnitUpgrade(roster.id, toggleEntry.id, upgradeToggle.upgradeIndex, upgradeToggle.exclusiveWith)
+            }
+          >
+            PTS: {resolveScaledCost(upgradeToggle.pts, toggleEntry.squadTierIndex)}
+          </button>
+        )
       }
       onClose={onClose}
     >
