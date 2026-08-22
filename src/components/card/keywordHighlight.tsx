@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react'
-import { KEYWORDS } from '../../data/keywords'
+import { KEYWORDS, type KeywordEntry } from '../../data/keywords'
+import type { Ability, Keyword } from '../../types'
+import { useLocalize } from '../../LangContext'
 
 /**
  * 문법적으로 너무 흔한 단어라 강조하면 오히려 지저분해지는 키워드는 뺀다. '적', '아군', '안에'
@@ -78,6 +80,67 @@ const PATTERN_SOURCES = KEYWORDS.filter((k) => !EXCLUDED_IDS.has(k.id))
 const COMBINED =
   PATTERN_SOURCES.length > 0 ? new RegExp(PATTERN_SOURCES.map((p) => `(?:${p})`).join('|'), 'gi') : null
 
+/** 능력 설명 본문에서 실제로 어떤 키워드가 언급됐는지 찾기 위한, 엔트리별 매칭 정규식 */
+const KEYWORD_ENTRY_PATTERNS: { entry: KeywordEntry; regex: RegExp }[] = KEYWORDS.filter(
+  (k) => !EXCLUDED_IDS.has(k.id),
+)
+  .map((entry) => {
+    const sources = [entry.name.ko, entry.name.en]
+      .filter((s, i, all) => s.length > 0 && all.indexOf(s) === i)
+      .map(buildPatternSource)
+      .filter((s) => s.length > 0)
+    return sources.length > 0 ? { entry, regex: new RegExp(sources.map((p) => `(?:${p})`).join('|'), 'i') } : null
+  })
+  .filter((p): p is { entry: KeywordEntry; regex: RegExp } => p !== null)
+
+/** 능력 설명 본문(룰 텍스트)에 실제로 등장하는 키워드 엔트리를 (중복 없이) 찾아 반환한다 */
+export function matchedKeywordsInText(text: string): KeywordEntry[] {
+  if (!text) return []
+  const found: KeywordEntry[] = []
+  for (const { entry, regex } of KEYWORD_ENTRY_PATTERNS) {
+    if (regex.test(text)) found.push(entry)
+  }
+  return found
+}
+
+/**
+ * 무기 프로필의 KEYWORD 칸(예: 'LONG RANGE', 'ANTI-EVADE')은 이미 키워드 사전 id에서 (X)/[Tag] 같은
+ * 값 자리를 뺀 순수 이름 그대로 저장되어 있으므로, id에서 값 자리 표기를 지운 기본형과 직접 비교해
+ * 매칭한다 (본문 텍스트 정규식 매칭과 달리 값이 섞여 있지 않아 훨씬 단순하다).
+ */
+const KEYWORD_BASE_NAME_MAP = new Map<string, KeywordEntry>(
+  KEYWORDS.map((entry) => {
+    const base = entry.id
+      .replace(/\[[^\]]*\]/g, ' ')
+      .replace(/\([^)]*\)/g, ' ')
+      .replace(/"/g, ' ')
+      .split(/\s+/)
+      .filter((tok) => tok && tok !== 'X' && tok !== 'Y')
+      .join(' ')
+      .trim()
+    return [base.toUpperCase(), entry]
+  }),
+)
+
+function weaponKeywordEntries(keywords: Keyword[]): KeywordEntry[] {
+  const found: KeywordEntry[] = []
+  const seen = new Set<string>()
+  for (const kw of keywords) {
+    const entry = KEYWORD_BASE_NAME_MAP.get(kw.name.toUpperCase())
+    if (entry && !seen.has(entry.id)) {
+      seen.add(entry.id)
+      found.push(entry)
+    }
+  }
+  return found
+}
+
+/** 어빌리티(룰/무기 프로필)에 실제로 쓰인 키워드 엔트리 목록. 상세 모달에서 설명을 나열할 때 쓴다 */
+export function keywordEntriesForAbility(ability: Ability): KeywordEntry[] {
+  if (ability.kind === 'weapon') return weaponKeywordEntries(ability.stat.keyword)
+  return matchedKeywordsInText(`${ability.rule.en} ${ability.rule.ko}`)
+}
+
 /** 능력 설명 본문에서 키워드 용어를 찾아 <span className="card-rule-keyword">로 감싼 노드 배열을 만든다 */
 export function highlightKeywords(text: string): ReactNode {
   if (!COMBINED || !text) return text
@@ -103,4 +166,22 @@ export function highlightKeywords(text: string): ReactNode {
   }
   if (lastEnd < text.length) nodes.push(text.slice(lastEnd))
   return nodes
+}
+
+/** 어빌리티 상세 모달 전용: 그 능력에 쓰인 키워드들의 이름/설명을 능력 정보 아래에 나열한다 */
+export function KeywordDefinitionsList({ ability }: { ability: Ability }) {
+  const localize = useLocalize()
+  const entries = keywordEntriesForAbility(ability)
+  if (entries.length === 0) return null
+
+  return (
+    <div className="card-keyword-definitions">
+      {entries.map((entry) => (
+        <div key={entry.id}>
+          <div className="card-keyword-definition-name">{localize(entry.name)}</div>
+          <p className="card-keyword-definition-text">{localize(entry.definition)}</p>
+        </div>
+      ))}
+    </div>
+  )
 }

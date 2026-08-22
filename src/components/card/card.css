@@ -498,6 +498,29 @@
   color: var(--gc-keyword);
 }
 
+/* 어빌리티 상세 모달 전용: 능력 설명 아래에 거기 쓰인 키워드들의 정의를 나열한다 */
+.card-keyword-definitions {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--gc-border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card-keyword-definition-name {
+  color: var(--gc-keyword);
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.card-keyword-definition-text {
+  margin: 2px 0 0;
+  color: var(--gc-text-dim);
+  font-size: 12px;
+  line-height: 150%;
+}
+
 /* 꺼진 업그레이드: 텍스트를 어둡게 눌러서 비활성 상태를 표현 */
 .card-rule-ability-dim .card-rule-ability-name,
 .card-rule-ability-dim .card-rule-text {

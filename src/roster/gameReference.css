@@ -247,6 +247,15 @@
   color: #f0b429;
 }
 
+/* 어빌리티가 쓰이는 페이즈(MOVEMENT/ASSAULT/COMBAT/ANY). .card-phase-header와 같은 파란색(--gc-blue)이지만
+   이 뷰는 .game-card 스코프 밖이라 값을 직접 쓴다 */
+.game-ref-chip-phase {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: #5b9dff;
+}
+
 /* 페이즈 화면: 출처(카드/유닛)별 그룹. .game-card를 함께 써서 실제 카드와 같은 다크 배색(--gc-*)을
    물려받는다 (그렇지 않으면 WeaponTable/RuleAbilityBlock이 참조하는 --gc-* 변수가 정의되지 않는다) */
 .game-ref-phase-groups {

@@ -38,6 +38,7 @@ function AbilityChipsRow({
               onSelectAbility({ ability, sourceLabel, sourceId, unitType })
             }}
           >
+            <span className="game-ref-chip-phase">{ability.phase === 'Any' ? 'ANY' : ability.phase.toUpperCase()}</span>
             {favorited && <span className="game-ref-chip-star">★</span>}
             {localize(ability.name)}
           </button>

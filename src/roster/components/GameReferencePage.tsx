@@ -11,6 +11,7 @@ import { TacticalCardView } from '../../components/card/TacticalCardView'
 import { UnitCardView } from '../../components/card/UnitCardView'
 import { RuleAbilityBlock } from '../../components/card/RuleAbilityBlock'
 import { WeaponTable } from '../../components/card/WeaponTable'
+import { KeywordDefinitionsList } from '../../components/card/keywordHighlight'
 import type { CrossFavoriteRef, FavoriteToggle } from '../../components/card/AbilitiesSection'
 import '../gameReference.css'
 
@@ -192,6 +193,7 @@ export function GameReferencePage({
               ) : (
                 <WeaponTable rows={[{ weapon: abilityDetail.ability }]} />
               )}
+              <KeywordDefinitionsList ability={abilityDetail.ability} />
             </div>
           </div>
         </Modal>
