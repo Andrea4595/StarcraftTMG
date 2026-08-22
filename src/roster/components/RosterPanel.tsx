@@ -303,7 +303,13 @@ function RosterPanelBody({
         />
       )}
       {abilityDetail?.kind === 'weapon-summary' && (
-        <WeaponSummaryModal detail={abilityDetail} onClose={() => setAbilityDetail(null)} roster={roster} interactive />
+        <WeaponSummaryModal
+          detail={abilityDetail}
+          onClose={() => setAbilityDetail(null)}
+          roster={roster}
+          race={race}
+          interactive
+        />
       )}
     </>
   )

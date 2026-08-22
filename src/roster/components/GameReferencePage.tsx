@@ -136,7 +136,7 @@ export function GameReferencePage({
         />
       )}
       {abilityDetail?.kind === 'weapon-summary' && (
-        <WeaponSummaryModal detail={abilityDetail} onClose={() => setAbilityDetail(null)} roster={roster} />
+        <WeaponSummaryModal detail={abilityDetail} onClose={() => setAbilityDetail(null)} roster={roster} race={race} />
       )}
     </div>
   )

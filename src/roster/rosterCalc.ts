@@ -275,7 +275,7 @@ export const MELEE_LABEL: Rule = { en: 'Melee', ko: '근접 공격' }
  * 그대로 물려받는다. 업그레이드로 나온 무기는 상세 모달의 켜기/끄기 버튼에 쓸 upgradeToggle도 함께
  * 채운다 — 실제로 그 버튼을 누를 수 있게 할지는 호출부(모달)가 따로 결정한다(게임 레퍼런스는 읽기 전용).
  */
-function unitWeaponSummaryEntries(
+export function unitWeaponSummaryEntries(
   unit: UnitCard,
   entry: RosterUnitEntry,
   phase: Phase,

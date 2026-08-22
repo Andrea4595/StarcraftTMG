@@ -51,6 +51,8 @@ export interface WeaponSummaryEntry {
  * 프로필을 미리 걸러내야 한다 — 그래야 이 칩과 중복되지 않는다.
  */
 export interface WeaponSummaryInput {
+  /** 이 유닛 로스터 항목의 id. 모달이 이걸로 entries를 다시 계산하는 데 쓴다 */
+  entryId: string
   phase: Phase
   /** 칩 이름 앞에 붙는 라벨 (예: '사격', '근접 공격') */
   label: Rule
@@ -60,6 +62,10 @@ export interface WeaponSummaryInput {
 /**
  * 무기 종합 칩을 눌렀을 때 뜨는 상세 정보. 이 유닛이 가진 해당 페이즈 무기 프로필을 한 번에
  * 보여준다 — 개별 무기 칩 대신 이 칩 하나로 묶어서 표시할 때 쓴다.
+ *
+ * entries를 여기 얼려두지 않고 entryId/phase만 담는 이유는, 모달이 떠 있는 동안 그 안에서(또는
+ * 다른 곳에서) 이 유닛의 업그레이드 상태가 바뀌면 — 특히 FOR 대상 무기가 봉인/해제될 때 —
+ * 그 변화가 실시간으로 반영돼야 하기 때문이다. 모달이 매 렌더 roster에서 entries를 직접 다시 계산한다.
  */
 export interface WeaponSummaryRef {
   kind: 'weapon-summary'
@@ -67,7 +73,8 @@ export interface WeaponSummaryRef {
   sourceId: string
   unitType?: UnitType
   label: Rule
-  entries: WeaponSummaryEntry[]
+  entryId: string
+  phase: Phase
 }
 
 export type AbilitySelectionRef = AbilityDetailRef | WeaponSummaryRef
@@ -143,7 +150,15 @@ export function AbilityChipsRow({
               key={i}
               onClick={(e) => {
                 e.stopPropagation()
-                onSelectAbility({ kind: 'weapon-summary', sourceLabel, sourceId, unitType, label: input.label, entries: input.entries })
+                onSelectAbility({
+                  kind: 'weapon-summary',
+                  sourceLabel,
+                  sourceId,
+                  unitType,
+                  label: input.label,
+                  entryId: input.entryId,
+                  phase: input.phase,
+                })
               }}
             >
               <PhaseBadge phase={input.phase} tone="default" />

@@ -105,8 +105,8 @@ export function GameReferenceCardsView({
               const rangedSummary = unitRangedWeaponEntries(unit, entry, localize)
               const meleeSummary = unitMeleeWeaponEntries(unit, entry, localize)
               const weaponSummaries: WeaponSummaryInput[] = [
-                { phase: 'Assault', label: FIRE_LABEL, entries: rangedSummary },
-                { phase: 'Combat', label: MELEE_LABEL, entries: meleeSummary },
+                { entryId: entry.id, phase: 'Assault', label: FIRE_LABEL, entries: rangedSummary },
+                { entryId: entry.id, phase: 'Combat', label: MELEE_LABEL, entries: meleeSummary },
               ]
               const nonWeaponSummaryAbilities = unitActiveAbilities(unit, entry).filter(
                 (a) => !(a.kind === 'weapon' && (a.phase === 'Assault' || a.phase === 'Combat')),

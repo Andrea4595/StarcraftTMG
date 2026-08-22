@@ -48,8 +48,8 @@ export function UnitEntryRow({
   const rangedSummary = unitRangedWeaponEntries(unit, entry, localize)
   const meleeSummary = unitMeleeWeaponEntries(unit, entry, localize)
   const weaponSummaries: WeaponSummaryInput[] = [
-    { phase: 'Assault', label: FIRE_LABEL, entries: rangedSummary },
-    { phase: 'Combat', label: MELEE_LABEL, entries: meleeSummary },
+    { entryId: entry.id, phase: 'Assault', label: FIRE_LABEL, entries: rangedSummary },
+    { entryId: entry.id, phase: 'Combat', label: MELEE_LABEL, entries: meleeSummary },
   ]
   const nonWeaponSummaryAbilities = abilityEntries
     .map((e) => e.ability)
