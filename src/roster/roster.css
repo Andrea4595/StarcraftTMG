@@ -733,7 +733,7 @@ button.roster-slot-pill:hover {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
 }
 
 /* 선택 안 된 등급을 기본값으로 삼아 어둡게(회색 텍스트/사각형), 선택된 등급만 흰 텍스트로 살짝
@@ -741,13 +741,13 @@ button.roster-slot-pill:hover {
 .roster-squad-tier-chip {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 9px;
   background: transparent;
-  padding: 5px 6px;
+  padding: 8px 9px;
   color: #565a68;
-  font-size: 11px;
+  font-size: 17px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   line-height: 1;
@@ -773,14 +773,14 @@ button.roster-slot-pill:hover {
 
 .roster-squad-tier-supply {
   display: inline-flex;
-  gap: 2px;
+  gap: 3px;
 }
 
 .roster-squad-tier-supply-square {
-  width: 6px;
-  height: 6px;
+  width: 9px;
+  height: 9px;
   background: #565a68;
-  border-radius: 1px;
+  border-radius: 2px;
 }
 
 .roster-squad-tier-chip-active .roster-squad-tier-supply-square {
@@ -799,9 +799,9 @@ button.roster-slot-pill:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 6px;
-  height: 6px;
-  font-size: 9px;
+  width: 9px;
+  height: 9px;
+  font-size: 14px;
   font-weight: 700;
   line-height: 1;
   color: inherit;
