@@ -74,6 +74,14 @@ export function AbilitiesSection({
     extra: crossFavorites.filter((f) => f.ability.phase === phase),
   })).filter((g) => g.items.length > 0 || g.extra.length > 0)
 
+  /** 업그레이드의 forId(원본 무기/능력의 영문 id)를 그 이름의 현재 언어 표기로 바꾼다. abilities에서
+   *  못 찾으면(있어선 안 되지만) id 그대로 보여준다 */
+  const resolveForName = (forId: string | undefined): string | undefined => {
+    if (!forId) return undefined
+    const found = abilities.find((a) => a.id === forId)
+    return found ? localize(found.name) : forId
+  }
+
   const ptsLabelFor = (upgrade: Upgrade) =>
     upgradeToggle ? String(resolveScaledCost(upgrade.pts, upgradeToggle.squadTierIndex)) : formatScaledCost(upgrade.pts)
   const interactiveFor = (index: number) =>
@@ -120,7 +128,7 @@ export function AbilitiesSection({
                     }
                     return {
                       weapon: e.upgrade.ability as WeaponProfile,
-                      for: e.upgrade.forId,
+                      for: resolveForName(e.upgrade.forId),
                       ptsLabel: ptsLabelFor(e.upgrade),
                       interactive: interactiveFor(e.index),
                     }
@@ -141,7 +149,7 @@ export function AbilitiesSection({
                     key={i}
                     ability={ability}
                     resourceLabel={resourceLabel}
-                    forWeapon={e.upgrade.forId}
+                    forWeapon={resolveForName(e.upgrade.forId)}
                     ptsLabel={ptsLabelFor(e.upgrade)}
                     interactive={interactiveFor(e.index)}
                     favorite={favoriteFor(ability)}

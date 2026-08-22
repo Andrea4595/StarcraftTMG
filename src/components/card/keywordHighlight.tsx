@@ -104,29 +104,45 @@ export function matchedKeywordsInText(text: string): KeywordEntry[] {
 }
 
 /**
- * 무기 프로필의 KEYWORD 칸(예: 'LONG RANGE', 'ANTI-EVADE')은 이미 키워드 사전 id에서 (X)/[Tag] 같은
- * 값 자리를 뺀 순수 이름 그대로 저장되어 있으므로, id에서 값 자리 표기를 지운 기본형과 직접 비교해
- * 매칭한다 (본문 텍스트 정규식 매칭과 달리 값이 섞여 있지 않아 훨씬 단순하다).
+ * 이름 템플릿에서 (X)/(Y)/[Tag] 같은 값 자리와 괄호 밖에 홀로 있는 X/Y를 지워 순수 이름만 남긴다.
+ * 무기 프로필의 KEYWORD 칸(예: 'LONG RANGE', 'ANTI-EVADE')은 이미 이 형태(값 없는 순수 이름)로
+ * 저장되어 있어서, 키워드 사전 id도 같은 방식으로 다듬어야 서로 비교/매칭할 수 있다. 한글 이름
+ * 템플릿(예: '안티-회피(X)')에도 그대로 써서, KEYWORD 칸에 값과 함께 보여줄 때 "안티-회피(X) (1)"처럼
+ * 자리표시자가 실제 값 옆에 중복으로 남지 않게 한다.
  */
+function stripPlaceholder(template: string): string {
+  return template
+    .replace(/\[[^\]]*\]/g, ' ')
+    .replace(/\([^)]*\)/g, ' ')
+    .replace(/"/g, ' ')
+    .split(/\s+/)
+    .filter((tok) => tok && tok !== 'X' && tok !== 'Y')
+    .join(' ')
+    .trim()
+}
+
 const KEYWORD_BASE_NAME_MAP = new Map<string, KeywordEntry>(
-  KEYWORDS.map((entry) => {
-    const base = entry.id
-      .replace(/\[[^\]]*\]/g, ' ')
-      .replace(/\([^)]*\)/g, ' ')
-      .replace(/"/g, ' ')
-      .split(/\s+/)
-      .filter((tok) => tok && tok !== 'X' && tok !== 'Y')
-      .join(' ')
-      .trim()
-    return [base.toUpperCase(), entry]
-  }),
+  KEYWORDS.map((entry) => [stripPlaceholder(entry.id).toUpperCase(), entry]),
 )
+
+/** 무기 KEYWORD 칸의 이름(예: 'LONG RANGE')으로 키워드 사전 엔트리를 찾는다. 못 찾으면 undefined */
+export function keywordEntryForName(name: string): KeywordEntry | undefined {
+  return KEYWORD_BASE_NAME_MAP.get(name.toUpperCase())
+}
+
+/**
+ * 이미 localize()로 번역된 키워드 이름(예: '안티-회피(X)')에서 (X)/[Tag] 값 자리를 지워, 무기
+ * KEYWORD 칸처럼 실제 값(suffix)을 따로 붙이는 자리에 쓸 수 있는 순수 이름으로 만든다.
+ */
+export function stripKeywordPlaceholder(localizedName: string): string {
+  return stripPlaceholder(localizedName)
+}
 
 function weaponKeywordEntries(keywords: Keyword[]): KeywordEntry[] {
   const found: KeywordEntry[] = []
   const seen = new Set<string>()
   for (const kw of keywords) {
-    const entry = KEYWORD_BASE_NAME_MAP.get(kw.name.toUpperCase())
+    const entry = keywordEntryForName(kw.name)
     if (entry && !seen.has(entry.id)) {
       seen.add(entry.id)
       found.push(entry)
