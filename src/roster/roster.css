@@ -754,6 +754,8 @@ button.roster-slot-pill:hover {
   gap: 4px;
 }
 
+/* 선택 안 된 등급을 기본값으로 삼아 어둡게(회색 텍스트/사각형), 선택된 등급만 흰 텍스트로 살짝
+   튀게 한다 — 테두리/배경으로 강조하던 이전 방식 대신 색 대비만으로 구분한다 */
 .roster-squad-tier-chip {
   display: inline-flex;
   align-items: center;
@@ -762,7 +764,7 @@ button.roster-slot-pill:hover {
   border-radius: 6px;
   background: transparent;
   padding: 5px 6px;
-  color: var(--text);
+  color: #565a68;
   font-size: 11px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
@@ -775,8 +777,6 @@ button.roster-slot-pill:hover {
 }
 
 .roster-squad-tier-chip-active {
-  border-color: var(--accent);
-  background: rgba(255, 255, 255, 0.08);
   color: var(--text-h);
 }
 
@@ -788,8 +788,12 @@ button.roster-slot-pill:hover {
 .roster-squad-tier-supply-square {
   width: 6px;
   height: 6px;
-  background: #5b9dff;
+  background: #565a68;
   border-radius: 1px;
+}
+
+.roster-squad-tier-chip-active .roster-squad-tier-supply-square {
+  background: #5b9dff;
 }
 
 .roster-entry-upgrades {
