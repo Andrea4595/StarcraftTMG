@@ -18,11 +18,14 @@ export function AbilityDetailModal({
   onClose,
   roster,
   resourceLabel,
+  showFavorite = false,
 }: {
   detail: AbilityDetailRef
   onClose: () => void
   roster: Roster
   resourceLabel: string
+  /** 즐겨찾기 별 토글을 보여줄지. 즐겨찾기는 게임 레퍼런스 화면 전용 기능이라 기본은 꺼져 있다 */
+  showFavorite?: boolean
 }) {
   const store = useRosterStore()
 
@@ -51,10 +54,14 @@ export function AbilityDetailModal({
             <RuleAbilityBlock
               ability={detail.ability}
               resourceLabel={resourceLabel}
-              favorite={{
-                active: isFavoriteAbility(roster, detail.sourceId, detail.ability.id),
-                onToggle: () => store.toggleFavoriteAbility(roster.id, detail.sourceId, detail.ability.id),
-              }}
+              favorite={
+                showFavorite
+                  ? {
+                      active: isFavoriteAbility(roster, detail.sourceId, detail.ability.id),
+                      onToggle: () => store.toggleFavoriteAbility(roster.id, detail.sourceId, detail.ability.id),
+                    }
+                  : undefined
+              }
             />
           ) : (
             <WeaponTable rows={[{ weapon: detail.ability }]} />

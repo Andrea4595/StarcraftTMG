@@ -33,15 +33,7 @@ export function GameReferenceCardsView({
           <ul className="game-ref-list">
             {factionCard && (
               <li>
-                <div
-                  className="game-ref-item"
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => onSelect({ kind: 'faction' })}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') onSelect({ kind: 'faction' })
-                  }}
-                >
+                <div className="game-ref-item game-ref-item-static">
                   <div className="game-ref-item-row">
                     <span className="game-ref-supply">
                       {Array.from({ length: factionCard.resource }).map((_, i) => (
@@ -64,15 +56,7 @@ export function GameReferenceCardsView({
             )}
             {tacticalCardGroups.map(({ card, count }) => (
               <li key={card.id}>
-                <div
-                  className="game-ref-item"
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => onSelect({ kind: 'tactical', id: card.id })}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') onSelect({ kind: 'tactical', id: card.id })
-                  }}
-                >
+                <div className="game-ref-item game-ref-item-static">
                   <div className="game-ref-item-row">
                     <span className="game-ref-supply">
                       {Array.from({ length: card.resource }).map((_, i) => (

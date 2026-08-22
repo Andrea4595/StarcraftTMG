@@ -610,8 +610,11 @@
   border-color: var(--accent, var(--border));
 }
 
-.ability-chip-star {
-  color: var(--gc-yellow, #f0b429);
+/* 즐겨찾기된 어빌리티 칩: 별 아이콘 대신 배경/테두리를 노란 톤으로 살짝 물들여 강조한다 */
+.ability-chip-favorited {
+  background: rgba(240, 180, 41, 0.18);
+  border-color: rgba(240, 180, 41, 0.5);
+  opacity: 1;
 }
 
 /* 로스터 편집 화면에서 꺼져 있는 업그레이드 칩을 어둡게 눌러 비활성 상태를 표현한다 */

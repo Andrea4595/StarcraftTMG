@@ -15,7 +15,8 @@ export interface AbilityDetailRef {
 }
 
 /** 어빌리티/무기 프로필 칩 한 줄. 눌러진 칩은 즉시 그 능력만 담은 상세 모달을 띄운다(부모 카드/유닛의
- *  전체 상세를 여는 클릭과 겹치지 않도록 stopPropagation한다). 즐겨찾기된 룰 능력은 이름 앞에 별표를 붙인다 */
+ *  전체 상세를 여는 클릭과 겹치지 않도록 stopPropagation한다). 즐겨찾기된 룰 능력은 칩 배경색을
+ *  달리해서 살짝 강조한다 */
 export function AbilityChipsRow({
   abilities,
   sourceId,
@@ -50,7 +51,7 @@ export function AbilityChipsRow({
         return (
           <button
             type="button"
-            className={`ability-chip ${tone === 'inactive' ? 'ability-chip-dim' : ''}`}
+            className={`ability-chip ${tone === 'inactive' ? 'ability-chip-dim' : ''} ${favorited ? 'ability-chip-favorited' : ''}`}
             key={i}
             onClick={(e) => {
               e.stopPropagation()
@@ -58,7 +59,6 @@ export function AbilityChipsRow({
             }}
           >
             <PhaseBadge phase={ability.phase} tone={tone ?? 'default'} />
-            {favorited && <span className="ability-chip-star">★</span>}
             {localize(ability.name)}
           </button>
         )

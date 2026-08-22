@@ -141,6 +141,16 @@
   border-color: var(--accent, var(--border));
 }
 
+/* 택티컬/팩션 카드 행: 클릭해도 아무 반응이 없다(어빌리티 칩만으로 정보가 충분해 상세 모달을
+   없앴다) — 클릭 가능한 것처럼 보이던 포인터 커서/hover 강조를 꺼서 상호작용이 없다는 걸 알린다 */
+.game-ref-item-static {
+  cursor: default;
+}
+
+.game-ref-item-static:hover {
+  border-color: var(--border);
+}
+
 .game-ref-item-row {
   display: flex;
   align-items: center;

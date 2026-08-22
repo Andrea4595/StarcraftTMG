@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { RaceData, Roster, RuleAbility } from '../../types'
-import { findFactionCard, findUnit, isFavoriteAbility, rosterFavoriteAbilities, unitActiveAbilities } from '../rosterCalc'
+import { findUnit, isFavoriteAbility, rosterFavoriteAbilities, unitActiveAbilities } from '../rosterCalc'
 import { useRosterStore } from '../RosterContext'
 import { useLang, localize } from '../../LangContext'
 import { Modal } from './Modal'
@@ -8,15 +8,14 @@ import { GameReferenceCardsView } from './GameReferenceCardsView'
 import { GameReferenceFavoritesView } from './GameReferenceFavoritesView'
 import { AbilityDetailModal } from './AbilityDetailModal'
 import type { AbilityDetailRef } from './AbilityChipsRow'
-import { TacticalCardView } from '../../components/card/TacticalCardView'
 import { UnitCardView } from '../../components/card/UnitCardView'
 import type { CrossFavoriteRef, FavoriteToggle } from '../../components/card/AbilitiesSection'
 import '../gameReference.css'
 
-export type ReferenceDetailTarget =
-  | { kind: 'faction' }
-  | { kind: 'tactical'; id: string }
-  | { kind: 'unit'; entryId: string }
+/** 게임 레퍼런스 카드 목록에서 상세 모달을 띄울 수 있는 건 유닛뿐이다 (택티컬/팩션 카드는 클릭해도
+ *  아무 반응이 없다 — 어빌리티 칩만으로 필요한 정보가 다 보여서, 카드 자체를 눌러 여는 상세 모달은
+ *  더 이상 필요 없다) */
+export type ReferenceDetailTarget = { kind: 'unit'; entryId: string }
 
 type Mode = 'cards' | 'favorites'
 
@@ -45,31 +44,6 @@ export function GameReferencePage({
 
   const detailContent = (() => {
     if (!detail) return null
-
-    if (detail.kind === 'faction') {
-      const factionCard = findFactionCard(race, roster)
-      if (!factionCard) return null
-      return {
-        title: localize(factionCard.name, lang),
-        node: (
-          <TacticalCardView
-            card={factionCard}
-            resourceLabel={race.resourceLabel}
-            isFactionCard
-            favorite={favoriteToggleFor(factionCard.id)}
-          />
-        ),
-      }
-    }
-
-    if (detail.kind === 'tactical') {
-      const card = race.tacticalCards.find((c) => c.id === detail.id)
-      if (!card) return null
-      return {
-        title: localize(card.name, lang),
-        node: <TacticalCardView card={card} resourceLabel={race.resourceLabel} favorite={favoriteToggleFor(card.id)} />,
-      }
-    }
 
     const entry = roster.units.find((e) => e.id === detail.entryId)
     const unit = entry ? findUnit(race, entry.unitId) : undefined
@@ -156,6 +130,7 @@ export function GameReferencePage({
           onClose={() => setAbilityDetail(null)}
           roster={roster}
           resourceLabel={race.resourceLabel.abbr}
+          showFavorite
         />
       )}
     </div>
