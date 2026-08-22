@@ -1,24 +1,62 @@
-import type { RaceData, Roster } from '../../types'
-import {
-  findFactionCard,
-  findUnit,
-  groupedTacticalCards,
-  resolveScaledCost,
-  unitEntryMineralCost,
-  unitEquippedUpgrades,
-} from '../rosterCalc'
+import type { Ability, RaceData, Roster, Rule, UnitType } from '../../types'
+import { findFactionCard, findUnit, groupedTacticalCards, isFavoriteAbility, unitActiveAbilities, unitEntryMineralCost } from '../rosterCalc'
 import { unitStatEntries } from '../../components/card/StatBoxes'
 import { useLocalize } from '../../LangContext'
-import type { ReferenceDetailTarget } from './GameReferencePage'
+import type { AbilityDetailRef, ReferenceDetailTarget } from './GameReferencePage'
+
+/** 어빌리티/무기 프로필 칩 한 줄. 눌러진 칩은 즉시 그 능력만 담은 상세 모달을 띄운다(부모 카드/유닛의
+ *  전체 상세를 여는 클릭과 겹치지 않도록 stopPropagation한다). 즐겨찾기된 룰 능력은 이름 앞에 별표를 붙인다 */
+function AbilityChipsRow({
+  abilities,
+  sourceId,
+  sourceLabel,
+  unitType,
+  roster,
+  onSelectAbility,
+  localize,
+}: {
+  abilities: Ability[]
+  sourceId: string
+  sourceLabel: string
+  unitType?: UnitType
+  roster: Roster
+  onSelectAbility: (ref: AbilityDetailRef) => void
+  localize: (rule: Rule) => string
+}) {
+  if (abilities.length === 0) return null
+  return (
+    <div className="game-ref-upgrades-row">
+      {abilities.map((ability, i) => {
+        const favorited = ability.kind === 'rule' && isFavoriteAbility(roster, sourceId, ability.id)
+        return (
+          <button
+            type="button"
+            className="game-ref-upgrade-chip"
+            key={i}
+            onClick={(e) => {
+              e.stopPropagation()
+              onSelectAbility({ ability, sourceLabel, sourceId, unitType })
+            }}
+          >
+            {favorited && <span className="game-ref-chip-star">★</span>}
+            {localize(ability.name)}
+          </button>
+        )
+      })}
+    </div>
+  )
+}
 
 export function GameReferenceCardsView({
   race,
   roster,
   onSelect,
+  onSelectAbility,
 }: {
   race: RaceData
   roster: Roster
   onSelect: (target: ReferenceDetailTarget) => void
+  onSelectAbility: (ref: AbilityDetailRef) => void
 }) {
   const localize = useLocalize()
   const factionCard = findFactionCard(race, roster)
@@ -37,7 +75,15 @@ export function GameReferenceCardsView({
           <ul className="game-ref-list">
             {factionCard && (
               <li>
-                <button type="button" className="game-ref-item" onClick={() => onSelect({ kind: 'faction' })}>
+                <div
+                  className="game-ref-item"
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => onSelect({ kind: 'faction' })}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') onSelect({ kind: 'faction' })
+                  }}
+                >
                   <div className="game-ref-item-row">
                     <span className="game-ref-item-name">{localize(factionCard.name)}</span>
                     <span className="game-ref-item-tag">Faction Card</span>
@@ -47,15 +93,27 @@ export function GameReferenceCardsView({
                       </span>
                     )}
                   </div>
-                </button>
+                  <AbilityChipsRow
+                    abilities={factionCard.cardAbilities}
+                    sourceId={factionCard.id}
+                    sourceLabel={localize(factionCard.name)}
+                    roster={roster}
+                    onSelectAbility={onSelectAbility}
+                    localize={localize}
+                  />
+                </div>
               </li>
             )}
             {tacticalCardGroups.map(({ card, count }) => (
               <li key={card.id}>
-                <button
-                  type="button"
+                <div
                   className="game-ref-item"
+                  role="button"
+                  tabIndex={0}
                   onClick={() => onSelect({ kind: 'tactical', id: card.id })}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') onSelect({ kind: 'tactical', id: card.id })
+                  }}
                 >
                   <div className="game-ref-item-row">
                     <span className="game-ref-item-name">{localize(card.name)}</span>
@@ -66,7 +124,15 @@ export function GameReferenceCardsView({
                       </span>
                     )}
                   </div>
-                </button>
+                  <AbilityChipsRow
+                    abilities={card.cardAbilities}
+                    sourceId={card.id}
+                    sourceLabel={localize(card.name)}
+                    roster={roster}
+                    onSelectAbility={onSelectAbility}
+                    localize={localize}
+                  />
+                </div>
               </li>
             ))}
           </ul>
@@ -81,13 +147,17 @@ export function GameReferenceCardsView({
               const unit = findUnit(race, entry.unitId)
               if (!unit) return null
               const tier = unit.squad[entry.squadTierIndex]
-              const upgrades = unitEquippedUpgrades(unit, entry)
+              const activeAbilities = unitActiveAbilities(unit, entry)
               return (
                 <li key={entry.id}>
-                  <button
-                    type="button"
+                  <div
                     className="game-ref-item"
+                    role="button"
+                    tabIndex={0}
                     onClick={() => onSelect({ kind: 'unit', entryId: entry.id })}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') onSelect({ kind: 'unit', entryId: entry.id })
+                    }}
                   >
                     <div className="game-ref-item-row">
                       <span className="game-ref-supply">
@@ -107,16 +177,16 @@ export function GameReferenceCardsView({
                         </span>
                       ))}
                     </div>
-                    {upgrades.length > 0 && (
-                      <div className="game-ref-upgrades-row">
-                        {upgrades.map((upgrade, i) => (
-                          <span className="game-ref-upgrade-chip" key={i}>
-                            {localize(upgrade.ability.name)} (+{resolveScaledCost(upgrade.pts, entry.squadTierIndex)})
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </button>
+                    <AbilityChipsRow
+                      abilities={activeAbilities}
+                      sourceId={unit.id}
+                      sourceLabel={localize(unit.name)}
+                      unitType={unit.type}
+                      roster={roster}
+                      onSelectAbility={onSelectAbility}
+                      localize={localize}
+                    />
+                  </div>
                 </li>
               )
             })}

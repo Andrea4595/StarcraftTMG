@@ -223,11 +223,28 @@
 }
 
 .game-ref-upgrade-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font: inherit;
   font-size: 11px;
+  color: inherit;
   border: 1px solid var(--border);
   border-radius: 999px;
   padding: 2px 8px;
+  background: transparent;
   opacity: 0.85;
+  cursor: pointer;
+}
+
+.game-ref-upgrade-chip:hover {
+  opacity: 1;
+  border-color: var(--accent, var(--border));
+}
+
+/* .card-favorite-star과 같은 노란색(--gc-yellow)이지만, 이 뷰는 .game-card 스코프 밖이라 값을 직접 쓴다 */
+.game-ref-chip-star {
+  color: #f0b429;
 }
 
 /* 페이즈 화면: 출처(카드/유닛)별 그룹. .game-card를 함께 써서 실제 카드와 같은 다크 배색(--gc-*)을
