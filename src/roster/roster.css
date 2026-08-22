@@ -811,6 +811,21 @@ button.roster-slot-pill:hover {
   border: 1px solid #565a68;
 }
 
+/* 서플라이 0: 사각형(홀로우 1개)은 서플라이 1개짜리와 헷갈리기 쉬워, 대신 'X' 표시로 확실히
+   '없음'을 나타낸다 */
+.roster-squad-tier-supply-empty {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 6px;
+  height: 6px;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1;
+  color: inherit;
+  opacity: 0.7;
+}
+
 .roster-entry-upgrades {
   margin-top: 6px;
   display: flex;
@@ -842,9 +857,25 @@ button.roster-slot-pill:hover {
   gap: 8px;
 }
 
-.roster-entry-summary {
+.roster-entry-tags {
   font-size: 11px;
   opacity: 0.75;
+  min-width: 0;
+}
+
+.roster-entry-footer-right {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 유닛에 투자된 미네랄 비용. 게임 레퍼런스 화면(.game-ref-item-mineral-cost)과 같은 파란색으로 */
+.roster-entry-cost {
+  font-size: 11px;
+  font-weight: 700;
+  color: #5b9dff;
+  font-variant-numeric: tabular-nums;
 }
 
 /* 유닛 스쿼드 등급 선택 버튼 (유닛 모달에서 사용) */

@@ -50,7 +50,6 @@
   font-weight: 700;
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
   gap: 8px;
 }
 
@@ -91,6 +90,15 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+/* 컴팩트 스쿼드 등급 선택기(SquadTierSelector)를 스탯 박스 바로 왼쪽에 붙인다 — 이름 줄보다
+   폭이 넉넉해서 불필요하게 줄바꿈되지 않는다 */
+.card-squad-stats-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 /* 스탯 박스 (SHLD/SPD/EVA/ARM/HP/SIZ) */

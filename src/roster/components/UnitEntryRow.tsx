@@ -11,6 +11,7 @@ import {
   upgradeExclusiveWith,
 } from '../rosterCalc'
 import { StatBoxes } from '../../components/card/StatBoxes'
+import { KeywordList } from '../../components/card/KeywordText'
 import { useLocalize } from '../../LangContext'
 import { AbilityChipsRow, type AbilitySelectionRef, type UpgradeToggleRef, type WeaponSummaryInput } from './AbilityChipsRow'
 import { SquadTierSelector } from './SquadTierSelector'
@@ -33,7 +34,6 @@ export function UnitEntryRow({
 }) {
   const store = useRosterStore()
   const localize = useLocalize()
-  const tier = unit.squad[entry.squadTierIndex]
   const cost = unitEntryMineralCost(unit, entry)
   const abilityEntries = unitAbilityChipEntries(unit, entry)
   const upgradeStateByAbility = new Map<Ability, 'active' | 'inactive'>(
@@ -108,34 +108,37 @@ export function UnitEntryRow({
       />
 
       <div className="roster-entry-footer">
-        <div className="roster-entry-summary">
-          Models: {tier?.modelMax ?? '-'} | Supply: {tier?.supply ?? '-'} | Cost: {cost}
+        <div className="roster-entry-tags">
+          <KeywordList keywords={unit.tags.filter((t) => t.name !== 'Unique')} />
         </div>
-        <div className="roster-entry-move">
-          <button
-            type="button"
-            className="roster-entry-move-btn"
-            disabled={index <= 0}
-            onClick={(e) => {
-              e.stopPropagation()
-              store.moveUnitEntry(roster.id, entry.id, 'up')
-            }}
-            aria-label="위로 이동"
-          >
-            ▲
-          </button>
-          <button
-            type="button"
-            className="roster-entry-move-btn"
-            disabled={index === -1 || index === roster.units.length - 1}
-            onClick={(e) => {
-              e.stopPropagation()
-              store.moveUnitEntry(roster.id, entry.id, 'down')
-            }}
-            aria-label="아래로 이동"
-          >
-            ▼
-          </button>
+        <div className="roster-entry-footer-right">
+          <span className="roster-entry-cost">{cost}</span>
+          <div className="roster-entry-move">
+            <button
+              type="button"
+              className="roster-entry-move-btn"
+              disabled={index <= 0}
+              onClick={(e) => {
+                e.stopPropagation()
+                store.moveUnitEntry(roster.id, entry.id, 'up')
+              }}
+              aria-label="위로 이동"
+            >
+              ▲
+            </button>
+            <button
+              type="button"
+              className="roster-entry-move-btn"
+              disabled={index === -1 || index === roster.units.length - 1}
+              onClick={(e) => {
+                e.stopPropagation()
+                store.moveUnitEntry(roster.id, entry.id, 'down')
+              }}
+              aria-label="아래로 이동"
+            >
+              ▼
+            </button>
+          </div>
         </div>
       </div>
     </div>
