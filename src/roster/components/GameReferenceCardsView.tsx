@@ -1,16 +1,19 @@
 import type { RaceData, Roster } from '../../types'
 import {
+  FIRE_LABEL,
+  MELEE_LABEL,
   findFactionCard,
   findUnit,
   groupedTacticalCards,
   unitActiveAbilities,
   unitEntryMineralCost,
   unitForLabelResolver,
+  unitMeleeWeaponEntries,
   unitRangedWeaponEntries,
 } from '../rosterCalc'
 import { StatBoxes } from '../../components/card/StatBoxes'
 import { useLocalize } from '../../LangContext'
-import { AbilityChipsRow, type AbilitySelectionRef } from './AbilityChipsRow'
+import { AbilityChipsRow, type AbilitySelectionRef, type WeaponSummaryInput } from './AbilityChipsRow'
 import type { ReferenceDetailTarget } from './GameReferencePage'
 
 export function GameReferenceCardsView({
@@ -100,8 +103,13 @@ export function GameReferenceCardsView({
               if (!unit) return null
               const tier = unit.squad[entry.squadTierIndex]
               const rangedSummary = unitRangedWeaponEntries(unit, entry, localize)
-              const nonRangedAbilities = unitActiveAbilities(unit, entry).filter(
-                (a) => !(a.kind === 'weapon' && a.phase === 'Assault'),
+              const meleeSummary = unitMeleeWeaponEntries(unit, entry, localize)
+              const weaponSummaries: WeaponSummaryInput[] = [
+                { phase: 'Assault', label: FIRE_LABEL, entries: rangedSummary },
+                { phase: 'Combat', label: MELEE_LABEL, entries: meleeSummary },
+              ]
+              const nonWeaponSummaryAbilities = unitActiveAbilities(unit, entry).filter(
+                (a) => !(a.kind === 'weapon' && (a.phase === 'Assault' || a.phase === 'Combat')),
               )
               const forFor = unitForLabelResolver(unit, localize)
               return (
@@ -126,8 +134,9 @@ export function GameReferenceCardsView({
                       <StatBoxes unit={unit} />
                     </div>
                     <AbilityChipsRow
-                      abilities={nonRangedAbilities}
-                      rangedSummary={rangedSummary}
+                      abilities={nonWeaponSummaryAbilities}
+                      weaponSummaries={weaponSummaries}
+                      hideInactiveWeaponNames
                       sourceId={unit.id}
                       sourceLabel={localize(unit.name)}
                       unitType={unit.type}

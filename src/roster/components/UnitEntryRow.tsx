@@ -1,15 +1,18 @@
 import type { Ability, Roster, RosterUnitEntry, UnitCard } from '../../types'
 import { useRosterStore } from '../RosterContext'
 import {
+  FIRE_LABEL,
+  MELEE_LABEL,
   unitAbilityChipEntries,
   unitEntryMineralCost,
   unitForLabelResolver,
+  unitMeleeWeaponEntries,
   unitRangedWeaponEntries,
   upgradeExclusiveWith,
 } from '../rosterCalc'
 import { StatBoxes } from '../../components/card/StatBoxes'
 import { useLocalize } from '../../LangContext'
-import { AbilityChipsRow, type AbilitySelectionRef, type UpgradeToggleRef } from './AbilityChipsRow'
+import { AbilityChipsRow, type AbilitySelectionRef, type UpgradeToggleRef, type WeaponSummaryInput } from './AbilityChipsRow'
 import { SquadTierSelector } from './SquadTierSelector'
 
 export function UnitEntryRow({
@@ -43,9 +46,14 @@ export function UnitEntryRow({
   )
   const forFor = unitForLabelResolver(unit, localize)
   const rangedSummary = unitRangedWeaponEntries(unit, entry, localize)
-  const nonRangedAbilities = abilityEntries
+  const meleeSummary = unitMeleeWeaponEntries(unit, entry, localize)
+  const weaponSummaries: WeaponSummaryInput[] = [
+    { phase: 'Assault', label: FIRE_LABEL, entries: rangedSummary },
+    { phase: 'Combat', label: MELEE_LABEL, entries: meleeSummary },
+  ]
+  const nonWeaponSummaryAbilities = abilityEntries
     .map((e) => e.ability)
-    .filter((a) => !(a.kind === 'weapon' && a.phase === 'Assault'))
+    .filter((a) => !(a.kind === 'weapon' && (a.phase === 'Assault' || a.phase === 'Combat')))
   const upgradeIndexByAbility = new Map<Ability, number>(unit.upgrades.map((u, i) => [u.ability, i]))
   const upgradeToggleFor = (ability: Ability): UpgradeToggleRef | undefined => {
     const i = upgradeIndexByAbility.get(ability)
@@ -85,8 +93,8 @@ export function UnitEntryRow({
       </div>
 
       <AbilityChipsRow
-        abilities={nonRangedAbilities}
-        rangedSummary={rangedSummary}
+        abilities={nonWeaponSummaryAbilities}
+        weaponSummaries={weaponSummaries}
         sourceId={unit.id}
         sourceLabel={localize(unit.name)}
         unitType={unit.type}

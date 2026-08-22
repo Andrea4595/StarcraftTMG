@@ -17,7 +17,7 @@ import { TacticalCardModal } from './TacticalCardModal'
 import { UnitModal } from './UnitModal'
 import { SlotUsageRow } from './SlotUsageRow'
 import { AbilityDetailModal } from './AbilityDetailModal'
-import { RangedWeaponSummaryModal } from './RangedWeaponSummaryModal'
+import { WeaponSummaryModal } from './WeaponSummaryModal'
 import { AbilityChipsRow, type AbilitySelectionRef } from './AbilityChipsRow'
 import type { DetailState } from './RosterDetailPanel'
 
@@ -302,8 +302,8 @@ function RosterPanelBody({
           resourceLabel={race.resourceLabel.abbr}
         />
       )}
-      {abilityDetail?.kind === 'ranged-summary' && (
-        <RangedWeaponSummaryModal detail={abilityDetail} onClose={() => setAbilityDetail(null)} />
+      {abilityDetail?.kind === 'weapon-summary' && (
+        <WeaponSummaryModal detail={abilityDetail} onClose={() => setAbilityDetail(null)} roster={roster} interactive />
       )}
     </>
   )

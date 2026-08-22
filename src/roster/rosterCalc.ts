@@ -14,7 +14,7 @@ import type {
 import { localize, type Lang } from '../LangContext'
 import { UNIT_TYPES } from '../types'
 import { resolveScaledCost } from '../components/card/costDisplay'
-import type { RangedWeaponEntry, WeaponTone } from './components/AbilityChipsRow'
+import type { UpgradeToggleRef, WeaponSummaryEntry, WeaponTone } from './components/AbilityChipsRow'
 
 export { resolveScaledCost }
 
@@ -263,25 +263,55 @@ export function unitAbilityChipEntries(unit: UnitCard, entry: RosterUnitEntry): 
   return [...baseEntries, ...upgradeEntries]
 }
 
+/** 무기 종합 칩의 이름 앞에 붙는 라벨 */
+export const FIRE_LABEL: Rule = { en: 'Fire', ko: '사격' }
+export const MELEE_LABEL: Rule = { en: 'Melee', ko: '근접 공격' }
+
 /**
- * 이 유닛이 가진 어썰트 페이즈 무기 프로필을 모두 모아 '사격' 종합 칩에 쓸 형태로 정리한다.
- * 대체되지 않은 기본 무기는 'base', 활성 업그레이드로 얻은 무기는 'active', 업그레이드가 있지만
- * 켜지지 않았거나(미선택) 다른 활성 업그레이드에 봉인된 기본 무기는 'inactive'로 분류한다 —
+ * 이 유닛이 가진 특정 phase의 무기 프로필을 모두 모아 '사격'/'근접 공격' 종합 칩에 쓸 형태로
+ * 정리한다. 대체되지 않은 기본 무기는 'base', 활성 업그레이드로 얻은 무기는 'active', 업그레이드가
+ * 있지만 켜지지 않았거나(미선택) 다른 활성 업그레이드에 봉인된 기본 무기는 'inactive'로 분류한다 —
  * unitAbilityChipEntries가 이미 이 세 가지를 upgradeActive(undefined/true/false)로 구분해주므로
- * 그대로 물려받는다.
+ * 그대로 물려받는다. 업그레이드로 나온 무기는 상세 모달의 켜기/끄기 버튼에 쓸 upgradeToggle도 함께
+ * 채운다 — 실제로 그 버튼을 누를 수 있게 할지는 호출부(모달)가 따로 결정한다(게임 레퍼런스는 읽기 전용).
  */
+function unitWeaponSummaryEntries(
+  unit: UnitCard,
+  entry: RosterUnitEntry,
+  phase: Phase,
+  localize: (rule: Rule) => string,
+): WeaponSummaryEntry[] {
+  const forFor = unitForLabelResolver(unit, localize)
+  const upgradeIndexByAbility = new Map<Ability, number>(unit.upgrades.map((u, i) => [u.ability, i]))
+  return unitAbilityChipEntries(unit, entry)
+    .filter((e) => e.ability.kind === 'weapon' && e.ability.phase === phase)
+    .map((e) => {
+      const tone: WeaponTone = e.upgradeActive === undefined ? 'base' : e.upgradeActive ? 'active' : 'inactive'
+      const i = upgradeIndexByAbility.get(e.ability)
+      const upgradeToggle: UpgradeToggleRef | undefined =
+        i === undefined
+          ? undefined
+          : { entryId: entry.id, upgradeIndex: i, pts: unit.upgrades[i].pts, exclusiveWith: upgradeExclusiveWith(unit, i) }
+      return { ability: e.ability as WeaponProfile, tone, forLabel: forFor(e.ability), upgradeToggle }
+    })
+}
+
+/** 이 유닛의 어썰트 페이즈(원거리) 무기 프로필을 '사격' 종합 칩에 쓸 형태로 정리한다 */
 export function unitRangedWeaponEntries(
   unit: UnitCard,
   entry: RosterUnitEntry,
   localize: (rule: Rule) => string,
-): RangedWeaponEntry[] {
-  const forFor = unitForLabelResolver(unit, localize)
-  return unitAbilityChipEntries(unit, entry)
-    .filter((e) => e.ability.kind === 'weapon' && e.ability.phase === 'Assault')
-    .map((e) => {
-      const tone: WeaponTone = e.upgradeActive === undefined ? 'base' : e.upgradeActive ? 'active' : 'inactive'
-      return { ability: e.ability as WeaponProfile, tone, forLabel: forFor(e.ability) }
-    })
+): WeaponSummaryEntry[] {
+  return unitWeaponSummaryEntries(unit, entry, 'Assault', localize)
+}
+
+/** 이 유닛의 컴뱃 페이즈(근접) 무기 프로필을 '근접 공격' 종합 칩에 쓸 형태로 정리한다 */
+export function unitMeleeWeaponEntries(
+  unit: UnitCard,
+  entry: RosterUnitEntry,
+  localize: (rule: Rule) => string,
+): WeaponSummaryEntry[] {
+  return unitWeaponSummaryEntries(unit, entry, 'Combat', localize)
 }
 
 export interface PhaseAbilityGroup {

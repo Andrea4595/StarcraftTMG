@@ -7,7 +7,7 @@ import { Modal } from './Modal'
 import { GameReferenceCardsView } from './GameReferenceCardsView'
 import { GameReferenceFavoritesView } from './GameReferenceFavoritesView'
 import { AbilityDetailModal } from './AbilityDetailModal'
-import { RangedWeaponSummaryModal } from './RangedWeaponSummaryModal'
+import { WeaponSummaryModal } from './WeaponSummaryModal'
 import type { AbilitySelectionRef } from './AbilityChipsRow'
 import { UnitCardView } from '../../components/card/UnitCardView'
 import type { CrossFavoriteRef, FavoriteToggle } from '../../components/card/AbilitiesSection'
@@ -135,8 +135,8 @@ export function GameReferencePage({
           showFavorite
         />
       )}
-      {abilityDetail?.kind === 'ranged-summary' && (
-        <RangedWeaponSummaryModal detail={abilityDetail} onClose={() => setAbilityDetail(null)} />
+      {abilityDetail?.kind === 'weapon-summary' && (
+        <WeaponSummaryModal detail={abilityDetail} onClose={() => setAbilityDetail(null)} roster={roster} />
       )}
     </div>
   )

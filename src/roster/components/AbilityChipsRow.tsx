@@ -1,14 +1,12 @@
-import { PHASES, type Ability, type Roster, type Rule, type SquadScaledCost, type UnitType, type WeaponProfile } from '../../types'
+import { PHASES, type Ability, type Phase, type Roster, type Rule, type SquadScaledCost, type UnitType, type WeaponProfile } from '../../types'
 import { isFavoriteAbility } from '../rosterCalc'
 import { PhaseBadge } from '../../components/card/PhaseBadge'
-
-const FIRE_LABEL: Rule = { en: 'Fire', ko: '사격' }
 
 /**
  * 상세 모달에서 업그레이드 켜기/끄기 버튼을 그리는 데 필요한, 이 업그레이드를 가리키는 안정적인
  * 식별 정보. active/cost처럼 바뀔 수 있는 값을 미리 계산해서 얼려두지 않는 이유는, 모달이 떠 있는
  * 동안 다른 곳(칩, 상세 패널)에서 이 업그레이드를 껐다 켜도 모달이 그 변화를 실시간으로 반영해야
- * 하기 때문이다 — 그래서 AbilityDetailModal이 매 렌더 roster에서 현재 상태를 직접 읽는다.
+ * 하기 때문이다 — 그래서 상세 모달이 매 렌더 roster에서 현재 상태를 직접 읽는다.
  */
 export interface UpgradeToggleRef {
   entryId: string
@@ -36,40 +34,55 @@ export interface AbilityDetailRef {
   upgradeToggle?: UpgradeToggleRef
 }
 
-/** 원거리(어썰트 페이즈) 무기 하나가 이 유닛에서 지금 어떤 상태인지 */
+/** 무기 하나가 이 유닛에서 지금 어떤 상태인지 */
 export type WeaponTone = 'base' | 'active' | 'inactive'
 
-export interface RangedWeaponEntry {
+export interface WeaponSummaryEntry {
   ability: WeaponProfile
   tone: WeaponTone
   /** 업그레이드로 나온 무기라면, 대체(FOR)하는 원본 무기의 로컬라이즈된 이름 */
   forLabel?: string
+  /** 업그레이드로 나온 무기일 때만 지정: 상세 모달에서 켜기/끄기 버튼에 쓰인다 */
+  upgradeToggle?: UpgradeToggleRef
 }
 
 /**
- * '사격' 종합 칩을 눌렀을 때 뜨는 상세 정보. 이 유닛이 가진 어썰트 페이즈 무기 프로필을 한 번에
+ * '사격'/'근접 공격' 종합 칩 하나를 만드는 데 필요한 입력. 호출자가 abilities에서 이 phase의 무기
+ * 프로필을 미리 걸러내야 한다 — 그래야 이 칩과 중복되지 않는다.
+ */
+export interface WeaponSummaryInput {
+  phase: Phase
+  /** 칩 이름 앞에 붙는 라벨 (예: '사격', '근접 공격') */
+  label: Rule
+  entries: WeaponSummaryEntry[]
+}
+
+/**
+ * 무기 종합 칩을 눌렀을 때 뜨는 상세 정보. 이 유닛이 가진 해당 페이즈 무기 프로필을 한 번에
  * 보여준다 — 개별 무기 칩 대신 이 칩 하나로 묶어서 표시할 때 쓴다.
  */
-export interface RangedWeaponSummaryRef {
-  kind: 'ranged-summary'
+export interface WeaponSummaryRef {
+  kind: 'weapon-summary'
   sourceLabel: string
   sourceId: string
   unitType?: UnitType
-  entries: RangedWeaponEntry[]
+  label: Rule
+  entries: WeaponSummaryEntry[]
 }
 
-export type AbilitySelectionRef = AbilityDetailRef | RangedWeaponSummaryRef
+export type AbilitySelectionRef = AbilityDetailRef | WeaponSummaryRef
 
 type ChipItem =
   | { phaseIndex: number; kind: 'ability'; ability: Ability }
-  | { phaseIndex: number; kind: 'ranged-summary'; entries: RangedWeaponEntry[] }
+  | { phaseIndex: number; kind: 'weapon-summary'; input: WeaponSummaryInput }
 
 /** 어빌리티/무기 프로필 칩 한 줄. 눌러진 칩은 즉시 그 능력만 담은 상세 모달을 띄운다(부모 카드/유닛의
  *  전체 상세를 여는 클릭과 겹치지 않도록 stopPropagation한다). 즐겨찾기된 룰 능력은 칩 배경색을
  *  달리해서 살짝 강조한다 */
 export function AbilityChipsRow({
   abilities,
-  rangedSummary,
+  weaponSummaries = [],
+  hideInactiveWeaponNames = false,
   sourceId,
   sourceLabel,
   unitType,
@@ -83,11 +96,10 @@ export function AbilityChipsRow({
   showFavorite = false,
 }: {
   abilities: Ability[]
-  /**
-   * 이 유닛의 어썰트 페이즈 무기를 모두 묶은 '사격' 칩 하나를 대신 넣는다. 호출자가 abilities에서
-   * 어썰트 페이즈 무기 프로필을 미리 걸러내야 한다 — 그래야 이 칩과 중복되지 않는다.
-   */
-  rangedSummary?: RangedWeaponEntry[]
+  /** '사격'/'근접 공격'처럼 무기를 묶어 보여줄 종합 칩들. 비어 있는 항목은 알아서 무시된다 */
+  weaponSummaries?: WeaponSummaryInput[]
+  /** 종합 칩 이름에서 비활성(미선택) 무기 이름을 뺀다 — 게임 레퍼런스 화면 전용 */
+  hideInactiveWeaponNames?: boolean
   sourceId: string
   sourceLabel: string
   unitType?: UnitType
@@ -108,21 +120,22 @@ export function AbilityChipsRow({
   /** 즐겨찾기된 칩을 배경색으로 강조할지. 즐겨찾기는 게임 레퍼런스 화면 전용 기능이라 기본은 꺼져 있다 */
   showFavorite?: boolean
 }) {
-  if (abilities.length === 0 && (!rangedSummary || rangedSummary.length === 0)) return null
+  const summaries = weaponSummaries.filter((s) => s.entries.length > 0)
+  if (abilities.length === 0 && summaries.length === 0) return null
 
   /** ANY > MOVEMENT > ASSAULT > COMBAT 순으로 정렬한다 (원본 데이터 배열 순서는 뒤죽박죽이라 그대로 보여주면 읽기 어렵다).
-   *  '사격' 종합 칩은 항상 어썰트 페이즈 자리에 끼워 넣는다 */
+   *  무기 종합 칩은 각자의 phase 자리에 끼워 넣는다 */
   const items: ChipItem[] = [
     ...abilities.map((ability): ChipItem => ({ phaseIndex: PHASES.indexOf(ability.phase), kind: 'ability', ability })),
-    ...(rangedSummary && rangedSummary.length > 0
-      ? [{ phaseIndex: PHASES.indexOf('Assault'), kind: 'ranged-summary', entries: rangedSummary } as ChipItem]
-      : []),
+    ...summaries.map((input): ChipItem => ({ phaseIndex: PHASES.indexOf(input.phase), kind: 'weapon-summary', input })),
   ].sort((a, b) => a.phaseIndex - b.phaseIndex)
 
   return (
     <div className="ability-chips-row">
       {items.map((item, i) => {
-        if (item.kind === 'ranged-summary') {
+        if (item.kind === 'weapon-summary') {
+          const { input } = item
+          const displayEntries = hideInactiveWeaponNames ? input.entries.filter((e) => e.tone !== 'inactive') : input.entries
           return (
             <button
               type="button"
@@ -130,17 +143,23 @@ export function AbilityChipsRow({
               key={i}
               onClick={(e) => {
                 e.stopPropagation()
-                onSelectAbility({ kind: 'ranged-summary', sourceLabel, sourceId, unitType, entries: item.entries })
+                onSelectAbility({ kind: 'weapon-summary', sourceLabel, sourceId, unitType, label: input.label, entries: input.entries })
               }}
             >
-              <PhaseBadge phase="Assault" tone="default" />
-              {localize(FIRE_LABEL)} |{' '}
-              {item.entries.map((entry, j) => (
-                <span className={`ability-chip-weapon-name ability-chip-weapon-name-${entry.tone}`} key={j}>
-                  {localize(entry.ability.name)}
-                  {j < item.entries.length - 1 ? ', ' : ''}
-                </span>
-              ))}
+              <PhaseBadge phase={input.phase} tone="default" />
+              {localize(input.label)}
+              {displayEntries.length > 0 && (
+                <>
+                  {' '}
+                  |{' '}
+                  {displayEntries.map((entry, j) => (
+                    <span className={`ability-chip-weapon-name ability-chip-weapon-name-${entry.tone}`} key={j}>
+                      {localize(entry.ability.name)}
+                      {j < displayEntries.length - 1 ? ', ' : ''}
+                    </span>
+                  ))}
+                </>
+              )}
             </button>
           )
         }
