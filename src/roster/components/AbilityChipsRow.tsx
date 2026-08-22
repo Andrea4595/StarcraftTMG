@@ -26,6 +26,7 @@ export function AbilityChipsRow({
   onSelectAbility,
   localize,
   upgradeStateFor,
+  showFavorite = false,
 }: {
   abilities: Ability[]
   sourceId: string
@@ -39,6 +40,8 @@ export function AbilityChipsRow({
    * 지정하지 않으면 항상 기본(파란) 톤으로 보여준다.
    */
   upgradeStateFor?: (ability: Ability) => 'active' | 'inactive' | undefined
+  /** 즐겨찾기된 칩을 배경색으로 강조할지. 즐겨찾기는 게임 레퍼런스 화면 전용 기능이라 기본은 꺼져 있다 */
+  showFavorite?: boolean
 }) {
   if (abilities.length === 0) return null
   /** ANY > MOVEMENT > ASSAULT > COMBAT 순으로 정렬한다 (원본 데이터 배열 순서는 뒤죽박죽이라 그대로 보여주면 읽기 어렵다) */
@@ -46,7 +49,7 @@ export function AbilityChipsRow({
   return (
     <div className="ability-chips-row">
       {sorted.map((ability, i) => {
-        const favorited = ability.kind === 'rule' && isFavoriteAbility(roster, sourceId, ability.id)
+        const favorited = showFavorite && ability.kind === 'rule' && isFavoriteAbility(roster, sourceId, ability.id)
         const tone = upgradeStateFor?.(ability)
         return (
           <button

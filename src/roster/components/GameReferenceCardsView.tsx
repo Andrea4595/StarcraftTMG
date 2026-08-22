@@ -50,6 +50,7 @@ export function GameReferenceCardsView({
                     roster={roster}
                     onSelectAbility={onSelectAbility}
                     localize={localize}
+                    showFavorite
                   />
                 </div>
               </li>
@@ -73,6 +74,7 @@ export function GameReferenceCardsView({
                     roster={roster}
                     onSelectAbility={onSelectAbility}
                     localize={localize}
+                    showFavorite
                   />
                 </div>
               </li>
@@ -119,6 +121,7 @@ export function GameReferenceCardsView({
                       roster={roster}
                       onSelectAbility={onSelectAbility}
                       localize={localize}
+                      showFavorite
                     />
                     <div className="game-ref-item-mineral-cost">{unitEntryMineralCost(unit, entry)}</div>
                   </div>
