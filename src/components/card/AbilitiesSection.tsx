@@ -1,6 +1,7 @@
 import { PHASES, type Ability, type RuleAbility, type Upgrade, type WeaponProfile } from '../../types'
 import { WeaponTable, type WeaponRow } from './WeaponTable'
 import { RuleAbilityBlock } from './RuleAbilityBlock'
+import { PhaseBadge } from './PhaseBadge'
 import { formatScaledCost, resolveScaledCost } from './costDisplay'
 import { useLocalize } from '../../LangContext'
 
@@ -107,7 +108,7 @@ export function AbilitiesSection({
         return (
           <div className="card-phase-group" key={g.phase}>
             <div className="card-phase-header">
-              <span className="card-phase-dot" />
+              <PhaseBadge phase={g.phase} />
               {g.phase.toUpperCase()} PHASE
             </div>
             <div className="card-phase-body">

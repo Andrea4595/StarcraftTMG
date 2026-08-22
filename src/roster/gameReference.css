@@ -267,20 +267,20 @@
 
 .game-ref-chip-phase-icon-movement {
   aspect-ratio: 512 / 512;
-  -webkit-mask-image: url('./assets/movementPhase.png');
-  mask-image: url('./assets/movementPhase.png');
+  -webkit-mask-image: url('../assets/movementPhase.png');
+  mask-image: url('../assets/movementPhase.png');
 }
 
 .game-ref-chip-phase-icon-assault {
   aspect-ratio: 2000 / 1999;
-  -webkit-mask-image: url('./assets/assaultPhase.png');
-  mask-image: url('./assets/assaultPhase.png');
+  -webkit-mask-image: url('../assets/assaultPhase.png');
+  mask-image: url('../assets/assaultPhase.png');
 }
 
 .game-ref-chip-phase-icon-combat {
   aspect-ratio: 512 / 512;
-  -webkit-mask-image: url('./assets/combatPhase.png');
-  mask-image: url('./assets/combatPhase.png');
+  -webkit-mask-image: url('../assets/combatPhase.png');
+  mask-image: url('../assets/combatPhase.png');
 }
 
 /* ANY 페이즈는 대응하는 공식 페이즈 아이콘이 없어 볼드체 'A'로 대신 표시한다 */

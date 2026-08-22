@@ -12,6 +12,7 @@ import { UnitCardView } from '../../components/card/UnitCardView'
 import { RuleAbilityBlock } from '../../components/card/RuleAbilityBlock'
 import { WeaponTable } from '../../components/card/WeaponTable'
 import { KeywordDefinitionsList } from '../../components/card/keywordHighlight'
+import { PhaseBadge } from '../../components/card/PhaseBadge'
 import type { CrossFavoriteRef, FavoriteToggle } from '../../components/card/AbilitiesSection'
 import '../gameReference.css'
 
@@ -181,7 +182,7 @@ export function GameReferencePage({
         >
           <div className="game-card">
             <div className="card-phase-header">
-              <span className="card-phase-dot" />
+              <PhaseBadge phase={abilityDetail.ability.phase} />
               {(abilityDetail.ability.phase === 'Any' ? 'ANY' : abilityDetail.ability.phase.toUpperCase())} PHASE
             </div>
             <div className="card-phase-body card-ability-detail-body">

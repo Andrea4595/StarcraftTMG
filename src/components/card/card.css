@@ -306,11 +306,40 @@
   padding: 8px 12px;
 }
 
-.card-phase-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  border: 2px solid currentColor;
+/* MOVEMENT/ASSAULT/COMBAT 페이즈를 나타내는 아이콘. 실제 이미지는 흰색 실루엣이라 mask 기법으로 색을 입힌다 */
+.card-phase-icon {
+  display: inline-block;
+  height: 12px;
+  background-color: var(--gc-blue);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+.card-phase-icon-movement {
+  aspect-ratio: 512 / 512;
+  -webkit-mask-image: url('../../assets/movementPhase.png');
+  mask-image: url('../../assets/movementPhase.png');
+}
+
+.card-phase-icon-assault {
+  aspect-ratio: 2000 / 1999;
+  -webkit-mask-image: url('../../assets/assaultPhase.png');
+  mask-image: url('../../assets/assaultPhase.png');
+}
+
+.card-phase-icon-combat {
+  aspect-ratio: 512 / 512;
+  -webkit-mask-image: url('../../assets/combatPhase.png');
+  mask-image: url('../../assets/combatPhase.png');
+}
+
+/* ANY 페이즈는 대응하는 공식 아이콘이 없어 볼드체 'A'로 대신 표시한다 */
+.card-phase-any {
+  font-weight: 700;
 }
 
 .card-phase-body {
