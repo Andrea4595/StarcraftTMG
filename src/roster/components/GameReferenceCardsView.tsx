@@ -125,9 +125,8 @@ export function GameReferenceCardsView({
                       </span>
                       <span className="game-ref-item-name">{localize(unit.name)}</span>
                       {tier && <span className="game-ref-item-tag">{tier.modelMax} Models</span>}
-                      <span className="game-ref-item-cost">{unitEntryMineralCost(unit, entry)}</span>
+                      <StatBoxes unit={unit} />
                     </div>
-                    <StatBoxes unit={unit} />
                     <AbilityChipsRow
                       abilities={activeAbilities}
                       sourceId={unit.id}
@@ -137,6 +136,7 @@ export function GameReferenceCardsView({
                       onSelectAbility={onSelectAbility}
                       localize={localize}
                     />
+                    <div className="game-ref-item-mineral-cost">{unitEntryMineralCost(unit, entry)}</div>
                   </div>
                 </li>
               )

@@ -158,9 +158,13 @@
   opacity: 0.65;
 }
 
-.game-ref-item-cost {
-  margin-left: auto;
+/* 유닛에 투자된 미네랄 비용. 카드 우측 아래에 작게, 미네랄과 같은 파란색으로 표기한다 */
+.game-ref-item-mineral-cost {
+  margin-top: 4px;
+  text-align: right;
+  font-size: 11px;
   font-weight: 700;
+  color: #5b9dff;
   font-variant-numeric: tabular-nums;
 }
 
@@ -185,11 +189,29 @@
   border-radius: 1px;
 }
 
-/* 유닛의 SHLD/SPD/EVA/ARM/HP/SIZ 요약은 로스터 편집 화면과 같은 컴포넌트(StatBoxes)를 그대로 쓴다.
-   .card-statboxes 자체엔 margin이 없어(둘러싸는 레이아웃마다 gap으로 간격을 주는 게 보통이라)
-   이 목록에서만 위 여백을 별도로 준다. */
-.game-ref-item .card-statboxes {
-  margin-top: 6px;
+/*
+  유닛의 SHLD/SPD/EVA/ARM/HP/SIZ 요약은 로스터 편집 화면(.roster-entry-header)과 같은 컴포넌트
+  (StatBoxes)를 그대로 쓰되, 그 화면의 컴팩트한 크기/배치 느낌을 맞춘다: 이름 줄 오른쪽 끝에
+  붙이고, 값 색은 명시적으로 밝게(--text-h) 줘서 잘 보이게 한다(기본값은 색 지정이 없어 이 목록의
+  옅은 본문 색을 그대로 물려받아 흐릿해진다).
+*/
+.game-ref-item-row .card-statboxes {
+  margin-left: auto;
+  gap: 4px;
+}
+
+.game-ref-item-row .card-statbox {
+  padding: 2px 6px;
+  min-width: 30px;
+}
+
+.game-ref-item-row .card-statbox-value {
+  font-size: 12px;
+  color: var(--text-h);
+}
+
+.game-ref-item-row .card-statbox-label {
+  font-size: 8px;
 }
 
 /* 페이즈 화면: 출처(카드/유닛)별 그룹. .game-card를 함께 써서 실제 카드와 같은 다크 배색(--gc-*)을
