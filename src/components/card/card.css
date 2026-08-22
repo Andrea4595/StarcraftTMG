@@ -315,13 +315,25 @@
 .card-phase-icon {
   display: inline-block;
   height: 12px;
-  background-color: var(--gc-blue, #5b9dff);
+  background-color: var(--phase-tone-color, var(--gc-blue, #5b9dff));
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
   -webkit-mask-size: contain;
   mask-size: contain;
+}
+
+/*
+  로스터 편집 화면에서 업그레이드 활성/비활성 상태를 아이콘 색으로 구분할 때 쓰는 톤(기본은 위
+  --gc-blue 그대로). --phase-tone-color 하나로 아이콘 배경색과 ANY 텍스트 색을 동시에 바꾼다.
+*/
+.card-phase-tone-active {
+  --phase-tone-color: var(--gc-green, #4ade80);
+}
+
+.card-phase-tone-inactive {
+  --phase-tone-color: var(--gc-text-disabled, #565a68);
 }
 
 .card-phase-icon-movement {
@@ -345,7 +357,7 @@
 /* ANY 페이즈는 대응하는 공식 아이콘이 없어 볼드체 'A'로 대신 표시한다 */
 .card-phase-any {
   font-weight: 700;
-  color: var(--gc-blue, #5b9dff);
+  color: var(--phase-tone-color, var(--gc-blue, #5b9dff));
 }
 
 .card-phase-body {
@@ -600,6 +612,15 @@
 
 .ability-chip-star {
   color: var(--gc-yellow, #f0b429);
+}
+
+/* 로스터 편집 화면에서 꺼져 있는 업그레이드 칩을 어둡게 눌러 비활성 상태를 표현한다 */
+.ability-chip-dim {
+  opacity: 0.45;
+}
+
+.ability-chip-dim:hover {
+  opacity: 0.7;
 }
 
 /* 꺼진 업그레이드: 텍스트를 어둡게 눌러서 비활성 상태를 표현 */

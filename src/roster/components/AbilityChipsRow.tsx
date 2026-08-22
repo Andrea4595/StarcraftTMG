@@ -24,6 +24,7 @@ export function AbilityChipsRow({
   roster,
   onSelectAbility,
   localize,
+  upgradeStateFor,
 }: {
   abilities: Ability[]
   sourceId: string
@@ -32,6 +33,11 @@ export function AbilityChipsRow({
   roster: Roster
   onSelectAbility: (ref: AbilityDetailRef) => void
   localize: (rule: Rule) => string
+  /**
+   * 업그레이드에서 나온 능력의 활성/비활성 상태를 알려준다(로스터 편집 화면 전용). 기본 능력이거나
+   * 지정하지 않으면 항상 기본(파란) 톤으로 보여준다.
+   */
+  upgradeStateFor?: (ability: Ability) => 'active' | 'inactive' | undefined
 }) {
   if (abilities.length === 0) return null
   /** ANY > MOVEMENT > ASSAULT > COMBAT 순으로 정렬한다 (원본 데이터 배열 순서는 뒤죽박죽이라 그대로 보여주면 읽기 어렵다) */
@@ -40,17 +46,18 @@ export function AbilityChipsRow({
     <div className="ability-chips-row">
       {sorted.map((ability, i) => {
         const favorited = ability.kind === 'rule' && isFavoriteAbility(roster, sourceId, ability.id)
+        const tone = upgradeStateFor?.(ability)
         return (
           <button
             type="button"
-            className="ability-chip"
+            className={`ability-chip ${tone === 'inactive' ? 'ability-chip-dim' : ''}`}
             key={i}
             onClick={(e) => {
               e.stopPropagation()
               onSelectAbility({ ability, sourceLabel, sourceId, unitType })
             }}
           >
-            <PhaseBadge phase={ability.phase} />
+            <PhaseBadge phase={ability.phase} tone={tone ?? 'default'} />
             {favorited && <span className="ability-chip-star">★</span>}
             {localize(ability.name)}
           </button>

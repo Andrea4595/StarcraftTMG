@@ -187,6 +187,43 @@ export function unitActiveAbilities(unit: UnitCard, entry: RosterUnitEntry): Abi
   return [...baseAbilities, ...activeUpgrades.map((u) => u.ability)]
 }
 
+/** unitAbilityChipEntries가 돌려주는 능력 하나. 기본 능력이면 upgradeActive가 undefined다 */
+export interface AbilityChipEntry {
+  ability: Ability
+  /** 업그레이드에서 나온 능력일 때만 지정: 로스터에서 지금 이 업그레이드가 켜져 있는지 */
+  upgradeActive?: boolean
+}
+
+/**
+ * 로스터 편집 화면 전용: unitActiveAbilities와 달리 꺼진 업그레이드의 능력도 함께 반환한다(대신
+ * upgradeActive: false로 표시). 활성 업그레이드가 원본을 봉인하는 규칙은 그대로 적용되므로, 봉인된
+ * 기본 능력은 여전히 빠진다 — 봉인은 '켜졌을 때 실제로 일어나는 일'이라 꺼진 업그레이드는 아무것도
+ * 봉인하지 않는다.
+ */
+export function unitAbilityChipEntries(unit: UnitCard, entry: RosterUnitEntry): AbilityChipEntry[] {
+  const activeIndexes = new Set(entry.upgradeIndexes)
+
+  const sealedIds = new Set<string>()
+  for (const i of activeIndexes) {
+    const upgrade = unit.upgrades[i]
+    if (!upgrade?.forId || upgrade.ability.kind !== 'weapon') continue
+    const isSpecialist = upgrade.ability.stat.keyword.some((k) => k.name === 'SPECIALIST')
+    if (isSpecialist) continue
+    sealedIds.add(upgrade.forId)
+  }
+
+  const baseEntries: AbilityChipEntry[] = unit.abilities
+    .filter((a) => !sealedIds.has(a.id))
+    .map((ability) => ({ ability }))
+
+  const upgradeEntries: AbilityChipEntry[] = unit.upgrades.map((u, i) => ({
+    ability: u.ability,
+    upgradeActive: activeIndexes.has(i),
+  }))
+
+  return [...baseEntries, ...upgradeEntries]
+}
+
 export interface PhaseAbilityGroup {
   /** 화면에 보여줄 이름. 같은 유닛이 로스터에 여러 장이면 "해병 #2"처럼 번호가 붙는다 */
   sourceLabel: string

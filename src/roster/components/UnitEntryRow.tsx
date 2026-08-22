@@ -1,6 +1,6 @@
-import type { Roster, RosterUnitEntry, UnitCard } from '../../types'
+import type { Ability, Roster, RosterUnitEntry, UnitCard } from '../../types'
 import { useRosterStore } from '../RosterContext'
-import { unitActiveAbilities, unitEntryMineralCost } from '../rosterCalc'
+import { unitAbilityChipEntries, unitEntryMineralCost } from '../rosterCalc'
 import { StatBoxes } from '../../components/card/StatBoxes'
 import { useLocalize } from '../../LangContext'
 import { AbilityChipsRow, type AbilityDetailRef } from './AbilityChipsRow'
@@ -25,7 +25,12 @@ export function UnitEntryRow({
   const localize = useLocalize()
   const tier = unit.squad[entry.squadTierIndex]
   const cost = unitEntryMineralCost(unit, entry)
-  const activeAbilities = unitActiveAbilities(unit, entry)
+  const abilityEntries = unitAbilityChipEntries(unit, entry)
+  const upgradeStateByAbility = new Map<Ability, 'active' | 'inactive'>(
+    abilityEntries
+      .filter((e) => e.upgradeActive !== undefined)
+      .map((e) => [e.ability, e.upgradeActive ? 'active' : 'inactive']),
+  )
   const index = roster.units.findIndex((e) => e.id === entry.id)
 
   return (
@@ -58,13 +63,14 @@ export function UnitEntryRow({
       </div>
 
       <AbilityChipsRow
-        abilities={activeAbilities}
+        abilities={abilityEntries.map((e) => e.ability)}
         sourceId={unit.id}
         sourceLabel={localize(unit.name)}
         unitType={unit.type}
         roster={roster}
         onSelectAbility={onSelectAbility}
         localize={localize}
+        upgradeStateFor={(ability) => upgradeStateByAbility.get(ability)}
       />
 
       <div className="roster-entry-footer">
