@@ -804,12 +804,8 @@ button.roster-slot-pill:hover {
   align-items: center;
   justify-content: center;
   padding: 24px;
+  /* 실제 값은 Modal.tsx가 마운트 순서대로 발급하는 인라인 z-index로 덮어쓴다(나중에 연 모달이 항상 위) */
   z-index: 100;
-}
-
-/* 다른 모달 위에 뜨는 중첩 모달(예: 모바일 상세 모달)은 항상 부모 모달보다 위에 그려져야 한다 */
-.modal-backdrop-nested {
-  z-index: 110;
 }
 
 .modal-panel {

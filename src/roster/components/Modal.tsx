@@ -1,12 +1,20 @@
-import { useEffect, type ReactNode } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
+
+/** 모달이 열릴 때마다 하나씩 올라가는 전역 카운터. 나중에 열린 모달이 항상 그 위에 그려지도록,
+ *  마운트 순서를 z-index로 그대로 옮긴다. */
+let topZIndex = 99
+
+function nextZIndex() {
+  topZIndex += 1
+  return topZIndex
+}
 
 export function Modal({
   title,
   subHeader,
   onClose,
   children,
-  nested,
   className,
 }: {
   /** 보통은 문자열이지만, 제목 옆에 배지 등을 함께 붙여야 할 때는 커스텀 노드를 넘길 수 있다 */
@@ -15,16 +23,12 @@ export function Modal({
   subHeader?: ReactNode
   onClose: () => void
   children: ReactNode
-  /**
-   * 다른 Modal의 자식으로 렌더링되는 모달(예: 모바일 상세 모달)이면 true로 넘긴다. 두 모달 모두
-   * document.body에 별도로 포탈되는데, 같은 커밋에서 함께 마운트되면 React가 자식(=이 모달)의
-   * DOM 노드를 부모보다 먼저 body에 삽입한다. z-index가 같으면 나중에 삽입된 부모 모달이 위에
-   * 그려져 이 모달을 완전히 가려버리므로(클릭도 막힘), 더 높은 z-index로 항상 위에 오게 한다.
-   */
-  nested?: boolean
   /** 기본 max-width(1100px)를 좁히는 등, 이 모달 인스턴스만 폭을 다르게 주고 싶을 때 .modal-panel에 덧붙일 클래스 */
   className?: string
 }) {
+  /** 마운트 시점에 한 번만 발급받아 이 모달 인스턴스에 고정한다 */
+  const [zIndex] = useState(nextZIndex)
+
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
@@ -38,7 +42,7 @@ export function Modal({
    * 스태킹 컨텍스트에 갇혀서, z-index와 무관하게 옆 패널(.roster-detail-panel)보다 아래에 그려진다.
    */
   return createPortal(
-    <div className={`modal-backdrop ${nested ? 'modal-backdrop-nested' : ''}`} onClick={onClose}>
+    <div className="modal-backdrop" style={{ zIndex }} onClick={onClose}>
       <div className={`modal-panel ${className ?? ''}`} onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <span className="modal-title">{title}</span>
