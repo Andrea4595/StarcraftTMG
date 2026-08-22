@@ -917,9 +917,16 @@ button.roster-slot-pill:hover {
   opacity: 0.8;
 }
 
+/*
+  화면이 넓으면 2열로 채운다. 모달 max-width(1100px)에서 좌우 패딩(18px*2)을 빼면 본문 폭이 최대
+  ~1060px이라, minmax를 420px로 잡으면 2열(840px)까진 들어가고 3열(1260px)은 못 들어가 항상 최대
+  2열로 고정된다. 카드마다 어빌리티 칩 개수가 달라 내용 높이가 다르지만, grid 아이템은 기본으로
+  같은 행의 가장 큰 카드에 맞춰 늘어나(align-items 기본값 stretch) 짧은 카드는 아래쪽에 여백만
+  남을 뿐 줄이 어긋나 보이지 않는다.
+*/
 .tactical-picker-rows {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
   gap: 6px;
 }
 
