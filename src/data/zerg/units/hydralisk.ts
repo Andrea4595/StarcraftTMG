@@ -133,6 +133,7 @@ export const hydralisk: UnitCard = {
         phase: 'Assault',
         type: 'Passive',
         cost: 0,
+        enhances: ['Needle Spines'],
         rule: {
           en: 'This Unit\'s Needle Spines ranged weapon gains LONG RANGE (16").',
           ko: '이 유닛의 바늘 가시뼈는 롱 레인지(16")을 갖는다.',

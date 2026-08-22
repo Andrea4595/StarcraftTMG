@@ -99,6 +99,7 @@ export const sentry: UnitCard = {
         phase: 'Movement',
         type: 'Active',
         cost: 1,
+        enhances: ['Force Field'],
         rule: {
           en: "Set a Force Field token Within 8\" in an unoccupied space. Units of Size 2 or lower cannot move across Force Fields. Models of Size 3 or more can move over it, and it's then removed.",
           ko: '이 유닛의 8”이내에 역장 토큰을 전장의 빈 공간에 둔다. 사이즈 2 이하의 유닛은 그 역장을 통과해서 이동할 수 없다. 사이즈 3 이상의 유닛이라면 그 역장을 통과해 이동할 수 있으며, 그 경우 토큰은 제거된다.',

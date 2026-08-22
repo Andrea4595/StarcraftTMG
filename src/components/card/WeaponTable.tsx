@@ -1,6 +1,8 @@
 import type { WeaponProfile } from '../../types'
 import { KeywordList } from './KeywordText'
-import { useLocalize } from '../../LangContext'
+import { useLang, useLocalize } from '../../LangContext'
+import { localizeTag } from './tagLabels'
+import { RelatedAbilities, type RelatedAbilityTarget } from './RelatedAbilities'
 
 export interface WeaponRow {
   weapon: WeaponProfile
@@ -12,11 +14,22 @@ export interface WeaponRow {
   interactive?: { active: boolean; onToggle: () => void }
   /** 다른 활성화된 업그레이드가 이 무기를 대체해 봉인했음을 표시. 선택되지 못한 업그레이드와 같은 스타일로 어둡게 표시한다 */
   sealed?: boolean
+  /** 이 무기를 이름으로 언급(강화)하는, 같은 유닛의 다른 어빌리티 */
+  referencedBy?: RelatedAbilityTarget[]
+  /** 지정하면 행 전체를 눌러 이 콜백을 호출한다 (연관 어빌리티 목록에 무기 스탯을 요약해서 보여줄 때만 쓴다) */
+  onClick?: () => void
+  /**
+   * 연관 어빌리티 목록에 무기 스탯을 요약해서 보여줄 때만 true. FOR 줄과 (재귀 방지를 위해) 강화
+   * 목록을 생략해 군더더기를 줄인다.
+   */
+  compact?: boolean
 }
 
 export function WeaponTable({ rows }: { rows: WeaponRow[] }) {
   const localize = useLocalize()
+  const { lang } = useLang()
   const showPts = rows.some((r) => r.ptsLabel !== undefined)
+  const columnCount = 9 + (showPts ? 1 : 0)
   return (
     <div className="card-weapon-table-wrap">
     <table className="card-weapon-table">
@@ -35,44 +48,67 @@ export function WeaponTable({ rows }: { rows: WeaponRow[] }) {
         </tr>
       </thead>
       <tbody>
-        {rows.map((row, i) => (
-          <tr
-            key={i}
-            className={(row.interactive && !row.interactive.active) || row.sealed ? 'card-weapon-row-dim' : ''}
-          >
-            <td className="card-weapon-name-col">
-              <div className="card-weapon-name">{localize(row.weapon.name)}</div>
-              <div className="card-weapon-for">FOR {row.for ?? '-'}</div>
-            </td>
-            <td>{row.weapon.stat.rng}</td>
-            <td>{row.weapon.stat.tgt}</td>
-            <td>{row.weapon.stat.roa}</td>
-            <td>{row.weapon.stat.hit}</td>
-            <td>{row.weapon.stat.surge.length > 0 ? row.weapon.stat.surge.join(', ') : '-'}</td>
-            <td>{row.weapon.stat.sDie}</td>
-            <td>{row.weapon.stat.dmg}</td>
-            <td>
-              <KeywordList keywords={row.weapon.stat.keyword} />
-            </td>
-            {showPts && (
-              <td>
-                {row.ptsLabel === undefined ? (
-                  ''
-                ) : row.interactive ? (
-                  <button
-                    type="button"
-                    className={`card-pts-badge card-pts-toggle ${row.interactive.active ? 'card-pts-toggle-active' : ''}`}
-                    onClick={row.interactive.onToggle}
-                  >
-                    {row.ptsLabel}
-                  </button>
-                ) : (
-                  row.ptsLabel
-                )}
+        {rows.flatMap((row, i) => {
+          const hasRelated = !row.compact && (row.referencedBy?.length ?? 0) > 0
+          const mainRow = (
+            <tr
+              key={`row-${i}`}
+              className={[
+                (row.interactive && !row.interactive.active) || row.sealed ? 'card-weapon-row-dim' : '',
+                row.onClick ? 'card-weapon-row-clickable' : '',
+                hasRelated ? 'card-weapon-row-has-related' : '',
+              ]
+                .filter(Boolean)
+                .join(' ')}
+              onClick={row.onClick}
+            >
+              <td className="card-weapon-name-col">
+                <div className="card-weapon-name">{localize(row.weapon.name)}</div>
+                {!row.compact && <div className="card-weapon-for">FOR {row.for ?? '-'}</div>}
               </td>
-            )}
-          </tr>
-        ))}
+              <td>{row.weapon.stat.rng}</td>
+              <td>{localizeTag(row.weapon.stat.tgt, lang)}</td>
+              <td>{row.weapon.stat.roa}</td>
+              <td>{row.weapon.stat.hit}</td>
+              <td>
+                {row.weapon.stat.surge.length > 0
+                  ? row.weapon.stat.surge.map((s) => localizeTag(s, lang)).join(', ')
+                  : '-'}
+              </td>
+              <td>{row.weapon.stat.sDie}</td>
+              <td>{row.weapon.stat.dmg}</td>
+              <td>
+                <KeywordList keywords={row.weapon.stat.keyword} />
+              </td>
+              {showPts && (
+                <td>
+                  {row.ptsLabel === undefined ? (
+                    ''
+                  ) : row.interactive ? (
+                    <button
+                      type="button"
+                      className={`card-pts-badge card-pts-toggle ${row.interactive.active ? 'card-pts-toggle-active' : ''}`}
+                      onClick={row.interactive.onToggle}
+                    >
+                      {row.ptsLabel}
+                    </button>
+                  ) : (
+                    row.ptsLabel
+                  )}
+                </td>
+              )}
+            </tr>
+          )
+          if (!hasRelated) return [mainRow]
+          return [
+            mainRow,
+            <tr key={`row-${i}-related`} className="card-weapon-related-row">
+              <td colSpan={columnCount}>
+                <RelatedAbilities items={row.referencedBy ?? []} />
+              </td>
+            </tr>,
+          ]
+        })}
       </tbody>
     </table>
     </div>

@@ -9,10 +9,12 @@ import type {
   UnitCard,
   UnitType,
   Upgrade,
+  WeaponProfile,
 } from '../types'
 import { localize, type Lang } from '../LangContext'
 import { UNIT_TYPES } from '../types'
-import { resolveScaledCost } from '../components/card/costDisplay'
+import { formatScaledCost, resolveScaledCost } from '../components/card/costDisplay'
+import type { AbilitySelectionRef, UpgradeToggleRef, WeaponSummaryEntry, WeaponTone } from './components/AbilityChipsRow'
 
 export { resolveScaledCost }
 
@@ -47,6 +49,18 @@ export function unitEquippedUpgrades(unit: UnitCard, entry: RosterUnitEntry): Up
     .sort((a, b) => a - b)
     .map((i) => unit.upgrades[i])
     .filter((u): u is NonNullable<typeof u> => u !== undefined)
+}
+
+/**
+ * 이 업그레이드와 같은 무기(forId)를 대체하는 다른 무기 업그레이드들의 인덱스. 하나를 켜면 이들은
+ * 자동으로 꺼져야 한다 — 같은 기본 무기를 두 번 대체할 수는 없다.
+ */
+export function upgradeExclusiveWith(unit: UnitCard, index: number): number[] {
+  const target = unit.upgrades[index]
+  if (!target || target.ability.kind !== 'weapon' || !target.forId) return []
+  return unit.upgrades
+    .map((_, i) => i)
+    .filter((i) => i !== index && unit.upgrades[i].ability.kind === 'weapon' && unit.upgrades[i].forId === target.forId)
 }
 
 export function unitEntryMineralCost(unit: UnitCard, entry: RosterUnitEntry): number {
@@ -185,6 +199,205 @@ export function unitActiveAbilities(unit: UnitCard, entry: RosterUnitEntry): Abi
 
   const baseAbilities = unit.abilities.filter((a) => !sealedIds.has(a.id))
   return [...baseAbilities, ...activeUpgrades.map((u) => u.ability)]
+}
+
+/**
+ * 이 유닛의 업그레이드 능력이 대체(FOR)하는 원본 능력의 로컬라이즈된 이름을 조회하는 함수를 만든다.
+ * 업그레이드가 아니거나 forId가 없으면 undefined를 돌려준다. AbilityChipsRow처럼 능력 하나만 아는
+ * 문맥(칩, 단독 상세 모달)에서 AbilitiesSection.resolveForName과 동등한 정보를 얻기 위해 쓴다.
+ */
+export function unitForLabelResolver(
+  unit: UnitCard,
+  localize: (rule: Rule) => string,
+): (ability: Ability) => string | undefined {
+  const forIdByAbility = new Map<Ability, string>()
+  for (const upgrade of unit.upgrades) {
+    if (upgrade.forId) forIdByAbility.set(upgrade.ability, upgrade.forId)
+  }
+  return (ability) => {
+    const forId = forIdByAbility.get(ability)
+    if (!forId) return undefined
+    const found = unit.abilities.find((a) => a.id === forId)
+    return found ? localize(found.name) : forId
+  }
+}
+
+/**
+ * 이름 직접 언급으로 찾은 연관 어빌리티/무기(ability)를 눌렀을 때 열 상세 모달의 참조를 만든다.
+ * 무기면 그 무기가 속한 페이즈의 종합 모달(사격/근접 공격)로, 룰 어빌리티면 단독 상세 모달로
+ * 이동한다. entryId가 없으면(예: 다른 유닛에서 즐겨찾기한 능력을 보는 중이라 롤 항목을 확정할 수
+ * 없을 때) 무기 참조의 entryId는 빈 문자열로 채워지므로, 호출부가 entryId 유무로 클릭 가능 여부를
+ * 미리 걸러야 한다.
+ */
+export function abilitySelectionRefFor(
+  unit: UnitCard,
+  ability: Ability,
+  ctx: {
+    sourceId: string
+    sourceLabel: string
+    unitType?: UnitType
+    entryId?: string
+    localize: (rule: Rule) => string
+    /** true면(로스터 편집 화면) 대상이 업그레이드 능력일 때 PTS 토글 버튼 정보를 함께 채운다 */
+    interactive?: boolean
+  },
+): AbilitySelectionRef {
+  if (ability.kind === 'weapon') {
+    return {
+      kind: 'weapon-summary',
+      sourceLabel: ctx.sourceLabel,
+      sourceId: ctx.sourceId,
+      unitType: ctx.unitType,
+      label: ability.phase === 'Assault' ? FIRE_LABEL : MELEE_LABEL,
+      entryId: ctx.entryId ?? '',
+      phase: ability.phase,
+    }
+  }
+  const upgradeIndex = unit.upgrades.findIndex((u) => u.ability.id === ability.id)
+  const upgrade = upgradeIndex >= 0 ? unit.upgrades[upgradeIndex] : undefined
+  return {
+    kind: 'ability',
+    ability,
+    sourceLabel: ctx.sourceLabel,
+    sourceId: ctx.sourceId,
+    unitType: ctx.unitType,
+    entryId: ctx.entryId,
+    forLabel: unitForLabelResolver(unit, ctx.localize)(ability),
+    upgradeToggle:
+      ctx.interactive && upgrade && ctx.entryId
+        ? { entryId: ctx.entryId, upgradeIndex, pts: upgrade.pts, exclusiveWith: upgradeExclusiveWith(unit, upgradeIndex) }
+        : undefined,
+  }
+}
+
+/**
+ * 이름 직접 언급으로 찾은 연관 어빌리티/무기(ability)가 지금 활성인지, 업그레이드라면 비용이 얼마인지
+ * 알려준다. 기본 능력(업그레이드가 아님)은 항상 활성으로, 비용 없이 취급한다.
+ *
+ * activeIndexes를 지정하지 않으면(예: 다른 유닛에서 즐겨찾기한 능력이라 로스터 항목을 확정할 수
+ * 없을 때) 항상 활성으로 본다 — 게임 레퍼런스 화면의 유닛 상세 카드처럼 애초에 활성인 것만 골라
+ * 넘긴 목록에서도 이 함수를 그대로 쓸 수 있도록 하기 위해서다.
+ */
+/**
+ * 지금 활성화된 업그레이드가 대체(봉인)하는 기본 무기 id들. SPECIALIST 키워드가 붙은 업그레이드
+ * 무기는 유닛의 모델 중 하나만 사용하는 것이라, 나머지 모델은 여전히 원래 무기를 쓰므로 원본을
+ * 봉인하지 않는다.
+ */
+function sealedWeaponIds(unit: UnitCard, activeIndexes: number[]): Set<string> {
+  const sealed = new Set<string>()
+  for (const i of activeIndexes) {
+    const upgrade = unit.upgrades[i]
+    if (!upgrade?.forId || upgrade.ability.kind !== 'weapon') continue
+    const isSpecialist = upgrade.ability.stat.keyword.some((k) => k.name === 'SPECIALIST')
+    if (isSpecialist) continue
+    sealed.add(upgrade.forId)
+  }
+  return sealed
+}
+
+export function abilityActiveState(
+  unit: UnitCard,
+  ability: Ability,
+  ctx: { activeIndexes?: number[]; squadTierIndex?: number },
+): { active: boolean; cost?: string } {
+  const upgradeIndex = unit.upgrades.findIndex((u) => u.ability.id === ability.id)
+  if (upgradeIndex === -1) {
+    /** 기본 능력: 활성 업그레이드가 대체(봉인)하고 있으면 비활성으로 취급한다 */
+    const sealed = ctx.activeIndexes ? sealedWeaponIds(unit, ctx.activeIndexes).has(ability.id) : false
+    return { active: !sealed }
+  }
+  const upgrade = unit.upgrades[upgradeIndex]
+  return {
+    active: ctx.activeIndexes ? ctx.activeIndexes.includes(upgradeIndex) : true,
+    cost:
+      ctx.squadTierIndex !== undefined
+        ? String(resolveScaledCost(upgrade.pts, ctx.squadTierIndex))
+        : formatScaledCost(upgrade.pts),
+  }
+}
+
+/** unitAbilityChipEntries가 돌려주는 능력 하나. 기본 능력이면 upgradeActive가 undefined다 */
+export interface AbilityChipEntry {
+  ability: Ability
+  /** 업그레이드에서 나온 능력일 때만 지정: 로스터에서 지금 이 업그레이드가 켜져 있는지 */
+  upgradeActive?: boolean
+  /** 업그레이드에서 나온 능력일 때만 지정: 현재 스쿼드 등급 기준 비용 */
+  upgradePts?: number
+}
+
+/**
+ * 로스터 편집 화면 전용: unitActiveAbilities와 달리 꺼진 업그레이드의 능력도 함께 반환한다(대신
+ * upgradeActive: false로 표시). 활성 업그레이드에 봉인된 기본 능력도 빼지 않고 그대로 남기되,
+ * 마찬가지로 upgradeActive: false를 줘서 꺼진 업그레이드와 같은 톤(어둡게)으로 보이게 한다 — 칩이
+ * 통째로 사라지면 이 유닛에 그 무기/능력이 원래 있었다는 사실 자체를 잊기 쉽다.
+ */
+export function unitAbilityChipEntries(unit: UnitCard, entry: RosterUnitEntry): AbilityChipEntry[] {
+  const activeIndexes = new Set(entry.upgradeIndexes)
+  const sealedIds = sealedWeaponIds(unit, entry.upgradeIndexes)
+
+  const baseEntries: AbilityChipEntry[] = unit.abilities.map((ability) => ({
+    ability,
+    upgradeActive: sealedIds.has(ability.id) ? false : undefined,
+  }))
+
+  const upgradeEntries: AbilityChipEntry[] = unit.upgrades.map((u, i) => ({
+    ability: u.ability,
+    upgradeActive: activeIndexes.has(i),
+    upgradePts: resolveScaledCost(u.pts, entry.squadTierIndex),
+  }))
+
+  return [...baseEntries, ...upgradeEntries]
+}
+
+/** 무기 종합 칩의 이름 앞에 붙는 라벨 */
+export const FIRE_LABEL: Rule = { en: 'Fire', ko: '사격' }
+export const MELEE_LABEL: Rule = { en: 'Melee', ko: '근접 공격' }
+
+/**
+ * 이 유닛이 가진 특정 phase의 무기 프로필을 모두 모아 '사격'/'근접 공격' 종합 칩에 쓸 형태로
+ * 정리한다. 대체되지 않은 기본 무기는 'base', 활성 업그레이드로 얻은 무기는 'active', 업그레이드가
+ * 있지만 켜지지 않았거나(미선택) 다른 활성 업그레이드에 봉인된 기본 무기는 'inactive'로 분류한다 —
+ * unitAbilityChipEntries가 이미 이 세 가지를 upgradeActive(undefined/true/false)로 구분해주므로
+ * 그대로 물려받는다. 업그레이드로 나온 무기는 상세 모달의 켜기/끄기 버튼에 쓸 upgradeToggle도 함께
+ * 채운다 — 실제로 그 버튼을 누를 수 있게 할지는 호출부(모달)가 따로 결정한다(게임 레퍼런스는 읽기 전용).
+ */
+export function unitWeaponSummaryEntries(
+  unit: UnitCard,
+  entry: RosterUnitEntry,
+  phase: Phase,
+  localize: (rule: Rule) => string,
+): WeaponSummaryEntry[] {
+  const forFor = unitForLabelResolver(unit, localize)
+  const upgradeIndexByAbility = new Map<Ability, number>(unit.upgrades.map((u, i) => [u.ability, i]))
+  return unitAbilityChipEntries(unit, entry)
+    .filter((e) => e.ability.kind === 'weapon' && e.ability.phase === phase)
+    .map((e) => {
+      const tone: WeaponTone = e.upgradeActive === undefined ? 'base' : e.upgradeActive ? 'active' : 'inactive'
+      const i = upgradeIndexByAbility.get(e.ability)
+      const upgradeToggle: UpgradeToggleRef | undefined =
+        i === undefined
+          ? undefined
+          : { entryId: entry.id, upgradeIndex: i, pts: unit.upgrades[i].pts, exclusiveWith: upgradeExclusiveWith(unit, i) }
+      return { ability: e.ability as WeaponProfile, tone, forLabel: forFor(e.ability), upgradeToggle }
+    })
+}
+
+/** 이 유닛의 어썰트 페이즈(원거리) 무기 프로필을 '사격' 종합 칩에 쓸 형태로 정리한다 */
+export function unitRangedWeaponEntries(
+  unit: UnitCard,
+  entry: RosterUnitEntry,
+  localize: (rule: Rule) => string,
+): WeaponSummaryEntry[] {
+  return unitWeaponSummaryEntries(unit, entry, 'Assault', localize)
+}
+
+/** 이 유닛의 컴뱃 페이즈(근접) 무기 프로필을 '근접 공격' 종합 칩에 쓸 형태로 정리한다 */
+export function unitMeleeWeaponEntries(
+  unit: UnitCard,
+  entry: RosterUnitEntry,
+  localize: (rule: Rule) => string,
+): WeaponSummaryEntry[] {
+  return unitWeaponSummaryEntries(unit, entry, 'Combat', localize)
 }
 
 export interface PhaseAbilityGroup {

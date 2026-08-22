@@ -110,6 +110,7 @@ export const medic: UnitCard = {
         phase: 'Any',
         type: 'Passive',
         cost: 0,
+        enhances: ['Optical Flare'],
         rule: {
           en: "Increase the Optical Flare special ability's Range to 16\".",
           ko: '광학 섬광탄의 사용 범위를 16"로 늘린다.',
@@ -125,6 +126,7 @@ export const medic: UnitCard = {
         phase: 'Any',
         type: 'Passive',
         cost: 0,
+        enhances: ['Life Support', 'Medpack'],
         rule: {
           en: "When this Unit resolves a Life Support or Medpack ability, treat it as having 1 additional model Within Range for calculating that ability's effects.",
           ko: '이 유닛이 연명처치나 의료 팩을 사용할 때, 이 유닛의 모델 수를 1개 더 많은 것으로 친다.',

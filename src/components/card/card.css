@@ -92,6 +92,21 @@
   gap: 12px;
 }
 
+/*
+  컴팩트 스쿼드 등급 선택기(SquadTierSelector)를 스탯 박스 바로 왼쪽에 붙인다. 줄바꿈이 필요할
+  땐 스탯이 아니라 스쿼드 쪽이 아래 새 줄로 밀려나야 한다 — flex-wrap은 항상 "먼저 오는 항목이
+  줄에 남고 나중 항목이 밀려나는" 식으로 동작하므로, DOM 순서는 스탯을 먼저 두고
+  row-reverse로 시각적 순서만 다시 뒤집어(스쿼드가 왼쪽에 보이도록) 그 우선순위를 얻는다.
+*/
+.card-squad-stats-row {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 /* 스탯 박스 (SHLD/SPD/EVA/ARM/HP/SIZ) */
 .card-statboxes {
   display: flex;
@@ -306,11 +321,58 @@
   padding: 8px 12px;
 }
 
-.card-phase-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  border: 2px solid currentColor;
+/*
+  MOVEMENT/ASSAULT/COMBAT 페이즈를 나타내는 아이콘. 실제 이미지는 흰색 실루엣이라 mask 기법으로 색을
+  입힌다. --gc-blue는 .game-card 스코프 안에서만 정의되는데, 이 컴포넌트(PhaseBadge)는 로스터 편집
+  화면의 어빌리티 칩처럼 .game-card 밖에서도 쓰이므로, 정의되지 않은 곳에서는 var()의 두 번째 인자
+  (같은 값의 리터럴)로 자연히 대체되게 한다.
+*/
+.card-phase-icon {
+  display: inline-block;
+  height: 12px;
+  background-color: var(--phase-tone-color, var(--gc-blue, #5b9dff));
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+/*
+  로스터 편집 화면에서 업그레이드 활성/비활성 상태를 아이콘 색으로 구분할 때 쓰는 톤(기본은 위
+  --gc-blue 그대로). --phase-tone-color 하나로 아이콘 배경색과 ANY 텍스트 색을 동시에 바꾼다.
+*/
+.card-phase-tone-active {
+  --phase-tone-color: var(--gc-green, #4ade80);
+}
+
+.card-phase-tone-inactive {
+  --phase-tone-color: var(--gc-text-disabled, #565a68);
+}
+
+.card-phase-icon-movement {
+  aspect-ratio: 512 / 512;
+  -webkit-mask-image: url('../../assets/movementPhase.png');
+  mask-image: url('../../assets/movementPhase.png');
+}
+
+.card-phase-icon-assault {
+  aspect-ratio: 1607 / 1608;
+  -webkit-mask-image: url('../../assets/assaultPhase.png');
+  mask-image: url('../../assets/assaultPhase.png');
+}
+
+.card-phase-icon-combat {
+  aspect-ratio: 1452 / 1446;
+  -webkit-mask-image: url('../../assets/combatPhase.png');
+  mask-image: url('../../assets/combatPhase.png');
+}
+
+/* ANY 페이즈는 대응하는 공식 아이콘이 없어 볼드체 'A'로 대신 표시한다 */
+.card-phase-any {
+  font-weight: 700;
+  color: var(--phase-tone-color, var(--gc-blue, #5b9dff));
 }
 
 .card-phase-body {
@@ -353,6 +415,27 @@
   border-bottom: none;
 }
 
+/*
+  무기 행 바로 아래에 그 무기를 강화하는 어빌리티('강화:')를 별도의 열-병합 행으로 붙인다.
+  NAME 열 안에 넣으면 그 열만 내용 길이만큼 넓어지는 문제가 있었고, 다른 무기 행과도 잘
+  구분되지 않았다 — 그래서 테이블 열 구성과 무관하게 전체 폭을 쓰는 행으로 분리하고, 위 무기
+  행에 속한 부가 정보임을 들여쓰기로 드러낸다. 두 행 사이 경계선은 없애 하나로 묶여 보이게 하고,
+  다음 무기 행과의 경계는 이 행 아래에 그대로 남긴다.
+*/
+.card-weapon-row-has-related td {
+  border-bottom: none;
+}
+
+.card-weapon-related-row td {
+  padding: 0 8px 8px 32px;
+  border-bottom: 1px solid var(--gc-border);
+  white-space: normal;
+}
+
+.card-weapon-related-row .card-related-abilities {
+  margin-top: 0;
+}
+
 .card-weapon-name-col {
   min-width: 120px;
 }
@@ -379,6 +462,16 @@
 }
 
 .card-rule-ability:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/*
+  어빌리티 상세 모달(게임 레퍼런스, 능력 하나만 단독으로 보여줌) 전용: 그 아래에 KeywordDefinitionsList가
+  이어질 경우, 이 능력 자신의 구분선(border-bottom)과 키워드 목록의 구분선(border-top)이 겹쳐 줄이
+  두 개로 보인다. 여기서는 항상 이 능력이 그 페이즈 그룹의 유일한 항목이라 구분선이 필요 없다.
+*/
+.card-ability-detail-body .card-rule-ability {
   border-bottom: none;
   padding-bottom: 0;
 }
@@ -496,6 +589,208 @@
    문단 흐름을 깨지 않으면서 눈에 띄게 한다 */
 .card-rule-keyword {
   color: var(--gc-keyword);
+}
+
+/*
+  이름 직접 언급으로 감지된 연관 어빌리티/무기 ('강화:'). WeaponTable의 NAME 셀(FOR 줄 아래)과
+  RuleAbilityBlock(룰 텍스트 아래) 양쪽에서 함께 쓴다. 대상이 무기 프로필이면 WeaponTable을
+  재사용한 스탯 한 줄로, 룰 어빌리티면 '이름 : 텍스트' 한 줄로 보여준다.
+*/
+.card-related-abilities {
+  margin-top: 6px;
+}
+
+.card-related-abilities-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gc-text-dim);
+  margin-bottom: 4px;
+}
+
+.card-related-ability-lines {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.card-related-ability-line {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  min-width: 0;
+  border: none;
+  background: none;
+  padding: 0;
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+}
+
+.card-related-ability-line:hover .card-related-ability-line-name {
+  text-decoration: underline;
+}
+
+.card-related-ability-line-static {
+  cursor: default;
+}
+
+/*
+  지금 비활성 상태(업그레이드 미선택)인 대상은 줄 전체를 흐리게 해 활성/비활성을 드러낸다 —
+  어빌리티 상세를 눌러가며 이동할 때 지금 보는 대상이 실제로 켜져 있는지 계속 헷갈리지 않도록.
+*/
+.card-related-ability-line:not(.card-related-ability-line-active) {
+  opacity: 0.5;
+}
+
+.card-related-ability-line-icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  margin-right: 6px;
+}
+
+.card-related-ability-line-icon .card-phase-icon,
+.card-related-ability-line-icon .card-phase-any {
+  height: 11px;
+  font-size: 11px;
+}
+
+/* 패시브/액티브/리액션을 아이콘·이름 색으로 구분한다 (질문: "뭐가 패시브고 뭐가 액티브인지
+   알기 어렵다" — PhaseBadge가 --phase-tone-color를 상속해서 아이콘도 함께 물든다) */
+.card-related-ability-line-type-active {
+  --phase-tone-color: var(--gc-blue);
+  color: var(--gc-blue);
+}
+
+.card-related-ability-line-type-passive {
+  --phase-tone-color: var(--gc-green);
+  color: var(--gc-green);
+}
+
+.card-related-ability-line-type-reaction {
+  --phase-tone-color: var(--gc-orange);
+  color: var(--gc-orange);
+}
+
+.card-related-ability-line-name {
+  flex: 0 0 auto;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.card-related-ability-line-sep {
+  flex: 0 0 auto;
+  color: var(--gc-text-dim);
+}
+
+.card-related-ability-line-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: var(--gc-text-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-weapon-row-clickable {
+  cursor: pointer;
+}
+
+.card-weapon-row-clickable:hover {
+  background: var(--gc-bg-raised);
+}
+
+/* 어빌리티 상세 모달 전용: 능력 설명 아래에 거기 쓰인 키워드들의 정의를 나열한다 */
+.card-keyword-definitions {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--gc-border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card-keyword-definition-name {
+  color: var(--gc-keyword);
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.card-keyword-definition-text {
+  margin: 2px 0 0;
+  color: var(--gc-text-dim);
+  font-size: 12px;
+  line-height: 150%;
+}
+
+/*
+  어빌리티/무기 프로필 칩 한 줄 (AbilityChipsRow). 게임 레퍼런스 목록과 로스터 편집 화면의 유닛 행이
+  함께 쓴다. --border/--text는 .game-card 스코프와 무관한 전역 테마 변수라 두 화면 모두에서 그대로
+  통한다.
+*/
+.ability-chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.ability-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font: inherit;
+  font-size: 11px;
+  color: inherit;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 2px 8px;
+  background: transparent;
+  opacity: 0.85;
+  cursor: pointer;
+}
+
+.ability-chip:hover {
+  opacity: 1;
+  border-color: var(--accent, var(--border));
+}
+
+/* 즐겨찾기된 어빌리티 칩: 별 아이콘 대신 배경/테두리를 노란 톤으로 살짝 물들여 강조한다 */
+.ability-chip-favorited {
+  background: rgba(240, 180, 41, 0.18);
+  border-color: rgba(240, 180, 41, 0.5);
+  opacity: 1;
+}
+
+/* 로스터 편집 화면에서 꺼져 있는 업그레이드 칩을 어둡게 눌러 비활성 상태를 표현한다 */
+.ability-chip-dim {
+  opacity: 0.45;
+}
+
+.ability-chip-dim:hover {
+  opacity: 0.7;
+}
+
+/* '사격' 종합 칩 안의 무기 이름 하나하나: 기본 보유(흰색)/업그레이드로 활성화(초록)를 색으로
+   구분한다. 업그레이드가 꺼져 있거나 다른 업그레이드에 봉인됨(비활성)은 .ability-chip-dim과
+   똑같은 방식(opacity 0.45)으로 눌러서, 비선택 어빌리티 칩과 같은 톤으로 보이게 한다 */
+.ability-chip-weapon-name-base {
+  color: var(--gc-text, #e5e7eb);
+}
+
+.ability-chip-weapon-name-active {
+  color: var(--gc-green, #4ade80);
+}
+
+.ability-chip-weapon-name-inactive {
+  opacity: 0.45;
 }
 
 /* 꺼진 업그레이드: 텍스트를 어둡게 눌러서 비활성 상태를 표현 */

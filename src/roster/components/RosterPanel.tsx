@@ -16,9 +16,22 @@ import { UnitEntryRow } from './UnitEntryRow'
 import { TacticalCardModal } from './TacticalCardModal'
 import { UnitModal } from './UnitModal'
 import { SlotUsageRow } from './SlotUsageRow'
+import { AbilityChipsRow, type AbilitySelectionRef } from './AbilityChipsRow'
 import type { DetailState } from './RosterDetailPanel'
 
 type ModalState = { kind: 'tactical'; focusCardId?: string } | { kind: 'unit-add' } | null
+
+/** 카드가 제공하는 자원(CP/BM/EN) 양만큼 노란 사각형을 나열한다. 보통 최대 2개 정도라 텍스트 배지보다 훨씬 작게 보여준다 */
+function ResourceSquares({ count }: { count: number }) {
+  if (count <= 0) return null
+  return (
+    <span className="roster-tactical-chip-resource-squares">
+      {Array.from({ length: count }).map((_, i) => (
+        <span className="roster-tactical-chip-resource-square" key={i} />
+      ))}
+    </span>
+  )
+}
 
 export function RosterPanel({
   races,
@@ -26,6 +39,7 @@ export function RosterPanel({
   roster,
   detail,
   onSelectDetail,
+  onSelectAbility,
 }: {
   races: RaceData[]
   /** roster.raceId에 해당하는 종족. 아직 선택 전이면 undefined */
@@ -33,6 +47,8 @@ export function RosterPanel({
   roster: Roster
   detail: DetailState
   onSelectDetail: (detail: DetailState) => void
+  /** 어빌리티/무기 칩을 누르면 이 콜백으로 상세 모달을 요청한다 (모달 자체는 공통 조상인 RosterBuilderPage가 그린다) */
+  onSelectAbility: (ref: AbilitySelectionRef) => void
 }) {
   const store = useRosterStore()
 
@@ -67,7 +83,13 @@ export function RosterPanel({
       {!race ? (
         <div className="roster-empty">종족을 선택하면 예산/슬롯 정보와 카드 선택이 표시됩니다.</div>
       ) : (
-        <RosterPanelBody race={race} roster={roster} detail={detail} onSelectDetail={onSelectDetail} />
+        <RosterPanelBody
+          race={race}
+          roster={roster}
+          detail={detail}
+          onSelectDetail={onSelectDetail}
+          onSelectAbility={onSelectAbility}
+        />
       )}
     </div>
   )
@@ -78,11 +100,13 @@ function RosterPanelBody({
   roster,
   detail,
   onSelectDetail,
+  onSelectAbility,
 }: {
   race: RaceData
   roster: Roster
   detail: DetailState
   onSelectDetail: (detail: DetailState) => void
+  onSelectAbility: (ref: AbilitySelectionRef) => void
 }) {
   const store = useRosterStore()
   const localize = useLocalize()
@@ -134,18 +158,29 @@ function RosterPanelBody({
                 setModal({ kind: 'tactical', focusCardId: factionCard.id })
             }}
           >
-            {localize(factionCard.name)}
-            <button
-              type="button"
-              className="roster-tactical-chip-remove"
-              onClick={(e) => {
-                e.stopPropagation()
-                store.setFactionCard(roster.id, null)
-              }}
-              aria-label="팩션 카드 제거"
-            >
-              ✕
-            </button>
+            <div className="roster-tactical-chip-header">
+              <ResourceSquares count={factionCard.resource} />
+              {localize(factionCard.name)}
+              <button
+                type="button"
+                className="roster-tactical-chip-remove"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  store.setFactionCard(roster.id, null)
+                }}
+                aria-label="팩션 카드 제거"
+              >
+                ✕
+              </button>
+            </div>
+            <AbilityChipsRow
+              abilities={factionCard.cardAbilities}
+              sourceId={factionCard.id}
+              sourceLabel={localize(factionCard.name)}
+              roster={roster}
+              onSelectAbility={onSelectAbility}
+              localize={localize}
+            />
           </div>
         ) : (
           <div
@@ -174,19 +209,32 @@ function RosterPanelBody({
                 if (e.key === 'Enter' || e.key === ' ') setModal({ kind: 'tactical', focusCardId: id })
               }}
             >
-              {cardName}
-              {count > 1 ? ` x${count}` : ''}
-              <button
-                type="button"
-                className="roster-tactical-chip-remove"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  store.removeTacticalCard(roster.id, id)
-                }}
-                aria-label={`${cardName} 제거`}
-              >
-                ✕
-              </button>
+              <div className="roster-tactical-chip-header">
+                {card && <ResourceSquares count={card.resource} />}
+                {cardName}
+                {count > 1 ? ` x${count}` : ''}
+                <button
+                  type="button"
+                  className="roster-tactical-chip-remove"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    store.removeTacticalCard(roster.id, id)
+                  }}
+                  aria-label={`${cardName} 제거`}
+                >
+                  ✕
+                </button>
+              </div>
+              {card && (
+                <AbilityChipsRow
+                  abilities={card.cardAbilities}
+                  sourceId={card.id}
+                  sourceLabel={cardName}
+                  roster={roster}
+                  onSelectAbility={onSelectAbility}
+                  localize={localize}
+                />
+              )}
             </div>
           )
         })}
@@ -224,6 +272,7 @@ function RosterPanelBody({
                   entry={entry}
                   active={detail?.kind === 'unit' && detail.entryId === entry.id}
                   onEdit={() => onSelectDetail({ kind: 'unit', entryId: entry.id })}
+                  onSelectAbility={onSelectAbility}
                 />
               )
             })}

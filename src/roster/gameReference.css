@@ -141,6 +141,16 @@
   border-color: var(--accent, var(--border));
 }
 
+/* 택티컬/팩션 카드 행: 클릭해도 아무 반응이 없다(어빌리티 칩만으로 정보가 충분해 상세 모달을
+   없앴다) — 클릭 가능한 것처럼 보이던 포인터 커서/hover 강조를 꺼서 상호작용이 없다는 걸 알린다 */
+.game-ref-item-static {
+  cursor: default;
+}
+
+.game-ref-item-static:hover {
+  border-color: var(--border);
+}
+
 .game-ref-item-row {
   display: flex;
   align-items: center;
@@ -158,16 +168,14 @@
   opacity: 0.65;
 }
 
-.game-ref-item-cost {
-  margin-left: auto;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-}
-
-.game-ref-resource-badge {
+/* 유닛에 투자된 미네랄 비용. 카드 우측 아래에 작게, 미네랄과 같은 파란색으로 표기한다 */
+.game-ref-item-mineral-cost {
+  margin-top: 4px;
+  text-align: right;
   font-size: 11px;
-  color: #f0b429;
-  margin-left: auto;
+  font-weight: 700;
+  color: #5b9dff;
+  font-variant-numeric: tabular-nums;
 }
 
 .game-ref-supply {
@@ -182,52 +190,38 @@
   border-radius: 1px;
 }
 
-/* 간소화된 유닛 카드의 SHLD/SPD/EVA/ARM/HP/SIZ 요약. 상세 카드의 .card-statbox와 같은 값 서식을
-   쓰지만, 목록에서 한눈에 훑어볼 수 있도록 세로 박스 대신 한 줄짜리 작은 칩으로 압축한다.
-   테두리만 있는 업그레이드 칩(.game-ref-upgrade-chip)과 옅은 회색 배경으로 구분한다. */
-.game-ref-item-stats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 6px;
+/* 팩션/택티컬 카드가 제공하는 자원(CP/BM/EN) 양만큼 이름 왼쪽에 나열한다. .game-ref-supply 컨테이너를
+   함께 쓰고, 색만 자원 색(노란색)으로 구분한다 */
+.game-ref-resource-square {
+  width: 6px;
+  height: 6px;
+  background: #f0b429;
+  border-radius: 1px;
 }
 
-.game-ref-item-stat {
-  display: flex;
-  align-items: baseline;
+/*
+  유닛의 SHLD/SPD/EVA/ARM/HP/SIZ 요약은 로스터 편집 화면(.roster-entry-header)과 같은 컴포넌트
+  (StatBoxes)를 그대로 쓰되, 그 화면의 컴팩트한 크기/배치 느낌을 맞춘다: 이름 줄 오른쪽 끝에
+  붙이고, 값 색은 명시적으로 밝게(--text-h) 줘서 잘 보이게 한다(기본값은 색 지정이 없어 이 목록의
+  옅은 본문 색을 그대로 물려받아 흐릿해진다).
+*/
+.game-ref-item-row .card-statboxes {
+  margin-left: auto;
   gap: 4px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
+}
+
+.game-ref-item-row .card-statbox {
   padding: 2px 6px;
-  font-size: 11px;
-  background: rgba(255, 255, 255, 0.05);
+  min-width: 30px;
 }
 
-.game-ref-item-stat-label {
-  opacity: 0.6;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-}
-
-.game-ref-item-stat-value {
-  font-weight: 700;
+.game-ref-item-row .card-statbox-value {
+  font-size: 12px;
   color: var(--text-h);
-  font-variant-numeric: tabular-nums;
 }
 
-.game-ref-upgrades-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 6px;
-}
-
-.game-ref-upgrade-chip {
-  font-size: 11px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 2px 8px;
-  opacity: 0.85;
+.game-ref-item-row .card-statbox-label {
+  font-size: 8px;
 }
 
 /* 페이즈 화면: 출처(카드/유닛)별 그룹. .game-card를 함께 써서 실제 카드와 같은 다크 배색(--gc-*)을
