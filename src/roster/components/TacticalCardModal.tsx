@@ -145,7 +145,6 @@ export function TacticalCardModal({
         <Modal
           title={localize((focusedFaction ?? focusedTactical)?.name ?? { en: '', ko: '' })}
           onClose={() => setMobileDetailOpen(false)}
-          nested
         >
           {focusedFaction ? (
             <TacticalCardView card={focusedFaction} resourceLabel={race.resourceLabel} isFactionCard />
