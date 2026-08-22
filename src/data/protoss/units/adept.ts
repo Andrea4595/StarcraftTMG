@@ -88,6 +88,7 @@ export const adept: UnitCard = {
         phase: 'Assault',
         type: 'Active',
         cost: 1,
+        enhances: ['Glaive Cannon'],
         rule: {
           en: "This Unit's Glaive Cannon gains BUFF RoA (1).",
           ko: '이 유닛의 쐐기포는 버프 Roa(1)를 얻는다.',
@@ -104,6 +105,7 @@ export const adept: UnitCard = {
         phase: 'Assault',
         type: 'Passive',
         cost: 0,
+        enhances: ['Glaive Cannon'],
         rule: {
           en: "This Unit's Glaive Cannon Ranged weapon gains ANTI-EVADE (2).",
           ko: '이 유닛의 사격무기인 쐐기포는 안티-회피(2)를 얻는다.',

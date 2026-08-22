@@ -71,6 +71,7 @@ export const zealot: UnitCard = {
         phase: 'Any',
         type: 'Passive',
         cost: 0,
+        enhances: ['Devastating Charge'],
         rule: {
           en: 'When this Unit resolves IMPACT, each eligible model generates 1 additional IMPACT die.',
           ko: '이 유닛이 임팩트를 처리할 때, 적합한 모델마다 하나의 주사위를 추가로 굴린다.',

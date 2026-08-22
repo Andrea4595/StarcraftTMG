@@ -1,46 +1,28 @@
 import type { Ability } from '../../types'
 
-function escapeRegExp(s: string): string {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+/**
+ * ability.enhances(같은 유닛 안에서 이 능력이 강화하는 대상들의 id)를 pool에서 실제 Ability로
+ * 풀어낸다. enhances는 데이터에 직접 명시한다 — 예전에는 룰 텍스트에서 다른 어빌리티/무기 이름이
+ * 그대로 언급되는지 정규식으로 스캔해서 자동으로 찾았지만, '모든 근접무기' 처럼 이름을 대지 않는
+ * 관계(해병/불곰의 전투 자극제 등)를 놓치는 근본적인 한계가 있어 데이터에서 직접 명시하는 방식으로
+ * 바꿨다. 어빌리티 텍스트는 앞으로 거의 바뀌지 않는 데이터라 한 번만 채워두면 된다.
+ */
+export function abilityEnhances(pool: Ability[], ability: Ability): Ability[] {
+  if (ability.kind !== 'rule' || !ability.enhances) return []
+  return ability.enhances.map((id) => pool.find((a) => a.id === id)).filter((a): a is Ability => a !== undefined)
+}
+
+/** ability를 강화한다고 명시한, 같은 유닛의 다른 어빌리티들을 찾는다 (역방향) */
+export function abilityEnhancedBy(pool: Ability[], ability: Ability): Ability[] {
+  return pool.filter((other) => other.kind === 'rule' && other.enhances?.includes(ability.id))
 }
 
 /**
- * ability의 룰 텍스트(en+ko) 안에서, 같은 유닛(pool)의 '다른' 어빌리티/무기 이름이 그대로
- * 언급된 항목을 찾는다. 예: 골리앗의 '아레스급 목표물 설정 시스템'은 텍스트에 '자동포'/
- * '하부 기관총'을 이름으로 직접 언급하므로 매치된다.
- *
- * 키워드 메커니즘을 통한 간접적인 연관 — 예를 들어 질럿의 '내 목숨을 아이어에'가 '파괴적인
- * 돌진'을 이름으로 언급하지 않고 IMPACT 키워드만 언급하는 경우 — 는 이 함수로 잡히지 않는다.
- * 이름 직접 언급만 다루는 게 의도된 범위다.
+ * 룰 어빌리티를 실제로 발동시키는 데 드는 자원 비용(CP/EN/BM 등). Passive는 발동 개념이 없어
+ * 항상 undefined, Active/Reaction이면서 비용이 0보다 클 때만(가변 비용 'X' 포함) 값을 돌려준다.
+ * 미네랄로 사는 업그레이드 비용(RelatedAbilityTarget.cost)과는 다른 값이다.
  */
-export function abilityReferencesInText(pool: Ability[], ability: Ability): Ability[] {
-  if (ability.kind !== 'rule') return []
-  const text = `${ability.rule.en} ${ability.rule.ko}`
-  const found: Ability[] = []
-  for (const other of pool) {
-    if (other.id === ability.id) continue
-    /**
-     * 이름은 한국어 표기만 검사한다. 영문 이름은 'Charge'(돌진)처럼 룰 텍스트 안에서 일반
-     * 서술어로도 흔히 쓰이는 단어와 겹쳐, 진짜 이름 언급이 아닌데도 잘못 매치되기 쉽다
-     * (예: '파괴적인 돌진'의 영문 룰 텍스트에 나오는 동사 'Charge'가 어빌리티 '돌진'의
-     * 영문 이름과 같아서 잘못 걸리는 경우를 실제로 확인함). 한국어 어빌리티 이름은 이런
-     * 식으로 일반 단어와 우연히 겹칠 위험이 훨씬 낮다.
-     */
-    const name = other.name.ko || other.name.en
-    if (name && new RegExp(escapeRegExp(name), 'i').test(text)) found.push(other)
-  }
-  return found
-}
-
-/**
- * ability를 이름으로 언급하는(강화하는) 같은 유닛의 다른 어빌리티들을 찾는다 (역방향).
- * 룰 텍스트가 있는 건 RuleAbility뿐이라, 반환값은 항상 RuleAbility들이다.
- */
-export function abilitiesReferencing(pool: Ability[], ability: Ability): Ability[] {
-  const found: Ability[] = []
-  for (const other of pool) {
-    if (other.id === ability.id) continue
-    if (abilityReferencesInText(pool, other).some((r) => r.id === ability.id)) found.push(other)
-  }
-  return found
+export function abilityResourceCost(ability: Ability, resourceLabel: string): string | undefined {
+  if (ability.kind !== 'rule' || ability.type === 'Passive' || ability.cost === 0) return undefined
+  return `${ability.cost} ${resourceLabel}`
 }

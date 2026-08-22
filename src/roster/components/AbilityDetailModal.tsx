@@ -8,7 +8,7 @@ import { RuleAbilityBlock } from '../../components/card/RuleAbilityBlock'
 import { WeaponTable } from '../../components/card/WeaponTable'
 import { KeywordDefinitionsList } from '../../components/card/keywordHighlight'
 import { PhaseBadge } from '../../components/card/PhaseBadge'
-import { abilitiesReferencing, abilityReferencesInText } from '../../components/card/abilityReferences'
+import { abilityEnhancedBy, abilityEnhances, abilityResourceCost } from '../../components/card/abilityReferences'
 import type { RelatedAbilityTarget } from '../../components/card/RelatedAbilities'
 import type { AbilityDetailRef, AbilitySelectionRef } from './AbilityChipsRow'
 
@@ -28,7 +28,7 @@ export function AbilityDetailModal({
   detail: AbilityDetailRef
   onClose: () => void
   roster: Roster
-  /** 이 능력이 속한 유닛을 찾아, 이름으로 서로를 언급하는 연관 어빌리티/무기를 계산하는 데 쓴다.
+  /** 이 능력이 속한 유닛을 찾아, enhances로 명시된 연관 어빌리티/무기를 계산하는 데 쓴다.
    *  타격틱 카드에서 온 능력이면(unitType 없음) 못 찾아도 정상 — 연관 목록이 그냥 비게 된다 */
   race: RaceData
   resourceLabel: string
@@ -76,6 +76,7 @@ export function AbilityDetailModal({
             : undefined,
         active: state.active,
         cost: state.cost,
+        resourceCost: abilityResourceCost(a, resourceLabel),
       }
     })
 
@@ -127,8 +128,8 @@ export function AbilityDetailModal({
                     }
                   : undefined
               }
-              relatedTo={relatedTargets(abilityReferencesInText(allAbilities, detail.ability))}
-              referencedBy={relatedTargets(abilitiesReferencing(allAbilities, detail.ability))}
+              relatedTo={relatedTargets(abilityEnhances(allAbilities, detail.ability))}
+              referencedBy={relatedTargets(abilityEnhancedBy(allAbilities, detail.ability))}
             />
           ) : (
             <WeaponTable
@@ -136,7 +137,7 @@ export function AbilityDetailModal({
                 {
                   weapon: detail.ability,
                   for: detail.forLabel,
-                  referencedBy: relatedTargets(abilitiesReferencing(allAbilities, detail.ability)),
+                  referencedBy: relatedTargets(abilityEnhancedBy(allAbilities, detail.ability)),
                 },
               ]}
             />

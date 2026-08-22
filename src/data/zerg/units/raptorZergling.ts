@@ -143,6 +143,7 @@ export const raptorZergling: UnitCard = {
         phase: 'Any',
         type: 'Passive',
         cost: 0,
+        enhances: ['Claws', 'Shredding Claws'],
         rule: {
           en: "This Unit's Claws and Shredding Claws weapons gain PRECISION (2).",
           ko: '이 유닛의 발톱, 분쇄하는 발톱은 프리시전(2)을 갖는다.',

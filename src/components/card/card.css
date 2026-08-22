@@ -618,7 +618,7 @@
 
 .card-related-ability-line {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 0;
   width: 100%;
   min-width: 0;
@@ -641,17 +641,48 @@
   cursor: default;
 }
 
-/* 이름 색으로 지금 이 대상이 활성인지 비활성인지 한눈에 드러낸다 — 어빌리티 상세를 눌러가며
-   이동할 때 지금 보는 대상이 실제로 켜져 있는지 계속 헷갈리지 않도록 */
-.card-related-ability-line-name {
-  flex: 0 0 auto;
-  color: var(--gc-text-disabled);
-  font-weight: 700;
-  white-space: nowrap;
+/*
+  지금 비활성 상태(업그레이드 미선택)인 대상은 줄 전체를 흐리게 해 활성/비활성을 드러낸다 —
+  어빌리티 상세를 눌러가며 이동할 때 지금 보는 대상이 실제로 켜져 있는지 계속 헷갈리지 않도록.
+*/
+.card-related-ability-line:not(.card-related-ability-line-active) {
+  opacity: 0.5;
 }
 
-.card-related-ability-line-active .card-related-ability-line-name {
-  color: var(--gc-text);
+.card-related-ability-line-icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  margin-right: 6px;
+}
+
+.card-related-ability-line-icon .card-phase-icon,
+.card-related-ability-line-icon .card-phase-any {
+  height: 11px;
+  font-size: 11px;
+}
+
+/* 패시브/액티브/리액션을 아이콘·이름 색으로 구분한다 (질문: "뭐가 패시브고 뭐가 액티브인지
+   알기 어렵다" — PhaseBadge가 --phase-tone-color를 상속해서 아이콘도 함께 물든다) */
+.card-related-ability-line-type-active {
+  --phase-tone-color: var(--gc-blue);
+  color: var(--gc-blue);
+}
+
+.card-related-ability-line-type-passive {
+  --phase-tone-color: var(--gc-green);
+  color: var(--gc-green);
+}
+
+.card-related-ability-line-type-reaction {
+  --phase-tone-color: var(--gc-orange);
+  color: var(--gc-orange);
+}
+
+.card-related-ability-line-name {
+  flex: 0 0 auto;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 .card-related-ability-line-sep {

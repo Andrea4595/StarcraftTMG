@@ -41,6 +41,14 @@ export interface RuleAbility extends AbilityBase {
   type: AbilityType
   /** Command Point 비용 (명칭은 종족에 따라 달라짐). 'X'는 사용 시점에 가변적으로 지불하는 비용 */
   cost: number | 'X'
+  /**
+   * 이 능력이 강화하는, 같은 유닛의 다른 어빌리티/무기 id들. 카드 상세의 '강화:' 정방향 목록과,
+   * 그 대상 쪽의 역방향 목록을 이 필드 하나로 만든다 — 텍스트를 기계적으로 스캔해 자동으로
+   * 찾아내지 않는 이유는, 이름을 그대로 언급하지 않는 관계(예: 해병/불곰의 전투 자극제가 이름을
+   * 대지 않고 '모든 근접무기'라고만 말하며 근접무기를 강화하는 경우)를 놓치기 때문. 어빌리티
+   * 텍스트는 앞으로 거의 바뀌지 않을 데이터라, 처음 한 번만 채워두면 유지보수 부담이 크지 않다.
+   */
+  enhances?: string[]
 }
 
 export interface WeaponProfile extends AbilityBase {

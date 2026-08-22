@@ -7,7 +7,7 @@ import { Modal } from './Modal'
 import { WeaponTable } from '../../components/card/WeaponTable'
 import { KeywordDefinitionsList } from '../../components/card/keywordHighlight'
 import { PhaseBadge } from '../../components/card/PhaseBadge'
-import { abilitiesReferencing } from '../../components/card/abilityReferences'
+import { abilityEnhancedBy, abilityResourceCost } from '../../components/card/abilityReferences'
 import type { RelatedAbilityTarget } from '../../components/card/RelatedAbilities'
 import type { AbilitySelectionRef, WeaponSummaryRef } from './AbilityChipsRow'
 
@@ -73,6 +73,7 @@ export function WeaponSummaryModal({
             : undefined,
         active: state.active,
         cost: state.cost,
+        resourceCost: abilityResourceCost(a, race.resourceLabel.abbr),
       }
     })
 
@@ -104,7 +105,7 @@ export function WeaponSummaryModal({
                 weapon: entry.ability,
                 for: entry.forLabel,
                 sealed: entry.tone === 'inactive',
-                referencedBy: relatedTargets(abilitiesReferencing(allAbilities, entry.ability)),
+                referencedBy: relatedTargets(abilityEnhancedBy(allAbilities, entry.ability)),
                 ptsLabel:
                   toggle && rosterEntry ? String(resolveScaledCost(toggle.pts, rosterEntry.squadTierIndex)) : undefined,
                 interactive:
