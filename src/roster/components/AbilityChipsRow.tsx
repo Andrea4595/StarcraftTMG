@@ -1,6 +1,21 @@
-import { PHASES, type Ability, type Roster, type Rule, type UnitType } from '../../types'
+import { PHASES, type Ability, type Roster, type Rule, type SquadScaledCost, type UnitType } from '../../types'
 import { isFavoriteAbility } from '../rosterCalc'
 import { PhaseBadge } from '../../components/card/PhaseBadge'
+
+/**
+ * 상세 모달에서 업그레이드 켜기/끄기 버튼을 그리는 데 필요한, 이 업그레이드를 가리키는 안정적인
+ * 식별 정보. active/cost처럼 바뀔 수 있는 값을 미리 계산해서 얼려두지 않는 이유는, 모달이 떠 있는
+ * 동안 다른 곳(칩, 상세 패널)에서 이 업그레이드를 껐다 켜도 모달이 그 변화를 실시간으로 반영해야
+ * 하기 때문이다 — 그래서 AbilityDetailModal이 매 렌더 roster에서 현재 상태를 직접 읽는다.
+ */
+export interface UpgradeToggleRef {
+  entryId: string
+  upgradeIndex: number
+  /** 유닛 카탈로그에 고정된 값이라 얼려도 안전하다 (등급별 실제 비용은 모달이 entry.squadTierIndex로 계산) */
+  pts: SquadScaledCost
+  /** 이 업그레이드를 켤 때 함께 꺼야 하는 다른 업그레이드 인덱스들 (같은 무기를 대체하는 상호 배타 업그레이드) */
+  exclusiveWith: number[]
+}
 
 /**
  * 어빌리티(룰/무기 프로필) 하나를 단독 모달로 띄울 때 필요한 정보. 게임 레퍼런스와 로스터 편집
@@ -14,6 +29,8 @@ export interface AbilityDetailRef {
   unitType?: UnitType
   /** 이 능력이 업그레이드로 나온 것이라면, 대체(FOR)하는 원본 능력의 로컬라이즈된 이름 */
   forLabel?: string
+  /** 이 능력이 유닛의 업그레이드일 때만 지정(로스터 편집 화면 전용): 상세 모달 타이틀의 PTS 토글 버튼에 쓰인다 */
+  upgradeToggle?: UpgradeToggleRef
 }
 
 /** 어빌리티/무기 프로필 칩 한 줄. 눌러진 칩은 즉시 그 능력만 담은 상세 모달을 띄운다(부모 카드/유닛의
@@ -30,6 +47,7 @@ export function AbilityChipsRow({
   upgradeStateFor,
   costFor,
   forFor,
+  upgradeToggleFor,
   showFavorite = false,
 }: {
   abilities: Ability[]
@@ -48,6 +66,8 @@ export function AbilityChipsRow({
   costFor?: (ability: Ability) => number | undefined
   /** 업그레이드에서 나온 능력이 대체(FOR)하는 원본 능력의 이름을 알려준다. 지정하면 상세 모달의 FOR 표기에 쓰인다 */
   forFor?: (ability: Ability) => string | undefined
+  /** 업그레이드에서 나온 능력이 어떤 업그레이드인지 알려준다(로스터 편집 화면 전용). 지정하면 상세 모달 타이틀에 PTS 토글 버튼이 붙는다 */
+  upgradeToggleFor?: (ability: Ability) => UpgradeToggleRef | undefined
   /** 즐겨찾기된 칩을 배경색으로 강조할지. 즐겨찾기는 게임 레퍼런스 화면 전용 기능이라 기본은 꺼져 있다 */
   showFavorite?: boolean
 }) {
@@ -67,7 +87,14 @@ export function AbilityChipsRow({
             key={i}
             onClick={(e) => {
               e.stopPropagation()
-              onSelectAbility({ ability, sourceLabel, sourceId, unitType, forLabel: forFor?.(ability) })
+              onSelectAbility({
+                ability,
+                sourceLabel,
+                sourceId,
+                unitType,
+                forLabel: forFor?.(ability),
+                upgradeToggle: upgradeToggleFor?.(ability),
+              })
             }}
           >
             <PhaseBadge phase={ability.phase} tone={tone ?? 'default'} />

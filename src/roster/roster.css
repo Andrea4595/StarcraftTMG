@@ -927,6 +927,37 @@ button.roster-slot-pill:hover {
   border: 1px solid currentColor;
 }
 
+/* 어빌리티 상세 모달 타이틀의 업그레이드 켜기/끄기 버튼 (로스터 편집 화면 전용). 모달 헤더는
+   .game-card 스코프 밖이라 --gc-* 변수가 없으므로, 같은 의미(활성=초록)를 고정값으로 재현한다 */
+.modal-title-toggle {
+  flex: 0 0 auto;
+  margin-left: 4px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-weight: 700;
+  font-size: 12px;
+  padding: 4px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.modal-title-toggle:hover {
+  border-color: var(--accent, var(--border));
+}
+
+.modal-title-toggle-active {
+  border-color: #4ade80;
+  background: #4ade80;
+  color: #062012;
+}
+
+.modal-title-toggle-active:hover {
+  background: #4ade80;
+}
+
 .modal-subheader {
   padding: 12px 18px;
   border-bottom: 1px solid var(--border);

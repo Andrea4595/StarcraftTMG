@@ -1,9 +1,9 @@
 import type { Ability, Roster, RosterUnitEntry, UnitCard } from '../../types'
 import { useRosterStore } from '../RosterContext'
-import { unitAbilityChipEntries, unitEntryMineralCost, unitForLabelResolver } from '../rosterCalc'
+import { unitAbilityChipEntries, unitEntryMineralCost, unitForLabelResolver, upgradeExclusiveWith } from '../rosterCalc'
 import { StatBoxes } from '../../components/card/StatBoxes'
 import { useLocalize } from '../../LangContext'
-import { AbilityChipsRow, type AbilityDetailRef } from './AbilityChipsRow'
+import { AbilityChipsRow, type AbilityDetailRef, type UpgradeToggleRef } from './AbilityChipsRow'
 import { SquadTierSelector } from './SquadTierSelector'
 
 export function UnitEntryRow({
@@ -36,6 +36,12 @@ export function UnitEntryRow({
     abilityEntries.filter((e) => e.upgradePts !== undefined).map((e) => [e.ability, e.upgradePts as number]),
   )
   const forFor = unitForLabelResolver(unit, localize)
+  const upgradeIndexByAbility = new Map<Ability, number>(unit.upgrades.map((u, i) => [u.ability, i]))
+  const upgradeToggleFor = (ability: Ability): UpgradeToggleRef | undefined => {
+    const i = upgradeIndexByAbility.get(ability)
+    if (i === undefined) return undefined
+    return { entryId: entry.id, upgradeIndex: i, pts: unit.upgrades[i].pts, exclusiveWith: upgradeExclusiveWith(unit, i) }
+  }
   const index = roster.units.findIndex((e) => e.id === entry.id)
 
   return (
@@ -79,6 +85,7 @@ export function UnitEntryRow({
         upgradeStateFor={(ability) => upgradeStateByAbility.get(ability)}
         costFor={(ability) => upgradeCostByAbility.get(ability)}
         forFor={forFor}
+        upgradeToggleFor={upgradeToggleFor}
       />
 
       <div className="roster-entry-footer">

@@ -1,5 +1,5 @@
 import type { Roster } from '../../types'
-import { isFavoriteAbility } from '../rosterCalc'
+import { isFavoriteAbility, resolveScaledCost } from '../rosterCalc'
 import { useRosterStore } from '../RosterContext'
 import { UNIT_TYPE_COLORS } from '../unitTypeColor'
 import { Modal } from './Modal'
@@ -28,6 +28,12 @@ export function AbilityDetailModal({
   showFavorite?: boolean
 }) {
   const store = useRosterStore()
+  /**
+   * 모달이 떠 있는 동안 다른 곳에서 이 업그레이드가 켜지거나 꺼져도 실시간으로 반영되도록,
+   * active/cost를 detail에 얼려두지 않고 매 렌더 roster에서 직접 읽는다.
+   */
+  const upgradeToggle = detail.upgradeToggle
+  const toggleEntry = upgradeToggle ? roster.units.find((e) => e.id === upgradeToggle.entryId) : undefined
 
   return (
     <Modal
@@ -40,6 +46,17 @@ export function AbilityDetailModal({
             {detail.unitType ? 'UNIT' : 'TACTICAL'}
           </span>
           {detail.sourceLabel}
+          {upgradeToggle && toggleEntry && (
+            <button
+              type="button"
+              className={`modal-title-toggle ${toggleEntry.upgradeIndexes.includes(upgradeToggle.upgradeIndex) ? 'modal-title-toggle-active' : ''}`}
+              onClick={() =>
+                store.toggleUnitUpgrade(roster.id, toggleEntry.id, upgradeToggle.upgradeIndex, upgradeToggle.exclusiveWith)
+              }
+            >
+              PTS: {resolveScaledCost(upgradeToggle.pts, toggleEntry.squadTierIndex)}
+            </button>
+          )}
         </span>
       }
       onClose={onClose}

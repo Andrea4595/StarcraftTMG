@@ -49,6 +49,18 @@ export function unitEquippedUpgrades(unit: UnitCard, entry: RosterUnitEntry): Up
     .filter((u): u is NonNullable<typeof u> => u !== undefined)
 }
 
+/**
+ * 이 업그레이드와 같은 무기(forId)를 대체하는 다른 무기 업그레이드들의 인덱스. 하나를 켜면 이들은
+ * 자동으로 꺼져야 한다 — 같은 기본 무기를 두 번 대체할 수는 없다.
+ */
+export function upgradeExclusiveWith(unit: UnitCard, index: number): number[] {
+  const target = unit.upgrades[index]
+  if (!target || target.ability.kind !== 'weapon' || !target.forId) return []
+  return unit.upgrades
+    .map((_, i) => i)
+    .filter((i) => i !== index && unit.upgrades[i].ability.kind === 'weapon' && unit.upgrades[i].forId === target.forId)
+}
+
 export function unitEntryMineralCost(unit: UnitCard, entry: RosterUnitEntry): number {
   const tier = unit.squad[entry.squadTierIndex]
   if (!tier) return 0
