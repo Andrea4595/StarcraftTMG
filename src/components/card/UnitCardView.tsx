@@ -64,7 +64,7 @@ export function UnitCardView({
           </div>
           <div className="card-tags">
             <span className="card-tags-label">TAGS: </span>
-            <KeywordList keywords={unit.tags} />
+            <KeywordList keywords={unit.tags.filter((t) => t.name !== 'Unique')} />
           </div>
         </div>
       </div>

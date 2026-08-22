@@ -2,8 +2,8 @@ import type { Lang } from '../../LangContext'
 
 /**
  * SurgeType(Light/Armoured), TargetType(All/Ground/Flying), 유닛 태그(unit.tags)에 등장하는 값들의
- * 한글 명칭. 참고 중인 번역 자료의 표기를 그대로 따른다. 여기 없는 값(Mechanical/Biological 등)은
- * 아직 확정된 번역이 없어 원문 그대로 둔다.
+ * 한글 명칭. 참고 중인 번역 자료의 표기를 그대로 따른다. 여기 없는 값은 아직 확정된 번역이 없어
+ * 원문 그대로 둔다.
  */
 const TAG_LABELS_KO: Record<string, string> = {
   Armoured: '중장갑',
@@ -11,6 +11,12 @@ const TAG_LABELS_KO: Record<string, string> = {
   All: '전체',
   Ground: '지상',
   Flying: '비행',
+  Biological: '생체',
+  Mechanical: '기계',
+  Psionic: '사이오닉',
+  "Kerrigan's Swarm": '케리건의 군단',
+  "Raynor's Raiders": '레이너 특공대',
+  Khalai: '칼라이',
 }
 
 /** SurgeType/TargetType/유닛 태그처럼 Rule(en/ko 쌍)이 아니라 영문 상수 하나로 저장된 값을 번역한다.
