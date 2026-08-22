@@ -1,6 +1,6 @@
 import type { RaceData, Roster } from '../../types'
 import { findFactionCard, findUnit, groupedTacticalCards, unitActiveAbilities, unitEntryMineralCost } from '../rosterCalc'
-import { unitStatEntries } from '../../components/card/StatBoxes'
+import { StatBoxes } from '../../components/card/StatBoxes'
 import { useLocalize } from '../../LangContext'
 import { AbilityChipsRow, type AbilityDetailRef } from './AbilityChipsRow'
 import type { ReferenceDetailTarget } from './GameReferencePage'
@@ -127,14 +127,7 @@ export function GameReferenceCardsView({
                       {tier && <span className="game-ref-item-tag">{tier.modelMax} Models</span>}
                       <span className="game-ref-item-cost">{unitEntryMineralCost(unit, entry)}</span>
                     </div>
-                    <div className="game-ref-item-stats">
-                      {unitStatEntries(unit).map(({ label, value }) => (
-                        <span className="game-ref-item-stat" key={label}>
-                          <span className="game-ref-item-stat-label">{label}</span>
-                          <span className="game-ref-item-stat-value">{value}</span>
-                        </span>
-                      ))}
-                    </div>
+                    <StatBoxes unit={unit} />
                     <AbilityChipsRow
                       abilities={activeAbilities}
                       sourceId={unit.id}

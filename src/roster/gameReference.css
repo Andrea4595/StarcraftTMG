@@ -185,37 +185,11 @@
   border-radius: 1px;
 }
 
-/* 간소화된 유닛 카드의 SHLD/SPD/EVA/ARM/HP/SIZ 요약. 상세 카드의 .card-statbox와 같은 값 서식을
-   쓰지만, 목록에서 한눈에 훑어볼 수 있도록 세로 박스 대신 한 줄짜리 작은 칩으로 압축한다.
-   테두리만 있는 어빌리티 칩(.ability-chip, card.css)과 옅은 회색 배경으로 구분한다. */
-.game-ref-item-stats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+/* 유닛의 SHLD/SPD/EVA/ARM/HP/SIZ 요약은 로스터 편집 화면과 같은 컴포넌트(StatBoxes)를 그대로 쓴다.
+   .card-statboxes 자체엔 margin이 없어(둘러싸는 레이아웃마다 gap으로 간격을 주는 게 보통이라)
+   이 목록에서만 위 여백을 별도로 준다. */
+.game-ref-item .card-statboxes {
   margin-top: 6px;
-}
-
-.game-ref-item-stat {
-  display: flex;
-  align-items: baseline;
-  gap: 4px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 2px 6px;
-  font-size: 11px;
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.game-ref-item-stat-label {
-  opacity: 0.6;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-}
-
-.game-ref-item-stat-value {
-  font-weight: 700;
-  color: var(--text-h);
-  font-variant-numeric: tabular-nums;
 }
 
 /* 페이즈 화면: 출처(카드/유닛)별 그룹. .game-card를 함께 써서 실제 카드와 같은 다크 배색(--gc-*)을
