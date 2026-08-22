@@ -1,6 +1,7 @@
 import type { WeaponProfile } from '../../types'
 import { KeywordList } from './KeywordText'
-import { useLocalize } from '../../LangContext'
+import { useLang, useLocalize } from '../../LangContext'
+import { localizeTag } from './tagLabels'
 
 export interface WeaponRow {
   weapon: WeaponProfile
@@ -16,6 +17,7 @@ export interface WeaponRow {
 
 export function WeaponTable({ rows }: { rows: WeaponRow[] }) {
   const localize = useLocalize()
+  const { lang } = useLang()
   const showPts = rows.some((r) => r.ptsLabel !== undefined)
   return (
     <div className="card-weapon-table-wrap">
@@ -45,10 +47,14 @@ export function WeaponTable({ rows }: { rows: WeaponRow[] }) {
               <div className="card-weapon-for">FOR {row.for ?? '-'}</div>
             </td>
             <td>{row.weapon.stat.rng}</td>
-            <td>{row.weapon.stat.tgt}</td>
+            <td>{localizeTag(row.weapon.stat.tgt, lang)}</td>
             <td>{row.weapon.stat.roa}</td>
             <td>{row.weapon.stat.hit}</td>
-            <td>{row.weapon.stat.surge.length > 0 ? row.weapon.stat.surge.join(', ') : '-'}</td>
+            <td>
+              {row.weapon.stat.surge.length > 0
+                ? row.weapon.stat.surge.map((s) => localizeTag(s, lang)).join(', ')
+                : '-'}
+            </td>
             <td>{row.weapon.stat.sDie}</td>
             <td>{row.weapon.stat.dmg}</td>
             <td>
