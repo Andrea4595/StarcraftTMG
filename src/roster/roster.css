@@ -670,13 +670,14 @@ button.roster-slot-pill:hover {
 }
 
 /*
-  이름/스탯/제거 버튼을 grid-template-areas로 배치한다. 폭이 좁아져 줄바꿈이 필요해지면
-  아래 컨테이너 쿼리가 stats만 다음 줄로 내리고, 이름과 제거 버튼은 항상 첫 줄에 같이 남는다.
+  이름/스쿼드 선택/스탯/제거 버튼을 grid-template-areas로 배치한다. 스쿼드 선택은 기본적으로
+  이름 바로 오른쪽에 붙지만, 폭이 좁아지면 그것만 독립된 한 줄로 내려간다. 더 좁아지면 기존처럼
+  stats도 별도 줄로 내려가고, 이름과 제거 버튼만 항상 첫 줄에 같이 남는다.
 */
 .roster-entry-header {
   display: grid;
-  grid-template-columns: auto 1fr auto;
-  grid-template-areas: 'name stats remove';
+  grid-template-columns: auto auto 1fr auto;
+  grid-template-areas: 'name squad stats remove';
   align-items: center;
   gap: 10px;
 }
@@ -705,11 +706,22 @@ button.roster-slot-pill:hover {
   gap: 4px;
 }
 
+@container (max-width: 560px) {
+  .roster-entry-header {
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+      'name stats remove'
+      'squad squad squad';
+    row-gap: 6px;
+  }
+}
+
 @container (max-width: 400px) {
   .roster-entry-header {
     grid-template-columns: 1fr auto;
     grid-template-areas:
       'name remove'
+      'squad squad'
       'stats stats';
     row-gap: 6px;
   }
@@ -730,6 +742,54 @@ button.roster-slot-pill:hover {
 
 .roster-entry-header .card-statbox-label {
   font-size: 8px;
+}
+
+/* 로스터 목록 행에서 이름 옆에 붙는 스쿼드 등급 선택기. 등급 하나당 서플라이(파란 사각형)와
+   최대 모델 수만 보여주는 둥근 사각형 칩 */
+.roster-squad-tier-selector {
+  grid-area: squad;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+
+.roster-squad-tier-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: transparent;
+  padding: 2px 6px;
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.roster-squad-tier-chip:hover {
+  border-color: var(--accent, var(--border));
+}
+
+.roster-squad-tier-chip-active {
+  border-color: var(--accent);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-h);
+}
+
+.roster-squad-tier-supply {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.roster-squad-tier-supply-square {
+  width: 6px;
+  height: 6px;
+  background: #5b9dff;
+  border-radius: 1px;
 }
 
 .roster-entry-upgrades {

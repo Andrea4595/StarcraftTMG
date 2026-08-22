@@ -4,6 +4,7 @@ import { unitAbilityChipEntries, unitEntryMineralCost, unitForLabelResolver } fr
 import { StatBoxes } from '../../components/card/StatBoxes'
 import { useLocalize } from '../../LangContext'
 import { AbilityChipsRow, type AbilityDetailRef } from './AbilityChipsRow'
+import { SquadTierSelector } from './SquadTierSelector'
 
 export function UnitEntryRow({
   roster,
@@ -52,6 +53,7 @@ export function UnitEntryRow({
           <span className="roster-entry-name">{localize(unit.name)}</span>
           {unit.isUnique && <span className="card-unique-badge">UNIQUE</span>}
         </div>
+        <SquadTierSelector roster={roster} unit={unit} entry={entry} />
         <StatBoxes unit={unit} />
         <button
           type="button"
