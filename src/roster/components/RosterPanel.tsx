@@ -139,6 +139,11 @@ function RosterPanelBody({
           >
             <div className="roster-tactical-chip-header">
               {localize(factionCard.name)}
+              {factionCard.resource > 0 && (
+                <span className="roster-tactical-chip-resource">
+                  +{factionCard.resource} {race.resourceLabel.abbr}
+                </span>
+              )}
               <button
                 type="button"
                 className="roster-tactical-chip-remove"
@@ -190,6 +195,11 @@ function RosterPanelBody({
               <div className="roster-tactical-chip-header">
                 {cardName}
                 {count > 1 ? ` x${count}` : ''}
+                {card && card.resource > 0 && (
+                  <span className="roster-tactical-chip-resource">
+                    +{card.resource} {race.resourceLabel.abbr}
+                  </span>
+                )}
                 <button
                   type="button"
                   className="roster-tactical-chip-remove"
