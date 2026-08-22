@@ -219,9 +219,9 @@ export interface AbilityChipEntry {
 
 /**
  * 로스터 편집 화면 전용: unitActiveAbilities와 달리 꺼진 업그레이드의 능력도 함께 반환한다(대신
- * upgradeActive: false로 표시). 활성 업그레이드가 원본을 봉인하는 규칙은 그대로 적용되므로, 봉인된
- * 기본 능력은 여전히 빠진다 — 봉인은 '켜졌을 때 실제로 일어나는 일'이라 꺼진 업그레이드는 아무것도
- * 봉인하지 않는다.
+ * upgradeActive: false로 표시). 활성 업그레이드에 봉인된 기본 능력도 빼지 않고 그대로 남기되,
+ * 마찬가지로 upgradeActive: false를 줘서 꺼진 업그레이드와 같은 톤(어둡게)으로 보이게 한다 — 칩이
+ * 통째로 사라지면 이 유닛에 그 무기/능력이 원래 있었다는 사실 자체를 잊기 쉽다.
  */
 export function unitAbilityChipEntries(unit: UnitCard, entry: RosterUnitEntry): AbilityChipEntry[] {
   const activeIndexes = new Set(entry.upgradeIndexes)
@@ -235,9 +235,10 @@ export function unitAbilityChipEntries(unit: UnitCard, entry: RosterUnitEntry): 
     sealedIds.add(upgrade.forId)
   }
 
-  const baseEntries: AbilityChipEntry[] = unit.abilities
-    .filter((a) => !sealedIds.has(a.id))
-    .map((ability) => ({ ability }))
+  const baseEntries: AbilityChipEntry[] = unit.abilities.map((ability) => ({
+    ability,
+    upgradeActive: sealedIds.has(ability.id) ? false : undefined,
+  }))
 
   const upgradeEntries: AbilityChipEntry[] = unit.upgrades.map((u, i) => ({
     ability: u.ability,
