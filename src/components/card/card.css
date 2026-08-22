@@ -332,7 +332,7 @@
 }
 
 .card-phase-icon-combat {
-  aspect-ratio: 385 / 385;
+  aspect-ratio: 1452 / 1446;
   -webkit-mask-image: url('../../assets/combatPhase.png');
   mask-image: url('../../assets/combatPhase.png');
 }
