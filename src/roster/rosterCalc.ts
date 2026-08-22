@@ -278,13 +278,34 @@ export function abilitySelectionRefFor(
  * 없을 때) 항상 활성으로 본다 — 게임 레퍼런스 화면의 유닛 상세 카드처럼 애초에 활성인 것만 골라
  * 넘긴 목록에서도 이 함수를 그대로 쓸 수 있도록 하기 위해서다.
  */
+/**
+ * 지금 활성화된 업그레이드가 대체(봉인)하는 기본 무기 id들. SPECIALIST 키워드가 붙은 업그레이드
+ * 무기는 유닛의 모델 중 하나만 사용하는 것이라, 나머지 모델은 여전히 원래 무기를 쓰므로 원본을
+ * 봉인하지 않는다.
+ */
+function sealedWeaponIds(unit: UnitCard, activeIndexes: number[]): Set<string> {
+  const sealed = new Set<string>()
+  for (const i of activeIndexes) {
+    const upgrade = unit.upgrades[i]
+    if (!upgrade?.forId || upgrade.ability.kind !== 'weapon') continue
+    const isSpecialist = upgrade.ability.stat.keyword.some((k) => k.name === 'SPECIALIST')
+    if (isSpecialist) continue
+    sealed.add(upgrade.forId)
+  }
+  return sealed
+}
+
 export function abilityActiveState(
   unit: UnitCard,
   ability: Ability,
   ctx: { activeIndexes?: number[]; squadTierIndex?: number },
 ): { active: boolean; cost?: string } {
   const upgradeIndex = unit.upgrades.findIndex((u) => u.ability.id === ability.id)
-  if (upgradeIndex === -1) return { active: true }
+  if (upgradeIndex === -1) {
+    /** 기본 능력: 활성 업그레이드가 대체(봉인)하고 있으면 비활성으로 취급한다 */
+    const sealed = ctx.activeIndexes ? sealedWeaponIds(unit, ctx.activeIndexes).has(ability.id) : false
+    return { active: !sealed }
+  }
   const upgrade = unit.upgrades[upgradeIndex]
   return {
     active: ctx.activeIndexes ? ctx.activeIndexes.includes(upgradeIndex) : true,
@@ -312,15 +333,7 @@ export interface AbilityChipEntry {
  */
 export function unitAbilityChipEntries(unit: UnitCard, entry: RosterUnitEntry): AbilityChipEntry[] {
   const activeIndexes = new Set(entry.upgradeIndexes)
-
-  const sealedIds = new Set<string>()
-  for (const i of activeIndexes) {
-    const upgrade = unit.upgrades[i]
-    if (!upgrade?.forId || upgrade.ability.kind !== 'weapon') continue
-    const isSpecialist = upgrade.ability.stat.keyword.some((k) => k.name === 'SPECIALIST')
-    if (isSpecialist) continue
-    sealedIds.add(upgrade.forId)
-  }
+  const sealedIds = sealedWeaponIds(unit, entry.upgradeIndexes)
 
   const baseEntries: AbilityChipEntry[] = unit.abilities.map((ability) => ({
     ability,
