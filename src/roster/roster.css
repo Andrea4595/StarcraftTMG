@@ -975,6 +975,9 @@ button.roster-slot-pill:hover {
 .tactical-picker-row-unique {
   font-size: 10px;
   font-weight: 700;
+  /* line-height를 지정하지 않으면 본문 폰트(Pretendard)의 기본 줄 높이를 그대로 물려받아, 10px
+     글자에 비해 배지 위아래 여백이 과하게 두꺼워진다. 1로 텍스트 높이에 딱 맞춘다 */
+  line-height: 1;
   background: #f0b429;
   color: #221a02;
   border-radius: 4px;
