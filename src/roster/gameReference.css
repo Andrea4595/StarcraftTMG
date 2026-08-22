@@ -278,7 +278,7 @@
 }
 
 .game-ref-chip-phase-icon-combat {
-  aspect-ratio: 200 / 264;
+  aspect-ratio: 512 / 512;
   -webkit-mask-image: url('./assets/combatPhase.png');
   mask-image: url('./assets/combatPhase.png');
 }

@@ -1,4 +1,4 @@
-import type { Ability, RaceData, Roster, Rule, UnitType } from '../../types'
+import { PHASES, type Ability, type RaceData, type Roster, type Rule, type UnitType } from '../../types'
 import { findFactionCard, findUnit, groupedTacticalCards, isFavoriteAbility, unitActiveAbilities, unitEntryMineralCost } from '../rosterCalc'
 import { unitStatEntries } from '../../components/card/StatBoxes'
 import { useLocalize } from '../../LangContext'
@@ -24,9 +24,11 @@ function AbilityChipsRow({
   localize: (rule: Rule) => string
 }) {
   if (abilities.length === 0) return null
+  /** ANY > MOVEMENT > ASSAULT > COMBAT 순으로 정렬한다 (원본 데이터 배열 순서는 뒤죽박죽이라 그대로 보여주면 읽기 어렵다) */
+  const sorted = [...abilities].sort((a, b) => PHASES.indexOf(a.phase) - PHASES.indexOf(b.phase))
   return (
     <div className="game-ref-upgrades-row">
-      {abilities.map((ability, i) => {
+      {sorted.map((ability, i) => {
         const favorited = ability.kind === 'rule' && isFavoriteAbility(roster, sourceId, ability.id)
         return (
           <button
