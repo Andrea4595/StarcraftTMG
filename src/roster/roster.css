@@ -656,8 +656,6 @@ button.roster-slot-pill:hover {
   padding: 8px 10px;
   cursor: pointer;
   font-size: 13px;
-  /* 아래 .roster-entry-header가 뷰포트가 아니라 "이 카드 자체의 폭"을 기준으로 줄바꿈하도록 컨테이너로 지정 */
-  container-type: inline-size;
 }
 
 .roster-entry:hover {
@@ -670,14 +668,16 @@ button.roster-slot-pill:hover {
 }
 
 /*
-  이름/스쿼드 선택/스탯/제거 버튼을 grid-template-areas로 배치한다. 스쿼드 선택은 기본적으로
-  이름 바로 오른쪽에 붙지만, 폭이 좁아지면 그것만 독립된 한 줄로 내려간다. 더 좁아지면 기존처럼
-  stats도 별도 줄로 내려가고, 이름과 제거 버튼만 항상 첫 줄에 같이 남는다.
+  이름/메타(스쿼드+스탯)/제거 버튼을 grid-template-areas로 배치한다. 스쿼드 선택기와 스탯 박스는
+  같은 메타 영역 안에서 하나의 flex 줄로 붙어 있다가, 그 영역 자체의 실제 남은 폭이 부족할 때만
+  자연스럽게 줄바꿈된다 — 고정 픽셀 기준(컨테이너 쿼리)으로 끊으면 이름이 짧아 실제로는 공간이
+  남는 경우에도 미리 줄바꿈되는 문제가 있어, 그 대신 flex-wrap에 맡긴다. 이름과 제거 버튼은
+  각자 독립된 grid 칸이라 메타 영역이 줄바꿈으로 늘어나도 항상 첫 줄 위치에 그대로 남는다.
 */
 .roster-entry-header {
   display: grid;
-  grid-template-columns: auto auto 1fr auto;
-  grid-template-areas: 'name squad stats remove';
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas: 'name meta remove';
   align-items: center;
   gap: 10px;
 }
@@ -699,36 +699,20 @@ button.roster-slot-pill:hover {
   grid-area: remove;
 }
 
+/* 스쿼드 등급 선택기 바로 오른쪽에 스탯 박스가 붙는다. 이 줄 자체의 폭이 부족할 때만 줄바꿈된다 */
+.roster-entry-meta {
+  grid-area: meta;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-width: 0;
+}
+
 /* 로스터 목록에서는 한 유닛이 차지하는 높이를 줄이기 위해 스탯 박스를 원본 카드보다 작게 표시 */
 .roster-entry-header .card-statboxes {
-  grid-area: stats;
-  justify-self: end;
   gap: 4px;
-}
-
-@container (max-width: 560px) {
-  .roster-entry-header {
-    grid-template-columns: auto 1fr auto;
-    grid-template-areas:
-      'name stats remove'
-      'squad squad squad';
-    row-gap: 6px;
-  }
-}
-
-@container (max-width: 400px) {
-  .roster-entry-header {
-    grid-template-columns: 1fr auto;
-    grid-template-areas:
-      'name remove'
-      'squad squad'
-      'stats stats';
-    row-gap: 6px;
-  }
-
-  .roster-entry-header .card-statboxes {
-    justify-self: start;
-  }
 }
 
 .roster-entry-header .card-statbox {
@@ -744,10 +728,8 @@ button.roster-slot-pill:hover {
   font-size: 8px;
 }
 
-/* 로스터 목록 행에서 이름 옆에 붙는 스쿼드 등급 선택기. 등급 하나당 서플라이(파란 사각형)와
-   최대 모델 수만 보여주는 둥근 사각형 칩 */
+/* 스쿼드 등급 선택기. 등급 하나당 서플라이(사각형)와 최대 모델 수만 보여주는 둥근 사각형 칩 */
 .roster-squad-tier-selector {
-  grid-area: squad;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
