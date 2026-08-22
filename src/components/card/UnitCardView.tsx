@@ -66,8 +66,8 @@ export function UnitCardView({
       <div className="card-body-top">
         <div className="card-top-right">
           <div className="card-squad-stats-row">
-            {squadTierSelector}
             <StatBoxes unit={unit} />
+            {squadTierSelector}
           </div>
           <div className="card-squad-row">
             {!squadTierSelector && (

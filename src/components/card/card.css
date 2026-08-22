@@ -92,11 +92,17 @@
   gap: 12px;
 }
 
-/* 컴팩트 스쿼드 등급 선택기(SquadTierSelector)를 스탯 박스 바로 왼쪽에 붙인다 — 이름 줄보다
-   폭이 넉넉해서 불필요하게 줄바꿈되지 않는다 */
+/*
+  컴팩트 스쿼드 등급 선택기(SquadTierSelector)를 스탯 박스 바로 왼쪽에 붙인다. 줄바꿈이 필요할
+  땐 스탯이 아니라 스쿼드 쪽이 아래 새 줄로 밀려나야 한다 — flex-wrap은 항상 "먼저 오는 항목이
+  줄에 남고 나중 항목이 밀려나는" 식으로 동작하므로, DOM 순서는 스탯을 먼저 두고
+  row-reverse로 시각적 순서만 다시 뒤집어(스쿼드가 왼쪽에 보이도록) 그 우선순위를 얻는다.
+*/
 .card-squad-stats-row {
   display: flex;
+  flex-direction: row-reverse;
   align-items: center;
+  justify-content: flex-end;
   flex-wrap: wrap;
   gap: 8px;
 }

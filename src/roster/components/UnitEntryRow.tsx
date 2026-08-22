@@ -78,8 +78,8 @@ export function UnitEntryRow({
           {unit.isUnique && <span className="card-unique-badge">UNIQUE</span>}
         </div>
         <div className="roster-entry-meta">
-          <SquadTierSelector roster={roster} unit={unit} entry={entry} />
           <StatBoxes unit={unit} />
+          <SquadTierSelector roster={roster} unit={unit} entry={entry} />
         </div>
         <button
           type="button"
