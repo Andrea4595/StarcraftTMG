@@ -192,6 +192,8 @@ export interface AbilityChipEntry {
   ability: Ability
   /** 업그레이드에서 나온 능력일 때만 지정: 로스터에서 지금 이 업그레이드가 켜져 있는지 */
   upgradeActive?: boolean
+  /** 업그레이드에서 나온 능력일 때만 지정: 현재 스쿼드 등급 기준 비용 */
+  upgradePts?: number
 }
 
 /**
@@ -219,6 +221,7 @@ export function unitAbilityChipEntries(unit: UnitCard, entry: RosterUnitEntry): 
   const upgradeEntries: AbilityChipEntry[] = unit.upgrades.map((u, i) => ({
     ability: u.ability,
     upgradeActive: activeIndexes.has(i),
+    upgradePts: resolveScaledCost(u.pts, entry.squadTierIndex),
   }))
 
   return [...baseEntries, ...upgradeEntries]

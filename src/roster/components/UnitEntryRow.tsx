@@ -31,6 +31,9 @@ export function UnitEntryRow({
       .filter((e) => e.upgradeActive !== undefined)
       .map((e) => [e.ability, e.upgradeActive ? 'active' : 'inactive']),
   )
+  const upgradeCostByAbility = new Map<Ability, number>(
+    abilityEntries.filter((e) => e.upgradePts !== undefined).map((e) => [e.ability, e.upgradePts as number]),
+  )
   const index = roster.units.findIndex((e) => e.id === entry.id)
 
   return (
@@ -71,6 +74,7 @@ export function UnitEntryRow({
         onSelectAbility={onSelectAbility}
         localize={localize}
         upgradeStateFor={(ability) => upgradeStateByAbility.get(ability)}
+        costFor={(ability) => upgradeCostByAbility.get(ability)}
       />
 
       <div className="roster-entry-footer">

@@ -26,6 +26,7 @@ export function AbilityChipsRow({
   onSelectAbility,
   localize,
   upgradeStateFor,
+  costFor,
   showFavorite = false,
 }: {
   abilities: Ability[]
@@ -40,6 +41,8 @@ export function AbilityChipsRow({
    * 지정하지 않으면 항상 기본(파란) 톤으로 보여준다.
    */
   upgradeStateFor?: (ability: Ability) => 'active' | 'inactive' | undefined
+  /** 업그레이드에서 나온 능력의 비용을 알려준다(로스터 편집 화면 전용). 지정하면 칩 우측에 '(20)' 형태로 붙는다 */
+  costFor?: (ability: Ability) => number | undefined
   /** 즐겨찾기된 칩을 배경색으로 강조할지. 즐겨찾기는 게임 레퍼런스 화면 전용 기능이라 기본은 꺼져 있다 */
   showFavorite?: boolean
 }) {
@@ -51,6 +54,7 @@ export function AbilityChipsRow({
       {sorted.map((ability, i) => {
         const favorited = showFavorite && ability.kind === 'rule' && isFavoriteAbility(roster, sourceId, ability.id)
         const tone = upgradeStateFor?.(ability)
+        const cost = costFor?.(ability)
         return (
           <button
             type="button"
@@ -63,6 +67,7 @@ export function AbilityChipsRow({
           >
             <PhaseBadge phase={ability.phase} tone={tone ?? 'default'} />
             {localize(ability.name)}
+            {cost !== undefined && ` (${cost})`}
           </button>
         )
       })}
