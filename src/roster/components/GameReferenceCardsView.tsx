@@ -43,13 +43,13 @@ export function GameReferenceCardsView({
                   }}
                 >
                   <div className="game-ref-item-row">
+                    <span className="game-ref-supply">
+                      {Array.from({ length: factionCard.resource }).map((_, i) => (
+                        <span className="game-ref-resource-square" key={i} />
+                      ))}
+                    </span>
                     <span className="game-ref-item-name">{localize(factionCard.name)}</span>
                     <span className="game-ref-item-tag">Faction Card</span>
-                    {factionCard.resource > 0 && (
-                      <span className="game-ref-resource-badge">
-                        +{factionCard.resource} {race.resourceLabel.abbr}
-                      </span>
-                    )}
                   </div>
                   <AbilityChipsRow
                     abilities={factionCard.cardAbilities}
@@ -74,13 +74,13 @@ export function GameReferenceCardsView({
                   }}
                 >
                   <div className="game-ref-item-row">
+                    <span className="game-ref-supply">
+                      {Array.from({ length: card.resource }).map((_, i) => (
+                        <span className="game-ref-resource-square" key={i} />
+                      ))}
+                    </span>
                     <span className="game-ref-item-name">{localize(card.name)}</span>
                     {count > 1 && <span className="game-ref-item-tag">x{count}</span>}
-                    {card.resource > 0 && (
-                      <span className="game-ref-resource-badge">
-                        +{card.resource} {race.resourceLabel.abbr}
-                      </span>
-                    )}
                   </div>
                   <AbilityChipsRow
                     abilities={card.cardAbilities}

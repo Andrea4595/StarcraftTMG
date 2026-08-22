@@ -164,12 +164,6 @@
   font-variant-numeric: tabular-nums;
 }
 
-.game-ref-resource-badge {
-  font-size: 11px;
-  color: #f0b429;
-  margin-left: auto;
-}
-
 .game-ref-supply {
   display: inline-flex;
   gap: 2px;
@@ -179,6 +173,15 @@
   width: 6px;
   height: 6px;
   background: #5b9dff;
+  border-radius: 1px;
+}
+
+/* 팩션/택티컬 카드가 제공하는 자원(CP/BM/EN) 양만큼 이름 왼쪽에 나열한다. .game-ref-supply 컨테이너를
+   함께 쓰고, 색만 자원 색(노란색)으로 구분한다 */
+.game-ref-resource-square {
+  width: 6px;
+  height: 6px;
+  background: #f0b429;
   border-radius: 1px;
 }
 
