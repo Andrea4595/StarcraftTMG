@@ -47,35 +47,41 @@ export function WeaponSummaryModal({
   const allEntries = unit && rosterEntry ? unitWeaponSummaryEntries(unit, rosterEntry, detail.phase, localize) : []
   const entries = interactive ? allEntries : allEntries.filter((entry) => entry.tone !== 'inactive')
   const allAbilities: Ability[] = unit ? [...unit.abilities, ...unit.upgrades.map((u) => u.ability)] : []
+  /**
+   * interactive가 꺼져 있으면(게임 레퍼런스 화면) 비활성(미구매 업그레이드) 대상을 목록에서 빼고,
+   * 표시되는 대상의 미네랄 가격도 보여주지 않는다 — 위 entries 필터링과 같은 이유.
+   */
   const relatedTargets = (list: Ability[]): RelatedAbilityTarget[] =>
-    list.map((a) => {
-      const state = unit
-        ? abilityActiveState(unit, a, {
-            activeIndexes: rosterEntry?.upgradeIndexes,
-            squadTierIndex: rosterEntry?.squadTierIndex,
-          })
-        : { active: true, cost: undefined }
-      return {
-        ability: a,
-        onClick:
-          onSelectAbility && unit
-            ? () =>
-                onSelectAbility(
-                  abilitySelectionRefFor(unit, a, {
-                    sourceId: detail.sourceId,
-                    sourceLabel: detail.sourceLabel,
-                    unitType: detail.unitType,
-                    entryId: detail.entryId,
-                    localize,
-                    interactive,
-                  }),
-                )
-            : undefined,
-        active: state.active,
-        cost: state.cost,
-        resourceCost: abilityResourceCost(a, race.resourceLabel.abbr),
-      }
-    })
+    list
+      .map((a) => {
+        const state = unit
+          ? abilityActiveState(unit, a, {
+              activeIndexes: rosterEntry?.upgradeIndexes,
+              squadTierIndex: rosterEntry?.squadTierIndex,
+            })
+          : { active: true, cost: undefined }
+        return {
+          ability: a,
+          onClick:
+            onSelectAbility && unit
+              ? () =>
+                  onSelectAbility(
+                    abilitySelectionRefFor(unit, a, {
+                      sourceId: detail.sourceId,
+                      sourceLabel: detail.sourceLabel,
+                      unitType: detail.unitType,
+                      entryId: detail.entryId,
+                      localize,
+                      interactive,
+                    }),
+                  )
+              : undefined,
+          active: state.active,
+          cost: interactive ? state.cost : undefined,
+          resourceCost: abilityResourceCost(a, race.resourceLabel.abbr),
+        }
+      })
+      .filter((t) => interactive || t.active)
 
   return (
     <Modal

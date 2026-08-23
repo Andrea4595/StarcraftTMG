@@ -4,6 +4,7 @@ import {
   FIRE_LABEL,
   MELEE_LABEL,
   unitAbilityChipEntries,
+  unitActiveAbilities,
   unitEntryMineralCost,
   unitForLabelResolver,
   unitMeleeWeaponEntries,
@@ -16,34 +17,33 @@ import { useLocalize } from '../../LangContext'
 import { AbilityChipsRow, type AbilitySelectionRef, type UpgradeToggleRef, type WeaponSummaryInput } from './AbilityChipsRow'
 import { SquadTierSelector } from './SquadTierSelector'
 
+const isNonSummaryWeapon = (a: Ability) => !(a.kind === 'weapon' && (a.phase === 'Assault' || a.phase === 'Combat'))
+
 export function UnitEntryRow({
   roster,
   unit,
   entry,
-  active,
-  onEdit,
+  onShowDetail,
   onSelectAbility,
+  interactive = true,
 }: {
   roster: Roster
   unit: UnitCard
   entry: RosterUnitEntry
-  /** 이 유닛이 지금 오른쪽 상세 패널에 표시되고 있는지 */
-  active?: boolean
-  onEdit: () => void
+  /** 이 유닛의 상세 정보를 모달로 띄운다. '유닛 상세' 버튼을 누르면 호출된다 */
+  onShowDetail: () => void
   onSelectAbility: (ref: AbilitySelectionRef) => void
+  /**
+   * 기본은 로스터 편집 화면 전용 동작: 미구매 업그레이드까지 포함한 모든 능력을 가격과 함께 보여주고,
+   * 스쿼드 등급을 클릭해 바꿀 수 있으며, 제거/이동 버튼이 붙는다. false를 주면 게임 레퍼런스 화면
+   * 전용 읽기 전용 모드가 된다 — 지금 실제로 켜진 능력만, 가격 없이 보여주고, 스쿼드 등급은 지금
+   * 값만 강조해 보여줄 뿐 바꿀 수 없으며, 제거/이동 버튼은 아예 나오지 않는다.
+   */
+  interactive?: boolean
 }) {
   const store = useRosterStore()
   const localize = useLocalize()
   const cost = unitEntryMineralCost(unit, entry)
-  const abilityEntries = unitAbilityChipEntries(unit, entry)
-  const upgradeStateByAbility = new Map<Ability, 'active' | 'inactive'>(
-    abilityEntries
-      .filter((e) => e.upgradeActive !== undefined)
-      .map((e) => [e.ability, e.upgradeActive ? 'active' : 'inactive']),
-  )
-  const upgradeCostByAbility = new Map<Ability, number>(
-    abilityEntries.filter((e) => e.upgradePts !== undefined).map((e) => [e.ability, e.upgradePts as number]),
-  )
   const forFor = unitForLabelResolver(unit, localize)
   const rangedSummary = unitRangedWeaponEntries(unit, entry, localize)
   const meleeSummary = unitMeleeWeaponEntries(unit, entry, localize)
@@ -51,52 +51,72 @@ export function UnitEntryRow({
     { entryId: entry.id, phase: 'Assault', label: FIRE_LABEL, entries: rangedSummary },
     { entryId: entry.id, phase: 'Combat', label: MELEE_LABEL, entries: meleeSummary },
   ]
-  const nonWeaponSummaryAbilities = abilityEntries
-    .map((e) => e.ability)
-    .filter((a) => !(a.kind === 'weapon' && (a.phase === 'Assault' || a.phase === 'Combat')))
-  const upgradeIndexByAbility = new Map<Ability, number>(unit.upgrades.map((u, i) => [u.ability, i]))
-  const upgradeToggleFor = (ability: Ability): UpgradeToggleRef | undefined => {
-    const i = upgradeIndexByAbility.get(ability)
-    if (i === undefined) return undefined
-    return { entryId: entry.id, upgradeIndex: i, pts: unit.upgrades[i].pts, exclusiveWith: upgradeExclusiveWith(unit, i) }
+
+  let nonWeaponSummaryAbilities: Ability[]
+  let upgradeStateFor: ((ability: Ability) => 'active' | 'inactive' | undefined) | undefined
+  let costFor: ((ability: Ability) => number | undefined) | undefined
+  let upgradeToggleFor: ((ability: Ability) => UpgradeToggleRef | undefined) | undefined
+
+  if (interactive) {
+    const abilityEntries = unitAbilityChipEntries(unit, entry)
+    nonWeaponSummaryAbilities = abilityEntries.map((e) => e.ability).filter(isNonSummaryWeapon)
+
+    const upgradeStateByAbility = new Map<Ability, 'active' | 'inactive'>(
+      abilityEntries
+        .filter((e) => e.upgradeActive !== undefined)
+        .map((e) => [e.ability, e.upgradeActive ? 'active' : 'inactive']),
+    )
+    const upgradeCostByAbility = new Map<Ability, number>(
+      abilityEntries.filter((e) => e.upgradePts !== undefined).map((e) => [e.ability, e.upgradePts as number]),
+    )
+    const upgradeIndexByAbility = new Map<Ability, number>(unit.upgrades.map((u, i) => [u.ability, i]))
+
+    upgradeStateFor = (ability) => upgradeStateByAbility.get(ability)
+    costFor = (ability) => upgradeCostByAbility.get(ability)
+    upgradeToggleFor = (ability) => {
+      const i = upgradeIndexByAbility.get(ability)
+      if (i === undefined) return undefined
+      return { entryId: entry.id, upgradeIndex: i, pts: unit.upgrades[i].pts, exclusiveWith: upgradeExclusiveWith(unit, i) }
+    }
+  } else {
+    nonWeaponSummaryAbilities = unitActiveAbilities(unit, entry).filter(isNonSummaryWeapon)
   }
+
   const index = roster.units.findIndex((e) => e.id === entry.id)
 
   return (
-    <div
-      className={`roster-entry ${active ? 'roster-entry-active' : ''}`}
-      role="button"
-      tabIndex={0}
-      onClick={onEdit}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') onEdit()
-      }}
-    >
+    <div className="roster-entry">
       <div className="roster-entry-header">
         <div className="roster-entry-title">
           <span className="roster-entry-name">{localize(unit.name)}</span>
           {unit.isUnique && <span className="card-unique-badge">UNIQUE</span>}
+          <span className="roster-entry-tags">
+            <KeywordList keywords={unit.tags.filter((t) => t.name !== 'Unique')} />
+          </span>
         </div>
         <div className="roster-entry-meta">
           <StatBoxes unit={unit} />
-          <SquadTierSelector roster={roster} unit={unit} entry={entry} />
         </div>
-        <button
-          type="button"
-          className="btn btn-danger roster-entry-remove"
-          onClick={(e) => {
-            e.stopPropagation()
-            store.removeUnitEntry(roster.id, entry.id)
-          }}
-          aria-label="제거"
-        >
-          ✕
-        </button>
+        {interactive && (
+          <button
+            type="button"
+            className="btn btn-danger roster-entry-remove"
+            onClick={() => store.removeUnitEntry(roster.id, entry.id)}
+            aria-label="제거"
+          >
+            ✕
+          </button>
+        )}
+      </div>
+
+      <div className="roster-entry-squad-row">
+        <SquadTierSelector roster={roster} unit={unit} entry={entry} interactive={interactive} />
       </div>
 
       <AbilityChipsRow
         abilities={nonWeaponSummaryAbilities}
         weaponSummaries={weaponSummaries}
+        hideInactiveWeaponNames={!interactive}
         sourceId={unit.id}
         sourceLabel={localize(unit.name)}
         unitType={unit.type}
@@ -104,44 +124,41 @@ export function UnitEntryRow({
         roster={roster}
         onSelectAbility={onSelectAbility}
         localize={localize}
-        upgradeStateFor={(ability) => upgradeStateByAbility.get(ability)}
-        costFor={(ability) => upgradeCostByAbility.get(ability)}
+        upgradeStateFor={upgradeStateFor}
+        costFor={costFor}
         forFor={forFor}
         upgradeToggleFor={upgradeToggleFor}
+        showFavorite={!interactive}
       />
 
       <div className="roster-entry-footer">
-        <div className="roster-entry-tags">
-          <KeywordList keywords={unit.tags.filter((t) => t.name !== 'Unique')} />
-        </div>
+        <span className="roster-entry-cost">{cost}</span>
         <div className="roster-entry-footer-right">
-          <span className="roster-entry-cost">{cost}</span>
-          <div className="roster-entry-move">
-            <button
-              type="button"
-              className="roster-entry-move-btn"
-              disabled={index <= 0}
-              onClick={(e) => {
-                e.stopPropagation()
-                store.moveUnitEntry(roster.id, entry.id, 'up')
-              }}
-              aria-label="위로 이동"
-            >
-              ▲
-            </button>
-            <button
-              type="button"
-              className="roster-entry-move-btn"
-              disabled={index === -1 || index === roster.units.length - 1}
-              onClick={(e) => {
-                e.stopPropagation()
-                store.moveUnitEntry(roster.id, entry.id, 'down')
-              }}
-              aria-label="아래로 이동"
-            >
-              ▼
-            </button>
-          </div>
+          <button type="button" className="roster-entry-detail-btn" onClick={onShowDetail}>
+            유닛 상세
+          </button>
+          {interactive && (
+            <div className="roster-entry-move">
+              <button
+                type="button"
+                className="roster-entry-move-btn"
+                disabled={index <= 0}
+                onClick={() => store.moveUnitEntry(roster.id, entry.id, 'up')}
+                aria-label="위로 이동"
+              >
+                ▲
+              </button>
+              <button
+                type="button"
+                className="roster-entry-move-btn"
+                disabled={index === -1 || index === roster.units.length - 1}
+                onClick={() => store.moveUnitEntry(roster.id, entry.id, 'down')}
+                aria-label="아래로 이동"
+              >
+                ▼
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

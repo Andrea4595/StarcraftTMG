@@ -52,6 +52,7 @@ export function AbilitiesSection({
   favorite,
   crossFavorites = [],
   onSelectAbility,
+  showRelated = true,
 }: {
   /** 연관 어빌리티 항목이 지금 활성인지/비용이 얼마인지 조회할 때 쓴다 (unit.upgrades 전체가 필요).
    *  택티컬/팩션 카드처럼 유닛이 없는 경우엔 생략 — 그 카드 능력들은 항상 활성으로 취급한다 */
@@ -70,6 +71,12 @@ export function AbilitiesSection({
   crossFavorites?: CrossFavoriteRef[]
   /** 지정하면 연관 어빌리티/무기 항목을 눌러 그 대상의 상세 모달로 이동할 수 있다 */
   onSelectAbility?: (ability: Ability) => void
+  /**
+   * '강화:' 연관 어빌리티/무기 블록을 보여줄지. 유닛 카드 전체(UnitCardView)처럼 같은 페이지 안에
+   * 모든 능력이 이미 나열돼 있는 화면에서는 중복이라 꺼둔다. 어빌리티 하나만 단독으로 보여주는
+   * AbilityDetailModal에서는 다른 능력으로 옮겨갈 진입점이 되므로 계속 켜둔다.
+   */
+  showRelated?: boolean
 }) {
   const localize = useLocalize()
   const entries: Entry[] = [
@@ -162,7 +169,7 @@ export function AbilitiesSection({
                       return {
                         weapon: e.ability as WeaponProfile,
                         sealed: sealedWeaponIds.has(e.ability.id),
-                        referencedBy: relatedTargets(abilityEnhancedBy(allAbilities, e.ability)),
+                        referencedBy: showRelated ? relatedTargets(abilityEnhancedBy(allAbilities, e.ability)) : undefined,
                       }
                     }
                     return {
@@ -170,7 +177,9 @@ export function AbilitiesSection({
                       for: resolveForName(e.upgrade.forId),
                       ptsLabel: ptsLabelFor(e.upgrade),
                       interactive: interactiveFor(e.index),
-                      referencedBy: relatedTargets(abilityEnhancedBy(allAbilities, e.upgrade.ability)),
+                      referencedBy: showRelated
+                        ? relatedTargets(abilityEnhancedBy(allAbilities, e.upgrade.ability))
+                        : undefined,
                     }
                   })}
                 />
@@ -183,8 +192,8 @@ export function AbilitiesSection({
                     ability={ability}
                     resourceLabel={resourceLabel}
                     favorite={favoriteFor(ability)}
-                    relatedTo={relatedTargets(abilityEnhances(allAbilities, ability))}
-                    referencedBy={relatedTargets(abilityEnhancedBy(allAbilities, ability))}
+                    relatedTo={showRelated ? relatedTargets(abilityEnhances(allAbilities, ability)) : undefined}
+                    referencedBy={showRelated ? relatedTargets(abilityEnhancedBy(allAbilities, ability)) : undefined}
                   />
                 ) : (
                   <RuleAbilityBlock
@@ -195,8 +204,8 @@ export function AbilitiesSection({
                     ptsLabel={ptsLabelFor(e.upgrade)}
                     interactive={interactiveFor(e.index)}
                     favorite={favoriteFor(ability)}
-                    relatedTo={relatedTargets(abilityEnhances(allAbilities, ability))}
-                    referencedBy={relatedTargets(abilityEnhancedBy(allAbilities, ability))}
+                    relatedTo={showRelated ? relatedTargets(abilityEnhances(allAbilities, ability)) : undefined}
+                    referencedBy={showRelated ? relatedTargets(abilityEnhancedBy(allAbilities, ability)) : undefined}
                   />
                 )
               })}

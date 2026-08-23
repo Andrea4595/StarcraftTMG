@@ -15,8 +15,8 @@ export function UnitModal({
 }: {
   race: RaceData
   roster: Roster
-  /** 유닛을 로스터에 추가한 직후 호출. 상세 정보는 모달이 아니라 메인 화면 우측 패널에서 보여준다 */
-  onAdded: (entryId: string) => void
+  /** 유닛을 로스터에 추가한 직후 호출 */
+  onAdded: () => void
   onClose: () => void
 }) {
   const store = useRosterStore()
@@ -70,12 +70,22 @@ export function UnitModal({
                       className="catalog-tier-btn"
                       disabled={alreadyIncluded}
                       onClick={() => {
-                        const id = makeId()
-                        store.addUnitEntry(roster.id, unit.id, tierIndex, id)
-                        onAdded(id)
+                        store.addUnitEntry(roster.id, unit.id, tierIndex, makeId())
+                        onAdded()
                       }}
                     >
-                      Models: {tier.modelMax} Supply: {tier.supply}
+                      <span className="catalog-tier-btn-top">
+                        <span className="roster-squad-tier-supply">
+                          {tier.supply === 0 ? (
+                            <span className="roster-squad-tier-supply-empty">×</span>
+                          ) : (
+                            Array.from({ length: tier.supply }).map((_, j) => (
+                              <span className="roster-squad-tier-supply-square" key={j} />
+                            ))
+                          )}
+                        </span>
+                        {tier.modelMax}
+                      </span>
                       <span className="catalog-tier-btn-pts">{tier.pts}</span>
                     </button>
                   )

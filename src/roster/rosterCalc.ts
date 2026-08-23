@@ -82,6 +82,15 @@ export function rosterMineralTotal(race: RaceData, roster: Roster): number {
   }, 0)
 }
 
+/** 모든 유닛 항목의(현재 선택된 스쿼드 등급 기준) 서플라이 합. 슬롯 예산과 달리 유닛 타입 구분 없이 전체 총합 하나만 필요할 때 쓴다 */
+export function rosterSupplyTotal(race: RaceData, roster: Roster): number {
+  return roster.units.reduce((sum, entry) => {
+    const unit = findUnit(race, entry.unitId)
+    const tier = unit?.squad[entry.squadTierIndex]
+    return sum + (tier?.supply ?? 0)
+  }, 0)
+}
+
 /** tacticalCardIds는 멀티셋(중복 id = 여러 장)이므로 id마다 race.tacticalCards에서 다시 찾아 개수만큼 나열한다 */
 function includedTacticalCards(race: RaceData, roster: Roster): TacticalCard[] {
   const factionCard = findFactionCard(race, roster)

@@ -14,10 +14,13 @@ export function SquadTierSelector({
   roster,
   unit,
   entry,
+  interactive = true,
 }: {
   roster: Roster
   unit: UnitCard
   entry: RosterUnitEntry
+  /** false면 게임 레퍼런스 화면 전용 읽기 전용 모드: 등급을 클릭해 바꿀 수 없고, 지금 등급만 강조해 보여준다 */
+  interactive?: boolean
 }) {
   const store = useRosterStore()
   const selectableIndexes = new Set(catalogSquadTierIndexes(unit))
@@ -25,7 +28,7 @@ export function SquadTierSelector({
   return (
     <div className="roster-squad-tier-selector">
       {unit.squad.map((tier, i) => {
-        const selectable = selectableIndexes.has(i)
+        const selectable = interactive && selectableIndexes.has(i)
         const active = entry.squadTierIndex === i
         const content = (
           <>
@@ -47,7 +50,10 @@ export function SquadTierSelector({
 
         if (!selectable) {
           return (
-            <div className="roster-squad-tier-chip roster-squad-tier-chip-disabled" key={i}>
+            <div
+              className={`roster-squad-tier-chip roster-squad-tier-chip-disabled ${active ? 'roster-squad-tier-chip-active' : ''}`}
+              key={i}
+            >
               {content}
             </div>
           )
@@ -58,10 +64,7 @@ export function SquadTierSelector({
             type="button"
             key={i}
             className={`roster-squad-tier-chip ${active ? 'roster-squad-tier-chip-active' : ''}`}
-            onClick={(e) => {
-              e.stopPropagation()
-              store.setUnitEntrySquadTier(roster.id, entry.id, i)
-            }}
+            onClick={() => store.setUnitEntrySquadTier(roster.id, entry.id, i)}
           >
             {content}
           </button>

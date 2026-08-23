@@ -42,7 +42,7 @@ export function Modal({
 
   /**
    * body에 직접 포탈로 렌더링한다. 그렇지 않으면 모달이 sticky 조상(.roster-builder-body 등)의
-   * 스태킹 컨텍스트에 갇혀서, z-index와 무관하게 옆 패널(.roster-detail-panel)보다 아래에 그려진다.
+   * 스태킹 컨텍스트에 갇혀서, z-index와 무관하게 그 조상 뒤에 가려져 그려진다.
    */
   return createPortal(
     <div className="modal-backdrop" style={{ zIndex }} onClick={onClose}>

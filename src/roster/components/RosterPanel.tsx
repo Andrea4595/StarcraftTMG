@@ -10,16 +10,22 @@ import {
   rosterMineralTotal,
   rosterResourceTotal,
   rosterSlotUsage,
+  rosterSupplyTotal,
   rosterUniqueViolations,
 } from '../rosterCalc'
 import { UnitEntryRow } from './UnitEntryRow'
 import { TacticalCardModal } from './TacticalCardModal'
 import { UnitModal } from './UnitModal'
+import { UnitConfigureView } from './UnitConfigureView'
+import { Modal } from './Modal'
 import { SlotUsageRow } from './SlotUsageRow'
 import { AbilityChipsRow, type AbilitySelectionRef } from './AbilityChipsRow'
-import type { DetailState } from './RosterDetailPanel'
 
-type ModalState = { kind: 'tactical'; focusCardId?: string } | { kind: 'unit-add' } | null
+type ModalState =
+  | { kind: 'tactical'; focusCardId?: string }
+  | { kind: 'unit-add' }
+  | { kind: 'unit-detail'; entryId: string }
+  | null
 
 /** 카드가 제공하는 자원(CP/BM/EN) 양만큼 노란 사각형을 나열한다. 보통 최대 2개 정도라 텍스트 배지보다 훨씬 작게 보여준다 */
 function ResourceSquares({ count }: { count: number }) {
@@ -37,16 +43,12 @@ export function RosterPanel({
   races,
   race,
   roster,
-  detail,
-  onSelectDetail,
   onSelectAbility,
 }: {
   races: RaceData[]
   /** roster.raceId에 해당하는 종족. 아직 선택 전이면 undefined */
   race: RaceData | undefined
   roster: Roster
-  detail: DetailState
-  onSelectDetail: (detail: DetailState) => void
   /** 어빌리티/무기 칩을 누르면 이 콜백으로 상세 모달을 요청한다 (모달 자체는 공통 조상인 RosterBuilderPage가 그린다) */
   onSelectAbility: (ref: AbilitySelectionRef) => void
 }) {
@@ -83,13 +85,7 @@ export function RosterPanel({
       {!race ? (
         <div className="roster-empty">종족을 선택하면 예산/슬롯 정보와 카드 선택이 표시됩니다.</div>
       ) : (
-        <RosterPanelBody
-          race={race}
-          roster={roster}
-          detail={detail}
-          onSelectDetail={onSelectDetail}
-          onSelectAbility={onSelectAbility}
-        />
+        <RosterPanelBody race={race} roster={roster} onSelectAbility={onSelectAbility} />
       )}
     </div>
   )
@@ -98,14 +94,10 @@ export function RosterPanel({
 function RosterPanelBody({
   race,
   roster,
-  detail,
-  onSelectDetail,
   onSelectAbility,
 }: {
   race: RaceData
   roster: Roster
-  detail: DetailState
-  onSelectDetail: (detail: DetailState) => void
   onSelectAbility: (ref: AbilitySelectionRef) => void
 }) {
   const store = useRosterStore()
@@ -115,6 +107,7 @@ function RosterPanelBody({
   const gasTotal = rosterGasTotal(race, roster)
   const gasCap = rosterGasCap(roster)
   const resourceTotal = rosterResourceTotal(race, roster)
+  const supplyTotal = rosterSupplyTotal(race, roster)
   const slotUsage = rosterSlotUsage(race, roster)
   const uniqueViolations = rosterUniqueViolations(race, roster)
   const overCap = mineralTotal > roster.mineralCap
@@ -143,7 +136,8 @@ function RosterPanelBody({
           </span>
         </div>
         <span className="roster-cp-badge">
-          <span className="roster-cp-badge-label">{race.resourceLabel.abbr}</span> {resourceTotal}
+          <span className="roster-cp-badge-icon" />
+          {resourceTotal}
         </span>
       </div>
       <div className="roster-tactical-list">
@@ -256,6 +250,10 @@ function RosterPanelBody({
                   {mineralTotal} / {roster.mineralCap}
                 </span>
               </div>
+              <span className="roster-cp-badge roster-cp-badge-supply">
+                <span className="roster-cp-badge-icon" />
+                {supplyTotal}
+              </span>
             </div>
             <SlotUsageRow slotUsage={slotUsage} />
           </div>
@@ -270,8 +268,7 @@ function RosterPanelBody({
                   roster={roster}
                   unit={unit}
                   entry={entry}
-                  active={detail?.kind === 'unit' && detail.entryId === entry.id}
-                  onEdit={() => onSelectDetail({ kind: 'unit', entryId: entry.id })}
+                  onShowDetail={() => setModal({ kind: 'unit-detail', entryId: entry.id })}
                   onSelectAbility={onSelectAbility}
                 />
               )
@@ -295,13 +292,27 @@ function RosterPanelBody({
         <UnitModal
           race={race}
           roster={roster}
-          onAdded={(entryId) => {
-            setModal(null)
-            onSelectDetail({ kind: 'unit', entryId })
-          }}
+          onAdded={() => setModal(null)}
           onClose={() => setModal(null)}
         />
       )}
+      {modal?.kind === 'unit-detail' &&
+        (() => {
+          const entry = roster.units.find((e) => e.id === modal.entryId)
+          const unit = entry ? findUnit(race, entry.unitId) : undefined
+          if (!entry || !unit) return null
+          return (
+            <Modal title={localize(unit.name)} onClose={() => setModal(null)}>
+              <UnitConfigureView
+                roster={roster}
+                unit={unit}
+                entry={entry}
+                resourceLabel={race.resourceLabel.abbr}
+                onSelectAbility={onSelectAbility}
+              />
+            </Modal>
+          )
+        })()}
     </>
   )
 }
