@@ -2,8 +2,7 @@ import type { Ability, Roster, RosterUnitEntry, UnitCard } from '../../types'
 import { useRosterStore } from '../RosterContext'
 import { useLocalize } from '../../LangContext'
 import { UnitCardView } from '../../components/card/UnitCardView'
-import { abilitySelectionRefFor, upgradeExclusiveWith } from '../rosterCalc'
-import { SquadTierSelector } from './SquadTierSelector'
+import { abilitySelectionRefFor, catalogSquadTierIndexes, upgradeExclusiveWith } from '../rosterCalc'
 import type { AbilitySelectionRef } from './AbilityChipsRow'
 
 export function UnitConfigureView({
@@ -33,7 +32,11 @@ export function UnitConfigureView({
           activeIndexes: entry.upgradeIndexes,
           onToggle: (index) => store.toggleUnitUpgrade(roster.id, entry.id, index, upgradeExclusiveWith(unit, index)),
         }}
-        squadTierSelector={<SquadTierSelector roster={roster} unit={unit} entry={entry} />}
+        squadSelection={{
+          activeIndex: entry.squadTierIndex,
+          selectableIndexes: catalogSquadTierIndexes(unit),
+          onSelect: (index) => store.setUnitEntrySquadTier(roster.id, entry.id, index),
+        }}
         onSelectAbility={
           onSelectAbility &&
           ((ability: Ability) =>

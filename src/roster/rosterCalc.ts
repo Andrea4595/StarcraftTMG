@@ -27,6 +27,28 @@ export function findFactionCard(race: RaceData, roster: Roster): TacticalCard | 
 }
 
 /**
+ * '레이너 특공대'/'칼라이'/'케리건의 군단' 유닛 태그는 동명의 팩션 카드가 로스터에 선택돼 있어야만
+ * 그 유닛을 포함할 수 있다는 뜻이다. 태그 이름이 곧 해당 팩션 카드의 id와 같다.
+ */
+const FACTION_LOCKED_TAGS = new Set(["Raynor's Raiders", 'Khalai', "Kerrigan's Swarm"])
+
+/** 이 유닛이 특정 팩션 카드를 요구한다면(태그로 표시) 그 팩션 카드 id를 돌려준다. 카드 이름을
+ *  UNIQUE 배지 옆에 별도 배지로 보여줄 때, 그리고 unitFactionMismatch가 함께 쓴다 */
+export function unitRequiredFactionCardId(unit: UnitCard): string | undefined {
+  return unit.tags.map((t) => t.name).find((name) => FACTION_LOCKED_TAGS.has(name))
+}
+
+/**
+ * 이 유닛이 특정 팩션 카드를 요구하는데 로스터에 지금 선택된 팩션 카드가 다르거나 아예 없으면
+ * true. 유닛 선택 모달에서 고를 수 없게 막을 때, 이미 추가된 유닛이 나중에 팩션을 바꿔서 더 이상
+ * 조건을 만족하지 못하게 됐다고 경고할 때 함께 쓴다.
+ */
+export function unitFactionMismatch(unit: UnitCard, roster: Roster): boolean {
+  const required = unitRequiredFactionCardId(unit)
+  return required !== undefined && required !== roster.factionCardId
+}
+
+/**
  * 카탈로그에서 고를 수 있는 스쿼드 tier 인덱스들.
  * 뒤에 나오는(더 많은 인원의) tier와 PTS가 완전히 같은 tier는 "더 적은 인원에 같은 값"이라
  * 고를 이유가 없어(dominated) 목록에서 제외한다 (예: Zealot 1인/160pt는 2-3인/160pt와 같은 값이라

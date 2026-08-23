@@ -7,13 +7,16 @@ import {
   unitActiveAbilities,
   unitEntryMineralCost,
   unitForLabelResolver,
+  unitFactionMismatch,
   unitMeleeWeaponEntries,
   unitRangedWeaponEntries,
+  unitRequiredFactionCardId,
   upgradeExclusiveWith,
 } from '../rosterCalc'
 import { StatBoxes } from '../../components/card/StatBoxes'
 import { KeywordList } from '../../components/card/KeywordText'
-import { useLocalize } from '../../LangContext'
+import { localizeTag } from '../../components/card/tagLabels'
+import { useLang, useLocalize } from '../../LangContext'
 import { AbilityChipsRow, type AbilitySelectionRef, type UpgradeToggleRef, type WeaponSummaryInput } from './AbilityChipsRow'
 import { SquadTierSelector } from './SquadTierSelector'
 
@@ -43,7 +46,9 @@ export function UnitEntryRow({
 }) {
   const store = useRosterStore()
   const localize = useLocalize()
+  const { lang } = useLang()
   const cost = unitEntryMineralCost(unit, entry)
+  const requiredFactionTag = unitRequiredFactionCardId(unit)
   const forFor = unitForLabelResolver(unit, localize)
   const rangedSummary = unitRangedWeaponEntries(unit, entry, localize)
   const meleeSummary = unitMeleeWeaponEntries(unit, entry, localize)
@@ -83,15 +88,18 @@ export function UnitEntryRow({
   }
 
   const index = roster.units.findIndex((e) => e.id === entry.id)
+  /** 이 유닛을 추가한 뒤 팩션 카드를 바꿔서, 태그로 요구하던 팩션 카드가 더 이상 선택돼 있지 않은 상태 */
+  const factionMismatch = unitFactionMismatch(unit, roster)
 
   return (
-    <div className="roster-entry">
+    <div className={`roster-entry ${factionMismatch ? 'roster-entry-faction-mismatch' : ''}`}>
       <div className="roster-entry-header">
         <div className="roster-entry-title">
           <span className="roster-entry-name">{localize(unit.name)}</span>
           {unit.isUnique && <span className="card-unique-badge">UNIQUE</span>}
+          {requiredFactionTag && <span className="card-faction-badge">{localizeTag(requiredFactionTag, lang)}</span>}
           <span className="roster-entry-tags">
-            <KeywordList keywords={unit.tags.filter((t) => t.name !== 'Unique')} />
+            <KeywordList keywords={unit.tags.filter((t) => t.name !== 'Unique' && t.name !== requiredFactionTag)} />
           </span>
         </div>
         <div className="roster-entry-meta">

@@ -602,6 +602,12 @@ button.roster-slot-pill:hover {
   font-size: 13px;
 }
 
+/* 이 유닛을 추가한 뒤 팩션 카드를 바꿔서, 태그로 요구하던 팩션 카드가 더 이상 선택돼 있지 않은
+   상태 — 로스터에 여전히 포함돼 있지만 실제로는 규칙을 어기고 있다는 걸 붉은 테두리로 경고한다 */
+.roster-entry-faction-mismatch {
+  border-color: #f87171;
+}
+
 /*
   이름/메타(스탯)/제거 버튼을 grid-template-areas로 배치한다. 이름과 제거 버튼은 각자 독립된
   grid 칸이라 메타 영역(스탯)이 줄바꿈으로 늘어나도 항상 첫 줄 위치에 그대로 남는다. 스쿼드
@@ -1234,6 +1240,7 @@ button.roster-slot-pill:hover {
   font-weight: 700;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 6px;
 }
 

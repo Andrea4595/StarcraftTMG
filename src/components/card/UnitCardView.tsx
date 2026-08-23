@@ -5,7 +5,9 @@ import { SquadTable, type SquadTableSelection } from './SquadTable'
 import { KeywordList } from './KeywordText'
 import { AbilitiesSection, type CrossFavoriteRef, type FavoriteToggle, type UpgradeToggleState } from './AbilitiesSection'
 import { formatScaledCost } from './costDisplay'
-import { useLocalize } from '../../LangContext'
+import { localizeTag } from './tagLabels'
+import { useLang, useLocalize } from '../../LangContext'
+import { unitRequiredFactionCardId } from '../../roster/rosterCalc'
 
 export function UnitCardView({
   unit,
@@ -49,7 +51,9 @@ export function UnitCardView({
   onSelectAbility?: (ability: Ability) => void
 }) {
   const localize = useLocalize()
+  const { lang } = useLang()
   const pts = formatScaledCost(unit.squad.map((s) => s.pts))
+  const requiredFactionTag = unitRequiredFactionCardId(unit)
 
   return (
     <div className="game-card">
@@ -59,9 +63,12 @@ export function UnitCardView({
             <div className="card-title">
               {localize(unit.name)}
               {unit.isUnique && <span className="card-unique-badge">UNIQUE</span>}
+              {requiredFactionTag && (
+                <span className="card-faction-badge">{localizeTag(requiredFactionTag, lang)}</span>
+              )}
             </div>
             <div className="card-tags">
-              <KeywordList keywords={unit.tags.filter((t) => t.name !== 'Unique')} />
+              <KeywordList keywords={unit.tags.filter((t) => t.name !== 'Unique' && t.name !== requiredFactionTag)} />
             </div>
           </div>
           <div className="card-subtitle">{unit.type}</div>
