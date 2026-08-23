@@ -50,35 +50,42 @@ export function AbilityDetailModal({
   const allAbilities: Ability[] = sourceUnit
     ? [...sourceUnit.abilities, ...sourceUnit.upgrades.map((u) => u.ability)]
     : []
+  /**
+   * showFavorite(게임 레퍼런스 화면 전용)일 때는 비활성(미구매 업그레이드) 대상을 아예 목록에서
+   * 빼고, 표시되는 대상의 미네랄 가격도 보여주지 않는다 — 실전 참고용 화면이라 이미 확정된 로스터
+   * 기준으로 "지금 실제로 쓰이는 것"만, 군더더기 없이 보여주면 된다.
+   */
   const relatedTargets = (list: Ability[]): RelatedAbilityTarget[] =>
-    list.map((a) => {
-      const state = sourceUnit
-        ? abilityActiveState(sourceUnit, a, {
-            activeIndexes: sourceEntry?.upgradeIndexes,
-            squadTierIndex: sourceEntry?.squadTierIndex,
-          })
-        : { active: true, cost: undefined }
-      return {
-        ability: a,
-        onClick:
-          onSelectAbility && sourceUnit
-            ? () =>
-                onSelectAbility(
-                  abilitySelectionRefFor(sourceUnit, a, {
-                    sourceId: detail.sourceId,
-                    sourceLabel: detail.sourceLabel,
-                    unitType: detail.unitType,
-                    entryId: detail.entryId,
-                    localize,
-                    interactive: !showFavorite,
-                  }),
-                )
-            : undefined,
-        active: state.active,
-        cost: state.cost,
-        resourceCost: abilityResourceCost(a, resourceLabel),
-      }
-    })
+    list
+      .map((a) => {
+        const state = sourceUnit
+          ? abilityActiveState(sourceUnit, a, {
+              activeIndexes: sourceEntry?.upgradeIndexes,
+              squadTierIndex: sourceEntry?.squadTierIndex,
+            })
+          : { active: true, cost: undefined }
+        return {
+          ability: a,
+          onClick:
+            onSelectAbility && sourceUnit
+              ? () =>
+                  onSelectAbility(
+                    abilitySelectionRefFor(sourceUnit, a, {
+                      sourceId: detail.sourceId,
+                      sourceLabel: detail.sourceLabel,
+                      unitType: detail.unitType,
+                      entryId: detail.entryId,
+                      localize,
+                      interactive: !showFavorite,
+                    }),
+                  )
+              : undefined,
+          active: state.active,
+          cost: showFavorite ? undefined : state.cost,
+          resourceCost: abilityResourceCost(a, resourceLabel),
+        }
+      })
+      .filter((t) => !showFavorite || t.active)
 
   return (
     <Modal

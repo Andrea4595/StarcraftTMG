@@ -5,7 +5,9 @@ import { SquadTable, type SquadTableSelection } from './SquadTable'
 import { KeywordList } from './KeywordText'
 import { AbilitiesSection, type CrossFavoriteRef, type FavoriteToggle, type UpgradeToggleState } from './AbilitiesSection'
 import { formatScaledCost } from './costDisplay'
-import { useLocalize } from '../../LangContext'
+import { localizeTag } from './tagLabels'
+import { useLang, useLocalize } from '../../LangContext'
+import { unitRequiredFactionCardId } from '../../roster/rosterCalc'
 
 export function UnitCardView({
   unit,
@@ -49,18 +51,29 @@ export function UnitCardView({
   onSelectAbility?: (ability: Ability) => void
 }) {
   const localize = useLocalize()
+  const { lang } = useLang()
   const pts = formatScaledCost(unit.squad.map((s) => s.pts))
+  const requiredFactionTag = unitRequiredFactionCardId(unit)
 
   return (
     <div className="game-card">
       <div className="card-header">
-        <div>
-          <div className="card-title">
-            {localize(unit.name)}
-            {unit.isUnique && <span className="card-unique-badge">UNIQUE</span>}
+        <div className="card-header-main">
+          <div className="card-title-row">
+            <div className="card-title">
+              {localize(unit.name)}
+              {unit.isUnique && <span className="card-unique-badge">UNIQUE</span>}
+              {requiredFactionTag && (
+                <span className="card-faction-badge">{localizeTag(requiredFactionTag, lang)}</span>
+              )}
+            </div>
+            <div className="card-tags">
+              <KeywordList keywords={unit.tags.filter((t) => t.name !== 'Unique' && t.name !== requiredFactionTag)} />
+            </div>
           </div>
           <div className="card-subtitle">{unit.type}</div>
         </div>
+        <StatBoxes unit={unit} />
         {finalCost !== undefined && (
           <div className="card-pts-badge card-header-cost-badge">COST: {finalCost}</div>
         )}
@@ -68,19 +81,11 @@ export function UnitCardView({
 
       <div className="card-body-top">
         <div className="card-top-right">
-          <div className="card-squad-stats-row">
-            <StatBoxes unit={unit} />
-            {squadTierSelector}
-          </div>
           <div className="card-squad-row">
-            {!squadTierSelector && (
+            {squadTierSelector ?? (
               <SquadTable squad={unit.squad} selection={squadSelection} highlightIndex={squadHighlightIndex} />
             )}
             <div className="card-pts-badge card-pts-badge-header">PTS: {pts}</div>
-          </div>
-          <div className="card-tags">
-            <span className="card-tags-label">TAGS: </span>
-            <KeywordList keywords={unit.tags.filter((t) => t.name !== 'Unique')} />
           </div>
         </div>
       </div>
@@ -93,6 +98,7 @@ export function UnitCardView({
           favorite={favorite}
           crossFavorites={crossFavorites}
           onSelectAbility={onSelectAbility}
+          showRelated={false}
         />
       ) : (
         <AbilitiesSection
@@ -104,6 +110,7 @@ export function UnitCardView({
           favorite={favorite}
           crossFavorites={crossFavorites}
           onSelectAbility={onSelectAbility}
+          showRelated={false}
         />
       )}
     </div>

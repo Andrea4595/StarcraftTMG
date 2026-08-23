@@ -35,9 +35,17 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 12px;
   padding: 12px 16px;
   border-bottom: 1px solid var(--gc-border);
+}
+
+/* 이름/태그/서브타이틀 묶음. 스탯 박스·COST 배지와 한 줄(card-header)에 나란히 놓이되, 이름이
+   길어져도 그 둘의 자리를 침범하지 않도록 남는 폭만 차지한다 */
+.card-header-main {
+  flex: 1;
+  min-width: 0;
 }
 
 /* 로스터에서 이 유닛 항목이 실제로 소모하는 최종 미네랄. 지정되면 헤더 우측 끝에 표시 */
@@ -45,8 +53,15 @@
   flex: 0 0 auto;
 }
 
+.card-title-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 .card-title {
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -56,7 +71,10 @@
 .card-unique-badge {
   font-size: 10px;
   font-weight: 700;
-  background: var(--gc-yellow);
+  /* --gc-yellow는 .game-card 스코프 안에서만 정의된다. 이 배지는 로스터 목록 행(.roster-entry)
+     처럼 .game-card 밖에서도 쓰이므로, 정의되지 않은 곳에서는 var()의 두 번째 인자(같은 값의
+     리터럴)로 자연히 대체되게 한다 — 안 그러면 배경이 통째로 비어 보인다 */
+  background: var(--gc-yellow, #f0b429);
   color: #221a02;
   border-radius: 4px;
   padding: 2px 6px;
@@ -70,6 +88,23 @@
   color: #061225;
   border-radius: 4px;
   padding: 2px 6px;
+}
+
+/*
+  '레이너 특공대'/'칼라이'/'케리건의 군단'처럼 동명의 팩션 카드가 로스터에 선택돼 있어야만 포함
+  가능한 유닛에 UNIQUE 배지와 나란히 붙이는 배지. 같은 모양(채워진 상자)이지만, UNIQUE보다는
+  덜 중요한 정보라는 걸 색으로 드러내려고 무채색(회색)을 쓴다.
+*/
+.card-faction-badge {
+  font-size: 10px;
+  font-weight: 700;
+  background: var(--gc-text-dim, #8b8fa3);
+  color: var(--gc-bg, #12131a);
+  border-radius: 4px;
+  padding: 2px 6px;
+  /* 유닛 선택 모달처럼 폭이 좁은 곳에서, 배지 글자가 줄바꿈으로 상자 안에서 두 줄로 찌그러지는
+     대신 배지째로 다음 줄로 넘어가게 한다 (컨테이너 쪽 flex-wrap과 함께 동작) */
+  white-space: nowrap;
 }
 
 .card-subtitle {
@@ -90,21 +125,6 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-}
-
-/*
-  컴팩트 스쿼드 등급 선택기(SquadTierSelector)를 스탯 박스 바로 왼쪽에 붙인다. 줄바꿈이 필요할
-  땐 스탯이 아니라 스쿼드 쪽이 아래 새 줄로 밀려나야 한다 — flex-wrap은 항상 "먼저 오는 항목이
-  줄에 남고 나중 항목이 밀려나는" 식으로 동작하므로, DOM 순서는 스탯을 먼저 두고
-  row-reverse로 시각적 순서만 다시 뒤집어(스쿼드가 왼쪽에 보이도록) 그 우선순위를 얻는다.
-*/
-.card-squad-stats-row {
-  display: flex;
-  flex-direction: row-reverse;
-  align-items: center;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-  gap: 8px;
 }
 
 /* 스탯 박스 (SHLD/SPD/EVA/ARM/HP/SIZ) */
@@ -229,19 +249,15 @@
   background: var(--gc-green);
 }
 
-/* 태그 */
+/* 유닛 태그(Armoured/Light/Ground 등). 예전엔 카드 하단에 'TAGS:' 라벨과 함께 있었지만, 이름
+   바로 옆이면 라벨 없이도 무슨 목록인지 알 수 있어 이름 줄에 붙여 보여준다 */
 .card-tags {
   font-size: 12px;
   color: var(--gc-text-dim);
 }
 
-.card-tags-label {
-  font-weight: 700;
-  color: var(--gc-text);
-}
-
 .card-keyword {
-  color: var(--gc-blue);
+  color: var(--gc-blue, #5b9dff);
 }
 
 .card-dash {
@@ -340,15 +356,21 @@
 }
 
 /*
-  로스터 편집 화면에서 업그레이드 활성/비활성 상태를 아이콘 색으로 구분할 때 쓰는 톤(기본은 위
-  --gc-blue 그대로). --phase-tone-color 하나로 아이콘 배경색과 ANY 텍스트 색을 동시에 바꾼다.
+  어빌리티 칩(AbilityChipsRow)에서 어빌리티 타입(액티브/패시브/리액션)에 따라 아이콘 색을
+  구분할 때 쓰는 톤. --phase-tone-color 하나로 아이콘 배경색과 ANY 텍스트 색을 동시에 바꾼다.
+  'default'/'active'는 같은 파란색 — default는 타입 개념이 없는 곳(페이즈 헤더, 무기 종합 칩)의
+  기본값이고, active는 실제 Active 타입 어빌리티에 쓰인다.
 */
 .card-phase-tone-active {
+  --phase-tone-color: var(--gc-blue, #5b9dff);
+}
+
+.card-phase-tone-passive {
   --phase-tone-color: var(--gc-green, #4ade80);
 }
 
-.card-phase-tone-inactive {
-  --phase-tone-color: var(--gc-text-disabled, #565a68);
+.card-phase-tone-reaction {
+  --phase-tone-color: var(--gc-yellow, #f0b429);
 }
 
 .card-phase-icon-movement {
@@ -489,8 +511,7 @@
   align-items: center;
   gap: 8px;
   /* min-width:0이 없으면 이름이 길 때 오른쪽 배지들(PTS/ACTIVE 등, 폭 고정+nowrap)과 함께
-     헤더 폭을 넘어서도 줄바꿈되지 않고 그대로 넘쳐 상위(.roster-detail-panel 등)까지
-     가로 스크롤을 만든다 */
+     헤더 폭을 넘어서도 줄바꿈되지 않고 그대로 넘쳐 상위 컨테이너까지 가로 스크롤을 만든다 */
   min-width: 0;
   flex: 1 1 auto;
 }
@@ -598,6 +619,15 @@
 */
 .card-related-abilities {
   margin-top: 6px;
+}
+
+/*
+  룰 어빌리티 블록(어빌리티 상세 모달) 안에서 강화 대상(무기 프로필/룰 어빌리티)을 보여줄 때는
+  '강화:' 라벨을 포함한 블록 전체를 룰 텍스트에 딸린 부가 정보로서 들여쓰기로 드러낸다 — 무기 표
+  안 강화 어빌리티 목록(.card-weapon-related-row)에 이미 쓰는 것과 같은 들여쓰기 폭.
+*/
+.card-rule-ability .card-related-abilities {
+  padding-left: 32px;
 }
 
 .card-related-abilities-label {
@@ -769,13 +799,31 @@
   opacity: 1;
 }
 
-/* 로스터 편집 화면에서 꺼져 있는 업그레이드 칩을 어둡게 눌러 비활성 상태를 표현한다 */
+/*
+  켜져 있는(구매/선택된) 업그레이드 능력의 칩은 테두리를 초록으로 물들여, 기본 능력과 구분되는
+  '업그레이드에서 나온 능력'임을 나타낸다. 아직 선택되지 않은 업그레이드는 테두리 없이 아래
+  .ability-chip-dim의 불투명도만으로 비활성을 표현한다 — 굳이 켜지지 않은 것까지 초록 테두리로
+  강조할 필요는 없다.
+*/
+.ability-chip-upgrade {
+  border-color: var(--gc-green, #4ade80);
+}
+
+/* 로스터 편집 화면에서 꺼져 있는 업그레이드 칩을 어둡게 눌러 비활성 상태를 표현한다. 아이콘도 함께
+   옅어지지만 타입 색조 자체는 유지돼(PhaseBadge 참고) 비활성 상태에서도 타입을 알아볼 수 있다 */
 .ability-chip-dim {
   opacity: 0.45;
 }
 
 .ability-chip-dim:hover {
   opacity: 0.7;
+}
+
+/* 비활성 칩의 아이콘은 위 opacity에 곱해져 텍스트보다 한층 더 어둡게 눌린다 — 켜져 있는 칩과
+   나란히 있을 때 아이콘 색만 보고도 활성/비활성이 한눈에 갈리도록 */
+.ability-chip-dim .card-phase-icon,
+.ability-chip-dim .card-phase-any {
+  opacity: 0.35;
 }
 
 /* '사격' 종합 칩 안의 무기 이름 하나하나: 기본 보유(흰색)/업그레이드로 활성화(초록)를 색으로

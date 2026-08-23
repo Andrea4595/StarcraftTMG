@@ -1,8 +1,10 @@
 /*
-  세로 flex 컬럼 + min-height:100vh로 만들어, 아래 .roster-builder-split이 flex:1로 "남은 뷰포트 높이"를
-  정확히 채우게 한다. 이러면 로스터 탭 줄(.roster-switcher)이 몇 줄을 차지하든 상관없이 좌우 패널이
-  뷰포트 안에 정확히 맞춰지고, 전체 페이지 스크롤 없이 좌우 패널 각자의 overflow-y로만 스크롤된다.
-  (하단 언어 전환 바 44px에 콘텐츠가 가려지지 않도록 아래쪽 여백을 더 둔다)
+  height:100vh는 이제 로스터 편집 화면 자신을 위한 게 아니라(예전엔 좌우 분할 패널이 이 높이에
+  맞춰 각자 내부 스크롤했지만, 유닛 상세가 모달로 바뀌면서 그 분할이 없어졌다), 같은 클래스를
+  공유하는 게임 레퍼런스 화면(.game-ref-page)의 하단 padding이 100vh보다 긴 콘텐츠에서도 정상
+  적용되도록 하기 위해 남겨둔다 (자세한 이유는 gameReference.css의 .game-ref-page 주석 참고).
+  overflow를 막지 않았으므로, 이 화면처럼 100vh보다 짧은 콘텐츠는 그냥 자연스러운 페이지 안에
+  놓이고, 넘치는 콘텐츠(게임 레퍼런스 등)는 정상적으로 넘쳐 보인다.
 */
 .roster-builder {
   max-width: 1400px;
@@ -11,12 +13,6 @@
   color: var(--text-h);
   display: flex;
   flex-direction: column;
-  /*
-    min-height가 아니라 height여야 한다: min-height는 컨테이너의 "최소" 크기만 보장할 뿐 flex-grow 계산에
-    확정된 크기를 주지 못해, 아래 .roster-builder-split이 정확히 남은 높이로 제한되지 않고 내용만큼
-    늘어나 버린다 (그러면 다시 전체 페이지 스크롤이 생긴다). 게임 레퍼런스 화면처럼 페이지 스크롤이
-    필요한 콘텐츠는 overflow를 별도로 막지 않았으므로 100vh를 넘어도 정상적으로 넘쳐 보인다.
-  */
   height: 100vh;
   box-sizing: border-box;
 }
@@ -128,108 +124,16 @@
   border-radius: 8px;
 }
 
+/*
+  게임 레퍼런스 화면(.game-ref-page)과 폭 제한 없이 동일한 너비/반응형 크기 조절을 쓴다(둘 다
+  부모 .roster-builder의 max-width 하나에만 맞춘다). 같은 이유로 padding-bottom도 그대로 맞춘다:
+  부모 .roster-builder는 height:100vh로 고정돼 있어서, 내용이 그보다 길어져 페이지 자체가
+  스크롤될 때는 부모의 padding-bottom이 더 이상 콘텐츠 끝에 붙지 못하고 그냥 넘쳐버린다(자세한
+  이유는 gameReference.css의 .game-ref-page 주석 참고). 그래서 하단 고정 언어 전환 바(44px)에
+  '새 유닛 추가' 버튼이 가려지지 않도록 이 화면 자신의 padding-bottom을 따로 둔다.
+*/
 .roster-builder-body {
-  max-width: 640px;
-  margin: 0 auto;
-}
-
-/*
-  화면 분할: 왼쪽은 기존 로스터 화면, 오른쪽은 선택한 유닛/카드 상세 정보. 각자 독립적으로 스크롤된다.
-  flex:1 1 auto + min-height:0으로 부모(.roster-builder)가 flex 컬럼으로 확보한 "남은 뷰포트 높이"를
-  그대로 물려받고, align-items:stretch로 두 패널이 그 높이에 맞춰지며 각자 overflow-y:auto로 스크롤한다.
-*/
-.roster-builder-split {
-  display: flex;
-  align-items: stretch;
-  gap: 20px;
-  flex: 1 1 auto;
-  min-height: 0;
-}
-
-.roster-builder-split .roster-builder-body {
-  flex: 1 1 640px;
-  min-width: 0;
-  margin: 0;
-  overflow-y: auto;
-}
-
-.roster-detail-panel {
-  flex: 1 1 420px;
-  min-width: 0;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 16px;
-  overflow-y: auto;
-}
-
-/* 모바일에서는 두 열을 나란히 둘 공간이 없으므로, 탭을 바꾸듯 한쪽만 보여준다 */
-@media (max-width: 768px) {
-  /*
-    데스크톱 분할 화면은 height:100vh로 고정해 좌우 패널이 내부적으로 스크롤되게 했지만, 모바일은
-    반대로 패널 내부 스크롤을 쓰지 않고(overflow-y:visible) 페이지 전체가 자연스럽게 스크롤되어야 한다.
-    height가 100vh로 고정된 채면 콘텐츠가 그보다 길어질 때 하단 padding(언어 전환 바 공간)이 콘텐츠
-    끝에 붙지 못하고 그냥 넘쳐버려, 맨 아래 버튼이 하단 바에 가려진다. min-height로 바꿔 콘텐츠 길이만큼
-    자라게 한다.
-  */
-  .roster-builder {
-    height: auto;
-    min-height: 100vh;
-  }
-
-  .roster-builder-split {
-    display: block;
-  }
-
-  .roster-builder-split .roster-builder-body,
-  .roster-detail-panel {
-    overflow-y: visible;
-  }
-
-  .roster-detail-panel {
-    display: none;
-  }
-
-  .roster-builder-split-detail-active .roster-builder-body {
-    display: none;
-  }
-
-  .roster-builder-split-detail-active .roster-detail-panel {
-    display: block;
-  }
-}
-
-.roster-detail-empty {
-  color: var(--text-dim, var(--text));
-  opacity: 0.6;
-  font-size: 13px;
-  text-align: center;
-  padding: 40px 16px;
-}
-
-/*
-  내용을 스크롤해도 '닫기' 버튼은 항상 보이도록 상단에 고정 (모바일 전체화면 탭에서도 동일하게 동작).
-  .roster-detail-panel의 padding(16px)까지 뚫고 나가 폭 전체를 채워야, 아래로 스크롤되는 카드의
-  선택 테두리가 헤더 좌우 여백 틈으로 비쳐 보이지 않는다.
-
-  top은 0이 아니라 -16px여야 한다: 이 헤더는 스크롤 컨테이너(.roster-detail-panel) 바로 아래가 아니라
-  .roster-detail-content를 한 겹 거쳐 중첩돼 있어서, top:0 + margin-top 음수 조합으로는 고정 위치가
-  패딩만큼 밀리지 않는다(다른 중첩 고정 바에서도 같은 문제였다). top 자체를 패딩만큼 음수로 줘야
-  스크롤 중 위쪽 틈으로 카드가 비쳐 보이지 않는다.
-*/
-.roster-detail-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: sticky;
-  top: -16px;
-  z-index: 1;
-  background: var(--bg);
-  margin: 0 -16px 8px;
-  padding: 16px 16px 8px;
-}
-
-.roster-detail-header .roster-section-title {
-  margin: 0;
+  padding-bottom: 68px;
 }
 
 /*
@@ -274,6 +178,32 @@
   cursor: not-allowed;
 }
 
+/* 순서 이동 버튼 바로 왼쪽에 두는 유닛 상세 모달 여는 버튼. 카드 전체를 눌러도 같은 모달이 뜨지만,
+   이 버튼이 그 상호작용을 눈에 띄게 알려준다 */
+.roster-entry-detail-btn {
+  flex: 0 0 auto;
+  /* 옆의 이동 버튼 묶음(.roster-entry-move)은 안쪽 버튼(20px) + 자기 테두리(1px*2)로 실제 22px
+     높이가 되므로, 겉보기 높이를 맞추려면 이쪽도 22px로 줘야 한다 */
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--text-dim, var(--text));
+  padding: 0 8px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.roster-entry-detail-btn:hover {
+  border-color: var(--accent, var(--border));
+  color: var(--accent, var(--text));
+}
+
 /* 팩션/택티컬 카드 칩: 상세 정보를 보기 위해 클릭 가능한 상태 */
 .roster-tactical-chip-clickable {
   cursor: pointer;
@@ -303,13 +233,19 @@
   margin: 0;
 }
 
-/* 택티컬 카드 헤더 아래, 가스 요약 옆에 배치하는 CP 합계 */
+/*
+  가스 요약 옆에 배치하는 CP(자원) 합계, 그리고 같은 모양을 재사용해 미네랄 요약 옆에 배치하는
+  서플라이 합계. 라벨 자리에 텍스트 대신 택티컬 카드 목록에서 자원량을 나타낼 때 쓰는 것과 같은
+  작은 사각형 아이콘을 하나 보여준다 — 숫자 앞에 "CP"/"SUPPLY" 같은 텍스트 없이도 색만으로 무슨
+  값인지 구분할 수 있다 (CP는 노랑, 서플라이는 파랑).
+*/
 .roster-cp-badge {
+  --badge-color: #f0b429;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   border: 1px solid var(--border);
-  border-left: 3px solid #f0b429;
+  border-left: 3px solid var(--badge-color);
   border-radius: 6px;
   padding: 3px 10px;
   font-size: 12px;
@@ -317,8 +253,16 @@
   color: var(--text-h);
 }
 
-.roster-cp-badge-label {
-  color: #f0b429;
+.roster-cp-badge-icon {
+  width: 8px;
+  height: 8px;
+  border-radius: 1px;
+  background: var(--badge-color);
+  flex: 0 0 auto;
+}
+
+.roster-cp-badge-supply {
+  --badge-color: #5b9dff;
 }
 
 /* 왼쪽 패널: 로스터 상태 */
@@ -363,6 +307,7 @@
 /* 미네랄/가스 요약: 한 줄, 종족 테마 색상 */
 .roster-resource-row {
   display: flex;
+  align-items: center;
   gap: 10px;
 }
 
@@ -654,25 +599,19 @@ button.roster-slot-pill:hover {
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 8px 10px;
-  cursor: pointer;
   font-size: 13px;
 }
 
-.roster-entry:hover {
-  border-color: var(--accent, var(--border));
-}
-
-.roster-entry-active {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 1px var(--accent);
+/* 이 유닛을 추가한 뒤 팩션 카드를 바꿔서, 태그로 요구하던 팩션 카드가 더 이상 선택돼 있지 않은
+   상태 — 로스터에 여전히 포함돼 있지만 실제로는 규칙을 어기고 있다는 걸 붉은 테두리로 경고한다 */
+.roster-entry-faction-mismatch {
+  border-color: #f87171;
 }
 
 /*
-  이름/메타(스쿼드+스탯)/제거 버튼을 grid-template-areas로 배치한다. 스쿼드 선택기와 스탯 박스는
-  같은 메타 영역 안에서 하나의 flex 줄로 붙어 있다가, 그 영역 자체의 실제 남은 폭이 부족할 때만
-  자연스럽게 줄바꿈된다 — 고정 픽셀 기준(컨테이너 쿼리)으로 끊으면 이름이 짧아 실제로는 공간이
-  남는 경우에도 미리 줄바꿈되는 문제가 있어, 그 대신 flex-wrap에 맡긴다. 이름과 제거 버튼은
-  각자 독립된 grid 칸이라 메타 영역이 줄바꿈으로 늘어나도 항상 첫 줄 위치에 그대로 남는다.
+  이름/메타(스탯)/제거 버튼을 grid-template-areas로 배치한다. 이름과 제거 버튼은 각자 독립된
+  grid 칸이라 메타 영역(스탯)이 줄바꿈으로 늘어나도 항상 첫 줄 위치에 그대로 남는다. 스쿼드
+  등급 정보는 이 헤더 아래 독립된 줄(.roster-entry-squad-row)에서 따로 보여준다.
 */
 .roster-entry-header {
   display: grid;
@@ -686,12 +625,13 @@ button.roster-slot-pill:hover {
   grid-area: name;
   display: flex;
   align-items: center;
-  gap: 6px;
+  flex-wrap: wrap;
+  gap: 8px;
   min-width: 0;
 }
 
 .roster-entry-name {
-  font-size: 14px;
+  font-size: 17px;
   font-weight: 700;
 }
 
@@ -699,21 +639,19 @@ button.roster-slot-pill:hover {
   grid-area: remove;
 }
 
-/*
-  스쿼드 등급 선택기 바로 오른쪽에 스탯 박스가 붙는다. 줄바꿈이 필요할 땐 스탯이 아니라 스쿼드
-  쪽이 아래 새 줄로 밀려나야 한다 — flex-wrap은 항상 "먼저 오는 항목이 줄에 남고 나중 항목이
-  밀려나는" 식으로 동작하므로, DOM 순서는 스탯을 먼저 두고 row-reverse로 시각적 순서만
-  다시 뒤집어(스쿼드가 왼쪽에 보이도록) 그 우선순위를 얻는다.
-*/
 .roster-entry-meta {
   grid-area: meta;
   display: flex;
-  flex-direction: row-reverse;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: flex-end;
   flex-wrap: wrap;
   gap: 10px;
   min-width: 0;
+}
+
+/* 스쿼드 등급 선택기를 이름-스탯 줄 아래 독립된 줄로 내린다 */
+.roster-entry-squad-row {
+  margin-top: 8px;
 }
 
 /* 로스터 목록에서는 한 유닛이 차지하는 높이를 줄이기 위해 스탯 박스를 원본 카드보다 작게 표시 */
@@ -845,6 +783,8 @@ button.roster-slot-pill:hover {
   gap: 8px;
 }
 
+/* 유닛 태그(Armoured/Light/Ground 등). 예전엔 카드 하단에 따로 있었지만, 이름 옆이면 라벨 없이도
+   무슨 목록인지 알 수 있어 이름 줄에 붙여 보여준다 */
 .roster-entry-tags {
   font-size: 11px;
   opacity: 0.75;
@@ -858,7 +798,8 @@ button.roster-slot-pill:hover {
   gap: 8px;
 }
 
-/* 유닛에 투자된 미네랄 비용. 게임 레퍼런스 화면(.game-ref-item-mineral-cost)과 같은 파란색으로 */
+/* 유닛에 투자된 미네랄 비용. 이 컴포넌트(UnitEntryRow)를 게임 레퍼런스 화면도 그대로 재사용해
+   같은 파란색으로 표시한다 */
 .roster-entry-cost {
   font-size: 11px;
   font-weight: 700;
@@ -866,11 +807,13 @@ button.roster-slot-pill:hover {
   font-variant-numeric: tabular-nums;
 }
 
-/* 유닛 스쿼드 등급 선택 버튼 (유닛 모달에서 사용) */
+/* 유닛 스쿼드 등급 선택 버튼 (유닛 모달에서 사용). 서플라이+모델 수 줄과 미네랄 비용 줄을
+   나눠서, 미네랄 값이 줄바꿈되어 아래에 따로 보이게 한다 */
 .catalog-tier-btn {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 2px;
   border: 1px solid var(--border);
   background: transparent;
   color: var(--text);
@@ -878,6 +821,12 @@ button.roster-slot-pill:hover {
   cursor: pointer;
   padding: 4px 10px;
   font-size: 12px;
+}
+
+.catalog-tier-btn-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .catalog-tier-btn:disabled {
@@ -892,7 +841,12 @@ button.roster-slot-pill:hover {
 
 .catalog-tier-btn-pts {
   font-weight: 700;
-  color: var(--text-h);
+  color: #5b9dff;
+}
+
+/* 이 버튼의 서플라이 사각형은 (선택 상태 개념이 없는 카탈로그 목록이라) 항상 파란색으로 채운다 */
+.catalog-tier-btn .roster-squad-tier-supply-square {
+  background: #5b9dff;
 }
 
 /* 모달 */
@@ -1286,6 +1240,7 @@ button.roster-slot-pill:hover {
   font-weight: 700;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 6px;
 }
 
@@ -1297,13 +1252,8 @@ button.roster-slot-pill:hover {
 
 .unit-picker-tiers {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 6px;
-}
-
-.unit-picker-tiers .catalog-tier-btn {
-  width: 100%;
-  justify-content: space-between;
 }
 
 /* 유닛 편집(모달 2단계): 모달 폭을 그대로 사용 (무기표 가로 스크롤 방지) */
@@ -1593,6 +1543,18 @@ button.roster-slot-pill:hover {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+/*
+  스쿼드 등급 박스(.card-squad)는 화면에서는 좁은 폭에서 줄바꿈되도록 flex-wrap: wrap을 쓰지만,
+  PNG로 캡처하는 html-to-image가 그 줄바꿈된 두 번째 줄의 높이를 카드 레이아웃에 반영하지 못해
+  바로 아래 TAGS 줄과 겹쳐 보이는 문제가 있었다. 내보내기 시트는 폭 1200px로 고정돼 있어 스쿼드
+  등급이 아무리 많아도 한 줄에 다 들어가므로, 이 컨텍스트에서는 애초에 줄바꿈이 필요 없다 —
+  줄바꿈 자체를 막아 캡처 라이브러리의 버그를 원천적으로 피한다.
+*/
+.roster-export-sheet .card-squad-row,
+.roster-export-sheet .card-squad {
+  flex-wrap: nowrap;
 }
 
 .roster-export-simple-list {

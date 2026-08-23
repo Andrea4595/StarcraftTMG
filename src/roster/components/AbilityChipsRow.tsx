@@ -89,6 +89,20 @@ type ChipItem =
   | { phaseIndex: number; kind: 'ability'; ability: Ability }
   | { phaseIndex: number; kind: 'weapon-summary'; input: WeaponSummaryInput }
 
+/** 어빌리티 칩 아이콘 색을 어빌리티 타입(액티브/패시브/리액션)에 맞춰 고른다. 무기 프로필은 타입
+ *  개념이 없어 기본(파란) 톤을 그대로 쓴다 */
+function abilityTypeTone(ability: Ability): 'default' | 'active' | 'passive' | 'reaction' {
+  if (ability.kind !== 'rule') return 'default'
+  switch (ability.type) {
+    case 'Active':
+      return 'active'
+    case 'Passive':
+      return 'passive'
+    case 'Reaction':
+      return 'reaction'
+  }
+}
+
 /** 어빌리티/무기 프로필 칩 한 줄. 눌러진 칩은 즉시 그 능력만 담은 상세 모달을 띄운다(부모 카드/유닛의
  *  전체 상세를 여는 클릭과 겹치지 않도록 stopPropagation한다). 즐겨찾기된 룰 능력은 칩 배경색을
  *  달리해서 살짝 강조한다 */
@@ -190,12 +204,13 @@ export function AbilityChipsRow({
 
         const { ability } = item
         const favorited = showFavorite && ability.kind === 'rule' && isFavoriteAbility(roster, sourceId, ability.id)
-        const tone = upgradeStateFor?.(ability)
+        /** 이 능력이 업그레이드로 나온 것인지, 나왔다면 지금 켜져 있는지 (undefined면 기본 능력) */
+        const upgradeState = upgradeStateFor?.(ability)
         const cost = costFor?.(ability)
         return (
           <button
             type="button"
-            className={`ability-chip ${tone === 'inactive' ? 'ability-chip-dim' : ''} ${favorited ? 'ability-chip-favorited' : ''}`}
+            className={`ability-chip ${upgradeState === 'inactive' ? 'ability-chip-dim' : ''} ${upgradeState === 'active' ? 'ability-chip-upgrade' : ''} ${favorited ? 'ability-chip-favorited' : ''}`}
             key={i}
             onClick={(e) => {
               e.stopPropagation()
@@ -211,7 +226,7 @@ export function AbilityChipsRow({
               })
             }}
           >
-            <PhaseBadge phase={ability.phase} tone={tone ?? 'default'} />
+            <PhaseBadge phase={ability.phase} tone={abilityTypeTone(ability)} />
             {localize(ability.name)}
             {cost !== undefined && ` (${cost})`}
           </button>

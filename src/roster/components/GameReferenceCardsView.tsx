@@ -1,19 +1,8 @@
 import type { RaceData, Roster } from '../../types'
-import {
-  FIRE_LABEL,
-  MELEE_LABEL,
-  findFactionCard,
-  findUnit,
-  groupedTacticalCards,
-  unitActiveAbilities,
-  unitEntryMineralCost,
-  unitForLabelResolver,
-  unitMeleeWeaponEntries,
-  unitRangedWeaponEntries,
-} from '../rosterCalc'
-import { StatBoxes } from '../../components/card/StatBoxes'
+import { findFactionCard, findUnit, groupedTacticalCards } from '../rosterCalc'
 import { useLocalize } from '../../LangContext'
-import { AbilityChipsRow, type AbilitySelectionRef, type WeaponSummaryInput } from './AbilityChipsRow'
+import { AbilityChipsRow, type AbilitySelectionRef } from './AbilityChipsRow'
+import { UnitEntryRow } from './UnitEntryRow'
 import type { ReferenceDetailTarget } from './GameReferencePage'
 
 export function GameReferenceCardsView({
@@ -101,54 +90,16 @@ export function GameReferenceCardsView({
             {roster.units.map((entry) => {
               const unit = findUnit(race, entry.unitId)
               if (!unit) return null
-              const tier = unit.squad[entry.squadTierIndex]
-              const rangedSummary = unitRangedWeaponEntries(unit, entry, localize)
-              const meleeSummary = unitMeleeWeaponEntries(unit, entry, localize)
-              const weaponSummaries: WeaponSummaryInput[] = [
-                { entryId: entry.id, phase: 'Assault', label: FIRE_LABEL, entries: rangedSummary },
-                { entryId: entry.id, phase: 'Combat', label: MELEE_LABEL, entries: meleeSummary },
-              ]
-              const nonWeaponSummaryAbilities = unitActiveAbilities(unit, entry).filter(
-                (a) => !(a.kind === 'weapon' && (a.phase === 'Assault' || a.phase === 'Combat')),
-              )
-              const forFor = unitForLabelResolver(unit, localize)
               return (
                 <li key={entry.id}>
-                  <div
-                    className="game-ref-item"
-                    role="button"
-                    tabIndex={0}
-                    onClick={() => onSelect({ kind: 'unit', entryId: entry.id })}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') onSelect({ kind: 'unit', entryId: entry.id })
-                    }}
-                  >
-                    <div className="game-ref-item-row">
-                      <span className="game-ref-supply">
-                        {Array.from({ length: tier?.supply ?? 0 }).map((_, i) => (
-                          <span className="game-ref-supply-square" key={i} />
-                        ))}
-                      </span>
-                      <span className="game-ref-item-name">{localize(unit.name)}</span>
-                      {tier && <span className="game-ref-item-tag">{tier.modelMax} Models</span>}
-                      <StatBoxes unit={unit} />
-                    </div>
-                    <AbilityChipsRow
-                      abilities={nonWeaponSummaryAbilities}
-                      weaponSummaries={weaponSummaries}
-                      hideInactiveWeaponNames
-                      sourceId={unit.id}
-                      sourceLabel={localize(unit.name)}
-                      unitType={unit.type}
-                      entryId={entry.id}
-                      roster={roster}
-                      onSelectAbility={onSelectAbility}
-                      localize={localize}
-                      forFor={forFor}
-                      showFavorite
-                    />
-                    <div className="game-ref-item-mineral-cost">{unitEntryMineralCost(unit, entry)}</div>
-                  </div>
+                  <UnitEntryRow
+                    roster={roster}
+                    unit={unit}
+                    entry={entry}
+                    interactive={false}
+                    onShowDetail={() => onSelect({ kind: 'unit', entryId: entry.id })}
+                    onSelectAbility={onSelectAbility}
+                  />
                 </li>
               )
             })}

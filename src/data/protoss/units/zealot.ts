@@ -117,6 +117,7 @@ export const zealot: UnitCard = {
         phase: 'Combat',
         type: 'Passive',
         cost: 0,
+        enhances: ['Psi Blades'],
         rule: {
           en: "When this Unit makes a Close Combat Attack, if the target is Engaged with at least 1 other Friendly Unit, this Unit's Close Combat Weapon gains PRECISION (2).",
           ko: '이 유닛이 근접공격을 할 때, 이 유닛이 아닌 다른 아군 유닛 하나 이상과 인게이지된 상태라면 이 유닛의 근접무기는 프리시전(2)를 갖는다.',

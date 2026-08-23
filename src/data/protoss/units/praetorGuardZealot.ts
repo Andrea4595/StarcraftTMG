@@ -97,6 +97,7 @@ export const praetorGuardZealot: UnitCard = {
       phase: 'Combat',
       type: 'Passive',
       cost: 0,
+      enhances: ['Psi Blades'],
       rule: {
         en: "When this Unit makes a Close Combat Attack, and the target is Size 3 or larger, the weapon's Damage characteristic is treated as 2.",
         ko: '이 유닛이 근접공격을 할 때 목표의 사이즈가 3 이상이라면 무기의 데미지가 2가 된다.',

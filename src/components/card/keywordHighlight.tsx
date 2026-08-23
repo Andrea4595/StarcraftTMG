@@ -64,11 +64,22 @@ function buildPatternSource(template: string): string {
   return out
 }
 
+/**
+ * 영문 키워드가 더 긴 단어의 일부로 잘못 매칭되는 걸 막는다 (예: 'READY'가 'already' 안의
+ * 'ready'에 매칭됨). \b는 한글을 '단어 문자'로 취급하지 않아 한글 패턴 앞뒤에 아예 매칭이 안 되는
+ * 부작용이 있어 쓸 수 없다 — 대신 "매칭 앞뒤에 라틴 문자가 없어야 한다"는 조건만 lookaround로
+ * 걸어서, 한글 패턴은 그대로 두고 영문 패턴의 부분 문자열 오매칭만 막는다.
+ */
+function guardLatinBoundary(pattern: string): string {
+  return `(?<![A-Za-z])(?:${pattern})(?![A-Za-z])`
+}
+
 const PATTERN_SOURCES = KEYWORDS.filter((k) => !EXCLUDED_IDS.has(k.id))
   .flatMap((k) => [k.name.ko, k.name.en])
   .filter((s, index, all) => s.length > 0 && all.indexOf(s) === index)
   .map(buildPatternSource)
   .filter((s) => s.length > 0)
+  .map(guardLatinBoundary)
   // 더 길고 구체적인 패턴을 먼저 시도해야, 짧은 패턴이 긴 키워드의 일부를 가로채지 않는다
   // (예: '상태'보다 '인게이지 상태'가 먼저 매칭되어야 함)
   .sort((a, b) => b.length - a.length)
@@ -89,6 +100,7 @@ const KEYWORD_ENTRY_PATTERNS: { entry: KeywordEntry; regex: RegExp }[] = KEYWORD
       .filter((s, i, all) => s.length > 0 && all.indexOf(s) === i)
       .map(buildPatternSource)
       .filter((s) => s.length > 0)
+      .map(guardLatinBoundary)
     return sources.length > 0 ? { entry, regex: new RegExp(sources.map((p) => `(?:${p})`).join('|'), 'i') } : null
   })
   .filter((p): p is { entry: KeywordEntry; regex: RegExp } => p !== null)
