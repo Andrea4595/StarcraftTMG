@@ -15,6 +15,7 @@ export const sentry: UnitCard = {
     siz: 1,
   },
   tags: [{ name: 'Light' }, { name: 'Mechanical' }, { name: 'Psionic' }, { name: 'Ground' }],
+  baseSize: { shape: 'circle', diameterMm: 50 },
   squad: [
     { modelMin: 1, modelMax: 1, supply: 0, pts: 130 },
     { modelMin: 2, modelMax: 2, supply: 1, pts: 130 },

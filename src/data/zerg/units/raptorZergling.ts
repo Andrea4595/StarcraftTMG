@@ -15,6 +15,7 @@ export const raptorZergling: UnitCard = {
     siz: 1,
   },
   tags: [{ name: 'Biological' }, { name: 'Light' }, { name: 'Ground' }],
+  baseSize: { shape: 'circle', diameterMm: 32 },
   squad: [
     { modelMin: 1, modelMax: 6, supply: 0, pts: 240 },
     { modelMin: 7, modelMax: 12, supply: 1, pts: 240 },

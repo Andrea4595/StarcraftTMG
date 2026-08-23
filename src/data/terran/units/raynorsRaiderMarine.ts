@@ -15,6 +15,7 @@ export const raynorsRaiderMarine: UnitCard = {
     siz: 2,
   },
   tags: [{ name: "Raynor's Raiders" }, { name: 'Biological' }, { name: 'Light' }, { name: 'Ground' }],
+  baseSize: { shape: 'circle', diameterMm: 32 },
   squad: [{ modelMin: 1, modelMax: 6, supply: 1, pts: 230 }],
   abilities: [
     {

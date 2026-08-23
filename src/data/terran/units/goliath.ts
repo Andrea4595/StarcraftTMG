@@ -15,6 +15,7 @@ export const goliath: UnitCard = {
     siz: 3,
   },
   tags: [{ name: 'Armoured' }, { name: 'Mechanical' }, { name: 'Ground' }],
+  baseSize: { shape: 'circle', diameterMm: 80 },
   squad: [{ modelMin: 1, modelMax: 1, supply: 2, pts: 190 }],
   abilities: [
     {

@@ -21,6 +21,7 @@ export const praetorGuardZealot: UnitCard = {
     { name: 'Ground' },
     { name: 'Unique' },
   ],
+  baseSize: { shape: 'circle', diameterMm: 40 },
   squad: [
     { modelMin: 1, modelMax: 1, supply: 1, pts: 280 },
     { modelMin: 2, modelMax: 3, supply: 2, pts: 280 },

@@ -15,6 +15,7 @@ export const adept: UnitCard = {
     siz: 2,
   },
   tags: [{ name: 'Biological' }, { name: 'Light' }, { name: 'Ground' }],
+  baseSize: { shape: 'circle', diameterMm: 40 },
   squad: [
     { modelMin: 1, modelMax: 2, supply: 0, pts: 150 },
     { modelMin: 3, modelMax: 4, supply: 1, pts: 150 },

@@ -15,6 +15,7 @@ export const corpserRoach: UnitCard = {
     siz: 2,
   },
   tags: [{ name: 'Armoured' }, { name: 'Biological' }, { name: 'Ground' }],
+  baseSize: { shape: 'circle', diameterMm: 50 },
   squad: [
     { modelMin: 1, modelMax: 1, supply: 0, pts: 240 },
     { modelMin: 2, modelMax: 3, supply: 1, pts: 240 },

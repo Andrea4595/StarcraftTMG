@@ -15,6 +15,7 @@ export const queen: UnitCard = {
     siz: 3,
   },
   tags: [{ name: 'Armoured' }, { name: 'Biological' }, { name: 'Psionic' }, { name: 'Ground' }],
+  baseSize: { shape: 'circle', diameterMm: 80 },
   squad: [{ modelMin: 1, modelMax: 1, supply: 1, pts: 150 }],
   abilities: [
     {

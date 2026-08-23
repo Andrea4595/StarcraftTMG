@@ -99,6 +99,15 @@ interface CardBase {
   thumb?: string
 }
 
+/**
+ * 미니어처의 물리 베이스 크기(mm). 사용자에게 노출하는 정보가 아니라, 다른 앱과의
+ * 데이터 연동을 위해 보관한다. 원형(diameterMm 하나) / 타원형(widthMm x lengthMm)
+ * 둘 다 표현 가능하도록 shape로 판별한다.
+ */
+export type BaseSize =
+  | { shape: 'circle'; diameterMm: number }
+  | { shape: 'oval'; widthMm: number; lengthMm: number }
+
 export interface Squad {
   /** Min과 Max 사이의 유닛 수는 이 스쿼드에 해당한다. */
   modelMin: number
@@ -131,6 +140,7 @@ export interface UnitCard extends CardBase {
   }
   /** 무기 KEYWORD와 별개인 유닛 자체의 태그 (예: Biological, Light, Ground) */
   tags: Keyword[]
+  baseSize: BaseSize
   squad: Squad[]
   abilities: Ability[]
   upgrades: Upgrade[]
