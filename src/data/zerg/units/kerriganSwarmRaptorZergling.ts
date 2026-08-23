@@ -69,6 +69,7 @@ export const kerriganSwarmRaptorZergling: UnitCard = {
       phase: 'Assault',
       type: 'Active',
       cost: 1,
+      enhances: ['Devastating Charge'],
       rule: {
         en: 'This Unit gains a +1 Modifier to all IMPACT Hit Rolls.',
         ko: '이 유닛이 임팩트 힛 롤을 할 때 +1을 얻는다.',

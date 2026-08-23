@@ -27,6 +27,7 @@ export const adept: UnitCard = {
       phase: 'Any',
       type: 'Passive',
       cost: 0,
+      enhances: ['Psionic Transfer'],
       rule: {
         en: "All Weapons of Friendly Units targeting an Enemy Unit Within 4\" of this Unit's Shade token gain PRECISION (1).",
         ko: '그림자 토큰의 4”이내의 적 유닛을 목표로 하는 공격에서 아군 유닛의 모든 무기는 프리시전(1)를 얻는다.',
