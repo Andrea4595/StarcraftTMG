@@ -649,6 +649,24 @@ button.roster-slot-pill:hover {
   min-width: 0;
 }
 
+/*
+  좁은 화면에서는 이름/제거 버튼 사이에 낀 메타(스탯) 칸이 거의 폭을 못 받아, 스탯 박스 6개가
+  한 줄에 하나씩 세로로 길게 늘어서 보이는 문제가 있었다. 그래서 이 폭 아래에서는 메타를 이름
+  줄과 아예 다른 자기 줄로 내려 폭 전체를 쓰게 한다 — 이름+제거 버튼이 한 줄, 스탯이 그 아래
+  한 줄(또는 두 줄)로 정리된다.
+*/
+@media (max-width: 480px) {
+  .roster-entry-header {
+    grid-template-columns: 1fr auto;
+    grid-template-areas: 'name remove' 'meta meta';
+    row-gap: 6px;
+  }
+
+  .roster-entry-meta {
+    justify-content: flex-start;
+  }
+}
+
 /* 스쿼드 등급 선택기를 이름-스탯 줄 아래 독립된 줄로 내린다 */
 .roster-entry-squad-row {
   margin-top: 8px;
