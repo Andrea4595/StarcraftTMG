@@ -1,33 +1,24 @@
 import { useState } from 'react'
-import type { RaceData, Roster, RuleAbility, UnitType } from '../../types'
-import { findFactionCard, findUnit, isFavoriteAbility, rosterFavoriteAbilities, unitActiveAbilities } from '../rosterCalc'
+import type { RaceData, Roster, RuleAbility } from '../../types'
+import { abilitySelectionRefFor, findUnit, isFavoriteAbility, rosterFavoriteAbilities, unitActiveAbilities } from '../rosterCalc'
 import { useRosterStore } from '../RosterContext'
 import { useLang, localize } from '../../LangContext'
-import { UNIT_TYPE_COLORS } from '../unitTypeColor'
 import { Modal } from './Modal'
 import { GameReferenceCardsView } from './GameReferenceCardsView'
 import { GameReferenceFavoritesView } from './GameReferenceFavoritesView'
-import { TacticalCardView } from '../../components/card/TacticalCardView'
+import { AbilityDetailModal } from './AbilityDetailModal'
+import { WeaponSummaryModal } from './WeaponSummaryModal'
+import type { AbilitySelectionRef } from './AbilityChipsRow'
 import { UnitCardView } from '../../components/card/UnitCardView'
-import { RuleAbilityBlock } from '../../components/card/RuleAbilityBlock'
 import type { CrossFavoriteRef, FavoriteToggle } from '../../components/card/AbilitiesSection'
 import '../gameReference.css'
 
-export type ReferenceDetailTarget =
-  | { kind: 'faction' }
-  | { kind: 'tactical'; id: string }
-  | { kind: 'unit'; entryId: string }
+/** 게임 레퍼런스 카드 목록에서 상세 모달을 띄울 수 있는 건 유닛뿐이다 (택티컬/팩션 카드는 클릭해도
+ *  아무 반응이 없다 — 어빌리티 칩만으로 필요한 정보가 다 보여서, 카드 자체를 눌러 여는 상세 모달은
+ *  더 이상 필요 없다) */
+export type ReferenceDetailTarget = { kind: 'unit'; entryId: string }
 
 type Mode = 'cards' | 'favorites'
-
-/** 다른 유닛/카드에서 즐겨찾기한 능력을 눌렀을 때, 그 내용을 보여줄 별도 모달에 필요한 정보 */
-interface FavoriteAbilityRef {
-  ability: RuleAbility
-  sourceLabel: string
-  sourceId: string
-  /** 유닛에서 나온 능력일 때만 지정된다 (UNIT/TACTICAL 배지, 배지 색 결정용) */
-  unitType?: UnitType
-}
 
 export function GameReferencePage({
   race,
@@ -42,7 +33,7 @@ export function GameReferencePage({
   const { lang } = useLang()
   const [mode, setMode] = useState<Mode>('cards')
   const [detail, setDetail] = useState<ReferenceDetailTarget | null>(null)
-  const [favoriteAbilityDetail, setFavoriteAbilityDetail] = useState<FavoriteAbilityRef | null>(null)
+  const [abilityDetail, setAbilityDetail] = useState<AbilitySelectionRef | null>(null)
 
   /** 지정한 소스(유닛/카드 원본 id)의 RuleAbility 즐겨찾기 상태를 읽고 토글하는 창구를 만든다 */
   function favoriteToggleFor(sourceId: string): FavoriteToggle {
@@ -54,31 +45,6 @@ export function GameReferencePage({
 
   const detailContent = (() => {
     if (!detail) return null
-
-    if (detail.kind === 'faction') {
-      const factionCard = findFactionCard(race, roster)
-      if (!factionCard) return null
-      return {
-        title: localize(factionCard.name, lang),
-        node: (
-          <TacticalCardView
-            card={factionCard}
-            resourceLabel={race.resourceLabel}
-            isFactionCard
-            favorite={favoriteToggleFor(factionCard.id)}
-          />
-        ),
-      }
-    }
-
-    if (detail.kind === 'tactical') {
-      const card = race.tacticalCards.find((c) => c.id === detail.id)
-      if (!card) return null
-      return {
-        title: localize(card.name, lang),
-        node: <TacticalCardView card={card} resourceLabel={race.resourceLabel} favorite={favoriteToggleFor(card.id)} />,
-      }
-    }
 
     const entry = roster.units.find((e) => e.id === detail.entryId)
     const unit = entry ? findUnit(race, entry.unitId) : undefined
@@ -96,7 +62,7 @@ export function GameReferencePage({
           ability,
           sourceLabel: g.sourceLabel,
           onSelect: () =>
-            setFavoriteAbilityDetail({ ability, sourceLabel: g.sourceLabel, sourceId: g.sourceId, unitType: g.unitType }),
+            setAbilityDetail({ kind: 'ability', ability, sourceLabel: g.sourceLabel, sourceId: g.sourceId, unitType: g.unitType }),
         })),
       )
 
@@ -110,6 +76,18 @@ export function GameReferencePage({
           squadHighlightIndex={entry.squadTierIndex}
           favorite={favoriteToggleFor(unit.id)}
           crossFavorites={crossFavorites}
+          onSelectAbility={(ability) =>
+            setAbilityDetail(
+              abilitySelectionRefFor(unit, ability, {
+                sourceId: unit.id,
+                sourceLabel: localize(unit.name, lang),
+                unitType: unit.type,
+                entryId: entry.id,
+                localize: (rule) => localize(rule, lang),
+                interactive: false,
+              }),
+            )
+          }
         />
       ),
     }
@@ -148,7 +126,9 @@ export function GameReferencePage({
       </div>
 
       <div className="game-ref-body">
-        {mode === 'cards' && <GameReferenceCardsView race={race} roster={roster} onSelect={setDetail} />}
+        {mode === 'cards' && (
+          <GameReferenceCardsView race={race} roster={roster} onSelect={setDetail} onSelectAbility={setAbilityDetail} />
+        )}
         {mode === 'favorites' && <GameReferenceFavoritesView race={race} roster={roster} />}
       </div>
 
@@ -158,35 +138,25 @@ export function GameReferencePage({
         </Modal>
       )}
 
-      {favoriteAbilityDetail && (
-        <Modal
-          title={
-            <span className="modal-title-row">
-              <span
-                className="modal-source-badge"
-                style={{ color: favoriteAbilityDetail.unitType ? UNIT_TYPE_COLORS[favoriteAbilityDetail.unitType] : '#f0b429' }}
-              >
-                {favoriteAbilityDetail.unitType ? 'UNIT' : 'TACTICAL'}
-              </span>
-              {favoriteAbilityDetail.sourceLabel}
-            </span>
-          }
-          onClose={() => setFavoriteAbilityDetail(null)}
-        >
-          <div className="game-card">
-            <div className="card-phase-body">
-              <RuleAbilityBlock
-                ability={favoriteAbilityDetail.ability}
-                resourceLabel={race.resourceLabel.abbr}
-                favorite={{
-                  active: isFavoriteAbility(roster, favoriteAbilityDetail.sourceId, favoriteAbilityDetail.ability.id),
-                  onToggle: () =>
-                    store.toggleFavoriteAbility(roster.id, favoriteAbilityDetail.sourceId, favoriteAbilityDetail.ability.id),
-                }}
-              />
-            </div>
-          </div>
-        </Modal>
+      {abilityDetail?.kind === 'ability' && (
+        <AbilityDetailModal
+          detail={abilityDetail}
+          onClose={() => setAbilityDetail(null)}
+          roster={roster}
+          race={race}
+          resourceLabel={race.resourceLabel.abbr}
+          showFavorite
+          onSelectAbility={setAbilityDetail}
+        />
+      )}
+      {abilityDetail?.kind === 'weapon-summary' && (
+        <WeaponSummaryModal
+          detail={abilityDetail}
+          onClose={() => setAbilityDetail(null)}
+          roster={roster}
+          race={race}
+          onSelectAbility={setAbilityDetail}
+        />
       )}
     </div>
   )

@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import type { Ability, UnitCard } from '../../types'
 import { StatBoxes } from './StatBoxes'
 import { SquadTable, type SquadTableSelection } from './SquadTable'
@@ -11,11 +12,13 @@ export function UnitCardView({
   resourceLabel,
   upgradeToggle,
   squadSelection,
+  squadTierSelector,
   finalCost,
   abilitiesOverride,
   squadHighlightIndex,
   favorite,
   crossFavorites,
+  onSelectAbility,
 }: {
   unit: UnitCard
   resourceLabel: string
@@ -23,6 +26,12 @@ export function UnitCardView({
   upgradeToggle?: UpgradeToggleState
   /** 지정하면 스쿼드 등급 박스가 등급을 고르는 버튼이 된다 (유닛 편집 화면) */
   squadSelection?: SquadTableSelection
+  /**
+   * 지정하면 스탯 박스 왼쪽에 컴팩트 스쿼드 등급 선택기(SquadTierSelector)를 붙이고, 그 아래 큰
+   * 스쿼드 박스(SquadTable)는 생략한다 — 로스터 편집 화면 전용. 게임 레퍼런스/내보내기 화면은
+   * 기존 SquadTable을 그대로 쓴다.
+   */
+  squadTierSelector?: ReactNode
   /** 이 로스터 항목이 스쿼드+업그레이드를 합쳐 실제로 소모하는 최종 미네랄. 지정하면 헤더 우측에 배지로 표시 */
   finalCost?: number
   /**
@@ -36,6 +45,8 @@ export function UnitCardView({
   favorite?: FavoriteToggle
   /** 다른 유닛/카드에서 즐겨찾기한 능력들을 같은 페이즈 그룹 하단에 덧붙인다 (게임 레퍼런스 유닛 상세 모달 전용) */
   crossFavorites?: CrossFavoriteRef[]
+  /** 지정하면 이름 직접 언급으로 찾은 연관 어빌리티/무기 항목을 눌러 그 대상의 상세 모달로 이동할 수 있다 */
+  onSelectAbility?: (ability: Ability) => void
 }) {
   const localize = useLocalize()
   const pts = formatScaledCost(unit.squad.map((s) => s.pts))
@@ -57,33 +68,42 @@ export function UnitCardView({
 
       <div className="card-body-top">
         <div className="card-top-right">
-          <StatBoxes unit={unit} />
+          <div className="card-squad-stats-row">
+            <StatBoxes unit={unit} />
+            {squadTierSelector}
+          </div>
           <div className="card-squad-row">
-            <SquadTable squad={unit.squad} selection={squadSelection} highlightIndex={squadHighlightIndex} />
+            {!squadTierSelector && (
+              <SquadTable squad={unit.squad} selection={squadSelection} highlightIndex={squadHighlightIndex} />
+            )}
             <div className="card-pts-badge card-pts-badge-header">PTS: {pts}</div>
           </div>
           <div className="card-tags">
             <span className="card-tags-label">TAGS: </span>
-            <KeywordList keywords={unit.tags} />
+            <KeywordList keywords={unit.tags.filter((t) => t.name !== 'Unique')} />
           </div>
         </div>
       </div>
 
       {abilitiesOverride ? (
         <AbilitiesSection
+          unit={unit}
           abilities={abilitiesOverride}
           resourceLabel={resourceLabel}
           favorite={favorite}
           crossFavorites={crossFavorites}
+          onSelectAbility={onSelectAbility}
         />
       ) : (
         <AbilitiesSection
+          unit={unit}
           abilities={unit.abilities}
           upgrades={unit.upgrades}
           resourceLabel={resourceLabel}
           upgradeToggle={upgradeToggle}
           favorite={favorite}
           crossFavorites={crossFavorites}
+          onSelectAbility={onSelectAbility}
         />
       )}
     </div>

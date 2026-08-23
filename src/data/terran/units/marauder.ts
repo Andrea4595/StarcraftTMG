@@ -28,6 +28,7 @@ export const marauder: UnitCard = {
       phase: 'Movement',
       type: 'Active',
       cost: 1,
+      enhances: ['Quad K12', 'Strike'],
       rule: {
         en: 'This Unit suffers NON-LETHAL DAMAGE (2). This Unit gains BUFF Speed (3). Additionally, its Quad K12 and all Close Combat Weapons gain PRECISION (2).',
         ko: '이 유닛은 논 리썰 데미지(2)를 받고 버프 스피드(3)를 받는다. 추가로 쿼드 K12와 모든 근접무기가 프리시전(2)을 갖는다.',
@@ -118,6 +119,7 @@ export const marauder: UnitCard = {
         phase: 'Assault',
         type: 'Passive',
         cost: 0,
+        enhances: ['Quad K12'],
         rule: {
           en: "This Unit's Quad K12 weapon gains LONG RANGE (16\").",
           ko: '이 유닛의 쿼드 K12는 롱 레인지(16")를 갖는다.',

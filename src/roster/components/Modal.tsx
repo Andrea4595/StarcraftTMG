@@ -16,6 +16,7 @@ export function Modal({
   onClose,
   children,
   className,
+  headerActions,
 }: {
   /** 보통은 문자열이지만, 제목 옆에 배지 등을 함께 붙여야 할 때는 커스텀 노드를 넘길 수 있다 */
   title: ReactNode
@@ -25,6 +26,8 @@ export function Modal({
   children: ReactNode
   /** 기본 max-width(1100px)를 좁히는 등, 이 모달 인스턴스만 폭을 다르게 주고 싶을 때 .modal-panel에 덧붙일 클래스 */
   className?: string
+  /** 닫기(✕) 버튼 바로 왼쪽, 헤더 우측 끝에 붙는 버튼 등 (예: 업그레이드 켜기/끄기 토글) */
+  headerActions?: ReactNode
 }) {
   /** 마운트 시점에 한 번만 발급받아 이 모달 인스턴스에 고정한다 */
   const [zIndex] = useState(nextZIndex)
@@ -46,9 +49,12 @@ export function Modal({
       <div className={`modal-panel ${className ?? ''}`} onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <span className="modal-title">{title}</span>
-          <button type="button" className="btn btn-danger" onClick={onClose} aria-label="닫기">
-            ✕
-          </button>
+          <div className="modal-header-actions">
+            {headerActions}
+            <button type="button" className="btn btn-danger" onClick={onClose} aria-label="닫기">
+              ✕
+            </button>
+          </div>
         </div>
         {subHeader && <div className="modal-subheader">{subHeader}</div>}
         <div className="modal-body">{children}</div>

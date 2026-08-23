@@ -41,7 +41,7 @@ export const zealot: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (3) 4+ effect.',
-        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 4+로 임팩트(3)를 입힌다.',
+        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 임팩트(3)를 4+로 입힌다.',
       },
     },
     {
@@ -71,6 +71,7 @@ export const zealot: UnitCard = {
         phase: 'Any',
         type: 'Passive',
         cost: 0,
+        enhances: ['Devastating Charge'],
         rule: {
           en: 'When this Unit resolves IMPACT, each eligible model generates 1 additional IMPACT die.',
           ko: '이 유닛이 임팩트를 처리할 때, 적합한 모델마다 하나의 주사위를 추가로 굴린다.',

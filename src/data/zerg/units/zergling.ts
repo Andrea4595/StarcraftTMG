@@ -54,7 +54,7 @@ export const zergling: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (1) 5+ effect.',
-        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 5+로 임팩트(1)를 입힌다.',
+        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 임팩트(1)를 5+로 입힌다.',
       },
     },
     {
@@ -119,6 +119,7 @@ export const zergling: UnitCard = {
         phase: 'Any',
         type: 'Passive',
         cost: 0,
+        enhances: ['Claws', 'Shredding Claws'],
         rule: {
           en: "This Unit's Claws and Shredding Claws weapons gain PRECISION (2).",
           ko: '이 유닛의 발톱, 분쇄하는 발톱은 프리시전(2)을 갖는다.',

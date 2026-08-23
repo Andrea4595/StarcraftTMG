@@ -67,6 +67,7 @@ export const corpserRoach: UnitCard = {
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
+      enhances: ['Burrow'],
       rule: {
         en: 'When this Unit becomes Activated, if it has the Burrowed Status, resolve the HEAL (2) effect.',
         ko: '이 유닛이 활성화될 때 잠복 상태라면, 치유(2)한다.',
@@ -81,7 +82,7 @@ export const corpserRoach: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (3) 4+ effect.',
-        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 4+로 임팩트(3)를 입힌다.',
+        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 임팩트(3)를 4+로 입힌다.',
       },
     },
     {
@@ -111,6 +112,7 @@ export const corpserRoach: UnitCard = {
         phase: 'Any',
         type: 'Passive',
         cost: 0,
+        enhances: ['Burrow'],
         rule: {
           en: "While this Unit has the Burrowed Status, it may perform the Move and Run actions without losing that Status. It may also move through other Units' bases.",
           ko: '이 유닛이 잠복 상태일 때, 이동과 질주를 해도 잠복 상태를 잃지 않는다. 또한 이렇게 이동할 때 다른 유닛의 베이스를 존재하지 않는 것처럼 통과해 이동할 수 있다.',
@@ -156,6 +158,7 @@ export const corpserRoach: UnitCard = {
         phase: 'Assault',
         type: 'Passive',
         cost: 0,
+        enhances: ['Acid Saliva'],
         rule: {
           en: "This Unit's Acid Saliva weapon gains Surge Type: Light, and S Dice: D3+1.",
           ko: '이 유닛의 산성 타액은 서지 타입: 경장갑과 S DICE: D3+1을 얻는다.',

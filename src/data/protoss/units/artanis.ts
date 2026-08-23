@@ -60,6 +60,7 @@ export const artanis: UnitCard = {
       phase: 'Assault',
       type: 'Reaction',
       cost: 1,
+      enhances: ['Devastating Charge'],
       rule: {
         en: 'After this Unit resolves a successful Charge action, it may declare a second Charge action against a different Enemy Unit, ignoring the restriction on Charging while Engaged. The Devastating Charge ability does not trigger a second time.',
         ko: '이 유닛이 성공적으로 차지를 마친 후, 다른 적에게 다시 한번 차지할 수 있다. 이때, 차지의 제약과 인게이지상태의 제약을 무시한다. 파괴적인 돌진은 두 번 발생하지 않는다.',
@@ -74,7 +75,7 @@ export const artanis: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (6) 4+ effect.',
-        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 4+로 임팩트(6)를 입힌다.',
+        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 임팩트(6)를 4+로 입힌다.',
       },
     },
     {
