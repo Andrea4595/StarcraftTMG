@@ -1,5 +1,6 @@
 import type {
   Ability,
+  BaseSize,
   Phase,
   RaceData,
   Roster,
@@ -502,4 +503,41 @@ export function rosterFavoriteAbilities(race: RaceData, roster: Roster, lang: La
       abilities: g.abilities.filter((a) => a.kind === 'rule' && isFavoriteAbility(roster, g.sourceId, a.id)),
     }))
     .filter((g) => g.abilities.length > 0)
+}
+
+function baseSizeToMm(baseSize: BaseSize): { width: number; height: number } {
+  return baseSize.shape === 'circle'
+    ? { width: baseSize.diameterMm, height: baseSize.diameterMm }
+    : { width: baseSize.widthMm, height: baseSize.lengthMm }
+}
+
+export interface SimulatorExportUnit {
+  name: string
+  model_count: number
+  base_mm: { width: number; height: number }
+  move_inch: number
+  coherency_inch: number
+}
+
+export interface SimulatorExportData {
+  roster_name: string
+  units: SimulatorExportUnit[]
+}
+
+/** 외부 시뮬레이터 연동용 데이터. 이동 불가 유닛(spd가 null)은 move/coherency를 0으로 채운다 */
+export function buildSimulatorExport(race: RaceData, roster: Roster, localize: (rule: Rule) => string): SimulatorExportData {
+  const units: SimulatorExportUnit[] = []
+  for (const entry of roster.units) {
+    const unit = findUnit(race, entry.unitId)
+    const tier = unit?.squad[entry.squadTierIndex]
+    if (!unit || !tier) continue
+    units.push({
+      name: localize(unit.name),
+      model_count: tier.modelMax,
+      base_mm: baseSizeToMm(unit.baseSize),
+      move_inch: unit.stat.spd?.move ?? 0,
+      coherency_inch: unit.stat.spd?.cohesion ?? 0,
+    })
+  }
+  return { roster_name: roster.name, units }
 }

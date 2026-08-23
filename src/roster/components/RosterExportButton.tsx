@@ -3,6 +3,8 @@ import { toPng } from 'html-to-image'
 import type { RaceData, Roster } from '../../types'
 import { Modal } from './Modal'
 import { RosterExportView, type ExportMode } from './RosterExportView'
+import { buildSimulatorExport } from '../rosterCalc'
+import { useLocalize } from '../../LangContext'
 
 type ExportState =
   | { phase: 'choice' }
@@ -20,9 +22,20 @@ async function dataUrlToFile(dataUrl: string, fileName: string): Promise<File> {
   return new File([blob], fileName, { type: blob.type })
 }
 
+function downloadJson(data: unknown, fileName: string) {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = fileName
+  a.click()
+  URL.revokeObjectURL(url)
+}
+
 export function RosterExportButton({ race, roster }: { race: RaceData; roster: Roster }) {
   const [state, setState] = useState<ExportState | null>(null)
   const nodeRef = useRef<HTMLDivElement | null>(null)
+  const localize = useLocalize()
 
   useEffect(() => {
     if (!state || state.phase !== 'generating') return
@@ -73,6 +86,12 @@ export function RosterExportButton({ race, roster }: { race: RaceData; roster: R
     }
   }
 
+  const downloadSimulatorData = () => {
+    const data = buildSimulatorExport(race, roster, localize)
+    downloadJson(data, `${sanitizeFileName(roster.name)}-시뮬레이터.json`)
+    setState(null)
+  }
+
   const canShareFiles =
     typeof navigator !== 'undefined' && typeof navigator.canShare === 'function' && typeof navigator.share === 'function'
 
@@ -101,6 +120,12 @@ export function RosterExportButton({ race, roster }: { race: RaceData; roster: R
               <span className="roster-export-choice-option-title">간소화 로스터</span>
               <span className="roster-export-choice-option-desc">
                 택티컬 카드 이름과, 유닛별로 선택한 업그레이드만 목록으로 보여줍니다.
+              </span>
+            </button>
+            <button type="button" className="roster-export-choice-option" onClick={downloadSimulatorData}>
+              <span className="roster-export-choice-option-title">시뮬레이터 연동 데이터</span>
+              <span className="roster-export-choice-option-desc">
+                유닛 이름, 모델 수, 베이스 크기(mm), 이동/코헤런시 거리를 JSON 파일로 내보냅니다.
               </span>
             </button>
           </div>
