@@ -14,6 +14,7 @@ import type {
 } from '../types'
 import { localize, type Lang } from '../LangContext'
 import { UNIT_TYPES } from '../types'
+import { TOKENS } from '../data/tokens'
 import { formatScaledCost, resolveScaledCost } from '../components/card/costDisplay'
 import type { AbilitySelectionRef, UpgradeToggleRef, WeaponSummaryEntry, WeaponTone } from './components/AbilityChipsRow'
 
@@ -517,11 +518,39 @@ export interface SimulatorExportUnit {
   base_mm: { width: number; height: number }
   move_inch: number
   coherency_inch: number
+  is_displacement: boolean
+}
+
+export interface SimulatorExportToken {
+  name: string
+  base_mm: { width: number; height: number }
+  is_displacement: boolean
 }
 
 export interface SimulatorExportData {
   roster_name: string
   units: SimulatorExportUnit[]
+  tokens: SimulatorExportToken[]
+}
+
+/** 로스터에 포함된 유닛/팩션 카드/택티컬 카드의 능력을 훑어, 배치되는 토큰 종류의 id를 중복 없이 모은다 */
+function rosterPlacedTokenIds(race: RaceData, roster: Roster): Set<string> {
+  const ids = new Set<string>()
+  const collect = (abilities: Ability[]) => {
+    for (const ability of abilities) {
+      if (ability.kind === 'rule' && ability.placesTokenId) ids.add(ability.placesTokenId)
+    }
+  }
+
+  const factionCard = findFactionCard(race, roster)
+  if (factionCard) collect(factionCard.cardAbilities)
+  for (const { card } of groupedTacticalCards(race, roster)) collect(card.cardAbilities)
+  for (const entry of roster.units) {
+    const unit = findUnit(race, entry.unitId)
+    if (unit) collect(unitActiveAbilities(unit, entry))
+  }
+
+  return ids
 }
 
 /** 외부 시뮬레이터 연동용 데이터. 이동 불가 유닛(spd가 null)은 move/coherency를 0으로 채운다 */
@@ -537,7 +566,14 @@ export function buildSimulatorExport(race: RaceData, roster: Roster, localize: (
       base_mm: baseSizeToMm(unit.baseSize),
       move_inch: unit.stat.spd?.move ?? 0,
       coherency_inch: unit.stat.spd?.cohesion ?? 0,
+      is_displacement: unit.hasDisplacement ?? false,
     })
   }
-  return { roster_name: roster.name, units }
+
+  const tokens: SimulatorExportToken[] = [...rosterPlacedTokenIds(race, roster)]
+    .map((id) => TOKENS.find((t) => t.id === id))
+    .filter((t): t is (typeof TOKENS)[number] => t !== undefined)
+    .map((t) => ({ name: localize(t.name), base_mm: t.base_mm, is_displacement: t.is_displacement }))
+
+  return { roster_name: roster.name, units, tokens }
 }

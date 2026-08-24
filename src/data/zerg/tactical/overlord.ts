@@ -32,6 +32,7 @@ export const overlord: TacticalCard = {
       phase: 'Assault',
       type: 'Active',
       cost: 0,
+      placesTokenId: 'Creep Tumor',
       rule: {
         en: 'Set a Creep Tumor token on the battlefield Within 6" (Line of Sight is not required) of either a Friendly Entry Edge or an existing Friendly Creep Tumor token.',
         ko: '이미 배치된 점막 종양이나 아군 엔트리 엣지의 6" 안에 점막 종양을 배치한다. 이 배치에 시야는 불필요하다.',

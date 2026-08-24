@@ -1,0 +1,24 @@
+{
+  "roster_name": "테란 정규군",
+  "units": [
+    {
+      "name": "해병 분대",
+      "model_count": 6,
+      "base_mm": { "width": 32, "height": 32 },
+      "move_inch": 6,
+      "coherency_inch": 3,
+      "is_displacement": false
+    },
+    {
+      "name": "저글링",
+      "model_count": 12,
+      "base_mm": { "width": 25, "height": 25 },
+      "move_inch": 8,
+      "coherency_inch": 4,
+      "is_displacement": false
+    }
+  ],
+  "tokens": [
+    { "name": "점막 종양", "base_mm": { "width": 28, "height": 28 }, "is_displacement": true }
+  ]
+}

@@ -25,6 +25,7 @@ export const queen: UnitCard = {
       phase: 'Any',
       type: 'Active',
       cost: 1,
+      placesTokenId: 'Creep Tumor',
       rule: {
         en: 'Set a Creep Tumor token in base-to-base contact with this Unit.',
         ko: '이 유닛과 베이스 접촉을 한 상태로 점막 종양을 둔다.',

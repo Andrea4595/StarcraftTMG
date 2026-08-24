@@ -49,6 +49,8 @@ export interface RuleAbility extends AbilityBase {
    * 텍스트는 앞으로 거의 바뀌지 않을 데이터라, 처음 한 번만 채워두면 유지보수 부담이 크지 않다.
    */
   enhances?: string[]
+  /** 이 능력이 전장에 배치하는 토큰의 id (data/tokens.ts의 TokenEntry.id 참조). 시뮬레이터 연동 데이터의 tokens 목록을 만드는 데 쓰인다 */
+  placesTokenId?: string
 }
 
 export interface WeaponProfile extends AbilityBase {
@@ -140,6 +142,8 @@ export interface UnitCard extends CardBase {
   }
   /** 무기 KEYWORD와 별개인 유닛 자체의 태그 (예: Biological, Light, Ground) */
   tags: Keyword[]
+  /** 이 유닛(모델) 자체가 DISPLACEMENT 키워드를 지니는지. 유닛이 배치하는 토큰의 변위 여부와는 별개 */
+  hasDisplacement?: boolean
   baseSize: BaseSize
   squad: Squad[]
   abilities: Ability[]
