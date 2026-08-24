@@ -58,6 +58,8 @@ export function SimulatorExportGuide() {
         <li>is_displacement로 변위 규칙이 적용되는 대상을 자동 판별</li>
         <li>abilities의 설명 텍스트를 그대로 활용한 개인용 참고 카드/뷰어 제작</li>
       </ul>
+
+      <p className="export-guide-caution">이 스키마는 앞으로 필드가 추가되거나 구조가 바뀔 수 있습니다.</p>
     </div>
   )
 }
