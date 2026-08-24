@@ -7,18 +7,25 @@
       "base_mm": { "width": 32, "height": 32 },
       "move_inch": 6,
       "coherency_inch": 3,
-      "is_displacement": false
+      "is_displacement": false,
+      "ranges": []
     },
     {
-      "name": "저글링",
-      "model_count": 12,
-      "base_mm": { "width": 25, "height": 25 },
-      "move_inch": 8,
-      "coherency_inch": 4,
-      "is_displacement": false
+      "name": "의무관",
+      "model_count": 1,
+      "base_mm": { "width": 32, "height": 32 },
+      "move_inch": 4,
+      "coherency_inch": 3,
+      "is_displacement": false,
+      "ranges": [{ "inch": 4, "always_show": false }]
     }
   ],
   "tokens": [
-    { "name": "점막 종양", "base_mm": { "width": 28, "height": 28 }, "is_displacement": true }
+    {
+      "name": "점막 종양",
+      "base_mm": { "width": 28, "height": 28 },
+      "is_displacement": true,
+      "ranges": [{ "inch": 6, "always_show": true }]
+    }
   ]
 }

@@ -125,7 +125,7 @@ export function RosterExportButton({ race, roster }: { race: RaceData; roster: R
             <button type="button" className="roster-export-choice-option" onClick={downloadSimulatorData}>
               <span className="roster-export-choice-option-title">시뮬레이터 연동 데이터</span>
               <span className="roster-export-choice-option-desc">
-                유닛 이름, 모델 수, 베이스 크기(mm), 이동/코헤런시 거리, 변위 여부와 배치되는 토큰 정보를 JSON 파일로 내보냅니다.
+                유닛 이름, 모델 수, 베이스 크기(mm), 이동/코헤런시 거리, 변위 여부, 범위 표시기 가이드라인과 배치되는 토큰 정보를 JSON 파일로 내보냅니다.
               </span>
             </button>
           </div>

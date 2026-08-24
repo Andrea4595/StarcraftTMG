@@ -1,4 +1,4 @@
-import type { Rule } from '../types'
+import type { RangeIndicator, Rule } from '../types'
 
 /** 유닛/택티컬 카드가 전장에 배치하는 토큰 종류. 시뮬레이터 연동 데이터(tokens 목록)의 원본이 된다 */
 export interface TokenEntry {
@@ -7,6 +7,8 @@ export interface TokenEntry {
   name: Rule
   base_mm: { width: number; height: number }
   is_displacement: boolean
+  /** 시뮬레이터 '범위 표시기' 가이드라인. 없으면 표시할 범위가 없는 것 */
+  ranges?: RangeIndicator[]
 }
 
 export const TOKENS: TokenEntry[] = [
@@ -21,6 +23,7 @@ export const TOKENS: TokenEntry[] = [
     name: { en: 'Creep Tumor', ko: '점막 종양' },
     base_mm: { width: 28, height: 28 },
     is_displacement: true,
+    ranges: [{ inch: 6, alwaysShow: true }],
   },
   {
     id: 'Shade',

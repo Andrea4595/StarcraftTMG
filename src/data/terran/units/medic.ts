@@ -15,6 +15,7 @@ export const medic: UnitCard = {
     siz: 2,
   },
   tags: [{ name: 'Biological' }, { name: 'Light' }, { name: 'Ground' }],
+  ranges: [{ inch: 4, alwaysShow: false }],
   baseSize: { shape: 'circle', diameterMm: 32 },
   squad: [
     { modelMin: 1, modelMax: 1, supply: 0, pts: 110 },

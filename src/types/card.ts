@@ -19,6 +19,12 @@ export interface Rule {
   ko: string
 }
 
+/** 시뮬레이터 '범위 표시기' 기능에 쓰이는 거리 가이드라인 한 줄. alwaysShow가 false면 필요할 때만 켜서 보는 범위 */
+export interface RangeIndicator {
+  inch: number
+  alwaysShow: boolean
+}
+
 /**
  * 'ANTI-EVADE (2)', 'BURST FIRE 8" (3)' 처럼 이름 뒤에 붙는 괄호/단위 표기.
  * 키워드 규칙 설명 기능에서 name으로 레퍼런싱하기 위해 name과 분리해서 저장.
@@ -144,6 +150,8 @@ export interface UnitCard extends CardBase {
   tags: Keyword[]
   /** 이 유닛(모델) 자체가 DISPLACEMENT 키워드를 지니는지. 유닛이 배치하는 토큰의 변위 여부와는 별개 */
   hasDisplacement?: boolean
+  /** 시뮬레이터의 '범위 표시기' 기능에 쓰이는 거리 가이드라인. 없으면 표시할 범위가 없는 것 */
+  ranges?: RangeIndicator[]
   baseSize: BaseSize
   squad: Squad[]
   abilities: Ability[]

@@ -3,6 +3,7 @@ import type {
   BaseSize,
   Phase,
   RaceData,
+  RangeIndicator,
   Roster,
   RosterUnitEntry,
   Rule,
@@ -512,6 +513,15 @@ function baseSizeToMm(baseSize: BaseSize): { width: number; height: number } {
     : { width: baseSize.widthMm, height: baseSize.lengthMm }
 }
 
+export interface SimulatorExportRange {
+  inch: number
+  always_show: boolean
+}
+
+function toExportRanges(ranges: RangeIndicator[] | undefined): SimulatorExportRange[] {
+  return (ranges ?? []).map((r) => ({ inch: r.inch, always_show: r.alwaysShow }))
+}
+
 export interface SimulatorExportUnit {
   name: string
   model_count: number
@@ -519,12 +529,14 @@ export interface SimulatorExportUnit {
   move_inch: number
   coherency_inch: number
   is_displacement: boolean
+  ranges: SimulatorExportRange[]
 }
 
 export interface SimulatorExportToken {
   name: string
   base_mm: { width: number; height: number }
   is_displacement: boolean
+  ranges: SimulatorExportRange[]
 }
 
 export interface SimulatorExportData {
@@ -567,13 +579,19 @@ export function buildSimulatorExport(race: RaceData, roster: Roster, localize: (
       move_inch: unit.stat.spd?.move ?? 0,
       coherency_inch: unit.stat.spd?.cohesion ?? 0,
       is_displacement: unit.hasDisplacement ?? false,
+      ranges: toExportRanges(unit.ranges),
     })
   }
 
   const tokens: SimulatorExportToken[] = [...rosterPlacedTokenIds(race, roster)]
     .map((id) => TOKENS.find((t) => t.id === id))
     .filter((t): t is (typeof TOKENS)[number] => t !== undefined)
-    .map((t) => ({ name: localize(t.name), base_mm: t.base_mm, is_displacement: t.is_displacement }))
+    .map((t) => ({
+      name: localize(t.name),
+      base_mm: t.base_mm,
+      is_displacement: t.is_displacement,
+      ranges: toExportRanges(t.ranges),
+    }))
 
   return { roster_name: roster.name, units, tokens }
 }

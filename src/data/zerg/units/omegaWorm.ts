@@ -15,6 +15,7 @@ export const omegaWorm: UnitCard = {
     siz: 3,
   },
   tags: [{ name: "Kerrigan's Swarm" }, { name: 'Armoured' }, { name: 'Biological' }, { name: 'Ground' }],
+  ranges: [{ inch: 6, alwaysShow: true }],
   baseSize: { shape: 'circle', diameterMm: 80 },
   squad: [{ modelMin: 1, modelMax: 1, supply: 0, pts: 0 }],
   abilities: [
