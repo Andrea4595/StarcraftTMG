@@ -633,6 +633,8 @@ export interface SimulatorExportSquad {
 
 export interface SimulatorExportUnit {
   name: Rule
+  /** 유닛 슬롯 분류 (Hero/Core/Elite/Support/Other) */
+  unit_type: UnitType
   model_count: number
   base_mm: { width: number; height: number }
   stat: SimulatorExportStat
@@ -719,6 +721,7 @@ export function buildSimulatorExport(race: RaceData, roster: Roster): SimulatorE
     if (!unit || !tier) continue
     units.push({
       name: unit.name,
+      unit_type: unit.type,
       model_count: tier.modelMax,
       base_mm: baseSizeToMm(unit.baseSize),
       stat: { ...unit.stat },

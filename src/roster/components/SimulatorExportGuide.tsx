@@ -1,5 +1,6 @@
 const UNIT_FIELDS: { field: string; desc: string }[] = [
   { field: 'name', desc: '유닛 이름 (한글/영문)' },
+  { field: 'unit_type', desc: '유닛 슬롯 분류 (Hero/Core/Elite/Support/Other)' },
   { field: 'model_count', desc: '이 로스터에 포함된 모델 수' },
   { field: 'base_mm', desc: '미니어처 베이스의 실제 물리 크기 (가로/세로, mm)' },
   { field: 'stat', desc: '쉴드/이동력·코헤런시/회피/방어력/체력/사이즈 등 전체 스탯. 해당 스탯이 없는 유닛은 null' },

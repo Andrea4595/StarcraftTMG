@@ -4,6 +4,7 @@
   "units": [
     {
       "name": { "en": "Medic", "ko": "의무관" },
+      "unit_type": "Support",
       "model_count": 1,
       "base_mm": { "width": 32, "height": 32 },
       "stat": {
