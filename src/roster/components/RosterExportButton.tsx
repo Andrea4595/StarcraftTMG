@@ -136,7 +136,7 @@ export function RosterExportButton({ race, roster }: { race: RaceData; roster: R
                 aria-label="시뮬레이터 연동 데이터 안내"
                 title="시뮬레이터 연동 데이터 안내"
               >
-                ?
+                /
               </button>
             </div>
           </div>
