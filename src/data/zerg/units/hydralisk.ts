@@ -15,6 +15,7 @@ export const hydralisk: UnitCard = {
     siz: 2,
   },
   tags: [{ name: 'Biological' }, { name: 'Light' }, { name: 'Ground' }],
+  baseSize: { shape: 'oval', widthMm: 40, lengthMm: 100 },
   squad: [
     { modelMin: 1, modelMax: 1, supply: 1, pts: 140 },
     { modelMin: 2, modelMax: 2, supply: 2, pts: 140 },

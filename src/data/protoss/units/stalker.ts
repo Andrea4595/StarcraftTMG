@@ -15,6 +15,7 @@ export const stalker: UnitCard = {
     siz: 3,
   },
   tags: [{ name: 'Armoured' }, { name: 'Mechanical' }, { name: 'Ground' }],
+  baseSize: { shape: 'circle', diameterMm: 80 },
   squad: [
     { modelMin: 1, modelMax: 1, supply: 1, pts: 170 },
     { modelMin: 2, modelMax: 2, supply: 2, pts: 270 },

@@ -19,6 +19,12 @@ export interface Rule {
   ko: string
 }
 
+/** 시뮬레이터 '범위 표시기' 기능에 쓰이는 거리 가이드라인 한 줄. alwaysShow가 false면 필요할 때만 켜서 보는 범위 */
+export interface RangeIndicator {
+  inch: number
+  alwaysShow: boolean
+}
+
 /**
  * 'ANTI-EVADE (2)', 'BURST FIRE 8" (3)' 처럼 이름 뒤에 붙는 괄호/단위 표기.
  * 키워드 규칙 설명 기능에서 name으로 레퍼런싱하기 위해 name과 분리해서 저장.
@@ -49,6 +55,8 @@ export interface RuleAbility extends AbilityBase {
    * 텍스트는 앞으로 거의 바뀌지 않을 데이터라, 처음 한 번만 채워두면 유지보수 부담이 크지 않다.
    */
   enhances?: string[]
+  /** 이 능력이 전장에 배치하는 토큰의 id (data/tokens.ts의 TokenEntry.id 참조). 시뮬레이터 연동 데이터의 tokens 목록을 만드는 데 쓰인다 */
+  placesTokenId?: string
 }
 
 export interface WeaponProfile extends AbilityBase {
@@ -99,6 +107,15 @@ interface CardBase {
   thumb?: string
 }
 
+/**
+ * 미니어처의 물리 베이스 크기(mm). 사용자에게 노출하는 정보가 아니라, 다른 앱과의
+ * 데이터 연동을 위해 보관한다. 원형(diameterMm 하나) / 타원형(widthMm x lengthMm)
+ * 둘 다 표현 가능하도록 shape로 판별한다.
+ */
+export type BaseSize =
+  | { shape: 'circle'; diameterMm: number }
+  | { shape: 'oval'; widthMm: number; lengthMm: number }
+
 export interface Squad {
   /** Min과 Max 사이의 유닛 수는 이 스쿼드에 해당한다. */
   modelMin: number
@@ -131,6 +148,11 @@ export interface UnitCard extends CardBase {
   }
   /** 무기 KEYWORD와 별개인 유닛 자체의 태그 (예: Biological, Light, Ground) */
   tags: Keyword[]
+  /** 이 유닛(모델) 자체가 DISPLACEMENT 키워드를 지니는지. 유닛이 배치하는 토큰의 변위 여부와는 별개 */
+  hasDisplacement?: boolean
+  /** 시뮬레이터의 '범위 표시기' 기능에 쓰이는 거리 가이드라인. 없으면 표시할 범위가 없는 것 */
+  ranges?: RangeIndicator[]
+  baseSize: BaseSize
   squad: Squad[]
   abilities: Ability[]
   upgrades: Upgrade[]

@@ -1,11 +1,17 @@
 import type {
   Ability,
+  AbilityType,
+  BaseSize,
+  Keyword,
   Phase,
   RaceData,
+  RangeIndicator,
   Roster,
   RosterUnitEntry,
   Rule,
+  SurgeType,
   TacticalCard,
+  TargetType,
   UnitCard,
   UnitType,
   Upgrade,
@@ -13,7 +19,10 @@ import type {
 } from '../types'
 import { localize, type Lang } from '../LangContext'
 import { UNIT_TYPES } from '../types'
+import { TOKENS } from '../data/tokens'
 import { formatScaledCost, resolveScaledCost } from '../components/card/costDisplay'
+import { keywordEntryForName, stripKeywordPlaceholder } from '../components/card/keywordHighlight'
+import { localizeTag, localizeTagWordsInText } from '../components/card/tagLabels'
 import type { AbilitySelectionRef, UpgradeToggleRef, WeaponSummaryEntry, WeaponTone } from './components/AbilityChipsRow'
 
 export { resolveScaledCost }
@@ -215,7 +224,8 @@ export function rosterUniqueViolations(race: RaceData, roster: Roster): Rule[] {
  * 활성 업그레이드가 제공하는 능력을 더한다. AbilitiesSection의 sealedWeaponNames 계산과 동일한 규칙
  * (SPECIALIST 키워드가 붙은 무기 업그레이드는 원본을 대체하지 않고 같이 쓰인다)을 따른다.
  */
-export function unitActiveAbilities(unit: UnitCard, entry: RosterUnitEntry): Ability[] {
+/** 이 유닛의 실제 적용 능력을, 업그레이드로 얻은 것인지 표시(isUpgrade)와 함께 돌려준다 */
+function unitActiveAbilitiesTagged(unit: UnitCard, entry: RosterUnitEntry): { ability: Ability; isUpgrade: boolean }[] {
   const activeUpgrades = entry.upgradeIndexes
     .map((i) => unit.upgrades[i])
     .filter((u): u is UnitCard['upgrades'][number] => u !== undefined)
@@ -228,8 +238,13 @@ export function unitActiveAbilities(unit: UnitCard, entry: RosterUnitEntry): Abi
     sealedIds.add(upgrade.forId)
   }
 
-  const baseAbilities = unit.abilities.filter((a) => !sealedIds.has(a.id))
-  return [...baseAbilities, ...activeUpgrades.map((u) => u.ability)]
+  const baseAbilities = unit.abilities.filter((a) => !sealedIds.has(a.id)).map((ability) => ({ ability, isUpgrade: false }))
+  const upgradeAbilities = activeUpgrades.map((u) => ({ ability: u.ability, isUpgrade: true }))
+  return [...baseAbilities, ...upgradeAbilities]
+}
+
+export function unitActiveAbilities(unit: UnitCard, entry: RosterUnitEntry): Ability[] {
+  return unitActiveAbilitiesTagged(unit, entry).map((a) => a.ability)
 }
 
 /**
@@ -502,4 +517,184 @@ export function rosterFavoriteAbilities(race: RaceData, roster: Roster, lang: La
       abilities: g.abilities.filter((a) => a.kind === 'rule' && isFavoriteAbility(roster, g.sourceId, a.id)),
     }))
     .filter((g) => g.abilities.length > 0)
+}
+
+function baseSizeToMm(baseSize: BaseSize): { width: number; height: number } {
+  return baseSize.shape === 'circle'
+    ? { width: baseSize.diameterMm, height: baseSize.diameterMm }
+    : { width: baseSize.widthMm, height: baseSize.lengthMm }
+}
+
+export interface SimulatorExportRange {
+  inch: number
+  always_show: boolean
+}
+
+function toExportRanges(ranges: RangeIndicator[] | undefined): SimulatorExportRange[] {
+  return (ranges ?? []).map((r) => ({ inch: r.inch, always_show: r.alwaysShow }))
+}
+
+export interface SimulatorExportStat {
+  shld: number | null
+  spd: { move: number; cohesion: number } | null
+  eva: string
+  arm: string
+  hp: number
+  siz: number | null
+}
+
+/** 무기 KEYWORD 칸, 유닛 TAGS 칸에 공통으로 쓰이는 표기. 용어집(keywords.ts)에 없으면 tagLabels의
+ *  작은 사전을, 그것도 없으면 원문을 그대로 both en/ko에 채운다 */
+export interface SimulatorExportTag {
+  name: Rule
+  suffix?: Rule
+}
+
+function toExportTag(kw: Keyword): SimulatorExportTag {
+  const entry = keywordEntryForName(kw.name)
+  const name: Rule = entry
+    ? { en: stripKeywordPlaceholder(entry.name.en), ko: stripKeywordPlaceholder(entry.name.ko) }
+    : { en: kw.name, ko: localizeTag(kw.name, 'ko') }
+  return kw.suffix ? { name, suffix: { en: kw.suffix, ko: localizeTagWordsInText(kw.suffix, 'ko') } } : { name }
+}
+
+export interface SimulatorExportWeaponStat {
+  rng: number | 'E'
+  tgt: TargetType
+  roa: number
+  hit: string
+  surge: SurgeType[]
+  sDie: string
+  dmg: number
+  keyword: SimulatorExportTag[]
+}
+
+interface SimulatorExportAbilityBase {
+  id: string
+  name: Rule
+  phase: Phase
+  /** 이 능력이 유닛 기본 능력이 아니라, 로스터에서 선택한 업그레이드로 얻은 것인지 */
+  is_upgrade: boolean
+}
+
+export interface SimulatorExportRuleAbility extends SimulatorExportAbilityBase {
+  kind: 'rule'
+  type: AbilityType
+  cost: number | 'X'
+  rule: Rule
+}
+
+export interface SimulatorExportWeaponAbility extends SimulatorExportAbilityBase {
+  kind: 'weapon'
+  stat: SimulatorExportWeaponStat
+}
+
+export type SimulatorExportAbility = SimulatorExportRuleAbility | SimulatorExportWeaponAbility
+
+function toExportAbility(ability: Ability, isUpgrade: boolean): SimulatorExportAbility {
+  if (ability.kind === 'weapon') {
+    return {
+      kind: 'weapon',
+      id: ability.id,
+      name: ability.name,
+      phase: ability.phase,
+      is_upgrade: isUpgrade,
+      stat: {
+        rng: ability.stat.rng,
+        tgt: ability.stat.tgt,
+        roa: ability.stat.roa,
+        hit: ability.stat.hit,
+        surge: ability.stat.surge,
+        sDie: ability.stat.sDie,
+        dmg: ability.stat.dmg,
+        keyword: ability.stat.keyword.map(toExportTag),
+      },
+    }
+  }
+  return {
+    kind: 'rule',
+    id: ability.id,
+    name: ability.name,
+    phase: ability.phase,
+    is_upgrade: isUpgrade,
+    type: ability.type,
+    cost: ability.cost,
+    rule: ability.rule,
+  }
+}
+
+export interface SimulatorExportUnit {
+  name: Rule
+  model_count: number
+  base_mm: { width: number; height: number }
+  stat: SimulatorExportStat
+  tags: SimulatorExportTag[]
+  is_displacement: boolean
+  ranges: SimulatorExportRange[]
+  abilities: SimulatorExportAbility[]
+}
+
+export interface SimulatorExportToken {
+  name: Rule
+  base_mm: { width: number; height: number }
+  is_displacement: boolean
+  ranges: SimulatorExportRange[]
+}
+
+export interface SimulatorExportData {
+  roster_name: string
+  units: SimulatorExportUnit[]
+  tokens: SimulatorExportToken[]
+}
+
+/** 로스터에 포함된 유닛/팩션 카드/택티컬 카드의 능력을 훑어, 배치되는 토큰 종류의 id를 중복 없이 모은다 */
+function rosterPlacedTokenIds(race: RaceData, roster: Roster): Set<string> {
+  const ids = new Set<string>()
+  const collect = (abilities: Ability[]) => {
+    for (const ability of abilities) {
+      if (ability.kind === 'rule' && ability.placesTokenId) ids.add(ability.placesTokenId)
+    }
+  }
+
+  const factionCard = findFactionCard(race, roster)
+  if (factionCard) collect(factionCard.cardAbilities)
+  for (const { card } of groupedTacticalCards(race, roster)) collect(card.cardAbilities)
+  for (const entry of roster.units) {
+    const unit = findUnit(race, entry.unitId)
+    if (unit) collect(unitActiveAbilities(unit, entry))
+  }
+
+  return ids
+}
+
+/** 외부 시뮬레이터 연동용 데이터. 이름/능력 설명 등 텍스트는 en/ko 둘 다 담는다 */
+export function buildSimulatorExport(race: RaceData, roster: Roster): SimulatorExportData {
+  const units: SimulatorExportUnit[] = []
+  for (const entry of roster.units) {
+    const unit = findUnit(race, entry.unitId)
+    const tier = unit?.squad[entry.squadTierIndex]
+    if (!unit || !tier) continue
+    units.push({
+      name: unit.name,
+      model_count: tier.modelMax,
+      base_mm: baseSizeToMm(unit.baseSize),
+      stat: { ...unit.stat },
+      tags: unit.tags.map(toExportTag),
+      is_displacement: unit.hasDisplacement ?? false,
+      ranges: toExportRanges(unit.ranges),
+      abilities: unitActiveAbilitiesTagged(unit, entry).map((a) => toExportAbility(a.ability, a.isUpgrade)),
+    })
+  }
+
+  const tokens: SimulatorExportToken[] = [...rosterPlacedTokenIds(race, roster)]
+    .map((id) => TOKENS.find((t) => t.id === id))
+    .filter((t): t is (typeof TOKENS)[number] => t !== undefined)
+    .map((t) => ({
+      name: t.name,
+      base_mm: t.base_mm,
+      is_displacement: t.is_displacement,
+      ranges: toExportRanges(t.ranges),
+    }))
+
+  return { roster_name: roster.name, units, tokens }
 }

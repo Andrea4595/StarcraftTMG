@@ -15,6 +15,7 @@ export const adept: UnitCard = {
     siz: 2,
   },
   tags: [{ name: 'Biological' }, { name: 'Light' }, { name: 'Ground' }],
+  baseSize: { shape: 'circle', diameterMm: 40 },
   squad: [
     { modelMin: 1, modelMax: 2, supply: 0, pts: 150 },
     { modelMin: 3, modelMax: 4, supply: 1, pts: 150 },
@@ -40,6 +41,7 @@ export const adept: UnitCard = {
       phase: 'Movement',
       type: 'Active',
       cost: 1,
+      placesTokenId: 'Shade',
       rule: {
         en: "Set a Shade token Wholly Within 12\" of any model in this Unit. At the End of the Round, the controlling player may set all models of this Unit in Coherency, treating the Shade token as the Leading Model. The Shade token has DISPLACEMENT.",
         ko: '이 유닛의 아무런 모델에서 12”안에 완전히 들어오게 그림자 토큰을 둔다. 라운드 종료 시, 플레이어는 이 유닛의 모든 모델을 그 토큰을 리딩모델삼아 토큰의 위치에 맞춰 이동시킨다. 그림자 토큰은 변위이다.',

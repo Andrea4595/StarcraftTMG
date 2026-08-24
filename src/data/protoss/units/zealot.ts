@@ -15,6 +15,7 @@ export const zealot: UnitCard = {
     siz: 2,
   },
   tags: [{ name: 'Biological' }, { name: 'Light' }, { name: 'Ground' }],
+  baseSize: { shape: 'circle', diameterMm: 40 },
   squad: [
     { modelMin: 1, modelMax: 1, supply: 1, pts: 160 },
     { modelMin: 2, modelMax: 3, supply: 2, pts: 160 },

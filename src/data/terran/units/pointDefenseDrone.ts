@@ -15,6 +15,9 @@ export const pointDefenseDrone: UnitCard = {
     siz: null,
   },
   tags: [{ name: "Raynor's Raiders" }, { name: 'Armoured' }, { name: 'Flying' }, { name: 'Mechanical' }],
+  hasDisplacement: true,
+  ranges: [{ inch: 4, alwaysShow: true }],
+  baseSize: { shape: 'circle', diameterMm: 32 },
   squad: [{ modelMin: 1, modelMax: 1, supply: 0, pts: 0 }],
   abilities: [
     {

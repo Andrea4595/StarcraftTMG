@@ -15,6 +15,7 @@ export const marauder: UnitCard = {
     siz: 2,
   },
   tags: [{ name: 'Armoured' }, { name: 'Biological' }, { name: 'Ground' }],
+  baseSize: { shape: 'circle', diameterMm: 50 },
   squad: [
     { modelMin: 1, modelMax: 1, supply: 0, pts: 150 },
     { modelMin: 2, modelMax: 2, supply: 1, pts: 150 },

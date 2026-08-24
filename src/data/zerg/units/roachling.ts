@@ -15,6 +15,7 @@ export const roachling: UnitCard = {
     siz: 1,
   },
   tags: [{ name: 'Biological' }, { name: 'Light' }, { name: 'Ground' }],
+  baseSize: { shape: 'circle', diameterMm: 32 },
   squad: [{ modelMin: 1, modelMax: 3, supply: 0, pts: 0 }],
   abilities: [
     {

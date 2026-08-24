@@ -15,6 +15,7 @@ export const queen: UnitCard = {
     siz: 3,
   },
   tags: [{ name: 'Armoured' }, { name: 'Biological' }, { name: 'Psionic' }, { name: 'Ground' }],
+  baseSize: { shape: 'circle', diameterMm: 80 },
   squad: [{ modelMin: 1, modelMax: 1, supply: 1, pts: 150 }],
   abilities: [
     {
@@ -24,6 +25,7 @@ export const queen: UnitCard = {
       phase: 'Any',
       type: 'Active',
       cost: 1,
+      placesTokenId: 'Creep Tumor',
       rule: {
         en: 'Set a Creep Tumor token in base-to-base contact with this Unit.',
         ko: '이 유닛과 베이스 접촉을 한 상태로 점막 종양을 둔다.',

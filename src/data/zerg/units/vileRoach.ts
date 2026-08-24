@@ -15,6 +15,8 @@ export const vileRoach: UnitCard = {
     siz: 2,
   },
   tags: [{ name: 'Armoured' }, { name: 'Biological' }, { name: 'Ground' }],
+  ranges: [{ inch: 8, alwaysShow: false }],
+  baseSize: { shape: 'circle', diameterMm: 50 },
   squad: [
     { modelMin: 1, modelMax: 1, supply: 0, pts: 200 },
     { modelMin: 2, modelMax: 3, supply: 1, pts: 200 },

@@ -15,6 +15,8 @@ export const pylon: UnitCard = {
     siz: 3,
   },
   tags: [{ name: 'Khalai' }, { name: 'Armoured' }, { name: 'Ground' }],
+  ranges: [{ inch: 4, alwaysShow: true }],
+  baseSize: { shape: 'circle', diameterMm: 80 },
   squad: [{ modelMin: 1, modelMax: 1, supply: 0, pts: 0 }],
   abilities: [
     {

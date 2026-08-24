@@ -3,6 +3,8 @@ import { toPng } from 'html-to-image'
 import type { RaceData, Roster } from '../../types'
 import { Modal } from './Modal'
 import { RosterExportView, type ExportMode } from './RosterExportView'
+import { SimulatorExportGuide } from './SimulatorExportGuide'
+import { buildSimulatorExport } from '../rosterCalc'
 
 type ExportState =
   | { phase: 'choice' }
@@ -20,8 +22,19 @@ async function dataUrlToFile(dataUrl: string, fileName: string): Promise<File> {
   return new File([blob], fileName, { type: blob.type })
 }
 
+function downloadJson(data: unknown, fileName: string) {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = fileName
+  a.click()
+  URL.revokeObjectURL(url)
+}
+
 export function RosterExportButton({ race, roster }: { race: RaceData; roster: Roster }) {
   const [state, setState] = useState<ExportState | null>(null)
+  const [guideOpen, setGuideOpen] = useState(false)
   const nodeRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
@@ -73,6 +86,12 @@ export function RosterExportButton({ race, roster }: { race: RaceData; roster: R
     }
   }
 
+  const downloadSimulatorData = () => {
+    const data = buildSimulatorExport(race, roster)
+    downloadJson(data, `${sanitizeFileName(roster.name)}-시뮬레이터.json`)
+    setState(null)
+  }
+
   const canShareFiles =
     typeof navigator !== 'undefined' && typeof navigator.canShare === 'function' && typeof navigator.share === 'function'
 
@@ -103,7 +122,30 @@ export function RosterExportButton({ race, roster }: { race: RaceData; roster: R
                 택티컬 카드 이름과, 유닛별로 선택한 업그레이드만 목록으로 보여줍니다.
               </span>
             </button>
+            <div className="roster-export-choice-row">
+              <button type="button" className="roster-export-choice-option" onClick={downloadSimulatorData}>
+                <span className="roster-export-choice-option-title">시뮬레이터 연동 데이터</span>
+                <span className="roster-export-choice-option-desc">
+                  유닛의 스탯/태그/능력(무기 포함) 전체와 베이스 크기(mm), 변위 여부, 범위 표시기 가이드라인, 배치되는 토큰 정보를 JSON 파일로 내보냅니다.
+                </span>
+              </button>
+              <button
+                type="button"
+                className="roster-export-guide-btn"
+                onClick={() => setGuideOpen(true)}
+                aria-label="시뮬레이터 연동 데이터 안내"
+                title="시뮬레이터 연동 데이터 안내"
+              >
+                ?
+              </button>
+            </div>
           </div>
+        </Modal>
+      )}
+
+      {guideOpen && (
+        <Modal title="시뮬레이터 연동 데이터 안내" onClose={() => setGuideOpen(false)} className="modal-panel-guide">
+          <SimulatorExportGuide />
         </Modal>
       )}
 
