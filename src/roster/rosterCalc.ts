@@ -623,6 +623,14 @@ function toExportAbility(ability: Ability, isUpgrade: boolean): SimulatorExportA
   }
 }
 
+/** 이 유닛이 속한 스쿼드 등급(로스터에서 선택한 것) 정보. UnitCard.squad 항목 그대로 */
+export interface SimulatorExportSquad {
+  model_min: number
+  model_max: number
+  supply: number
+  pts: number
+}
+
 export interface SimulatorExportUnit {
   name: Rule
   model_count: number
@@ -632,6 +640,7 @@ export interface SimulatorExportUnit {
   is_displacement: boolean
   ranges: SimulatorExportRange[]
   abilities: SimulatorExportAbility[]
+  squad: SimulatorExportSquad
 }
 
 export interface SimulatorExportToken {
@@ -717,6 +726,7 @@ export function buildSimulatorExport(race: RaceData, roster: Roster): SimulatorE
       is_displacement: unit.hasDisplacement ?? false,
       ranges: toExportRanges(unit.ranges),
       abilities: unitActiveAbilitiesTagged(unit, entry).map((a) => toExportAbility(a.ability, a.isUpgrade)),
+      squad: { model_min: tier.modelMin, model_max: tier.modelMax, supply: tier.supply, pts: tier.pts },
     })
   }
 
