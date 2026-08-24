@@ -1,8 +1,10 @@
 {
   "roster_name": "테란 정규군",
+  "resource_label": { "full": "Command Point", "abbr": "CP" },
   "units": [
     {
       "name": { "en": "Medic", "ko": "의무관" },
+      "unit_type": "Support",
       "model_count": 1,
       "base_mm": { "width": 32, "height": 32 },
       "stat": {
@@ -64,7 +66,8 @@
             "ko": "이 유닛의 서플라이 값은 서플라이 풀을 계산할 때 0으로 취급한다."
           }
         }
-      ]
+      ],
+      "squad": { "model_min": 1, "model_max": 1, "supply": 0, "pts": 110 }
     }
   ],
   "tokens": [
@@ -73,6 +76,40 @@
       "base_mm": { "width": 28, "height": 28 },
       "is_displacement": true,
       "ranges": [{ "inch": 6, "always_show": true }]
+    }
+  ],
+  "tactical_cards": [
+    {
+      "name": { "en": "Raynor's Raiders", "ko": "레이너 특공대" },
+      "is_faction_card": true,
+      "count": 1,
+      "gas_cost": null,
+      "resource": 0,
+      "slots": [],
+      "abilities": [
+        {
+          "kind": "rule",
+          "id": "Rapid Reinforcement",
+          "name": { "en": "Rapid Reinforcement", "ko": "신속 증원" },
+          "phase": "Any",
+          "is_upgrade": false,
+          "type": "Passive",
+          "cost": 0,
+          "rule": {
+            "en": "...",
+            "ko": "..."
+          }
+        }
+      ]
+    },
+    {
+      "name": { "en": "Munitions Factory", "ko": "군수 공장" },
+      "is_faction_card": false,
+      "count": 2,
+      "gas_cost": 15,
+      "resource": 1,
+      "slots": [{ "unit_type": "Elite", "count": 1 }],
+      "abilities": []
     }
   ]
 }
