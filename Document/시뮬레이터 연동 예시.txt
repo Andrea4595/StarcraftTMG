@@ -2,27 +2,74 @@
   "roster_name": "테란 정규군",
   "units": [
     {
-      "name": "해병 분대",
-      "model_count": 6,
-      "base_mm": { "width": 32, "height": 32 },
-      "move_inch": 6,
-      "coherency_inch": 3,
-      "is_displacement": false,
-      "ranges": []
-    },
-    {
-      "name": "의무관",
+      "name": { "en": "Medic", "ko": "의무관" },
       "model_count": 1,
       "base_mm": { "width": 32, "height": 32 },
-      "move_inch": 4,
-      "coherency_inch": 3,
+      "stat": {
+        "shld": null,
+        "spd": { "move": 4, "cohesion": 3 },
+        "eva": "5+",
+        "arm": "5+",
+        "hp": 2,
+        "siz": 2
+      },
+      "tags": [
+        { "name": { "en": "Biological", "ko": "생체" } },
+        { "name": { "en": "Light", "ko": "경장갑" } },
+        { "name": { "en": "Ground", "ko": "지상" } }
+      ],
       "is_displacement": false,
-      "ranges": [{ "inch": 4, "always_show": false }]
+      "ranges": [{ "inch": 4, "always_show": false }],
+      "abilities": [
+        {
+          "kind": "rule",
+          "id": "Life Support",
+          "name": { "en": "Life Support", "ko": "연명처치" },
+          "phase": "Any",
+          "is_upgrade": false,
+          "type": "Reaction",
+          "cost": 1,
+          "rule": {
+            "en": "Use when another Friendly Biological Unit suffers Damage Within 4\". Reduce the Total Damage before allocation by 1 for each model in this Unit that is Within 4\" of the damaged Unit.",
+            "ko": "4\" 이내에서 데미지를 입은 아군 생체 유닛 하나를 선택한다. 그 유닛의 모델에 배분하기 전의 총 데미지를, 대상 유닛으로부터 4\" 이내에 있는 이 유닛의 모델 수만큼 줄인다."
+          }
+        },
+        {
+          "kind": "weapon",
+          "id": "Strike",
+          "name": { "en": "Strike", "ko": "타격" },
+          "phase": "Combat",
+          "is_upgrade": false,
+          "stat": {
+            "rng": "E",
+            "tgt": "Ground",
+            "roa": 1,
+            "hit": "5+",
+            "surge": [],
+            "sDie": "-",
+            "dmg": 1,
+            "keyword": []
+          }
+        },
+        {
+          "kind": "rule",
+          "id": "Advanced Medic Facilities",
+          "name": { "en": "Advanced Medic Facilities", "ko": "고급 의무관 시설" },
+          "phase": "Any",
+          "is_upgrade": true,
+          "type": "Passive",
+          "cost": 0,
+          "rule": {
+            "en": "This Unit's Supply Value counts as 0 when calculating the Supply Pool.",
+            "ko": "이 유닛의 서플라이 값은 서플라이 풀을 계산할 때 0으로 취급한다."
+          }
+        }
+      ]
     }
   ],
   "tokens": [
     {
-      "name": "점막 종양",
+      "name": { "en": "Creep Tumor", "ko": "점막 종양" },
       "base_mm": { "width": 28, "height": 28 },
       "is_displacement": true,
       "ranges": [{ "inch": 6, "always_show": true }]

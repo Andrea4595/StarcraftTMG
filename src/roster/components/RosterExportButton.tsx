@@ -4,7 +4,6 @@ import type { RaceData, Roster } from '../../types'
 import { Modal } from './Modal'
 import { RosterExportView, type ExportMode } from './RosterExportView'
 import { buildSimulatorExport } from '../rosterCalc'
-import { useLocalize } from '../../LangContext'
 
 type ExportState =
   | { phase: 'choice' }
@@ -35,7 +34,6 @@ function downloadJson(data: unknown, fileName: string) {
 export function RosterExportButton({ race, roster }: { race: RaceData; roster: Roster }) {
   const [state, setState] = useState<ExportState | null>(null)
   const nodeRef = useRef<HTMLDivElement | null>(null)
-  const localize = useLocalize()
 
   useEffect(() => {
     if (!state || state.phase !== 'generating') return
@@ -87,7 +85,7 @@ export function RosterExportButton({ race, roster }: { race: RaceData; roster: R
   }
 
   const downloadSimulatorData = () => {
-    const data = buildSimulatorExport(race, roster, localize)
+    const data = buildSimulatorExport(race, roster)
     downloadJson(data, `${sanitizeFileName(roster.name)}-시뮬레이터.json`)
     setState(null)
   }
@@ -125,7 +123,7 @@ export function RosterExportButton({ race, roster }: { race: RaceData; roster: R
             <button type="button" className="roster-export-choice-option" onClick={downloadSimulatorData}>
               <span className="roster-export-choice-option-title">시뮬레이터 연동 데이터</span>
               <span className="roster-export-choice-option-desc">
-                유닛 이름, 모델 수, 베이스 크기(mm), 이동/코헤런시 거리, 변위 여부, 범위 표시기 가이드라인과 배치되는 토큰 정보를 JSON 파일로 내보냅니다.
+                유닛의 스탯/태그/능력(무기 포함) 전체와 베이스 크기(mm), 변위 여부, 범위 표시기 가이드라인, 배치되는 토큰 정보를 JSON 파일로 내보냅니다.
               </span>
             </button>
           </div>
