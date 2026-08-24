@@ -1376,6 +1376,110 @@ button.roster-slot-pill:hover {
   opacity: 0.75;
 }
 
+/* 시뮬레이터 연동 데이터 옵션만 우측에 안내 버튼이 나란히 붙는다 */
+.roster-export-choice-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.roster-export-choice-row .roster-export-choice-option {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* 정사각형 안내(?) 버튼. 높이는 옆 옵션 버튼(내용에 따라 가변)에 맞춰 늘어나고, aspect-ratio로 정사각형을 유지한다 */
+.roster-export-guide-btn {
+  flex: 0 0 auto;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.roster-export-guide-btn:hover {
+  border-color: var(--accent, var(--border));
+  color: var(--text-h);
+}
+
+/* 시뮬레이터 연동 데이터 안내 모달. 목록 위주라 기본(1100px)보단 좁게 */
+.modal-panel-guide {
+  max-width: 620px;
+}
+
+.export-guide-notice {
+  margin: 0 0 16px;
+  color: var(--text);
+  line-height: 150%;
+}
+
+.export-guide-section-title {
+  margin: 20px 0 8px;
+  font-size: 13px;
+  color: var(--text-h);
+}
+
+.export-guide-section-title:first-of-type {
+  margin-top: 0;
+}
+
+.export-guide-text {
+  margin: 0 0 8px;
+  color: var(--text);
+  line-height: 150%;
+}
+
+.export-guide-text code {
+  font-size: 11px;
+  padding: 1px 4px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.export-guide-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+}
+
+.export-guide-item {
+  display: flex;
+  gap: 12px;
+}
+
+.export-guide-item dt {
+  flex: 0 0 auto;
+  min-width: 110px;
+  color: var(--text-h);
+  font-weight: 700;
+  font-family: monospace;
+  font-size: 12px;
+}
+
+.export-guide-item dd {
+  margin: 0;
+  color: var(--text);
+  font-size: 13px;
+  line-height: 140%;
+}
+
+.export-guide-bullets {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--text);
+  font-size: 13px;
+  line-height: 160%;
+}
+
 .credit-modal-notice {
   margin: 0 0 16px;
   color: var(--text);
