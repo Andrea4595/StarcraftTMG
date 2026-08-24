@@ -641,10 +641,44 @@ export interface SimulatorExportToken {
   ranges: SimulatorExportRange[]
 }
 
+export interface SimulatorExportSlot {
+  unit_type: UnitType
+  count: number
+}
+
+export interface SimulatorExportTacticalCard {
+  name: Rule
+  /** 로스터에 항상 포함되는 팩션 카드인지, 별도로 선택한 택티컬 카드인지 */
+  is_faction_card: boolean
+  /** 로스터에 몇 장 포함됐는지 (예: 같은 카드를 2장 선택한 경우 2) */
+  count: number
+  /** 이 카드를 로스터에 포함시키는 데 드는 가스 비용. 팩션 카드처럼 비용이 없으면 null */
+  gas_cost: number | null
+  /** 이 카드가 소모될 때 얻는 종족 자원(CP/BM/EN 등)의 양. 실제 명칭은 최상위 resource_label 참고 */
+  resource: number
+  slots: SimulatorExportSlot[]
+  abilities: SimulatorExportAbility[]
+}
+
+function toExportTacticalCard(card: TacticalCard, isFactionCard: boolean, count: number): SimulatorExportTacticalCard {
+  return {
+    name: card.name,
+    is_faction_card: isFactionCard,
+    count,
+    gas_cost: card.gasPts ?? null,
+    resource: card.resource,
+    slots: card.slot.map((s) => ({ unit_type: s.unitType, count: s.count })),
+    abilities: card.cardAbilities.map((a) => toExportAbility(a, false)),
+  }
+}
+
 export interface SimulatorExportData {
   roster_name: string
+  /** 이 로스터 종족의 카드 능력/자원 명칭 (테란 CP, 저그 BM, 프로토스 EN 등). tactical_cards의 resource가 이 단위 */
+  resource_label: { full: string; abbr: string }
   units: SimulatorExportUnit[]
   tokens: SimulatorExportToken[]
+  tactical_cards: SimulatorExportTacticalCard[]
 }
 
 /** 로스터에 포함된 유닛/팩션 카드/택티컬 카드의 능력을 훑어, 배치되는 토큰 종류의 id를 중복 없이 모은다 */
@@ -696,5 +730,12 @@ export function buildSimulatorExport(race: RaceData, roster: Roster): SimulatorE
       ranges: toExportRanges(t.ranges),
     }))
 
-  return { roster_name: roster.name, units, tokens }
+  const tacticalCards: SimulatorExportTacticalCard[] = []
+  const factionCard = findFactionCard(race, roster)
+  if (factionCard) tacticalCards.push(toExportTacticalCard(factionCard, true, 1))
+  for (const { card, count } of groupedTacticalCards(race, roster)) {
+    tacticalCards.push(toExportTacticalCard(card, false, count))
+  }
+
+  return { roster_name: roster.name, resource_label: race.resourceLabel, units, tokens, tactical_cards: tacticalCards }
 }
