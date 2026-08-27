@@ -8,7 +8,12 @@ const UNIT_FIELDS: { field: string; desc: string }[] = [
   { field: 'is_displacement', desc: '유닛 자체가 변위(DISPLACEMENT) 키워드를 지니는지' },
   { field: 'ranges', desc: '거리(inch)와 상시 표시 여부(always_show)로 이루어진 범위 표시기 가이드라인 목록' },
   { field: 'abilities', desc: '보유한 룰/무기 능력 전체 목록. 이름, 설명, 무기 스탯, 업그레이드로 얻었는지(is_upgrade)를 포함' },
-  { field: 'squad', desc: '로스터에서 선택한 스쿼드 등급 정보 — model_min/model_max(모델 수 범위), supply(서플라이), pts(미네랄 비용)' },
+  {
+    field: 'squad_tiers',
+    desc:
+      '이 유닛의 전체 스쿼드 등급 목록 (모델 수 범위 오름차순) — 각 등급은 model_min/model_max(모델 수 범위), supply(서플라이), pts(미네랄 비용). 게임 중 모델이 줄어들 때 이 목록에서 해당하는 등급을 찾아 서플라이를 실시간으로 갱신하는 데 쓴다',
+  },
+  { field: 'squad_tier_index', desc: '로스터에서 선택한 스쿼드 등급이 squad_tiers 중 몇 번째(0-based)인지 — 배치 시 초기 상태' },
 ]
 
 const TOKEN_FIELDS: { field: string; desc: string }[] = [

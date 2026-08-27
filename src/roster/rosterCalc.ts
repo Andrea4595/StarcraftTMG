@@ -623,7 +623,7 @@ function toExportAbility(ability: Ability, isUpgrade: boolean): SimulatorExportA
   }
 }
 
-/** 이 유닛이 속한 스쿼드 등급(로스터에서 선택한 것) 정보. UnitCard.squad 항목 그대로 */
+/** 스쿼드 등급 한 단계. UnitCard.squad 항목 그대로 */
 export interface SimulatorExportSquad {
   model_min: number
   model_max: number
@@ -642,7 +642,13 @@ export interface SimulatorExportUnit {
   is_displacement: boolean
   ranges: SimulatorExportRange[]
   abilities: SimulatorExportAbility[]
-  squad: SimulatorExportSquad
+  /**
+   * 이 유닛이 가진 전체 스쿼드 등급 목록 (UnitCard.squad 그대로, min 오름차순).
+   * 게임 중 모델이 줄어들면 이 목록에서 현재 모델 수가 속하는 등급을 찾아 서플라이가 실시간으로 바뀐다.
+   */
+  squad_tiers: SimulatorExportSquad[]
+  /** 로스터에서 선택한 스쿼드 등급이 squad_tiers 중 몇 번째(0-based)인지 — 배치 시 초기 상태 */
+  squad_tier_index: number
 }
 
 export interface SimulatorExportToken {
@@ -729,7 +735,13 @@ export function buildSimulatorExport(race: RaceData, roster: Roster): SimulatorE
       is_displacement: unit.hasDisplacement ?? false,
       ranges: toExportRanges(unit.ranges),
       abilities: unitActiveAbilitiesTagged(unit, entry).map((a) => toExportAbility(a.ability, a.isUpgrade)),
-      squad: { model_min: tier.modelMin, model_max: tier.modelMax, supply: tier.supply, pts: tier.pts },
+      squad_tiers: unit.squad.map((s) => ({
+        model_min: s.modelMin,
+        model_max: s.modelMax,
+        supply: s.supply,
+        pts: s.pts,
+      })),
+      squad_tier_index: entry.squadTierIndex,
     })
   }
 
