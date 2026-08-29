@@ -97,6 +97,7 @@ export const medic: UnitCard = {
         phase: 'Any',
         type: 'Passive',
         cost: 0,
+        supplyOverride: 0,
         rule: {
           en: "This Unit's Supply Value counts as 0 when calculating the Supply Pool.",
           ko: '이 유닛의 서플라이 값은 서플라이 풀을 계산할 때 0으로 취급한다.',
