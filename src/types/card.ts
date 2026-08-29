@@ -57,6 +57,12 @@ export interface RuleAbility extends AbilityBase {
   enhances?: string[]
   /** 이 능력이 전장에 배치하는 토큰의 id (data/tokens.ts의 TokenEntry.id 참조). 시뮬레이터 연동 데이터의 tokens 목록을 만드는 데 쓰인다 */
   placesTokenId?: string
+  /**
+   * 서플라이 풀을 계산할 때 이 유닛의 서플라이 값을 (더하지 않고) 이 수치로 대입해 취급하게 만드는
+   * 능력이면 지정. 예: 의무관 '고급 의무관 시설'은 "서플라이 값은 0으로 취급한다"는 룰이라 0.
+   * 시뮬레이터 연동 데이터의 SimulatorExportUnit.supply_override를 만드는 데 쓰인다.
+   */
+  supplyOverride?: number
 }
 
 export interface WeaponProfile extends AbilityBase {

@@ -9,6 +9,7 @@ import type {
   Roster,
   RosterUnitEntry,
   Rule,
+  RuleAbility,
   SurgeType,
   TacticalCard,
   TargetType,
@@ -649,6 +650,14 @@ export interface SimulatorExportUnit {
   squad_tiers: SimulatorExportSquad[]
   /** 로스터에서 선택한 스쿼드 등급이 squad_tiers 중 몇 번째(0-based)인지 — 배치 시 초기 상태 */
   squad_tier_index: number
+  /**
+   * 서플라이 풀 계산 시 squad_tiers의 supply 대신 이 값을 대입해 취급해야 하면 그 값, 아니면 null.
+   * (더하는 보정치가 아니라 대입값이다.) 예: 의무관이 '고급 의무관 시설'을 장착하면 0 — 스쿼드 등급의
+   * supply가 원래 몇이든 서플라이 풀 계산에서는 0으로 취급한다.
+   */
+  supply_override: number | null
+  /** 이 유닛이 장착한 업그레이드 중 SPECIALIST 키워드를 가진 무기가 있으면 그 무기 이름 목록 */
+  specialists: Rule[]
 }
 
 export interface SimulatorExportToken {
@@ -725,6 +734,10 @@ export function buildSimulatorExport(race: RaceData, roster: Roster): SimulatorE
     const unit = findUnit(race, entry.unitId)
     const tier = unit?.squad[entry.squadTierIndex]
     if (!unit || !tier) continue
+    const activeAbilities = unitActiveAbilitiesTagged(unit, entry)
+    const supplyOverrideAbility = activeAbilities.find(
+      (a): a is { ability: RuleAbility; isUpgrade: boolean } => a.ability.kind === 'rule' && a.ability.supplyOverride !== undefined,
+    )
     units.push({
       name: unit.name,
       unit_type: unit.type,
@@ -734,7 +747,7 @@ export function buildSimulatorExport(race: RaceData, roster: Roster): SimulatorE
       tags: unit.tags.map(toExportTag),
       is_displacement: unit.hasDisplacement ?? false,
       ranges: toExportRanges(unit.ranges),
-      abilities: unitActiveAbilitiesTagged(unit, entry).map((a) => toExportAbility(a.ability, a.isUpgrade)),
+      abilities: activeAbilities.map((a) => toExportAbility(a.ability, a.isUpgrade)),
       squad_tiers: unit.squad.map((s) => ({
         model_min: s.modelMin,
         model_max: s.modelMax,
@@ -742,6 +755,10 @@ export function buildSimulatorExport(race: RaceData, roster: Roster): SimulatorE
         pts: s.pts,
       })),
       squad_tier_index: entry.squadTierIndex,
+      supply_override: supplyOverrideAbility ? supplyOverrideAbility.ability.supplyOverride! : null,
+      specialists: activeAbilities
+        .filter((a) => a.ability.kind === 'weapon' && a.ability.stat.keyword.some((k) => k.name === 'SPECIALIST'))
+        .map((a) => a.ability.name),
     })
   }
 

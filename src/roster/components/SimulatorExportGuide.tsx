@@ -14,6 +14,11 @@ const UNIT_FIELDS: { field: string; desc: string }[] = [
       '이 유닛의 전체 스쿼드 등급 목록 (모델 수 범위 오름차순) — 각 등급은 model_min/model_max(모델 수 범위), supply(서플라이), pts(미네랄 비용). 게임 중 모델이 줄어들 때 이 목록에서 해당하는 등급을 찾아 서플라이를 실시간으로 갱신하는 데 쓴다',
   },
   { field: 'squad_tier_index', desc: '로스터에서 선택한 스쿼드 등급이 squad_tiers 중 몇 번째(0-based)인지 — 배치 시 초기 상태' },
+  {
+    field: 'supply_override',
+    desc: '서플라이 풀 계산 시 squad_tiers의 supply 대신 이 값을 대입해 취급해야 하면 그 값(더하는 보정치가 아니라 대입값), 아니면 null. 예: 의무관이 "고급 의무관 시설"을 장착하면 0',
+  },
+  { field: 'specialists', desc: '이 유닛이 장착한 업그레이드 중 SPECIALIST 키워드를 가진 무기가 있으면 그 무기 이름 목록 (한글/영문)' },
 ]
 
 const TOKEN_FIELDS: { field: string; desc: string }[] = [
