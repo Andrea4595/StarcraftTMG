@@ -10,9 +10,7 @@ import type {
   RosterUnitEntry,
   Rule,
   RuleAbility,
-  SurgeType,
   TacticalCard,
-  TargetType,
   UnitCard,
   UnitType,
   Upgrade,
@@ -561,10 +559,10 @@ function toExportTag(kw: Keyword): SimulatorExportTag {
 
 export interface SimulatorExportWeaponStat {
   rng: number | 'E'
-  tgt: TargetType
+  tgt: SimulatorExportTag
   roa: number
   hit: string
-  surge: SurgeType[]
+  surge: SimulatorExportTag[]
   sDie: string
   dmg: number
   keyword: SimulatorExportTag[]
@@ -602,10 +600,10 @@ function toExportAbility(ability: Ability, isUpgrade: boolean): SimulatorExportA
       is_upgrade: isUpgrade,
       stat: {
         rng: ability.stat.rng,
-        tgt: ability.stat.tgt,
+        tgt: toExportTag({ name: ability.stat.tgt }),
         roa: ability.stat.roa,
         hit: ability.stat.hit,
-        surge: ability.stat.surge,
+        surge: ability.stat.surge.map((s) => toExportTag({ name: s })),
         sDie: ability.stat.sDie,
         dmg: ability.stat.dmg,
         keyword: ability.stat.keyword.map(toExportTag),
