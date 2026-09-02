@@ -33,7 +33,7 @@ export const TOKENS: TokenEntry[] = [
   },
   {
     id: 'Ravager Burrow',
-    name: { en: 'Ravager Burrow', ko: '파괴자 땅굴' },
+    name: { en: 'Ravager Burrow', ko: '궤멸충 땅굴' },
     base_mm: { width: 80, height: 80 },
     is_displacement: true,
   },

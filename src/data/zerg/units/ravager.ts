@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const ravager: UnitCard = {
   category: 'unit',
   id: 'Ravager',
-  name: { en: 'Ravager', ko: '파괴자' },
+  name: { en: 'Ravager', ko: '궤멸충' },
   isUnique: false,
   type: 'Core',
   stat: {
@@ -56,7 +56,7 @@ export const ravager: UnitCard = {
       placesTokenId: 'Ravager Burrow',
       rule: {
         en: "Set a Ravager Burrow token Wholly Within 12\" of any model in this Unit. At the End of the Round, the controlling player may set all models of this Unit in Coherency, treating the Ravager Burrow token as the Leading Model. The Ravager Burrow token has DISPLACEMENT.",
-        ko: '이 유닛의 아무런 모델에서 12”안에 완전히 들어오게 파괴자 땅굴 토큰을 둔다. 라운드 종료 시, 플레이어는 이 유닛의 모든 모델을 그 토큰을 리딩모델삼아 토큰의 위치에 맞춰 이동시킬 수 있다. 파괴자 땅굴 토큰은 변위이다.',
+        ko: '이 유닛의 아무런 모델에서 12”안에 완전히 들어오게 궤멸충 땅굴 토큰을 둔다. 라운드 종료 시, 플레이어는 이 유닛의 모든 모델을 그 토큰을 리딩모델삼아 토큰의 위치에 맞춰 이동시킬 수 있다. 궤멸충 땅굴 토큰은 변위이다.',
       },
     },
     {

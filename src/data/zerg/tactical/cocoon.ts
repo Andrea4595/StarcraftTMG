@@ -24,13 +24,13 @@ export const cocoon: TacticalCard = {
     {
       kind: 'rule',
       id: 'Ravager Morph',
-      name: { en: 'Ravager Morph', ko: '파괴자 변화' },
+      name: { en: 'Ravager Morph', ko: '궤멸충 변화' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
       rule: {
         en: 'Once per Game. The active Friendly Roach Unit performs MORPH (Ravager) 1.',
-        ko: '게임당 한번. 활성화된 아군 바퀴 유닛은 변화(파괴자) 1을 수행한다.',
+        ko: '게임당 한번. 활성화된 아군 바퀴 유닛은 변화(궤멸충) 1을 수행한다.',
       },
     },
   ],

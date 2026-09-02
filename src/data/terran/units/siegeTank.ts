@@ -45,7 +45,7 @@ export const siegeTank: UnitCard = {
     {
       kind: 'weapon',
       id: 'Twin Cannon',
-      name: { en: 'Twin Cannon', ko: '쌍포' },
+      name: { en: 'Twin Cannon', ko: '쌍열포' },
       phase: 'Assault',
       stat: {
         rng: 12,
