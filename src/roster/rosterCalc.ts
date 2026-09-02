@@ -35,8 +35,9 @@ export function findFactionCard(race: RaceData, roster: Roster): TacticalCard | 
 }
 
 /**
- * '레이너 특공대'/'칼라이'/'케리건의 군단' 유닛 태그는 동명의 팩션 카드가 로스터에 선택돼 있어야만
- * 그 유닛을 포함할 수 있다는 뜻이다. 태그 이름이 곧 해당 팩션 카드의 id와 같다.
+ * '레이너 특공대'/'칼라이'/'네라짐'/'케리건의 군단' 태그는 동명의 팩션 카드가 로스터에 선택돼
+ * 있어야만 그 유닛이나 택티컬 카드를 포함할 수 있다는 뜻이다. 태그 이름이 곧 해당 팩션 카드의 id와
+ * 같다. 유닛(UnitCard.tags)과 택티컬 카드(TacticalCard.tags) 양쪽에서 공용으로 쓴다.
  */
 const FACTION_LOCKED_TAGS = new Set(["Raynor's Raiders", 'Khalai', 'Nerazim', "Kerrigan's Swarm"])
 
@@ -53,6 +54,18 @@ export function unitRequiredFactionCardId(unit: UnitCard): string | undefined {
  */
 export function unitFactionMismatch(unit: UnitCard, roster: Roster): boolean {
   const required = unitRequiredFactionCardId(unit)
+  return required !== undefined && required !== roster.factionCardId
+}
+
+/** unitRequiredFactionCardId의 택티컬 카드 버전. 예: 공허 추적기는 'Nerazim' 태그를 가져 네라짐
+ *  팩션 카드가 선택돼 있어야만 포함할 수 있다 */
+export function tacticalCardRequiredFactionCardId(card: TacticalCard): string | undefined {
+  return card.tags?.map((t) => t.name).find((name) => FACTION_LOCKED_TAGS.has(name))
+}
+
+/** unitFactionMismatch의 택티컬 카드 버전 */
+export function tacticalCardFactionMismatch(card: TacticalCard, roster: Roster): boolean {
+  const required = tacticalCardRequiredFactionCardId(card)
   return required !== undefined && required !== roster.factionCardId
 }
 

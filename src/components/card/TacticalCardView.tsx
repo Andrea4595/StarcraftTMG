@@ -1,6 +1,8 @@
 import type { TacticalCard } from '../../types'
 import { AbilitiesSection, type FavoriteToggle } from './AbilitiesSection'
-import { useLocalize } from '../../LangContext'
+import { useLang, useLocalize } from '../../LangContext'
+import { localizeTag } from './tagLabels'
+import { tacticalCardRequiredFactionCardId } from '../../roster/rosterCalc'
 
 export function TacticalCardView({
   card,
@@ -20,7 +22,9 @@ export function TacticalCardView({
   favorite?: FavoriteToggle
 }) {
   const localize = useLocalize()
+  const { lang } = useLang()
   const subtitle = isFactionCard ? 'Faction Card' : card.gasPts !== undefined ? `${card.gasPts} Gas` : ''
+  const requiredFactionTag = tacticalCardRequiredFactionCardId(card)
 
   return (
     <div className="game-card">
@@ -29,6 +33,7 @@ export function TacticalCardView({
           <div className="card-title">
             {localize(card.name)}
             {card.isUnique && <span className="card-unique-badge">UNIQUE</span>}
+            {requiredFactionTag && <span className="card-faction-badge">{localizeTag(requiredFactionTag, lang)}</span>}
             {count !== undefined && count > 1 && <span className="card-count-badge">x{count}</span>}
           </div>
           <div className="card-subtitle">{subtitle}</div>

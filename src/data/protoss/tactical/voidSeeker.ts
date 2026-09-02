@@ -8,6 +8,7 @@ export const voidSeeker: TacticalCard = {
   gasPts: 0,
   resource: 1,
   slot: [{ unitType: 'Core', count: 1 }],
+  tags: [{ name: 'Nerazim' }],
   cardAbilities: [
     {
       kind: 'rule',

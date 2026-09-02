@@ -177,6 +177,8 @@ export interface TacticalCard extends CardBase {
   resource: number
   slot: Slot[]
   cardAbilities: RuleAbility[]
+  /** 서브팩션 등 팩션 태그 (예: Nerazim). 동명의 팩션 카드가 로스터에 선택돼 있어야만 포함할 수 있다 */
+  tags?: Keyword[]
 }
 
 export type Card = UnitCard | TacticalCard
