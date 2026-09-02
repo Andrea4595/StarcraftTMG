@@ -8,6 +8,7 @@ export const malignantCreep: TacticalCard = {
   gasPts: 10,
   resource: 0,
   slot: [],
+  tags: [{ name: "Kerrigan's Swarm" }],
   cardAbilities: [
     {
       kind: 'rule',

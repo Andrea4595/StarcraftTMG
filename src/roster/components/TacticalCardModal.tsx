@@ -1,8 +1,17 @@
 import { useState } from 'react'
 import type { RaceData, Roster, TacticalCard, UnitType } from '../../types'
 import { useRosterStore } from '../RosterContext'
-import { rosterGasCap, rosterGasTotal, rosterResourceTotal, rosterSlotUsage, TRACKED_UNIT_TYPES } from '../rosterCalc'
-import { useLocalize } from '../../LangContext'
+import {
+  rosterGasCap,
+  rosterGasTotal,
+  rosterResourceTotal,
+  rosterSlotUsage,
+  tacticalCardFactionMismatch,
+  tacticalCardRequiredFactionCardId,
+  TRACKED_UNIT_TYPES,
+} from '../rosterCalc'
+import { useLang, useLocalize } from '../../LangContext'
+import { localizeTag } from '../../components/card/tagLabels'
 import { UNIT_TYPE_COLORS } from '../unitTypeColor'
 import { Modal } from './Modal'
 import { SlotUsageRow } from './SlotUsageRow'
@@ -224,12 +233,18 @@ function TacticalPickerRow({
   onSelectAbility: (ref: AbilitySelectionRef) => void
 }) {
   const localize = useLocalize()
-  const atMax = card.isUnique && count > 0
+  const { lang } = useLang()
+  /** 태그로 요구하는 팩션 카드(예: 네라짐)가 지금 선택돼 있지 않으면 이 택티컬 카드는 추가할 수 없다 */
+  const factionMismatch = tacticalCardFactionMismatch(card, roster)
+  const requiredFactionTag = tacticalCardRequiredFactionCardId(card)
+  const atMax = (card.isUnique && count > 0) || factionMismatch
   const cardName = localize(card.name)
 
   return (
     <div
-      className={`tactical-picker-row ${focused ? 'tactical-picker-row-active' : ''}`}
+      className={`tactical-picker-row ${focused ? 'tactical-picker-row-active' : ''} ${
+        factionMismatch ? 'tactical-picker-row-dimmed' : ''
+      }`}
       role="button"
       tabIndex={0}
       onClick={onFocusRow}
@@ -241,6 +256,7 @@ function TacticalPickerRow({
         <div className="tactical-picker-row-name">
           {cardName}
           {card.isUnique && <span className="tactical-picker-row-unique">UNIQUE</span>}
+          {requiredFactionTag && <span className="card-faction-badge">{localizeTag(requiredFactionTag, lang)}</span>}
         </div>
         <CardCapacityMeta card={card} resourceAbbr={resourceAbbr} />
         {/*

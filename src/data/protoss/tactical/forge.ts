@@ -30,7 +30,7 @@ export const forge: TacticalCard = {
       cost: 0,
       rule: {
         en: "The active Ground Unit's first Ranged Weapon used gains CRITICAL HIT (1).",
-        ko: '활성화된 아군 지상 유닛이 첫번째로 사용하는 사격 무기는 크리티컬 히트(1)을 갖는다.',
+        ko: '활성화된 아군 지상 유닛이 첫번째로 사용하는 사격 무기는 크리티컬 힛(1)을 갖는다.',
       },
     },
   ],

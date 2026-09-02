@@ -30,7 +30,7 @@ export const observer: TacticalCard = {
       cost: 0,
       rule: {
         en: 'Use after a Friendly Unit rolls a D6 for Charge Distance. Add 1 to the Charge Distance for this Unit.',
-        ko: '아군 유닛이 차지를 위해 D6을 굴린 뒤, 그 차지 값에 +1',
+        ko: '아군 유닛이 차지를 위해 D6을 굴린 뒤에 사용한다. 그 차지 값에 +1',
       },
     },
   ],

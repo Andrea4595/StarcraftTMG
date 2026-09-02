@@ -71,8 +71,8 @@ export interface WeaponProfile extends AbilityBase {
     /** 사거리. 'E'는 근접(Engagement Range) 무기를 뜻함 */
     rng: number | 'E'
     tgt: TargetType
-    /** 주사위 굴리는 개수 */
-    roa: number
+    /** 주사위 굴리는 개수. 'BT+4'처럼 Blast Template(BT) 표기가 섞인 경우도 있어 문자열도 허용 */
+    roa: number | string
     /** 명중, '0+' 양식 */
     hit: string
     /** 다중 선택 가능 */
@@ -177,6 +177,8 @@ export interface TacticalCard extends CardBase {
   resource: number
   slot: Slot[]
   cardAbilities: RuleAbility[]
+  /** 서브팩션 등 팩션 태그 (예: Nerazim). 동명의 팩션 카드가 로스터에 선택돼 있어야만 포함할 수 있다 */
+  tags?: Keyword[]
 }
 
 export type Card = UnitCard | TacticalCard
