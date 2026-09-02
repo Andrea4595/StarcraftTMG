@@ -2,6 +2,7 @@ import type { RaceData } from '../../types'
 import { kerrigansSwarm } from './tactical/kerrigansSwarm'
 import { zergSwarm } from './tactical/zergSwarm'
 import { acceleratingCreep } from './tactical/acceleratingCreep'
+import { cocoon } from './tactical/cocoon'
 import { evolutionChamber } from './tactical/evolutionChamber'
 import { hatchery } from './tactical/hatchery'
 import { hydraliskDen } from './tactical/hydraliskDen'
@@ -20,6 +21,7 @@ import { kerriganSwarmRaptorZergling } from './units/kerriganSwarmRaptorZergling
 import { omegaWorm } from './units/omegaWorm'
 import { queen } from './units/queen'
 import { raptorZergling } from './units/raptorZergling'
+import { ravager } from './units/ravager'
 import { roach } from './units/roach'
 import { roachling } from './units/roachling'
 import { swarmlingZergling } from './units/swarmlingZergling'
@@ -33,6 +35,7 @@ export const zerg: RaceData = {
   factionCards: [kerrigansSwarm, zergSwarm],
   tacticalCards: [
     acceleratingCreep,
+    cocoon,
     evolutionChamber,
     hatchery,
     hydraliskDen,
@@ -53,6 +56,7 @@ export const zerg: RaceData = {
     omegaWorm,
     queen,
     raptorZergling,
+    ravager,
     roach,
     roachling,
     swarmlingZergling,

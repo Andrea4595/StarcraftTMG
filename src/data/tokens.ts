@@ -31,4 +31,16 @@ export const TOKENS: TokenEntry[] = [
     base_mm: { width: 40, height: 40 },
     is_displacement: true,
   },
+  {
+    id: 'Ravager Burrow',
+    name: { en: 'Ravager Burrow', ko: '파괴자 땅굴' },
+    base_mm: { width: 80, height: 80 },
+    is_displacement: true,
+  },
+  {
+    id: 'Corrosive Bile',
+    name: { en: 'Corrosive Bile', ko: '부식성 담즙' },
+    base_mm: { width: 25, height: 25 },
+    is_displacement: false,
+  },
 ]

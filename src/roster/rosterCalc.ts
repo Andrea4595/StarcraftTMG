@@ -38,7 +38,7 @@ export function findFactionCard(race: RaceData, roster: Roster): TacticalCard | 
  * '레이너 특공대'/'칼라이'/'케리건의 군단' 유닛 태그는 동명의 팩션 카드가 로스터에 선택돼 있어야만
  * 그 유닛을 포함할 수 있다는 뜻이다. 태그 이름이 곧 해당 팩션 카드의 id와 같다.
  */
-const FACTION_LOCKED_TAGS = new Set(["Raynor's Raiders", 'Khalai', "Kerrigan's Swarm"])
+const FACTION_LOCKED_TAGS = new Set(["Raynor's Raiders", 'Khalai', 'Nerazim', "Kerrigan's Swarm"])
 
 /** 이 유닛이 특정 팩션 카드를 요구한다면(태그로 표시) 그 팩션 카드 id를 돌려준다. 카드 이름을
  *  UNIQUE 배지 옆에 별도 배지로 보여줄 때, 그리고 unitFactionMismatch가 함께 쓴다 */
@@ -560,7 +560,7 @@ function toExportTag(kw: Keyword): SimulatorExportTag {
 export interface SimulatorExportWeaponStat {
   rng: number | 'E'
   tgt: SimulatorExportTag
-  roa: number
+  roa: number | string
   hit: string
   surge: SimulatorExportTag[]
   sDie: string

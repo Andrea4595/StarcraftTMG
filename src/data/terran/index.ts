@@ -9,6 +9,7 @@ import { barracksTechLab } from './tactical/barracksTechLab'
 import { dropship } from './tactical/dropship'
 import { engineeringBay } from './tactical/engineeringBay'
 import { factory } from './tactical/factory'
+import { factoryTechLab } from './tactical/factoryTechLab'
 import { orbitalCommand } from './tactical/orbitalCommand'
 import { supplyDepot } from './tactical/supplyDepot'
 import { marine } from './units/marine'
@@ -18,6 +19,7 @@ import { medic } from './units/medic'
 import { pointDefenseDrone } from './units/pointDefenseDrone'
 import { marauder } from './units/marauder'
 import { raynorsRaiderMarine } from './units/raynorsRaiderMarine'
+import { siegeTank } from './units/siegeTank'
 
 export const terran: RaceData = {
   id: 'terran',
@@ -34,8 +36,18 @@ export const terran: RaceData = {
     dropship,
     engineeringBay,
     factory,
+    factoryTechLab,
     orbitalCommand,
     supplyDepot,
   ],
-  units: [marine, goliath, jimRaynor, medic, pointDefenseDrone, marauder, raynorsRaiderMarine],
+  units: [
+    marine,
+    goliath,
+    jimRaynor,
+    medic,
+    pointDefenseDrone,
+    marauder,
+    raynorsRaiderMarine,
+    siegeTank,
+  ],
 }

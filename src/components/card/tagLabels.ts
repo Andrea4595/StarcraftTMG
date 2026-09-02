@@ -17,6 +17,7 @@ const TAG_LABELS_KO: Record<string, string> = {
   "Kerrigan's Swarm": '케리건의 군단',
   "Raynor's Raiders": '레이너 특공대',
   Khalai: '칼라이',
+  Nerazim: '네라짐',
 }
 
 /** SurgeType/TargetType/유닛 태그처럼 Rule(en/ko 쌍)이 아니라 영문 상수 하나로 저장된 값을 번역한다.
