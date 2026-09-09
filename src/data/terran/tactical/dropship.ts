@@ -35,6 +35,12 @@ export const dropship: TacticalCard = {
         en: 'Set a Faction Indicator anywhere on the battlefield more than 10" away from any Enemy model. At the End of the Round, the controlling player may Deploy one Ground Unit from Reserves in base-to-base contact with this Faction Indicator.',
         ko: '다른 적 유닛의 10" 밖에 팩션 마커를 설치한다. 라운드 종료 시 플레이어는 리저브 상태의 지상 유닛 하나를 팩션 마커와 베이스 접촉되게 배치할 수 있다.',
       },
+      placesTokenId: 'Faction Marker',
+      simulatorFeature: {
+        kind: 'placeToken',
+        tokenId: 'Faction Marker',
+        placement: { rangeType: 'atLeast', range: 10 },
+      },
     },
   ],
 }

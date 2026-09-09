@@ -35,6 +35,13 @@ export const daelaam: TacticalCard = {
         en: 'Once per Game. Set a Faction Indicator anywhere on the battlefield. All Friendly Protoss Units Within 6" of this Faction Indicator are removed from the battlefield and returned to Reserves.',
         ko: '게임당 한번, 전장 아무곳에나 팩션 마커를 배치한다. 마커의 6”이내의 모든 아군 프로토스 유닛을 전장에서 제거해서 리저브상태로 되돌린다.',
       },
+      placesTokenId: 'Faction Marker',
+      simulatorFeature: {
+        kind: 'placeToken',
+        tokenId: 'Faction Marker',
+        placement: { rangeType: 'anywhere' },
+        rangeIndicator: { inch: 6, alwaysShow: true },
+      },
     },
   ],
 }

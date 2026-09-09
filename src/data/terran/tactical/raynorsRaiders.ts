@@ -24,6 +24,11 @@ export const raynorsRaiders: TacticalCard = {
         ko: '전장에 다른 적 유닛으로부터 1" 이상 떨어지게 국지 방어기 유닛을 배치한다. 이 유닛은 라운드 종료 시에 제거된다.',
       },
       summonsUnitId: 'Point Defense Drone',
+      simulatorFeature: {
+        kind: 'summonUnit',
+        unitId: 'Point Defense Drone',
+        placement: { rangeType: 'atLeast', range: 1 },
+      },
     },
     {
       kind: 'rule',

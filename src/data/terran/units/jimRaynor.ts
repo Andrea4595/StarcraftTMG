@@ -53,6 +53,14 @@ export const jimRaynor: UnitCard = {
         en: "REPEATABLE. Select another Friendly Biological Unit Within 8\", spend CP and apply one of the following effects: 1 CP: That Unit's first used weapon gains the CRITICAL HIT (2). 1 CP: That Unit ignores the Disengage penalty for the remainder of the Round. 2 CP: Remove the Activation Marker from that Unit.",
         ko: '재사용 가능. 8" 이내의 다른 아군 생체 유닛 하나를 선택하고, CP를 소모하여 다음 효과 중 하나를 적용한다. 1 CP: 그 유닛이 처음으로 사용하는 무기가 크리티컬 힛(2)를 갖는다. 1 CP: 그 유닛은 이번 라운드의 남은 기간 동안 이탈의 페널티를 무시한다. 2 CP: 그 유닛의 활성화 마커를 지운다.',
       },
+      simulatorFeature: {
+        kind: 'targetOne',
+        side: 'ally',
+        range: 8,
+        // CP를 원하는 만큼 재사용해 여러 효과를 고르는 능력이라, 대상을 고르기 전에 사거리를
+        // 미리 켜서 확인해볼 수 있게 토글로 제공한다 (alwaysShow: false)
+        rangeIndicator: { inch: 8, alwaysShow: false },
+      },
     },
     {
       kind: 'weapon',

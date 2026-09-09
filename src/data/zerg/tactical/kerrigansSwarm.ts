@@ -48,6 +48,11 @@ export const kerrigansSwarm: TacticalCard = {
         ko: '전장에 아군 오메가 벌레가 없다면, 전장의 아무곳에, 다른 적 유닛으로부터 10" 이상 떨어져 있는 상태로 전장의 지면에 오메가 벌레를 배치한다. 그렇게 배치된 오메가 벌레는 그 라운드 동안 특수 능력을 사용할 수 없다. (구조물 규칙은 제외된다.)',
       },
       summonsUnitId: 'Omega Worm',
+      simulatorFeature: {
+        kind: 'summonUnit',
+        unitId: 'Omega Worm',
+        placement: { rangeType: 'atLeast', range: 10 },
+      },
     },
   ],
 }

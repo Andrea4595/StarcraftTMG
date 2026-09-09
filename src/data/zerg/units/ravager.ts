@@ -45,6 +45,11 @@ export const ravager: UnitCard = {
         en: "For each model in this Unit, set one Corrosive Bile token on the battlefield Within 14\" of that model. These tokens are not removed if this Unit is Destroyed. At the End of the Assault Phase, each Unit suffers HITS 5 (1) effect for each of this Unit's Corrosive Bile tokens it is Within 1\" of. Then, remove all of this Unit's Corrosive Bile tokens from the battlefield.",
         ko: '이 유닛의 각 모델마다, 그 모델의 14”이내의 전장에 부식성 담즙 토큰을 하나씩 설치한다. 이 토큰은 이 유닛이 파괴되어도 제거되지 않는다. 어썰트 페이즈 종료 시, 각 유닛은 자신이 1”이내에 두고 있는 이 유닛의 부식성 담즙 토큰 개수만큼 힛 5(1)를 받는다. 그 후 이 유닛의 모든 부식성 담즙 토큰을 전장에서 제거한다.',
       },
+      simulatorFeature: {
+        kind: 'placeToken',
+        tokenId: 'Corrosive Bile',
+        placement: { rangeType: 'within', range: 14 },
+      },
     },
     {
       kind: 'rule',
@@ -57,6 +62,11 @@ export const ravager: UnitCard = {
       rule: {
         en: "Set a Ravager Burrow token Wholly Within 12\" of any model in this Unit. At the End of the Round, the controlling player may set all models of this Unit in Coherency, treating the Ravager Burrow token as the Leading Model. The Ravager Burrow token has DISPLACEMENT.",
         ko: '이 유닛의 아무런 모델에서 12”안에 완전히 들어오게 궤멸충 땅굴 토큰을 둔다. 라운드 종료 시, 플레이어는 이 유닛의 모든 모델을 그 토큰을 리딩모델삼아 토큰의 위치에 맞춰 이동시킬 수 있다. 궤멸충 땅굴 토큰은 변위이다.',
+      },
+      simulatorFeature: {
+        kind: 'placeToken',
+        tokenId: 'Ravager Burrow',
+        placement: { rangeType: 'within', range: 12 },
       },
     },
     {

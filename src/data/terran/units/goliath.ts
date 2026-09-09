@@ -30,6 +30,7 @@ export const goliath: UnitCard = {
         en: 'Select one Enemy Unit Within 12". Whenever a Friendly Goliath Unit targets that enemy with an Autocannon, that weapon gains Surge Type: Light, Armoured, and S Dice: D3+1.',
         ko: '12" 이내의 적 유닛 하나를 고른다. 아군 골리앗 유닛이 그 대상을 자동포로 목표로 할 때마다, 그 무기는 서지 타입: 경장갑, 중장갑과 S Dice: D3+1을 얻는다.',
       },
+      simulatorFeature: { kind: 'targetOne', side: 'enemy', range: 12 },
     },
     {
       kind: 'weapon',

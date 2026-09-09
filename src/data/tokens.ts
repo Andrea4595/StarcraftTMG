@@ -43,4 +43,10 @@ export const TOKENS: TokenEntry[] = [
     base_mm: { width: 25, height: 25 },
     is_displacement: false,
   },
+  {
+    id: 'Faction Marker',
+    name: { en: 'Faction Marker', ko: '팩션 마커' },
+    base_mm: { width: 25, height: 25 },
+    is_displacement: false,
+  },
 ]

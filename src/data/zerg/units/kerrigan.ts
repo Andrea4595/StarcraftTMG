@@ -41,6 +41,7 @@ export const kerrigan: UnitCard = {
         en: 'Select one Enemy Unit Within 12". That Unit counts as Activated in this Phase (set an Activation Marker next to it).',
         ko: '12" 안의 적 유닛을 고른다. 그 유닛은 이 페이즈에 활성화한 것으로 친다. (활성화 마커를 옆에 둔다.)',
       },
+      simulatorFeature: { kind: 'targetOne', side: 'enemy', range: 12 },
     },
     {
       kind: 'rule',
@@ -53,6 +54,7 @@ export const kerrigan: UnitCard = {
         en: 'Select one Enemy Unit Within 18". This Unit is eligible to make an Evade Roll against all attacks made by the selected Enemy Unit, with a +2 Modifier applied to those Evade Rolls.',
         ko: '18" 이내의 적 유닛을 하나 고른다. 이 유닛이 그 적 유닛의 공격 목표가 될 때 회피 롤을 할 수 있다. 그 굴림에서 +2를 얻는다.',
       },
+      simulatorFeature: { kind: 'targetOne', side: 'enemy', range: 18 },
     },
     {
       kind: 'weapon',
@@ -81,6 +83,7 @@ export const kerrigan: UnitCard = {
         en: 'If Unengaged, resolve the PLACE (6) effect.',
         ko: '만약 인게이지 상태가 아니라면, 위치(6)한다.',
       },
+      simulatorFeature: { kind: 'selfMove', range: 6 },
     },
     {
       kind: 'rule',

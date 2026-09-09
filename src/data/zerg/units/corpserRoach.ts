@@ -45,6 +45,11 @@ export const corpserRoach: UnitCard = {
         ko: '게임당 한 번, 소환(애바퀴)한다.',
       },
       summonsUnitId: 'Roachling',
+      simulatorFeature: {
+        kind: 'summonUnit',
+        unitId: 'Roachling',
+        placement: { rangeType: 'contact' },
+      },
     },
     {
       kind: 'weapon',

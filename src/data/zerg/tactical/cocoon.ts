@@ -32,6 +32,14 @@ export const cocoon: TacticalCard = {
         en: 'Once per Game. The active Friendly Roach Unit performs MORPH (Ravager) 1.',
         ko: '게임당 한번. 활성화된 아군 바퀴 유닛은 변화(궤멸충) 1을 수행한다.',
       },
+      // summonsUnitId는 일부러 안 쓴다 - 로스터에 궤멸충을 자동으로 추가하면 안 되고(바퀴를 변환하는
+      // 것일 뿐 별도 슬롯이 아니다), 시뮬레이터 상호작용 정보만 필요하기 때문
+      simulatorFeature: {
+        kind: 'summonUnit',
+        unitId: 'Ravager',
+        placement: { rangeType: 'contact' },
+        replacesSelfModel: true,
+      },
     },
   ],
 }

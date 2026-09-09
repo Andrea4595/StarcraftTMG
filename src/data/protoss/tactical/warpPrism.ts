@@ -32,6 +32,12 @@ export const warpPrism: TacticalCard = {
         en: 'Set a Faction Indicator anywhere on the battlefield more than 10" away from any Enemy model. At the End of the Round, the controlling player may Deploy one Ground Unit from Reserves in base-to-base contact with this Faction Indicator.',
         ko: '팩션 마커를 다른 적 유닛과 10”이상 떨어지게 놓는다. 라운드 종료 시 리저브된 지상유닛 하나를 마커와 베이스접촉된 상태로 배치시킬 수 있다.',
       },
+      placesTokenId: 'Faction Marker',
+      simulatorFeature: {
+        kind: 'placeToken',
+        tokenId: 'Faction Marker',
+        placement: { rangeType: 'atLeast', range: 10 },
+      },
     },
   ],
 }

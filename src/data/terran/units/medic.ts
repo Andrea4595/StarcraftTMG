@@ -33,6 +33,7 @@ export const medic: UnitCard = {
         en: 'Use when another Friendly Biological Unit suffers Damage Within 4". Reduce the Total Damage before allocation by 1 for each model in this Unit that is Within 4" of the damaged Unit.',
         ko: '4" 이내에서 데미지를 입은 아군 생체 유닛 하나를 선택한다. 그 유닛의 모델에 배분하기 전의 총 데미지를, 대상 유닛으로부터 4" 이내에 있는 이 유닛의 모델 수만큼 줄인다.',
       },
+      simulatorFeature: { kind: 'targetOne', side: 'ally', range: 4 },
     },
     {
       kind: 'rule',
@@ -45,6 +46,7 @@ export const medic: UnitCard = {
         en: 'Use when a Friendly Unit Within 4" receives a DEBUFF. Remove all DEBUFFs from it.',
         ko: '4" 이내에서 디버프를 받은 아군 유닛을 고른다. 그 유닛이 받은 모든 디버프를 제거한다.',
       },
+      simulatorFeature: { kind: 'targetOne', side: 'ally', range: 4 },
     },
     {
       kind: 'rule',
@@ -57,6 +59,7 @@ export const medic: UnitCard = {
         en: 'Select another Friendly Biological Unit Within 4". Resolve the HEAL (X) effect for the targeted Unit, where X is the number of models in this Unit that are Within 4" of the target Unit.',
         ko: '이 유닛의 4" 이내의 다른 아군 생체 유닛 하나를 선택한다. 치유(X)를 적용한다. 이때 X값은 대상 유닛으로부터 4" 이내에 있는 이 유닛의 모델 수만큼이다.',
       },
+      simulatorFeature: { kind: 'targetOne', side: 'ally', range: 4 },
     },
     {
       kind: 'rule',
@@ -69,6 +72,8 @@ export const medic: UnitCard = {
         en: "Select one Enemy Unit Within 12\". Until the End of the Round, apply DEBUFF Range (4) to that Unit's Ranged Weapons. That Unit cannot benefit from LONG RANGE.",
         ko: '이 유닛의 12" 이내에 있는 적 유닛 하나를 고른다. 라운드 종료까지 그 유닛의 사격 무기는 디버프 레인지(4)를 갖고, 롱 레인지 능력을 사용할 수 없게 된다.',
       },
+      // 'A-13 섬광탄 발사기' 업그레이드가 활성화되면 실제 사거리는 16"로 늘어난다(이 필드는 기본값)
+      simulatorFeature: { kind: 'targetOne', side: 'enemy', range: 12 },
     },
     {
       kind: 'weapon',

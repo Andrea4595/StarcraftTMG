@@ -32,6 +32,13 @@ export const orbitalCommand: TacticalCard = {
         en: 'Set a Faction Indicator anywhere on the battlefield. While Enemy Units are Within 6" of this Faction Indicator, they lose HIDDEN Status.',
         ko: '팩션 마커를 전장에 둔다. 그 팩션 마커의 6" 이내의 모든 적은 은폐 상태를 잃는다.',
       },
+      placesTokenId: 'Faction Marker',
+      simulatorFeature: {
+        kind: 'placeToken',
+        tokenId: 'Faction Marker',
+        placement: { rangeType: 'anywhere' },
+        rangeIndicator: { inch: 6, alwaysShow: true },
+      },
     },
   ],
 }
