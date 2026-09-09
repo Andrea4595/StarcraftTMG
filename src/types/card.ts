@@ -100,6 +100,8 @@ export type SimulatorFeature =
   | { kind: 'targetOne'; side: 'ally' | 'enemy'; range: number | null }
   /** 이 유닛 자신을 재배치(이동) */
   | { kind: 'selfMove'; range: number | null }
+  /** 이동/대상 지정 등 상호작용 없이, 이 유닛 기준 range 인치 범위만 시각적으로 표시 */
+  | { kind: 'rangeIndicator'; range: number }
   /** data/tokens.ts의 토큰을 전장에 배치 */
   | { kind: 'placeToken'; tokenId: string; placement: Placement }
   /** 완전한 유닛을 전장에 배치. replacesSelfModel이면 배치와 동시에 이 능력을 쓴 유닛의 모델 하나를 제거 */

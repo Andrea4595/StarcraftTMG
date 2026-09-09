@@ -695,6 +695,7 @@ function toExportPlacement(placement: Placement): SimulatorExportPlacement {
 export type SimulatorExportFeature =
   | { kind: 'target_one'; side: 'ally' | 'enemy'; range: number | null }
   | { kind: 'self_move'; range: number | null }
+  | { kind: 'range_indicator'; range: number }
   | { kind: 'place_token'; token_id: string; placement: SimulatorExportPlacement }
   | { kind: 'summon_unit'; unit_id: string; placement: SimulatorExportPlacement; replaces_self_model: boolean }
 
@@ -705,6 +706,8 @@ function toExportFeature(feature: SimulatorFeature | undefined): SimulatorExport
       return { kind: 'target_one', side: feature.side, range: feature.range }
     case 'selfMove':
       return { kind: 'self_move', range: feature.range }
+    case 'rangeIndicator':
+      return { kind: 'range_indicator', range: feature.range }
     case 'placeToken':
       return {
         kind: 'place_token',
