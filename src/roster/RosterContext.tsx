@@ -369,7 +369,13 @@ export function RosterProvider({ children }: { children: ReactNode }) {
       const prevRoster = prev.find((r) => r.id === roster.id)
       if (prevRoster !== roster) {
         rosterOwnerRef.current.set(roster.id, user.uid)
-        setDoc(doc(db, 'users', user.uid, 'rosters', roster.id), roster).catch(console.error)
+        // setDoc은 값 검증 실패(예: undefined 필드) 시 프로미스가 아니라 동기적으로 던지기도 해서,
+        // .catch()만으로는 못 잡고 그대로 앱을 깨뜨릴 수 있다 - try/catch로 한 번 더 감싼다
+        try {
+          setDoc(doc(db, 'users', user.uid, 'rosters', roster.id), roster).catch(console.error)
+        } catch (err) {
+          console.error(err)
+        }
       }
     }
     prevRostersRef.current = state.rosters
