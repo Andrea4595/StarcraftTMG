@@ -6,6 +6,12 @@ export interface RosterUnitEntry {
   squadTierIndex: number
   /** UnitCard.upgrades 배열의 인덱스들. 여러 개 동시 선택 가능 */
   upgradeIndexes: number[]
+  /**
+   * 이 유닛이 다른 택티컬 카드/유닛의 능력(summonsUnitId)으로 자동 소환된 것이면, 그 출처 카드/유닛의
+   * id. 수동으로 추가한 유닛은 undefined. 값이 있으면 로스터 동기화 로직이 개수를 자동으로 맞추고,
+   * 화면에서는 제거 버튼 대신 출처 태그를 보여준다.
+   */
+  summonedBy?: string
 }
 
 export interface Roster {

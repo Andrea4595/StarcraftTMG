@@ -53,6 +53,7 @@ export const zeratul: UnitCard = {
         en: 'Target Enemy Unit on the battlefield. Whenever Zeratul makes a Close Combat Attack targeting the selected Unit, its weapon gains CRITICAL HIT (2).',
         ko: '전장의 적 유닛을 목표로 선택한다. 제라툴이 선택된 유닛을 목표로 근접 공격을 할 때마다, 그 무기는 크리티컬 힛(2)를 얻는다.',
       },
+      simulatorFeature: { kind: 'targetOne', side: 'enemy', range: null },
     },
     {
       kind: 'rule',
@@ -65,6 +66,7 @@ export const zeratul: UnitCard = {
         en: 'Resolve the PLACE (6) effect. Models set by this effect cannot be set up Within the Engagement Range of any Enemy Unit.',
         ko: '위치(6)한다, 적 유닛과 인게이지 상태가 되게 배치될 수 없다.',
       },
+      simulatorFeature: { kind: 'selfMove', range: 6 },
     },
     {
       kind: 'rule',
@@ -76,6 +78,12 @@ export const zeratul: UnitCard = {
       rule: {
         en: 'Set a Faction Indicator on the battlefield Within 8" of this Unit. While Enemy Units are Within 2" of this Faction Indicator they suffer DEBUFF Speed (2).',
         ko: '이 유닛의 8”이내의 전장에 팩션 마커를 설치한다. 적 유닛은 그 팩션 마커의 2”이내에 있는 동안 디버프 스피드(2)를 받는다.',
+      },
+      placesTokenId: 'Faction Marker',
+      simulatorFeature: {
+        kind: 'placeToken',
+        tokenId: 'Faction Marker',
+        placement: { rangeType: 'within', range: 8 },
       },
     },
     {

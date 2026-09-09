@@ -171,6 +171,9 @@ export const siegeTank: UnitCard = {
           en: "Target a Friendly Non-Engaged Unit on the battlefield (Line of Sight is not required). When this Unit resolves a Ranged Attack using the Shock Cannon weapon profile this Round, it may choose to ignore the weapon's standard Range characteristic. If it does, it may target an Enemy Unit that is Within 8\" of, and Visible to, a model of the selected Friendly Unit, treating that model as the acting model.",
           ko: '전장의 인게이지되지 않은 아군 유닛을 목표로 삼는다 (시야는 필요로 하지 않는다). 이 라운드에 이 유닛이 충격포 무기 프로필로 사격을 할 때, 그 무기의 기본 사거리 특성치를 무시하도록 선택할 수 있다. 그렇게 했다면, 선택된 아군 유닛의 한 모델로부터 8" 이내에 있고 그 모델의 시야가 확보된 적 유닛을 목표로 삼을 수 있으며, 그 모델을 공격을 가하는 모델로 취급한다.',
         },
+        // 원문에 아군 지정 사거리 제한이 없다(전장 전체). 지정한 아군 기준 8" 이내에서 실제 공격
+        // 목표(적)를 고르는 2단계 능력이지만, 시뮬레이터 기능은 1단계(아군 지정)만 지원하면 된다.
+        simulatorFeature: { kind: 'targetOne', side: 'ally', range: null },
       },
     },
     {

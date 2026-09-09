@@ -44,6 +44,7 @@ export const stalker: UnitCard = {
         en: 'Resolve the PLACE (6) effect. Models set by this effect cannot be set up Within the Engagement Range of any Enemy Unit.',
         ko: '위치(6)한다, 적 유닛과 인게이지 상태가 되게 배치될 수 없다.',
       },
+      simulatorFeature: { kind: 'selfMove', range: 6 },
     },
     {
       kind: 'weapon',

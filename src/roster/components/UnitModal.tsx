@@ -2,6 +2,7 @@ import type { RaceData, Roster } from '../../types'
 import { useRosterStore } from '../RosterContext'
 import {
   catalogSquadTierIndexes,
+  isAutoSummonedUnitId,
   rosterMineralTotal,
   rosterSlotUsage,
   unitFactionMismatch,
@@ -51,7 +52,9 @@ export function UnitModal({
   return (
     <Modal title="유닛 선택" subHeader={subHeader} onClose={onClose}>
       <div className="unit-picker-grid">
-        {race.units.map((unit) => {
+        {race.units
+          .filter((unit) => !isAutoSummonedUnitId(race, unit.id))
+          .map((unit) => {
           const alreadyIncluded = unit.isUnique && roster.units.some((e) => e.unitId === unit.id)
           /** 태그로 요구하는 팩션 카드(레이너 특공대/칼라이/케리건의 군단)가 지금 선택돼 있지 않으면
            *  이 유닛은 고를 수 없다 */

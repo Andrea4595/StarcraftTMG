@@ -33,6 +33,7 @@ export const sentry: UnitCard = {
         en: 'Use when a Friendly Unit Within 4" receives a DEBUFF. Remove all DEBUFFS from it.',
         ko: '디버프를 받게 된 4”이내의 아군 유닛을 고른다. 해당 유닛이 받을 모든 디버프를 제거한다.',
       },
+      simulatorFeature: { kind: 'targetOne', side: 'ally', range: 4 },
     },
     {
       kind: 'rule',
@@ -45,6 +46,11 @@ export const sentry: UnitCard = {
       rule: {
         en: "Set a Force Field token Within 8\" in an unoccupied space. Units of Size 2 or lower cannot move across Force Fields. Models of Size 3 or more can move over it, and it's then removed.",
         ko: '이 유닛의 8”이내에 역장 토큰을 전장의 빈 공간에 둔다. 사이즈 2 이하의 유닛은 그 역장을 통과해서 이동할 수 없다. 사이즈 3 이상의 유닛이라면 그 역장을 통과해 이동할 수 있으며, 그 경우 토큰은 제거된다.',
+      },
+      simulatorFeature: {
+        kind: 'placeToken',
+        tokenId: 'Force Field',
+        placement: { rangeType: 'within', range: 8 },
       },
     },
     {
@@ -107,6 +113,11 @@ export const sentry: UnitCard = {
         rule: {
           en: "Set a Force Field token Within 8\" in an unoccupied space. Units of Size 2 or lower cannot move across Force Fields. Models of Size 3 or more can move over it, and it's then removed.",
           ko: '이 유닛의 8”이내에 역장 토큰을 전장의 빈 공간에 둔다. 사이즈 2 이하의 유닛은 그 역장을 통과해서 이동할 수 없다. 사이즈 3 이상의 유닛이라면 그 역장을 통과해 이동할 수 있으며, 그 경우 토큰은 제거된다.',
+        },
+        simulatorFeature: {
+          kind: 'placeToken',
+          tokenId: 'Force Field',
+          placement: { rangeType: 'within', range: 8 },
         },
       },
     },

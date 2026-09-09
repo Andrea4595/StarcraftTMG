@@ -30,6 +30,11 @@ export const queen: UnitCard = {
         en: 'Set a Creep Tumor token in base-to-base contact with this Unit.',
         ko: '이 유닛과 베이스 접촉을 한 상태로 점막 종양을 둔다.',
       },
+      simulatorFeature: {
+        kind: 'placeToken',
+        tokenId: 'Creep Tumor',
+        placement: { rangeType: 'contact' },
+      },
     },
     {
       kind: 'rule',
@@ -42,6 +47,7 @@ export const queen: UnitCard = {
         en: 'Use when another Friendly Biological Unit (including a Structure) suffers Damage Within 4". Reduce the Total Damage before allocation by 2.',
         ko: '데미지를 입은 4" 이내의 아군 생체 유닛을 선택한다 (구조물을 포함한다). 가지고 있는 총 데미지를 2만큼 제거한다.',
       },
+      simulatorFeature: { kind: 'targetOne', side: 'ally', range: 4 },
     },
     {
       kind: 'rule',
@@ -54,6 +60,7 @@ export const queen: UnitCard = {
         en: 'Use when a Friendly Unit Within 4" receives a DEBUFF. Remove all DEBUFFS from it.',
         ko: '디버프를 받게 된 4" 이내의 아군 유닛을 고른다. 해당 유닛이 받을 모든 디버프를 제거한다.',
       },
+      simulatorFeature: { kind: 'targetOne', side: 'ally', range: 4 },
     },
     {
       kind: 'rule',
@@ -157,6 +164,7 @@ export const queen: UnitCard = {
           en: 'Select another Friendly Unit Within 6" (Line of Sight is not required). That Unit\'s Supply characteristic is increased by 1 for Controlling and Contesting Mission Markers and completing objectives.',
           ko: '이 유닛의 6" 안에 있는 아군 유닛을 고른다 (시야는 필요로 하지 않는다). 그 유닛이 점령, 경쟁, 미션의 목표달성을 판정할 때 서플라이 값을 1 큰 걸로 친다.',
         },
+        simulatorFeature: { kind: 'targetOne', side: 'ally', range: 6 },
       },
     },
   ],

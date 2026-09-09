@@ -23,6 +23,12 @@ export const khalai: TacticalCard = {
         en: 'If there is no Friendly Pylon on the battlefield, set a Friendly Pylon Unit anywhere on the GROUND LEVEL of the battlefield more than 10" away from any Enemy model. This Round, the Pylon is not eligible to use its Special Abilities (excluding Structure).',
         ko: '만약 전장에 아군 수정탑이 없다면 수정탑을 전장의 지면 아무곳에나 배치한다. 다른 적 유닛에게서 10”이상 떨어져 있어야 한다. 그 라운드에 수정탑의 특수능력은 사용되지 못한다. (구조물 규칙은 제외한다)',
       },
+      summonsUnitId: 'Pylon',
+      simulatorFeature: {
+        kind: 'summonUnit',
+        unitId: 'Pylon',
+        placement: { rangeType: 'atLeast', range: 10 },
+      },
     },
     {
       kind: 'rule',

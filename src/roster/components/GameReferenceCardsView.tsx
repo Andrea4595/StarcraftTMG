@@ -93,6 +93,7 @@ export function GameReferenceCardsView({
               return (
                 <li key={entry.id}>
                   <UnitEntryRow
+                    race={race}
                     roster={roster}
                     unit={unit}
                     entry={entry}

@@ -265,6 +265,7 @@ function RosterPanelBody({
               return (
                 <UnitEntryRow
                   key={entry.id}
+                  race={race}
                   roster={roster}
                   unit={unit}
                   entry={entry}

@@ -4,12 +4,14 @@ import type {
   BaseSize,
   Keyword,
   Phase,
+  Placement,
   RaceData,
   RangeIndicator,
   Roster,
   RosterUnitEntry,
   Rule,
   RuleAbility,
+  SimulatorFeature,
   TacticalCard,
   UnitCard,
   UnitType,
@@ -22,6 +24,7 @@ import { TOKENS } from '../data/tokens'
 import { formatScaledCost, resolveScaledCost } from '../components/card/costDisplay'
 import { keywordEntryForName, stripKeywordPlaceholder } from '../components/card/keywordHighlight'
 import { localizeTag, localizeTagWordsInText } from '../components/card/tagLabels'
+import { makeId } from './makeId'
 import type { AbilitySelectionRef, UpgradeToggleRef, WeaponSummaryEntry, WeaponTone } from './components/AbilityChipsRow'
 
 export { resolveScaledCost }
@@ -67,6 +70,133 @@ export function tacticalCardRequiredFactionCardId(card: TacticalCard): string | 
 export function tacticalCardFactionMismatch(card: TacticalCard, roster: Roster): boolean {
   const required = tacticalCardRequiredFactionCardId(card)
   return required !== undefined && required !== roster.factionCardId
+}
+
+/** 카드/유닛 하나가 로스터에 있을 때 자동으로 추가돼야 하는 유닛 id들 (summonsUnitId를 가진 능력들) */
+function summonedUnitIdsOf(abilities: RuleAbility[]): string[] {
+  return abilities.filter((a) => a.summonsUnitId !== undefined).map((a) => a.summonsUnitId as string)
+}
+
+/** 이 종족 데이터 안에서, 어떤 카드/유닛의 능력으로든 자동 소환되는 유닛인지 (수동 추가 목록에서 숨기는 데 쓴다) */
+export function isAutoSummonedUnitId(race: RaceData, unitId: string): boolean {
+  const fromUnits = race.units.some((u) =>
+    summonedUnitIdsOf(u.abilities.filter((a): a is RuleAbility => a.kind === 'rule')).includes(unitId),
+  )
+  const fromCards = [...race.factionCards, ...race.tacticalCards].some((c) =>
+    summonedUnitIdsOf(c.cardAbilities).includes(unitId),
+  )
+  return fromUnits || fromCards
+}
+
+/**
+ * entry.summonedBy(출처 카드/유닛 id)와 소환된 유닛 id를 "출처 이름 - 어빌리티 이름" 형태로 바꾼다.
+ * 무엇이 왜 소환됐는지 한눈에 보이게 하려는 것. 출처를 찾을 수 없으면 id를, 능력을 찾을 수 없으면
+ * 출처 이름만 돌려준다.
+ */
+export function summonSourceLabel(
+  race: RaceData,
+  sourceId: string,
+  summonedUnitId: string,
+  localize: (rule: Rule) => string,
+): string {
+  const unit = findUnit(race, sourceId)
+  const card = unit ? undefined : [...race.factionCards, ...race.tacticalCards].find((c) => c.id === sourceId)
+  const sourceName = unit ? localize(unit.name) : card ? localize(card.name) : sourceId
+
+  const abilities: RuleAbility[] = unit
+    ? unit.abilities.filter((a): a is RuleAbility => a.kind === 'rule')
+    : (card?.cardAbilities ?? [])
+  const ability = abilities.find((a) => a.summonsUnitId === summonedUnitId)
+
+  return ability ? `${sourceName} - ${localize(ability.name)}` : sourceName
+}
+
+interface SummonRequirement {
+  /** 이 소환을 발생시키는 카드/유닛의 id. summonedBy 값이자, 화면에 보여줄 출처 이름을 찾는 키 */
+  sourceId: string
+  /** 자동으로 추가돼야 하는 유닛의 id */
+  unitId: string
+  /** 로스터 안에 이 출처가 몇 번 포함됐는지(=자동으로 있어야 할 개수) */
+  count: number
+}
+
+/**
+ * 지금 로스터 구성(팩션 카드/택티컬 카드/유닛)을 기준으로, 자동으로 존재해야 하는 소환 유닛과
+ * 그 개수를 계산한다. 모든 소환 유닛은 스쿼드 tier가 하나뿐이고 미네랄/서플라이가 0이라 개수만
+ * 맞으면 충분하고, 어떤 특정 항목이 어떤 소환자 '한 장'에 대응하는지는 구분할 필요가 없다.
+ */
+function collectSummonRequirements(race: RaceData, roster: Roster): SummonRequirement[] {
+  const requirements: SummonRequirement[] = []
+
+  const factionCard = findFactionCard(race, roster)
+  if (factionCard) {
+    for (const unitId of summonedUnitIdsOf(factionCard.cardAbilities)) {
+      requirements.push({ sourceId: factionCard.id, unitId, count: 1 })
+    }
+  }
+
+  const tacticalCounts = new Map<string, number>()
+  for (const id of roster.tacticalCardIds) tacticalCounts.set(id, (tacticalCounts.get(id) ?? 0) + 1)
+  for (const [id, count] of tacticalCounts) {
+    const card = race.tacticalCards.find((c) => c.id === id)
+    if (!card) continue
+    for (const unitId of summonedUnitIdsOf(card.cardAbilities)) {
+      requirements.push({ sourceId: card.id, unitId, count })
+    }
+  }
+
+  const unitCounts = new Map<string, number>()
+  for (const entry of roster.units) unitCounts.set(entry.unitId, (unitCounts.get(entry.unitId) ?? 0) + 1)
+  for (const [id, count] of unitCounts) {
+    const unit = findUnit(race, id)
+    if (!unit) continue
+    for (const unitId of summonedUnitIdsOf(unit.abilities.filter((a): a is RuleAbility => a.kind === 'rule'))) {
+      requirements.push({ sourceId: unit.id, unitId, count })
+    }
+  }
+
+  return requirements
+}
+
+/**
+ * 로스터의 자동 소환 유닛(RosterUnitEntry.summonedBy가 있는 항목) 개수를 지금 구성에 맞게 맞춘다.
+ * 부족하면 추가하고, 출처가 사라졌거나 개수가 줄었으면 초과분을 제거한다. 맞춰야 할 게 없으면
+ * 원래 roster 객체를 그대로 돌려줘 참조가 유지되게 한다(불필요한 재렌더/업로드 방지).
+ */
+export function syncSummonedUnits(race: RaceData, roster: Roster): Roster {
+  const requirements = collectSummonRequirements(race, roster)
+  const requiredByKey = new Map<string, SummonRequirement>()
+  for (const req of requirements) {
+    const key = `${req.sourceId}::${req.unitId}`
+    const existing = requiredByKey.get(key)
+    requiredByKey.set(key, existing ? { ...existing, count: existing.count + req.count } : req)
+  }
+
+  const existingByKey = new Map<string, RosterUnitEntry[]>()
+  for (const entry of roster.units) {
+    if (!entry.summonedBy) continue
+    const key = `${entry.summonedBy}::${entry.unitId}`
+    const list = existingByKey.get(key) ?? []
+    list.push(entry)
+    existingByKey.set(key, list)
+  }
+
+  const toRemove = new Set<string>()
+  const toAdd: RosterUnitEntry[] = []
+
+  for (const [key, list] of existingByKey) {
+    const requiredCount = requiredByKey.get(key)?.count ?? 0
+    for (const extra of list.slice(requiredCount)) toRemove.add(extra.id)
+  }
+  for (const [key, req] of requiredByKey) {
+    const already = existingByKey.get(key)?.length ?? 0
+    for (let i = already; i < req.count; i++) {
+      toAdd.push({ id: makeId(), unitId: req.unitId, squadTierIndex: 0, upgradeIndexes: [], summonedBy: req.sourceId })
+    }
+  }
+
+  if (toRemove.size === 0 && toAdd.length === 0) return roster
+  return { ...roster, units: [...roster.units.filter((e) => !toRemove.has(e.id)), ...toAdd] }
 }
 
 /**
@@ -546,6 +676,51 @@ function toExportRanges(ranges: RangeIndicator[] | undefined): SimulatorExportRa
   return (ranges ?? []).map((r) => ({ inch: r.inch, always_show: r.alwaysShow }))
 }
 
+export interface SimulatorExportPlacement {
+  /** 'contact': 특정 유닛과 베이스 접촉(거리 0). 'within'/'at_least': range 인치 이내/이상.
+   *  'anywhere': 제약 없음(전장 아무곳) */
+  range_type: 'contact' | 'within' | 'at_least' | 'anywhere'
+  range: number | null
+}
+
+function toExportPlacement(placement: Placement): SimulatorExportPlacement {
+  const range_type = placement.rangeType === 'atLeast' ? 'at_least' : placement.rangeType
+  return { range_type, range: placement.range ?? null }
+}
+
+/**
+ * 이 능력의 '사용' 버튼을 눌렀을 때 시뮬레이터가 제공해야 하는 상호작용 기능. 없으면(null) 텍스트만
+ * 보여주면 충분한 능력이라는 뜻이다(대부분의 능력이 여기 해당한다).
+ */
+export type SimulatorExportFeature =
+  | { kind: 'target_one'; side: 'ally' | 'enemy'; range: number | null }
+  | { kind: 'self_move'; range: number | null }
+  | { kind: 'place_token'; token_id: string; placement: SimulatorExportPlacement }
+  | { kind: 'summon_unit'; unit_id: string; placement: SimulatorExportPlacement; replaces_self_model: boolean }
+
+function toExportFeature(feature: SimulatorFeature | undefined): SimulatorExportFeature | null {
+  if (!feature) return null
+  switch (feature.kind) {
+    case 'targetOne':
+      return { kind: 'target_one', side: feature.side, range: feature.range }
+    case 'selfMove':
+      return { kind: 'self_move', range: feature.range }
+    case 'placeToken':
+      return {
+        kind: 'place_token',
+        token_id: feature.tokenId,
+        placement: toExportPlacement(feature.placement),
+      }
+    case 'summonUnit':
+      return {
+        kind: 'summon_unit',
+        unit_id: feature.unitId,
+        placement: toExportPlacement(feature.placement),
+        replaces_self_model: feature.replacesSelfModel ?? false,
+      }
+  }
+}
+
 export interface SimulatorExportStat {
   shld: number | null
   spd: { move: number; cohesion: number } | null
@@ -594,6 +769,8 @@ export interface SimulatorExportRuleAbility extends SimulatorExportAbilityBase {
   type: AbilityType
   cost: number | 'X'
   rule: Rule
+  /** '사용' 버튼에 시뮬레이터가 제공해야 하는 상호작용 기능. 없으면 null(텍스트만 보여주면 충분) */
+  simulator_feature: SimulatorExportFeature | null
 }
 
 export interface SimulatorExportWeaponAbility extends SimulatorExportAbilityBase {
@@ -632,6 +809,7 @@ function toExportAbility(ability: Ability, isUpgrade: boolean): SimulatorExportA
     type: ability.type,
     cost: ability.cost,
     rule: ability.rule,
+    simulator_feature: toExportFeature(ability.simulatorFeature),
   }
 }
 

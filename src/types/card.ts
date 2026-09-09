@@ -58,12 +58,52 @@ export interface RuleAbility extends AbilityBase {
   /** 이 능력이 전장에 배치하는 토큰의 id (data/tokens.ts의 TokenEntry.id 참조). 시뮬레이터 연동 데이터의 tokens 목록을 만드는 데 쓰인다 */
   placesTokenId?: string
   /**
+   * 이 능력을 가진 카드/유닛이 로스터에 있을 때 자동으로 로스터에 추가돼야 하는 유닛의 id
+   * (UnitCard.id 참조, 예: 'Point Defense Drone'). 지정돼 있으면 로스터 동기화 로직이 이 카드/유닛의
+   * 수만큼 해당 유닛을 자동으로 추가/제거한다 — 사용자가 직접 추가하거나 제거할 수 없다.
+   */
+  summonsUnitId?: string
+  /**
    * 서플라이 풀을 계산할 때 이 유닛의 서플라이 값을 (더하지 않고) 이 수치로 대입해 취급하게 만드는
    * 능력이면 지정. 예: 의무관 '고급 의무관 시설'은 "서플라이 값은 0으로 취급한다"는 룰이라 0.
    * 시뮬레이터 연동 데이터의 SimulatorExportUnit.supply_override를 만드는 데 쓰인다.
    */
   supplyOverride?: number
+  /**
+   * 이 능력의 '사용' 버튼을 눌렀을 때 시뮬레이터가 제공해야 하는 상호작용 기능. 지정돼 있지 않으면
+   * 텍스트만 보여주면 충분한 능력이라는 뜻이며(대부분의 능력이 여기 해당) 그 경우 시뮬레이터는 아무
+   * 기능도 만들 필요가 없다.
+   *
+   * placesTokenId/summonsUnitId와는 별개의 필드다 — 그 둘은 각각 로스터 자동 소환 로직과 시뮬레이터
+   * 연동 데이터의 tokens 목록을 만드는 데 쓰이는, 목적이 다른 필드다. 예를 들어 '궤멸충 변화'(고치)는
+   * 게임 중 소환형 상호작용이 필요하지만, 로스터에 궤멸충을 자동으로 추가하면 안 되므로 summonsUnitId는
+   * 쓰지 않고 simulatorFeature만 채운다.
+   */
+  simulatorFeature?: SimulatorFeature
 }
+
+/**
+ * RuleAbility.placement에 쓰이는 배치 위치 제약.
+ * - 'contact': 특정 유닛과 베이스 접촉(거리 0)
+ * - 'within': 기준점으로부터 range 인치 '이내'
+ * - 'atLeast': 기준점(주로 적 유닛)으로부터 range 인치 '이상' 떨어짐
+ * - 'anywhere': 제약 없음(전장 아무곳)
+ */
+export interface Placement {
+  rangeType: 'contact' | 'within' | 'atLeast' | 'anywhere'
+  /** 'contact'/'anywhere'가 아니면 인치 값 */
+  range?: number
+}
+
+export type SimulatorFeature =
+  /** 사거리 내(또는 무제한) 아군/적 유닛 하나를 지정해 효과를 적용 */
+  | { kind: 'targetOne'; side: 'ally' | 'enemy'; range: number | null }
+  /** 이 유닛 자신을 재배치(이동) */
+  | { kind: 'selfMove'; range: number | null }
+  /** data/tokens.ts의 토큰을 전장에 배치 */
+  | { kind: 'placeToken'; tokenId: string; placement: Placement }
+  /** 완전한 유닛을 전장에 배치. replacesSelfModel이면 배치와 동시에 이 능력을 쓴 유닛의 모델 하나를 제거 */
+  | { kind: 'summonUnit'; unitId: string; placement: Placement; replacesSelfModel?: boolean }
 
 export interface WeaponProfile extends AbilityBase {
   kind: 'weapon'
