@@ -84,7 +84,9 @@ function migrateLegacyRoster(r: Record<string, unknown>): Roster {
       unitId: (u.unitId ?? u.unitName) as string,
       squadTierIndex: u.squadTierIndex as number,
       upgradeIndexes: u.upgradeIndexes as number[],
-      summonedBy: u.summonedBy as string | undefined,
+      // summonedBy가 없는(자동 소환 이전에 저장된) 항목은 필드 자체를 아예 안 만든다 - undefined를
+      // 값으로 명시하면 Firestore setDoc이 "Unsupported field value: undefined"로 거부한다
+      ...(typeof u.summonedBy === 'string' ? { summonedBy: u.summonedBy } : {}),
     })),
     favoriteAbilities: legacyFavorites.map((f) => ({
       sourceId: (f.sourceId ?? f.source) as string,
