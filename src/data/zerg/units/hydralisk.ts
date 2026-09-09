@@ -61,9 +61,9 @@ export const hydralisk: UnitCard = {
         en: 'When another Friendly Unit Within 10" is the target of a Ranged Attack, after the attack is fully resolved, this Unit, if Unengaged, may perform a Move action Directly Towards the attacking Unit.',
         ko: '다른 10" 이내에 있는 아군 유닛이 원거리 공격의 대상이 되었을 때, 그 공격이 완전히 처리된 후, 이 유닛이 인게이지 상태가 아닐 경우, 공격했던 유닛에게 곧바로 이동할 수 있다.',
       },
-      // 실제 이동 목적지(공격한 유닛 위치)는 시뮬레이터가 도와줄 수 없어, 발동 조건 판정용
-      // 10" 범위만 표시한다
-      simulatorFeature: { kind: 'rangeIndicator', range: 10 },
+      // 실제 이동 목적지(공격한 유닛 위치)는 시뮬레이터가 도와줄 수 없어, 발동 조건인
+      // "10" 이내 아군"을 확인하는 대상 지정으로 표현한다
+      simulatorFeature: { kind: 'targetOne', side: 'ally', range: 10 },
     },
     {
       kind: 'weapon',
