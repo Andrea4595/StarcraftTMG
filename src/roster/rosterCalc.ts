@@ -86,12 +86,27 @@ export function isAutoSummonedUnitId(race: RaceData, unitId: string): boolean {
   return fromUnits || fromCards
 }
 
-/** entry.summonedBy(출처 카드/유닛 id)를 화면에 보여줄 이름으로 바꾼다. 출처를 찾을 수 없으면 id를 그대로 돌려준다 */
-export function summonSourceName(race: RaceData, sourceId: string, localize: (rule: Rule) => string): string {
+/**
+ * entry.summonedBy(출처 카드/유닛 id)와 소환된 유닛 id를 "출처 이름 - 어빌리티 이름" 형태로 바꾼다.
+ * 무엇이 왜 소환됐는지 한눈에 보이게 하려는 것. 출처를 찾을 수 없으면 id를, 능력을 찾을 수 없으면
+ * 출처 이름만 돌려준다.
+ */
+export function summonSourceLabel(
+  race: RaceData,
+  sourceId: string,
+  summonedUnitId: string,
+  localize: (rule: Rule) => string,
+): string {
   const unit = findUnit(race, sourceId)
-  if (unit) return localize(unit.name)
-  const card = [...race.factionCards, ...race.tacticalCards].find((c) => c.id === sourceId)
-  return card ? localize(card.name) : sourceId
+  const card = unit ? undefined : [...race.factionCards, ...race.tacticalCards].find((c) => c.id === sourceId)
+  const sourceName = unit ? localize(unit.name) : card ? localize(card.name) : sourceId
+
+  const abilities: RuleAbility[] = unit
+    ? unit.abilities.filter((a): a is RuleAbility => a.kind === 'rule')
+    : (card?.cardAbilities ?? [])
+  const ability = abilities.find((a) => a.summonsUnitId === summonedUnitId)
+
+  return ability ? `${sourceName} - ${localize(ability.name)}` : sourceName
 }
 
 interface SummonRequirement {

@@ -3,7 +3,7 @@ import { useRosterStore } from '../RosterContext'
 import {
   FIRE_LABEL,
   MELEE_LABEL,
-  summonSourceName,
+  summonSourceLabel,
   unitAbilityChipEntries,
   unitActiveAbilities,
   unitEntryMineralCost,
@@ -94,7 +94,9 @@ export function UnitEntryRow({
   /** 이 유닛을 추가한 뒤 팩션 카드를 바꿔서, 태그로 요구하던 팩션 카드가 더 이상 선택돼 있지 않은 상태 */
   const factionMismatch = unitFactionMismatch(unit, roster)
   /** 다른 택티컬 카드/유닛의 능력으로 자동 소환된 유닛이면 그 출처 이름. 수동으로 추가한 유닛은 undefined */
-  const summonSource = entry.summonedBy ? summonSourceName(race, entry.summonedBy, localize) : undefined
+  const summonSource = entry.summonedBy
+    ? summonSourceLabel(race, entry.summonedBy, entry.unitId, localize)
+    : undefined
 
   return (
     <div className={`roster-entry ${factionMismatch ? 'roster-entry-faction-mismatch' : ''}`}>
