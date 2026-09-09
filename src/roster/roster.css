@@ -640,18 +640,15 @@ button.roster-slot-pill:hover {
 }
 
 /*
-  다른 택티컬 카드/유닛의 능력으로 자동 소환된 유닛(entry.summonedBy)에 붙는 출처 배지. 눈에 잘
-  띄어야 해서 .card-unique-badge와 같은 노란색을 쓴다. 이 배지가 붙은 항목은 제거 버튼이 아예
+  다른 택티컬 카드/유닛의 능력으로 자동 소환된 유닛(entry.summonedBy)에 붙는 출처 표시. 원래 미네랄
+  비용(.roster-entry-cost)이 나오던 자리를 대신 차지한다 — 소환 유닛은 항상 0이라 숫자를 보여줄
+  이유가 없다. 배지가 아니라 색만 있는 텍스트로 눈에 띄게 한다. 이 항목은 제거 버튼이 아예
   렌더링되지 않는다(수동 제거 불가) — 개수는 출처 카드/유닛이 로스터에서 빠지면 자동으로 맞춰진다.
 */
 .roster-entry-summon-source {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
-  background: #f0b429;
-  color: #221a02;
-  border-radius: 4px;
-  padding: 2px 6px;
-  white-space: nowrap;
+  color: #f0b429;
 }
 
 .roster-entry-meta {

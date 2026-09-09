@@ -103,7 +103,6 @@ export function UnitEntryRow({
           <span className="roster-entry-name">{localize(unit.name)}</span>
           {unit.isUnique && <span className="card-unique-badge">UNIQUE</span>}
           {requiredFactionTag && <span className="card-faction-badge">{localizeTag(requiredFactionTag, lang)}</span>}
-          {summonSource && <span className="roster-entry-summon-source">{summonSource}</span>}
           <span className="roster-entry-tags">
             <KeywordList keywords={unit.tags.filter((t) => t.name !== 'Unique' && t.name !== requiredFactionTag)} />
           </span>
@@ -146,7 +145,11 @@ export function UnitEntryRow({
       />
 
       <div className="roster-entry-footer">
-        <span className="roster-entry-cost">{cost}</span>
+        {summonSource ? (
+          <span className="roster-entry-summon-source">{summonSource}</span>
+        ) : (
+          <span className="roster-entry-cost">{cost}</span>
+        )}
         <div className="roster-entry-footer-right">
           <button type="button" className="roster-entry-detail-btn" onClick={onShowDetail}>
             유닛 상세
