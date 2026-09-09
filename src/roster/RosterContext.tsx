@@ -1,9 +1,15 @@
 import { createContext, useContext, useEffect, useReducer, useRef, type ReactNode } from 'react'
 import { collection, deleteDoc, doc, onSnapshot, setDoc } from 'firebase/firestore'
-import type { Roster, RosterUnitEntry } from '../types'
+import type { RaceData, Roster, RosterUnitEntry } from '../types'
 import { makeId } from './makeId'
+import { syncSummonedUnits } from './rosterCalc'
 import { useAuth } from '../AuthContext'
 import { db } from '../firebase'
+import { terran } from '../data/terran'
+import { zerg } from '../data/zerg'
+import { protoss } from '../data/protoss'
+
+const RACES: RaceData[] = [terran, zerg, protoss]
 
 const STORAGE_KEY = 'tmg-roster-builder-state'
 
@@ -78,6 +84,7 @@ function migrateLegacyRoster(r: Record<string, unknown>): Roster {
       unitId: (u.unitId ?? u.unitName) as string,
       squadTierIndex: u.squadTierIndex as number,
       upgradeIndexes: u.upgradeIndexes as number[],
+      summonedBy: u.summonedBy as string | undefined,
     })),
     favoriteAbilities: legacyFavorites.map((f) => ({
       sourceId: (f.sourceId ?? f.source) as string,
@@ -100,8 +107,21 @@ function loadState(): State {
   }
 }
 
+/**
+ * fn 적용 후, 로스터의 종족을 알 수 있으면(raceId 설정됨) 자동 소환 유닛 개수를 항상 지금 구성에
+ * 맞게 다시 맞춘다(syncSummonedUnits). 맞출 게 없으면 원래 객체 참조를 그대로 돌려주므로, 소환과
+ * 무관한 변경(이름 변경, 업그레이드 토글 등)에는 실질적으로 아무 영향이 없다.
+ */
 function mapRoster(state: State, rosterId: string, fn: (r: Roster) => Roster): State {
-  return { ...state, rosters: state.rosters.map((r) => (r.id === rosterId ? fn(r) : r)) }
+  return {
+    ...state,
+    rosters: state.rosters.map((r) => {
+      if (r.id !== rosterId) return r
+      const updated = fn(r)
+      const race = updated.raceId ? RACES.find((race) => race.id === updated.raceId) : undefined
+      return race ? syncSummonedUnits(race, updated) : updated
+    }),
+  }
 }
 
 function mapUnitEntry(roster: Roster, entryId: string, fn: (e: RosterUnitEntry) => RosterUnitEntry): Roster {

@@ -47,6 +47,7 @@ export const kerrigansSwarm: TacticalCard = {
         en: "If there is no Friendly Omega Worm on the battlefield, set a Friendly Omega Worm Unit anywhere on GROUND LEVEL of the battlefield, more than 10\" away from any Enemy model. This Round, the Omega Worm is not eligible to use its Special Abilities (excluding Structure).",
         ko: '전장에 아군 오메가 벌레가 없다면, 전장의 아무곳에, 다른 적 유닛으로부터 10" 이상 떨어져 있는 상태로 전장의 지면에 오메가 벌레를 배치한다. 그렇게 배치된 오메가 벌레는 그 라운드 동안 특수 능력을 사용할 수 없다. (구조물 규칙은 제외된다.)',
       },
+      summonsUnitId: 'Omega Worm',
     },
   ],
 }

@@ -44,6 +44,7 @@ export const corpserRoach: UnitCard = {
         en: 'Once per Game. Resolve the SUMMON (Roachling) effect.',
         ko: '게임당 한 번, 소환(애바퀴)한다.',
       },
+      summonsUnitId: 'Roachling',
     },
     {
       kind: 'weapon',

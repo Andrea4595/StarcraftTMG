@@ -1,8 +1,9 @@
-import type { Ability, Roster, RosterUnitEntry, UnitCard } from '../../types'
+import type { Ability, RaceData, Roster, RosterUnitEntry, UnitCard } from '../../types'
 import { useRosterStore } from '../RosterContext'
 import {
   FIRE_LABEL,
   MELEE_LABEL,
+  summonSourceName,
   unitAbilityChipEntries,
   unitActiveAbilities,
   unitEntryMineralCost,
@@ -23,6 +24,7 @@ import { SquadTierSelector } from './SquadTierSelector'
 const isNonSummaryWeapon = (a: Ability) => !(a.kind === 'weapon' && (a.phase === 'Assault' || a.phase === 'Combat'))
 
 export function UnitEntryRow({
+  race,
   roster,
   unit,
   entry,
@@ -30,6 +32,7 @@ export function UnitEntryRow({
   onSelectAbility,
   interactive = true,
 }: {
+  race: RaceData
   roster: Roster
   unit: UnitCard
   entry: RosterUnitEntry
@@ -90,6 +93,8 @@ export function UnitEntryRow({
   const index = roster.units.findIndex((e) => e.id === entry.id)
   /** 이 유닛을 추가한 뒤 팩션 카드를 바꿔서, 태그로 요구하던 팩션 카드가 더 이상 선택돼 있지 않은 상태 */
   const factionMismatch = unitFactionMismatch(unit, roster)
+  /** 다른 택티컬 카드/유닛의 능력으로 자동 소환된 유닛이면 그 출처 이름. 수동으로 추가한 유닛은 undefined */
+  const summonSource = entry.summonedBy ? summonSourceName(race, entry.summonedBy, localize) : undefined
 
   return (
     <div className={`roster-entry ${factionMismatch ? 'roster-entry-faction-mismatch' : ''}`}>
@@ -98,6 +103,7 @@ export function UnitEntryRow({
           <span className="roster-entry-name">{localize(unit.name)}</span>
           {unit.isUnique && <span className="card-unique-badge">UNIQUE</span>}
           {requiredFactionTag && <span className="card-faction-badge">{localizeTag(requiredFactionTag, lang)}</span>}
+          {summonSource && <span className="roster-entry-summon-source">{summonSource}</span>}
           <span className="roster-entry-tags">
             <KeywordList keywords={unit.tags.filter((t) => t.name !== 'Unique' && t.name !== requiredFactionTag)} />
           </span>
@@ -105,7 +111,7 @@ export function UnitEntryRow({
         <div className="roster-entry-meta">
           <StatBoxes unit={unit} />
         </div>
-        {interactive && (
+        {interactive && !entry.summonedBy && (
           <button
             type="button"
             className="btn btn-danger roster-entry-remove"
