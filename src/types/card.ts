@@ -97,11 +97,11 @@ export interface Placement {
 
 export type SimulatorFeature =
   /** 사거리 내(또는 무제한) 아군/적 유닛 하나를 지정해 효과를 적용 */
-  | { kind: 'targetOne'; side: 'ally' | 'enemy'; range: number | null; rangeIndicator?: RangeIndicator }
+  | { kind: 'targetOne'; side: 'ally' | 'enemy'; range: number | null }
   /** 이 유닛 자신을 재배치(이동) */
   | { kind: 'selfMove'; range: number | null }
-  /** data/tokens.ts의 토큰을 전장에 배치. rangeIndicator는 배치된 토큰을 중심으로 그릴 범위 가이드 */
-  | { kind: 'placeToken'; tokenId: string; placement: Placement; rangeIndicator?: RangeIndicator }
+  /** data/tokens.ts의 토큰을 전장에 배치 */
+  | { kind: 'placeToken'; tokenId: string; placement: Placement }
   /** 완전한 유닛을 전장에 배치. replacesSelfModel이면 배치와 동시에 이 능력을 쓴 유닛의 모델 하나를 제거 */
   | { kind: 'summonUnit'; unitId: string; placement: Placement; replacesSelfModel?: boolean }
 

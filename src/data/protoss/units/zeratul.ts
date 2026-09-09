@@ -84,7 +84,6 @@ export const zeratul: UnitCard = {
         kind: 'placeToken',
         tokenId: 'Faction Marker',
         placement: { rangeType: 'within', range: 8 },
-        rangeIndicator: { inch: 2, alwaysShow: true },
       },
     },
     {

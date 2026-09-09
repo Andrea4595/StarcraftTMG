@@ -676,10 +676,6 @@ function toExportRanges(ranges: RangeIndicator[] | undefined): SimulatorExportRa
   return (ranges ?? []).map((r) => ({ inch: r.inch, always_show: r.alwaysShow }))
 }
 
-function toExportRange(range: RangeIndicator | undefined): SimulatorExportRange | null {
-  return range ? { inch: range.inch, always_show: range.alwaysShow } : null
-}
-
 export interface SimulatorExportPlacement {
   /** 'contact': 특정 유닛과 베이스 접촉(거리 0). 'within'/'at_least': range 인치 이내/이상.
    *  'anywhere': 제약 없음(전장 아무곳) */
@@ -697,21 +693,16 @@ function toExportPlacement(placement: Placement): SimulatorExportPlacement {
  * 보여주면 충분한 능력이라는 뜻이다(대부분의 능력이 여기 해당한다).
  */
 export type SimulatorExportFeature =
-  | { kind: 'target_one'; side: 'ally' | 'enemy'; range: number | null; range_indicator: SimulatorExportRange | null }
+  | { kind: 'target_one'; side: 'ally' | 'enemy'; range: number | null }
   | { kind: 'self_move'; range: number | null }
-  | { kind: 'place_token'; token_id: string; placement: SimulatorExportPlacement; range_indicator: SimulatorExportRange | null }
+  | { kind: 'place_token'; token_id: string; placement: SimulatorExportPlacement }
   | { kind: 'summon_unit'; unit_id: string; placement: SimulatorExportPlacement; replaces_self_model: boolean }
 
 function toExportFeature(feature: SimulatorFeature | undefined): SimulatorExportFeature | null {
   if (!feature) return null
   switch (feature.kind) {
     case 'targetOne':
-      return {
-        kind: 'target_one',
-        side: feature.side,
-        range: feature.range,
-        range_indicator: toExportRange(feature.rangeIndicator),
-      }
+      return { kind: 'target_one', side: feature.side, range: feature.range }
     case 'selfMove':
       return { kind: 'self_move', range: feature.range }
     case 'placeToken':
@@ -719,7 +710,6 @@ function toExportFeature(feature: SimulatorFeature | undefined): SimulatorExport
         kind: 'place_token',
         token_id: feature.tokenId,
         placement: toExportPlacement(feature.placement),
-        range_indicator: toExportRange(feature.rangeIndicator),
       }
     case 'summonUnit':
       return {

@@ -25,7 +25,6 @@ export const overseer: TacticalCard = {
         kind: 'placeToken',
         tokenId: 'Faction Marker',
         placement: { rangeType: 'anywhere' },
-        rangeIndicator: { inch: 6, alwaysShow: true },
       },
     },
     {
