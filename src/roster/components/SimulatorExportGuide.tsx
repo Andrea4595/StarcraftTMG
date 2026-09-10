@@ -19,6 +19,11 @@ const UNIT_FIELDS: { field: string; desc: string }[] = [
     desc: '서플라이 풀 계산 시 squad_tiers의 supply 대신 이 값을 대입해 취급해야 하면 그 값(더하는 보정치가 아니라 대입값), 아니면 null. 예: 의무관이 "고급 의무관 시설"을 장착하면 0',
   },
   { field: 'specialists', desc: '이 유닛이 장착한 업그레이드 중 SPECIALIST 키워드를 가진 무기가 있으면 그 무기 이름 목록 (한글/영문)' },
+  {
+    field: 'summoned_by',
+    desc:
+      '다른 카드/유닛의 능력으로 자동 소환되어 로스터에 추가된 유닛이면 그 출처 정보(source_name: 출처 카드/유닛 이름, ability_name: 소환을 일으킨 능력 이름), 수동으로 추가한 유닛이면 null',
+  },
 ]
 
 const TOKEN_FIELDS: { field: string; desc: string }[] = [

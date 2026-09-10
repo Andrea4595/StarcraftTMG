@@ -111,6 +111,20 @@ export function summonSourceLabel(
   return ability ? `${sourceName} - ${localize(ability.name)}` : sourceName
 }
 
+/** summonSourceLabel과 동일한 로직으로 출처 카드/유닛과 능력을 찾되, 로컬라이즈하지 않은 Rule 그대로 돌려준다 (export용) */
+function summonSourceInfo(race: RaceData, sourceId: string, summonedUnitId: string): SimulatorExportSummonSource {
+  const unit = findUnit(race, sourceId)
+  const card = unit ? undefined : [...race.factionCards, ...race.tacticalCards].find((c) => c.id === sourceId)
+  const sourceName = unit ? unit.name : card ? card.name : { en: sourceId, ko: sourceId }
+
+  const abilities: RuleAbility[] = unit
+    ? unit.abilities.filter((a): a is RuleAbility => a.kind === 'rule')
+    : (card?.cardAbilities ?? [])
+  const ability = abilities.find((a) => a.summonsUnitId === summonedUnitId)
+
+  return { source_name: sourceName, ability_name: ability ? ability.name : null }
+}
+
 interface SummonRequirement {
   /** 이 소환을 발생시키는 카드/유닛의 id. summonedBy 값이자, 화면에 보여줄 출처 이름을 찾는 키 */
   sourceId: string
@@ -847,6 +861,15 @@ export interface SimulatorExportUnit {
   supply_override: number | null
   /** 이 유닛이 장착한 업그레이드 중 SPECIALIST 키워드를 가진 무기가 있으면 그 무기 이름 목록 */
   specialists: Rule[]
+  /** 다른 카드/유닛의 능력(summonsUnitId)으로 자동 소환되어 로스터에 추가된 유닛이면 그 출처, 수동으로 추가한 유닛이면 null */
+  summoned_by: SimulatorExportSummonSource | null
+}
+
+/** SimulatorExportUnit.summoned_by 값. 소환을 발생시킨 카드/유닛과 그 능력 이름 */
+export interface SimulatorExportSummonSource {
+  source_name: Rule
+  /** 출처의 능력 목록에서 summonsUnitId가 일치하는 능력을 찾지 못하면 null */
+  ability_name: Rule | null
 }
 
 export interface SimulatorExportToken {
@@ -948,6 +971,7 @@ export function buildSimulatorExport(race: RaceData, roster: Roster): SimulatorE
       specialists: activeAbilities
         .filter((a) => a.ability.kind === 'weapon' && a.ability.stat.keyword.some((k) => k.name === 'SPECIALIST'))
         .map((a) => a.ability.name),
+      summoned_by: entry.summonedBy ? summonSourceInfo(race, entry.summonedBy, entry.unitId) : null,
     })
   }
 
