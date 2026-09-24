@@ -17,8 +17,8 @@ export const nerazimWatchersAdept: UnitCard = {
   tags: [{ name: 'Nerazim' }, { name: 'Biological' }, { name: 'Light' }, { name: 'Ground' }],
   baseSize: { shape: 'circle', diameterMm: 40 },
   squad: [
-    { modelMin: 1, modelMax: 2, supply: 0, pts: 0 },
-    { modelMin: 3, modelMax: 4, supply: 1, pts: 0 },
+    { modelMin: 1, modelMax: 2, supply: 0, pts: 210 },
+    { modelMin: 3, modelMax: 4, supply: 1, pts: 210 },
   ],
   abilities: [
     {

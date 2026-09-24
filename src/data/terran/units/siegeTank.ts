@@ -16,7 +16,7 @@ export const siegeTank: UnitCard = {
   },
   tags: [{ name: 'Armoured' }, { name: 'Mechanical' }, { name: 'Ground' }],
   baseSize: { shape: 'circle', diameterMm: 150 },
-  squad: [{ modelMin: 1, modelMax: 1, supply: 2, pts: 0 }],
+  squad: [{ modelMin: 1, modelMax: 1, supply: 2, pts: 220 }],
   abilities: [
     {
       kind: 'rule',
@@ -143,7 +143,7 @@ export const siegeTank: UnitCard = {
   ],
   upgrades: [
     {
-      pts: 0,
+      pts: 20,
       ability: {
         kind: 'rule',
         id: 'Mode Transformation',
@@ -158,7 +158,7 @@ export const siegeTank: UnitCard = {
       },
     },
     {
-      pts: 0,
+      pts: 20,
       ability: {
         kind: 'rule',
         id: 'Coordinated Strike',
@@ -177,7 +177,7 @@ export const siegeTank: UnitCard = {
       },
     },
     {
-      pts: 0,
+      pts: 10,
       ability: {
         kind: 'rule',
         id: 'Shaped Blast',
@@ -193,7 +193,7 @@ export const siegeTank: UnitCard = {
       },
     },
     {
-      pts: 0,
+      pts: 10,
       ability: {
         kind: 'rule',
         id: 'Smart Shells',

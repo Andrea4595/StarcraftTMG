@@ -16,7 +16,7 @@ export const immortal: UnitCard = {
   },
   tags: [{ name: 'Armoured' }, { name: 'Mechanical' }, { name: 'Ground' }],
   baseSize: { shape: 'circle', diameterMm: 100 },
-  squad: [{ modelMin: 1, modelMax: 1, supply: 2, pts: 0 }],
+  squad: [{ modelMin: 1, modelMax: 1, supply: 2, pts: 280 }],
   abilities: [
     {
       kind: 'rule',
@@ -112,7 +112,7 @@ export const immortal: UnitCard = {
   ],
   upgrades: [
     {
-      pts: 0,
+      pts: 20,
       ability: {
         kind: 'rule',
         id: 'Shield Overcharge',
@@ -127,7 +127,7 @@ export const immortal: UnitCard = {
       },
     },
     {
-      pts: 0,
+      pts: 20,
       forId: 'Left Photon Disruptor',
       ability: {
         kind: 'weapon',
@@ -147,7 +147,7 @@ export const immortal: UnitCard = {
       },
     },
     {
-      pts: 0,
+      pts: 20,
       forId: 'Right Photon Disruptor',
       ability: {
         kind: 'weapon',
@@ -167,7 +167,7 @@ export const immortal: UnitCard = {
       },
     },
     {
-      pts: 0,
+      pts: 20,
       ability: {
         kind: 'rule',
         id: 'Fury Unyielding',
@@ -182,7 +182,7 @@ export const immortal: UnitCard = {
       },
     },
     {
-      pts: 0,
+      pts: 20,
       ability: {
         kind: 'rule',
         id: 'For the Ancients',
