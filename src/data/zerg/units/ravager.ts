@@ -17,8 +17,8 @@ export const ravager: UnitCard = {
   tags: [{ name: 'Armoured' }, { name: 'Biological' }, { name: 'Ground' }],
   baseSize: { shape: 'circle', diameterMm: 80 },
   squad: [
-    { modelMin: 1, modelMax: 1, supply: 1, pts: 0 },
-    { modelMin: 2, modelMax: 2, supply: 2, pts: 0 },
+    { modelMin: 1, modelMax: 1, supply: 1, pts: 160 },
+    { modelMin: 2, modelMax: 2, supply: 2, pts: 270 },
   ],
   abilities: [
     {
@@ -116,7 +116,7 @@ export const ravager: UnitCard = {
   ],
   upgrades: [
     {
-      pts: 0,
+      pts: [20, 40],
       ability: {
         kind: 'rule',
         id: 'Bloated Bile Ducts',
@@ -132,7 +132,7 @@ export const ravager: UnitCard = {
       },
     },
     {
-      pts: 0,
+      pts: [20, 40],
       ability: {
         kind: 'rule',
         id: 'Burrow Ambush',
@@ -147,7 +147,7 @@ export const ravager: UnitCard = {
       },
     },
     {
-      pts: 0,
+      pts: [20, 40],
       ability: {
         kind: 'rule',
         id: 'Potent Bile',

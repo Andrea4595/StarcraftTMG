@@ -5,7 +5,7 @@ export const factoryTechLab: TacticalCard = {
   id: 'Factory (Tech Lab)',
   name: { en: 'Factory (Tech Lab)', ko: '기술실 군수 공장' },
   isUnique: true,
-  gasPts: 0,
+  gasPts: 40,
   resource: 1,
   slot: [{ unitType: 'Elite', count: 2 }],
   cardAbilities: [
