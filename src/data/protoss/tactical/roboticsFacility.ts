@@ -3,9 +3,9 @@ import type { TacticalCard } from '../../../types'
 export const roboticsFacility: TacticalCard = {
   category: 'tactical',
   id: 'Robotics Facility',
-  name: { en: 'Robotics Facility', ko: '로보틱스 시설' },
+  name: { en: 'Robotics Facility', ko: '로봇공학 시설' },
   isUnique: true,
-  gasPts: 0,
+  gasPts: 35,
   resource: 1,
   slot: [{ unitType: 'Elite', count: 2 }],
   cardAbilities: [
