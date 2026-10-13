@@ -49,4 +49,36 @@ export const TOKENS: TokenEntry[] = [
     base_mm: { width: 25, height: 25 },
     is_displacement: false,
   },
+  {
+    id: 'Bile Bomb',
+    name: { en: 'Bile Bomb', ko: '담즙 폭탄' },
+    base_mm: { width: 32, height: 32 },
+    is_displacement: true,
+  },
+  {
+    id: 'Dark Swarm',
+    name: { en: 'Dark Swarm', ko: '암흑 구름' },
+    base_mm: { width: 32, height: 32 },
+    is_displacement: true,
+  },
+  {
+    // 5" 원형 블래스트 템플릿
+    id: 'Plague Blast Template',
+    name: { en: 'Plague Blast Template', ko: '역병 블래스트 템플릿' },
+    base_mm: { width: 127, height: 127 },
+    is_displacement: false,
+  },
+  {
+    id: 'Force Wall',
+    name: { en: 'Force Wall', ko: '역장 벽' },
+    base_mm: { width: 40, height: 100 },
+    is_displacement: false,
+  },
+  {
+    // 각 페이즈 종료 시 이 토큰 중앙에 5" 원형 사이오닉 폭풍 블래스트 템플릿을 놓는다
+    id: 'Psionic Storm',
+    name: { en: 'Psionic Storm', ko: '사이오닉 폭풍' },
+    base_mm: { width: 32, height: 32 },
+    is_displacement: false,
+  },
 ]

@@ -5,6 +5,7 @@ export const voidSeeker: TacticalCard = {
   id: 'Void Seeker',
   name: { en: 'Void Seeker', ko: '공허 추적기' },
   isUnique: true,
+  wave: 2,
   gasPts: 40,
   resource: 1,
   slot: [{ unitType: 'Core', count: 1 }],

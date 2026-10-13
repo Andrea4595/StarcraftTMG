@@ -1274,6 +1274,22 @@ button.roster-slot-pill:hover {
   gap: 6px;
 }
 
+/*
+  유닛 선택 모달과 로스터 유닛 목록의 이름 옆 배지(UNIQUE/팩션 제한/Wave)는 본문 줄 높이를 물려받으면
+  위아래 여백이 과하게 두꺼워진다. 택티컬 카드 선택 모달의 UNIQUE 배지(.tactical-picker-row-unique)와
+  같이 line-height를 1로 맞춰 약간의 여백만 남긴다
+*/
+.unit-picker-name .card-unique-badge,
+.unit-picker-name .card-faction-badge,
+.unit-picker-name .card-wave-badge,
+.roster-entry-title .card-unique-badge,
+.roster-entry-title .card-faction-badge,
+.roster-entry-title .card-wave-badge,
+.tactical-picker-row-name .card-faction-badge,
+.tactical-picker-row-name .card-wave-badge {
+  line-height: 1;
+}
+
 .unit-picker-type {
   font-size: 12px;
   font-weight: 700;

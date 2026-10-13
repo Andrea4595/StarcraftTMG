@@ -3,6 +3,7 @@ import { AbilitiesSection, type FavoriteToggle } from './AbilitiesSection'
 import { useLang, useLocalize } from '../../LangContext'
 import { localizeTag } from './tagLabels'
 import { tacticalCardRequiredFactionCardId } from '../../roster/rosterCalc'
+import { WaveBadge } from './WaveBadge'
 
 export function TacticalCardView({
   card,
@@ -33,6 +34,7 @@ export function TacticalCardView({
           <div className="card-title">
             {localize(card.name)}
             {card.isUnique && <span className="card-unique-badge">UNIQUE</span>}
+            <WaveBadge wave={card.wave} />
             {requiredFactionTag && <span className="card-faction-badge">{localizeTag(requiredFactionTag, lang)}</span>}
             {count !== undefined && count > 1 && <span className="card-count-badge">x{count}</span>}
           </div>

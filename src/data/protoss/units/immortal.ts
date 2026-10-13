@@ -5,6 +5,7 @@ export const immortal: UnitCard = {
   id: 'Immortal',
   name: { en: 'Immortal', ko: '불멸자' },
   isUnique: false,
+  wave: 2,
   type: 'Elite',
   stat: {
     shld: 6,

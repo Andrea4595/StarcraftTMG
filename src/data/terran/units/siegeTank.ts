@@ -5,6 +5,7 @@ export const siegeTank: UnitCard = {
   id: 'Siege Tank',
   name: { en: 'Siege Tank', ko: '공성 전차' },
   isUnique: false,
+  wave: 2,
   type: 'Elite',
   stat: {
     shld: null,

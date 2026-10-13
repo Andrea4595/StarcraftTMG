@@ -1,0 +1,78 @@
+import type { UnitCard } from '../../../types'
+
+export const autoTurret: UnitCard = {
+  category: 'unit',
+  id: 'Auto-Turret',
+  name: { en: 'Auto-Turret', ko: '자동 포탑' },
+  isUnique: false,
+  wave: 3,
+  type: 'Other',
+  stat: {
+    shld: null,
+    spd: null,
+    eva: '-',
+    arm: '5+',
+    hp: 3,
+    siz: 2,
+  },
+  tags: [{ name: 'Armoured' }, { name: 'Mechanical' }, { name: 'Ground' }],
+  ranges: [{ inch: 8, alwaysShow: true }],
+  baseSize: { shape: 'circle', diameterMm: 40 },
+  squad: [{ modelMin: 1, modelMax: 1, supply: 0, pts: 0 }],
+  abilities: [
+    {
+      kind: 'rule',
+      id: 'Timed Life',
+      name: { en: 'Timed Life', ko: '한시적 생명' },
+      phase: 'Any',
+      type: 'Passive',
+      cost: 0,
+      rule: {
+        en: 'Remove this Unit at the End of the Round.',
+        ko: '라운드 종료 시 이 유닛을 제거한다.',
+      },
+    },
+    {
+      kind: 'rule',
+      id: 'Structure',
+      name: { en: 'Structure', ko: '구조물' },
+      phase: 'Any',
+      type: 'Passive',
+      cost: 0,
+      rule: {
+        en: 'This Unit cannot be Activated in any Phase and cannot perform actions. Additionally, its Current Supply Value is treated as 0, and it can never Control or Contest Mission Markers, ignoring the standard Zero Supply Exception. This Unit cannot be a target of an ability, unless stated otherwise.',
+        ko: '이 유닛은 어떤 페이즈에도 활성화될 수 없고 어떤 액션도 할 수 없다. 서플라이 값은 0으로 취급하지만, 서플라이 값이 0인 유닛의 점령·경쟁 예외 규칙은 적용되지 않아 절대 점령하거나 경쟁할 수 없다. 별도로 언급이 있지 않는 한, 이 유닛은 다른 능력의 대상이 될 수 없다.',
+      },
+    },
+    {
+      kind: 'weapon',
+      id: 'Gauss Cannon',
+      name: { en: 'Gauss Cannon', ko: '가우스 포' },
+      phase: 'Assault',
+      stat: {
+        rng: 8,
+        tgt: 'All',
+        roa: 6,
+        hit: '3+',
+        surge: [],
+        sDie: '-',
+        dmg: 1,
+        keyword: [{ name: 'PINPOINT' }],
+      },
+    },
+    {
+      kind: 'rule',
+      id: 'Overwatch',
+      name: { en: 'Overwatch', ko: '경계 사격' },
+      phase: 'Assault',
+      type: 'Reaction',
+      cost: 0,
+      enhances: ['Gauss Cannon'],
+      rule: {
+        en: 'Use when an Enemy Unit ends its Activation Within 8" of this Unit. This Unit immediately performs a Ranged Attack against that Enemy Unit.',
+        ko: '적 유닛이 이 유닛의 8" 이내에서 활성화를 마칠 때 사용한다. 이 유닛은 즉시 그 적 유닛에게 사격을 한다.',
+      },
+    },
+  ],
+  upgrades: [],
+}

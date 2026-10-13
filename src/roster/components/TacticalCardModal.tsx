@@ -17,6 +17,7 @@ import { Modal } from './Modal'
 import { SlotUsageRow } from './SlotUsageRow'
 import { AbilityChipsRow, type AbilitySelectionRef } from './AbilityChipsRow'
 import { AbilityDetailModal } from './AbilityDetailModal'
+import { WaveBadge } from '../../components/card/WaveBadge'
 
 export function TacticalCardModal({
   race,
@@ -186,6 +187,7 @@ function FactionPickerRow({
         <div className="tactical-picker-row-name">
           {localize(card.name)}
           {card.isUnique && <span className="tactical-picker-row-unique">UNIQUE</span>}
+          <WaveBadge wave={card.wave} />
         </div>
         <CardCapacityMeta card={card} resourceAbbr={resourceAbbr} />
         <button
@@ -256,6 +258,7 @@ function TacticalPickerRow({
         <div className="tactical-picker-row-name">
           {cardName}
           {card.isUnique && <span className="tactical-picker-row-unique">UNIQUE</span>}
+          <WaveBadge wave={card.wave} />
           {requiredFactionTag && <span className="card-faction-badge">{localizeTag(requiredFactionTag, lang)}</span>}
         </div>
         <CardCapacityMeta card={card} resourceAbbr={resourceAbbr} />

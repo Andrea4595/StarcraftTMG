@@ -1,0 +1,146 @@
+import type { UnitCard } from '../../../types'
+
+export const raven: UnitCard = {
+  category: 'unit',
+  id: 'Raven',
+  name: { en: 'Raven', ko: '밤까마귀' },
+  isUnique: false,
+  wave: 3,
+  type: 'Support',
+  stat: {
+    shld: null,
+    spd: { move: 7, cohesion: 3 },
+    eva: '6+',
+    arm: '5+',
+    hp: 8,
+    siz: null,
+  },
+  tags: [{ name: 'Light' }, { name: 'Mechanical' }, { name: 'Flying' }],
+  ranges: [{ inch: 6, alwaysShow: true }],
+  baseSize: { shape: 'cross', widthMm: 100, lengthMm: 100 },
+  squad: [{ modelMin: 1, modelMax: 1, supply: 1, pts: 170 }],
+  abilities: [
+    {
+      kind: 'rule',
+      id: 'Detection',
+      name: { en: 'Detection', ko: '탐지' },
+      phase: 'Any',
+      type: 'Passive',
+      cost: 0,
+      rule: {
+        en: 'While Enemy Units are Within 6" of this Unit, they lose the HIDDEN Status.',
+        ko: '적 유닛은 이 유닛의 6" 안에 있는 동안 은폐 상태를 잃는다.',
+      },
+    },
+    {
+      kind: 'rule',
+      id: 'Deploy Auto-Turret',
+      name: { en: 'Deploy Auto-Turret', ko: '자동 포탑 설치' },
+      phase: 'Movement',
+      type: 'Active',
+      cost: 1,
+      rule: {
+        en: 'Set a Friendly Auto-Turret Unit Within 6", and not Within the Engagement Range of any Enemy Unit.',
+        ko: '이 유닛의 6" 이내이며, 어떤 적 유닛의 인게이지 거리 안도 아닌 곳에 아군 자동 포탑 유닛을 배치한다.',
+      },
+      summonsUnitId: 'Auto-Turret',
+      simulatorFeature: {
+        kind: 'summonUnit',
+        unitId: 'Auto-Turret',
+        placement: { rangeType: 'within', range: 6 },
+      },
+    },
+    {
+      kind: 'rule',
+      id: 'Anti-Armour Missile',
+      name: { en: 'Anti-Armour Missile', ko: '대장갑 미사일' },
+      phase: 'Movement',
+      type: 'Active',
+      cost: 1,
+      rule: {
+        en: 'Select one Enemy Unit Within 12". Apply DEBUFF Armour (1).',
+        ko: '12" 이내의 적 유닛 하나를 고른다. 디버프 아머(1)를 적용한다.',
+      },
+      simulatorFeature: { kind: 'targetOne', side: 'enemy', range: 12 },
+    },
+    {
+      kind: 'weapon',
+      id: 'Railguns',
+      name: { en: 'Railguns', ko: '레일건' },
+      phase: 'Assault',
+      stat: {
+        rng: 12,
+        tgt: 'Ground',
+        roa: 4,
+        hit: '3+',
+        surge: [],
+        sDie: '-',
+        dmg: 1,
+        keyword: [],
+      },
+    },
+  ],
+  upgrades: [
+    {
+      pts: 30,
+      ability: {
+        kind: 'rule',
+        id: 'Corvid Reactor',
+        name: { en: 'Corvid Reactor', ko: '까마귀 반응로' },
+        phase: 'Any',
+        type: 'Passive',
+        cost: 0,
+        rule: {
+          en: 'This Unit may resolve its first Special Ability with the CP cost reduced by 1 if it targets the closest Enemy Unit.',
+          ko: '이 유닛이 가장 가까운 적 유닛을 목표로 하는 첫 특수능력은 CP 비용을 1 줄여서 사용할 수 있다.',
+        },
+      },
+    },
+    {
+      pts: 20,
+      ability: {
+        kind: 'rule',
+        id: 'Internal Tech Module',
+        name: { en: 'Internal Tech Module', ko: '내장 기술 모듈' },
+        phase: 'Movement',
+        type: 'Passive',
+        cost: 0,
+        rule: {
+          en: "When this Unit is nominated to deploy from Reserves, it may Deploy from any table edge that is not a player's Entry Edge. This Unit cannot be set Within 8\" of any Enemy model.",
+          ko: '이 유닛이 리저브에서 나올 때, 플레이어의 엔트리 엣지가 아닌 아무 테이블 가장자리에서 배치될 수 있다. 이 유닛은 적 모델의 8" 이내에는 배치될 수 없다.',
+        },
+      },
+    },
+    {
+      pts: 20,
+      ability: {
+        kind: 'rule',
+        id: 'Seeker Missile',
+        name: { en: 'Seeker Missile', ko: '추적 미사일' },
+        phase: 'Movement',
+        type: 'Active',
+        cost: 1,
+        rule: {
+          en: 'Select one Enemy Unit Within 12". At the End of the Assault Phase, if that Enemy Unit has the Stationary Status or it is Within 8" of this Unit, it suffers HITS 4 (2). If that Unit is Engaged, it is eligible to make an Evade Roll against these hits.',
+          ko: '12" 이내의 적 유닛 하나를 고른다. 어썰트 페이즈 종료 시, 그 적 유닛이 정지 상태이거나 이 유닛의 8" 이내에 있다면, 힛 4(2)를 받는다. 그 유닛이 인게이지 상태라면, 이 힛에 대해 회피 롤을 할 수 있다.',
+        },
+        simulatorFeature: { kind: 'targetOne', side: 'enemy', range: 12 },
+      },
+    },
+    {
+      pts: 10,
+      ability: {
+        kind: 'rule',
+        id: 'Explosive Shrapnel Shells',
+        name: { en: 'Explosive Shrapnel Shells', ko: '폭발성 파편탄' },
+        phase: 'Assault',
+        type: 'Passive',
+        cost: 0,
+        rule: {
+          en: 'The Gauss Cannon of the Auto-Turret set by this Unit gains Surge Type: Light and S-Dice: D3+1.',
+          ko: '이 유닛이 배치한 자동 포탑의 가우스 포가 서지 타입: 경장갑과 S Dice: D3+1을 얻는다.',
+        },
+      },
+    },
+  ],
+}

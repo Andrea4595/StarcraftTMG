@@ -5,6 +5,7 @@ export const nerazim: TacticalCard = {
   id: 'Nerazim',
   name: { en: 'Nerazim', ko: '네라짐' },
   isUnique: true,
+  wave: 2,
   resource: 1,
   slot: [
     { unitType: 'Core', count: 2 },

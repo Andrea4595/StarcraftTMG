@@ -107,6 +107,21 @@
   white-space: nowrap;
 }
 
+/*
+  추가 웨이브(Wave 2, Wave 3 ...)로 출시된 카드에 붙이는 배지. UNIQUE/팩션 배지와 같은 크기지만
+  배경색 없이 회색 테두리 + 회색 글자로, 부가 정보임을 드러낸다. 테두리 1px만큼 padding을 줄여
+  다른 배지와 높이를 맞춘다.
+*/
+.card-wave-badge {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--gc-text-dim, #8b8fa3);
+  border: 1px solid var(--gc-text-dim, #8b8fa3);
+  border-radius: 4px;
+  padding: 1px 5px;
+  white-space: nowrap;
+}
+
 .card-subtitle {
   font-size: 12px;
   color: var(--gc-text-dim);
@@ -458,6 +473,16 @@
   margin-top: 0;
 }
 
+/*
+  강화 어빌리티 설명(말줄임 한 줄)이 길어도 표 폭이 따라 넓어지지 않게, 이 행의 내용은 표의
+  고유 폭 계산에 0으로 참여하고(width: 0) 실제로는 무기 스탯 열들이 정한 폭을 꽉 채운다(min-width:
+  100%). 표 폭은 무기 스탯만으로 정해지고, 가로 스크롤이 생겨도 그 폭이 바뀌지 않는다.
+*/
+.card-weapon-related-fit {
+  width: 0;
+  min-width: 100%;
+}
+
 .card-weapon-name-col {
   min-width: 120px;
 }
@@ -604,6 +629,8 @@
   margin: 4px 0 0;
   color: var(--gc-text);
   line-height: 145%;
+  /* 룰 텍스트 데이터 안의 '\n'을 줄내림으로 보여준다 (예: 비용별 선택지를 한 줄씩 나열) */
+  white-space: pre-line;
 }
 
 /* 룰 텍스트 안에서 자동으로 감지된 키워드 용어. 볼드 대신 색상만 살짝 다르게 줘서
