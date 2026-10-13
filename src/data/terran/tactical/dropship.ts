@@ -5,7 +5,7 @@ export const dropship: TacticalCard = {
   id: 'Dropship',
   name: { en: 'Dropship', ko: '수송선' },
   isUnique: true,
-  gasPts: 40,
+  gasPts: 35,
   resource: 1,
   slot: [
     { unitType: 'Core', count: 1 },

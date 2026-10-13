@@ -17,9 +17,9 @@ export const marauder: UnitCard = {
   tags: [{ name: 'Armoured' }, { name: 'Biological' }, { name: 'Ground' }],
   baseSize: { shape: 'circle', diameterMm: 50 },
   squad: [
-    { modelMin: 1, modelMax: 1, supply: 0, pts: 150 },
-    { modelMin: 2, modelMax: 2, supply: 1, pts: 150 },
-    { modelMin: 3, modelMax: 4, supply: 2, pts: 280 },
+    { modelMin: 1, modelMax: 1, supply: 0, pts: 160 },
+    { modelMin: 2, modelMax: 2, supply: 1, pts: 160 },
+    { modelMin: 3, modelMax: 4, supply: 2, pts: 290 },
   ],
   abilities: [
     {
@@ -82,7 +82,7 @@ export const marauder: UnitCard = {
   ],
   upgrades: [
     {
-      pts: [20, 20, 30],
+      pts: [20, 20, 40],
       ability: {
         kind: 'rule',
         id: 'Veteran of Tarsonis',

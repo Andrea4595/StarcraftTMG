@@ -124,7 +124,7 @@ export const roach: UnitCard = {
       },
     },
     {
-      pts: 20,
+      pts: 10,
       ability: {
         kind: 'rule',
         id: 'Glial Reconstitution',

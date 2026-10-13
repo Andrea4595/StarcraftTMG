@@ -18,8 +18,8 @@ export const medic: UnitCard = {
   ranges: [{ inch: 4, alwaysShow: false }],
   baseSize: { shape: 'circle', diameterMm: 32 },
   squad: [
-    { modelMin: 1, modelMax: 1, supply: 0, pts: 110 },
-    { modelMin: 2, modelMax: 3, supply: 1, pts: 110 },
+    { modelMin: 1, modelMax: 1, supply: 0, pts: 120 },
+    { modelMin: 2, modelMax: 3, supply: 1, pts: 120 },
   ],
   abilities: [
     {
@@ -126,7 +126,7 @@ export const medic: UnitCard = {
       },
     },
     {
-      pts: 30,
+      pts: 20,
       ability: {
         kind: 'rule',
         id: 'Stabilizer Medpacks',

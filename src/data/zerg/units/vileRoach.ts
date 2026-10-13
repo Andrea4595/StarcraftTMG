@@ -18,8 +18,8 @@ export const vileRoach: UnitCard = {
   ranges: [{ inch: 8, alwaysShow: false }],
   baseSize: { shape: 'circle', diameterMm: 50 },
   squad: [
-    { modelMin: 1, modelMax: 1, supply: 0, pts: 200 },
-    { modelMin: 2, modelMax: 3, supply: 1, pts: 200 },
+    { modelMin: 1, modelMax: 1, supply: 0, pts: 190 },
+    { modelMin: 2, modelMax: 3, supply: 1, pts: 190 },
   ],
   abilities: [
     {
@@ -137,7 +137,7 @@ export const vileRoach: UnitCard = {
       },
     },
     {
-      pts: 20,
+      pts: 10,
       ability: {
         kind: 'rule',
         id: 'Glial Reconstitution',

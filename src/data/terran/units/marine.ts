@@ -17,9 +17,9 @@ export const marine: UnitCard = {
   tags: [{ name: 'Biological' }, { name: 'Light' }, { name: 'Ground' }],
   baseSize: { shape: 'circle', diameterMm: 32 },
   squad: [
-    { modelMin: 1, modelMax: 3, supply: 0, pts: 160 },
-    { modelMin: 4, modelMax: 6, supply: 1, pts: 160 },
-    { modelMin: 7, modelMax: 9, supply: 2, pts: 210 },
+    { modelMin: 1, modelMax: 3, supply: 0, pts: 170 },
+    { modelMin: 4, modelMax: 6, supply: 1, pts: 170 },
+    { modelMin: 7, modelMax: 9, supply: 2, pts: 220 },
   ],
   abilities: [
     {

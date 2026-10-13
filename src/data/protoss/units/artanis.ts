@@ -16,7 +16,7 @@ export const artanis: UnitCard = {
   },
   tags: [{ name: 'Biological' }, { name: 'Psionic' }, { name: 'Ground' }, { name: 'Unique' }],
   baseSize: { shape: 'circle', diameterMm: 40 },
-  squad: [{ modelMin: 1, modelMax: 1, supply: 1, pts: 250 }],
+  squad: [{ modelMin: 1, modelMax: 1, supply: 1, pts: 270 }],
   abilities: [
     {
       kind: 'rule',

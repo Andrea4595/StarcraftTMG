@@ -5,7 +5,7 @@ export const barracks: TacticalCard = {
   id: 'Barracks',
   name: { en: 'Barracks', ko: '병영' },
   isUnique: false,
-  gasPts: 25,
+  gasPts: 30,
   resource: 1,
   slot: [{ unitType: 'Core', count: 1 }],
   cardAbilities: [

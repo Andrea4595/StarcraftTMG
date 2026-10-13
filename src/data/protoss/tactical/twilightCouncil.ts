@@ -5,7 +5,7 @@ export const twilightCouncil: TacticalCard = {
   id: 'Twilight Council',
   name: { en: 'Twilight Council', ko: '황혼 의회' },
   isUnique: true,
-  gasPts: 45,
+  gasPts: 40,
   resource: 1,
   slot: [
     { unitType: 'Elite', count: 1 },

@@ -5,7 +5,7 @@ export const barracksTechLab: TacticalCard = {
   id: 'Barracks (Tech Lab)',
   name: { en: 'Barracks (Tech Lab)', ko: '기술실 병영' },
   isUnique: true,
-  gasPts: 45,
+  gasPts: 40,
   resource: 2,
   slot: [
     { unitType: 'Elite', count: 1 },
