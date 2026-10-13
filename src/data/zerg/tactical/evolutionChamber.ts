@@ -5,7 +5,7 @@ export const evolutionChamber: TacticalCard = {
   id: 'Evolution Chamber',
   name: { en: 'Evolution Chamber', ko: '진화장' },
   isUnique: false,
-  gasPts: 30,
+  gasPts: 25,
   resource: 1,
   slot: [{ unitType: 'Core', count: 1 }],
   cardAbilities: [

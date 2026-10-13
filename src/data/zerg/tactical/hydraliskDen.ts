@@ -5,7 +5,7 @@ export const hydraliskDen: TacticalCard = {
   id: 'Hydralisk Den',
   name: { en: 'Hydralisk Den', ko: '히드라리스크 굴' },
   isUnique: false,
-  gasPts: 35,
+  gasPts: 30,
   resource: 1,
   slot: [{ unitType: 'Elite', count: 2 }],
   cardAbilities: [

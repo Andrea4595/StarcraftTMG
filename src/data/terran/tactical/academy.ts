@@ -5,7 +5,7 @@ export const academy: TacticalCard = {
   id: 'Academy',
   name: { en: 'Academy', ko: '사관학교' },
   isUnique: true,
-  gasPts: 35,
+  gasPts: 40,
   resource: 1,
   slot: [{ unitType: 'Support', count: 2 }],
   cardAbilities: [

@@ -100,7 +100,7 @@ export const sentry: UnitCard = {
   ],
   upgrades: [
     {
-      pts: 20,
+      pts: 10,
       ability: {
         kind: 'rule',
         id: 'Solid-Field Projectors',
@@ -122,7 +122,7 @@ export const sentry: UnitCard = {
       },
     },
     {
-      pts: 30,
+      pts: 20,
       ability: {
         kind: 'rule',
         id: 'Hallucination',

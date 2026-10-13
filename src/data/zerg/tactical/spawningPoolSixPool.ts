@@ -5,7 +5,7 @@ export const spawningPoolSixPool: TacticalCard = {
   id: 'Spawning Pool (Six Pool)',
   name: { en: 'Spawning Pool (Six Pool)', ko: '패스트 산란못' },
   isUnique: true,
-  gasPts: 40,
+  gasPts: 35,
   resource: 2,
   slot: [{ unitType: 'Core', count: 2 }],
   cardAbilities: [

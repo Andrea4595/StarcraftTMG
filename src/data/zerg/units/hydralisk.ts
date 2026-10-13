@@ -84,7 +84,7 @@ export const hydralisk: UnitCard = {
   ],
   upgrades: [
     {
-      pts: [20, 20, 40],
+      pts: [20, 20, 30],
       ability: {
         kind: 'rule',
         id: 'Ancillary Carapace',
@@ -99,7 +99,7 @@ export const hydralisk: UnitCard = {
       },
     },
     {
-      pts: [10, 10, 20],
+      pts: [10, 10, 10],
       ability: {
         kind: 'rule',
         id: 'Lurking',
@@ -129,7 +129,7 @@ export const hydralisk: UnitCard = {
       },
     },
     {
-      pts: [20, 20, 40],
+      pts: [20, 20, 30],
       ability: {
         kind: 'rule',
         id: 'Grooved Spines',

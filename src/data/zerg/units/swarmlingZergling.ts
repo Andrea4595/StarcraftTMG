@@ -17,8 +17,8 @@ export const swarmlingZergling: UnitCard = {
   tags: [{ name: 'Biological' }, { name: 'Light' }, { name: 'Ground' }],
   baseSize: { shape: 'circle', diameterMm: 32 },
   squad: [
-    { modelMin: 1, modelMax: 6, supply: 0, pts: 260 },
-    { modelMin: 7, modelMax: 18, supply: 1, pts: 260 },
+    { modelMin: 1, modelMax: 6, supply: 0, pts: 210 },
+    { modelMin: 7, modelMax: 18, supply: 1, pts: 210 },
   ],
   abilities: [
     {

@@ -17,9 +17,9 @@ export const zergling: UnitCard = {
   tags: [{ name: 'Biological' }, { name: 'Light' }, { name: 'Ground' }],
   baseSize: { shape: 'circle', diameterMm: 32 },
   squad: [
-    { modelMin: 1, modelMax: 6, supply: 0, pts: 180 },
-    { modelMin: 7, modelMax: 12, supply: 1, pts: 180 },
-    { modelMin: 13, modelMax: 18, supply: 2, pts: 220 },
+    { modelMin: 1, modelMax: 6, supply: 0, pts: 150 },
+    { modelMin: 7, modelMax: 12, supply: 1, pts: 150 },
+    { modelMin: 13, modelMax: 18, supply: 2, pts: 210 },
   ],
   abilities: [
     {

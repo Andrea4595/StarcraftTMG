@@ -23,8 +23,8 @@ export const kerriganSwarmRaptorZergling: UnitCard = {
   ],
   baseSize: { shape: 'circle', diameterMm: 32 },
   squad: [
-    { modelMin: 1, modelMax: 3, supply: 0, pts: 250 },
-    { modelMin: 4, modelMax: 6, supply: 1, pts: 250 },
+    { modelMin: 1, modelMax: 3, supply: 0, pts: 230 },
+    { modelMin: 4, modelMax: 6, supply: 1, pts: 230 },
   ],
   abilities: [
     {

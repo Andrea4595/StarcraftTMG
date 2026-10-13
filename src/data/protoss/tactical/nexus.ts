@@ -5,7 +5,7 @@ export const nexus: TacticalCard = {
   id: 'Nexus',
   name: { en: 'Nexus', ko: '연결체' },
   isUnique: true,
-  gasPts: 35,
+  gasPts: 40,
   resource: 1,
   slot: [{ unitType: 'Core', count: 2 }],
   cardAbilities: [
