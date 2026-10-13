@@ -1274,6 +1274,14 @@ button.roster-slot-pill:hover {
   gap: 6px;
 }
 
+/* 유닛 선택 모달의 UNIQUE/팩션 제한 배지는 기본(약 16px)보다 낮은 약 11px 높이로 줄인다 */
+.unit-picker-name .card-unique-badge,
+.unit-picker-name .card-faction-badge {
+  font-size: 9px;
+  line-height: 1;
+  padding: 1px 5px;
+}
+
 .unit-picker-type {
   font-size: 12px;
   font-weight: 700;

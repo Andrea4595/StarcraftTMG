@@ -134,7 +134,7 @@ export const novaStealthMode: UnitCard = {
     {
       kind: 'weapon',
       id: 'Combat Knife',
-      name: { en: 'Combat Knife', ko: '전투 칼' },
+      name: { en: 'Combat Knife', ko: '전투용 단검' },
       phase: 'Combat',
       stat: {
         rng: 'E',

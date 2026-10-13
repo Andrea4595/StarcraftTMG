@@ -117,8 +117,8 @@ export const defiler: UnitCard = {
         cost: 'X',
         placesTokenId: 'Plague Blast Template',
         rule: {
-          en: 'You may spend 1 to 3 BM to activate this ability. Set a Plague Blast Template Wholly Within 10" and Line of Sight of this Unit. For each Unit that has at least one model whose base is partially covered by the template, roll 2 dice, plus 1 additional die for each model in that Unit whose base is partially covered. That Unit loses its HIDDEN Status, and, depending on the BM spent, it suffers NON-LETHAL DAMAGE (1) for: 1 BM: each result of 5+. 2 BM: each result of 4+. 3 BM: each result of 3+.',
-          ko: 'BM을 1~3 소모해 이 능력을 사용한다. 이 유닛의 10" 이내에 완전히 들어오고 시야 내인 곳에 역병 블래스트 템플릿을 둔다. 베이스가 템플릿에 일부라도 덮인 모델이 하나 이상 있는 유닛마다 주사위 2개를 굴리고, 그 유닛에서 베이스가 일부라도 덮인 모델마다 주사위를 1개씩 추가로 굴린다. 그 유닛은 은폐 상태를 잃고, 소모한 BM에 따라 다음 결과마다 논 리썰 데미지(1)를 받는다: 1 BM: 5+가 나온 주사위마다. 2 BM: 4+가 나온 주사위마다. 3 BM: 3+가 나온 주사위마다.',
+          en: 'You may spend 1 to 3 BM to activate this ability. Set a Plague Blast Template Wholly Within 10" and Line of Sight of this Unit. For each Unit that has at least one model whose base is partially covered by the template, roll 2 dice, plus 1 additional die for each model in that Unit whose base is partially covered. That Unit loses its HIDDEN Status, and, depending on the BM spent, it suffers NON-LETHAL DAMAGE (1) for:\n1 BM: each result of 5+.\n2 BM: each result of 4+.\n3 BM: each result of 3+.',
+          ko: 'BM을 1~3 소모해 이 능력을 사용한다. 이 유닛의 10" 이내에 완전히 들어오고 시야 내인 곳에 역병 블래스트 템플릿을 둔다. 베이스가 템플릿에 일부라도 덮인 모델이 하나 이상 있는 유닛마다 주사위 2개를 굴리고, 그 유닛에서 베이스가 일부라도 덮인 모델마다 주사위를 1개씩 추가로 굴린다. 그 유닛은 은폐 상태를 잃고, 소모한 BM에 따라 다음 결과마다 논 리썰 데미지(1)를 받는다:\n1 BM: 5+가 나온 주사위마다.\n2 BM: 4+가 나온 주사위마다.\n3 BM: 3+가 나온 주사위마다.',
         },
         simulatorFeature: {
           kind: 'placeToken',

@@ -104,7 +104,9 @@ export function WeaponTable({ rows }: { rows: WeaponRow[] }) {
             mainRow,
             <tr key={`row-${i}-related`} className="card-weapon-related-row">
               <td colSpan={columnCount}>
-                <RelatedAbilities items={row.referencedBy ?? []} />
+                <div className="card-weapon-related-fit">
+                  <RelatedAbilities items={row.referencedBy ?? []} />
+                </div>
               </td>
             </tr>,
           ]
