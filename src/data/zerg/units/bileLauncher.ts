@@ -5,6 +5,7 @@ export const bileLauncher: UnitCard = {
   id: 'Bile Launcher',
   name: { en: 'Bile Launcher', ko: '담즙 발사기' },
   isUnique: true,
+  wave: 3,
   type: 'Support',
   stat: {
     shld: null,

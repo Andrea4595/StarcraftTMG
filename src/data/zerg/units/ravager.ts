@@ -5,6 +5,7 @@ export const ravager: UnitCard = {
   id: 'Ravager',
   name: { en: 'Ravager', ko: '궤멸충' },
   isUnique: false,
+  wave: 2,
   type: 'Core',
   stat: {
     shld: null,

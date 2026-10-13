@@ -5,6 +5,7 @@ export const novaAssaultMode: UnitCard = {
   id: 'Nova Assault Mode',
   name: { en: 'Nova Assault Mode', ko: '노바 [강습 모드]' },
   isUnique: true,
+  wave: 3,
   type: 'Hero',
   stat: {
     shld: null,

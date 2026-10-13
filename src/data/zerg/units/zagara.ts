@@ -5,6 +5,7 @@ export const zagara: UnitCard = {
   id: 'Zagara',
   name: { en: 'Zagara', ko: '자가라' },
   isUnique: true,
+  wave: 3,
   type: 'Hero',
   stat: {
     shld: null,

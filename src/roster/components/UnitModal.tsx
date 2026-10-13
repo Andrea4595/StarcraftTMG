@@ -15,6 +15,7 @@ import { localizeTag } from '../../components/card/tagLabels'
 import { useLang, useLocalize } from '../../LangContext'
 import { Modal } from './Modal'
 import { SlotUsageRow } from './SlotUsageRow'
+import { WaveBadge } from '../../components/card/WaveBadge'
 
 export function UnitModal({
   race,
@@ -75,6 +76,7 @@ export function UnitModal({
               <div className="unit-picker-name">
                 {localize(unit.name)}
                 {unit.isUnique && <span className="card-unique-badge">UNIQUE</span>}
+                <WaveBadge wave={unit.wave} />
                 {requiredFactionTag && (
                   <span className="card-faction-badge">{localizeTag(requiredFactionTag, lang)}</span>
                 )}

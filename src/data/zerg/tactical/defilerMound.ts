@@ -5,6 +5,7 @@ export const defilerMound: TacticalCard = {
   id: 'Defiler Mound',
   name: { en: 'Defiler Mound', ko: '파멸충 둥지' },
   isUnique: true,
+  wave: 3,
   gasPts: 35,
   resource: 1,
   slot: [

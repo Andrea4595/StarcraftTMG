@@ -5,6 +5,7 @@ export const sabotageDrone: UnitCard = {
   id: 'Sabotage Drone',
   name: { en: 'Sabotage Drone', ko: '파괴 드론' },
   isUnique: false,
+  wave: 3,
   type: 'Other',
   stat: {
     shld: null,

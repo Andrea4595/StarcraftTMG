@@ -8,6 +8,7 @@ import { formatScaledCost } from './costDisplay'
 import { localizeTag } from './tagLabels'
 import { useLang, useLocalize } from '../../LangContext'
 import { unitRequiredFactionCardId } from '../../roster/rosterCalc'
+import { WaveBadge } from './WaveBadge'
 
 export function UnitCardView({
   unit,
@@ -63,6 +64,7 @@ export function UnitCardView({
             <div className="card-title">
               {localize(unit.name)}
               {unit.isUnique && <span className="card-unique-badge">UNIQUE</span>}
+              <WaveBadge wave={unit.wave} />
               {requiredFactionTag && (
                 <span className="card-faction-badge">{localizeTag(requiredFactionTag, lang)}</span>
               )}

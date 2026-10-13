@@ -5,6 +5,7 @@ export const zeratul: UnitCard = {
   id: 'Zeratul',
   name: { en: 'Zeratul', ko: '제라툴' },
   isUnique: true,
+  wave: 2,
   type: 'Hero',
   stat: {
     shld: 3,

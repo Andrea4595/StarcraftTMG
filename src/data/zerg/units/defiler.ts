@@ -5,6 +5,7 @@ export const defiler: UnitCard = {
   id: 'Defiler',
   name: { en: 'Defiler', ko: '파멸충' },
   isUnique: false,
+  wave: 3,
   type: 'Support',
   stat: {
     shld: null,

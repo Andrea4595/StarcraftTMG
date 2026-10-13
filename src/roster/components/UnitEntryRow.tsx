@@ -20,6 +20,7 @@ import { localizeTag } from '../../components/card/tagLabels'
 import { useLang, useLocalize } from '../../LangContext'
 import { AbilityChipsRow, type AbilitySelectionRef, type UpgradeToggleRef, type WeaponSummaryInput } from './AbilityChipsRow'
 import { SquadTierSelector } from './SquadTierSelector'
+import { WaveBadge } from '../../components/card/WaveBadge'
 
 const isNonSummaryWeapon = (a: Ability) => !(a.kind === 'weapon' && (a.phase === 'Assault' || a.phase === 'Combat'))
 
@@ -104,6 +105,7 @@ export function UnitEntryRow({
         <div className="roster-entry-title">
           <span className="roster-entry-name">{localize(unit.name)}</span>
           {unit.isUnique && <span className="card-unique-badge">UNIQUE</span>}
+          <WaveBadge wave={unit.wave} />
           {requiredFactionTag && <span className="card-faction-badge">{localizeTag(requiredFactionTag, lang)}</span>}
           <span className="roster-entry-tags">
             <KeywordList keywords={unit.tags.filter((t) => t.name !== 'Unique' && t.name !== requiredFactionTag)} />

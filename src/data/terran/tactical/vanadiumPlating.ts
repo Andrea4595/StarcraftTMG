@@ -5,6 +5,7 @@ export const vanadiumPlating: TacticalCard = {
   id: 'Vanadium Plating',
   name: { en: 'Vanadium Plating', ko: '바나듐 장갑판' },
   isUnique: false,
+  wave: 3,
   gasPts: 25,
   resource: 1,
   slot: [{ unitType: 'Support', count: 1 }],

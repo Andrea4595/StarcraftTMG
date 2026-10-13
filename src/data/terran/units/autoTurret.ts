@@ -5,6 +5,7 @@ export const autoTurret: UnitCard = {
   id: 'Auto-Turret',
   name: { en: 'Auto-Turret', ko: '자동 포탑' },
   isUnique: false,
+  wave: 3,
   type: 'Other',
   stat: {
     shld: null,

@@ -107,6 +107,21 @@
   white-space: nowrap;
 }
 
+/*
+  추가 웨이브(Wave 2, Wave 3 ...)로 출시된 카드에 붙이는 배지. UNIQUE/팩션 배지와 같은 크기지만
+  배경색 없이 회색 테두리 + 회색 글자로, 부가 정보임을 드러낸다. 테두리 1px만큼 padding을 줄여
+  다른 배지와 높이를 맞춘다.
+*/
+.card-wave-badge {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--gc-text-dim, #8b8fa3);
+  border: 1px solid var(--gc-text-dim, #8b8fa3);
+  border-radius: 4px;
+  padding: 1px 5px;
+  white-space: nowrap;
+}
+
 .card-subtitle {
   font-size: 12px;
   color: var(--gc-text-dim);

@@ -151,6 +151,8 @@ interface CardBase {
   isUnique: boolean
   /** 프로젝트 내 이미지 경로. 텍스트 기반 렌더링에서는 사용하지 않을 수 있음 */
   thumb?: string
+  /** 기본 구성 이후 추가 웨이브로 출시된 카드면 그 웨이브 번호 (2, 3, ...). 기본 구성품은 undefined */
+  wave?: number
 }
 
 /**

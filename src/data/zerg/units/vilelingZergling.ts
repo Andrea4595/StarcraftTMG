@@ -5,6 +5,7 @@ export const vilelingZergling: UnitCard = {
   id: 'Vileling (Zergling)',
   name: { en: 'Vileling (Zergling)', ko: '고름 변종 [저글링]' },
   isUnique: false,
+  wave: 3,
   type: 'Core',
   stat: {
     shld: null,

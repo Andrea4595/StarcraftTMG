@@ -5,6 +5,7 @@ export const specOpsMarauder: UnitCard = {
   id: 'Spec Ops Marauder (Marauder)',
   name: { en: 'Spec Ops Marauder (Marauder)', ko: '특수 작전 불곰 [불곰]' },
   isUnique: false,
+  wave: 3,
   type: 'Core',
   stat: {
     shld: null,

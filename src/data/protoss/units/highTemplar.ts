@@ -5,6 +5,7 @@ export const highTemplar: UnitCard = {
   id: 'High Templar',
   name: { en: 'High Templar', ko: '고위 기사' },
   isUnique: false,
+  wave: 3,
   type: 'Support',
   stat: {
     shld: 3,

@@ -5,6 +5,7 @@ export const novaCovertOps: TacticalCard = {
   id: 'Nova Covert Ops',
   name: { en: 'Nova Covert Ops', ko: '노바 비밀 작전' },
   isUnique: true,
+  wave: 3,
   resource: 1,
   slot: [
     { unitType: 'Hero', count: 1 },

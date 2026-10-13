@@ -5,6 +5,7 @@ export const twilightTemplar: UnitCard = {
   id: 'Twilight Templar (High Templar)',
   name: { en: 'Twilight Templar (High Templar)', ko: '황혼 기사 [고위 기사]' },
   isUnique: true,
+  wave: 3,
   type: 'Support',
   stat: {
     shld: 3,

@@ -5,6 +5,7 @@ export const tassadar: UnitCard = {
   id: 'Tassadar',
   name: { en: 'Tassadar', ko: '태사다르' },
   isUnique: true,
+  wave: 3,
   type: 'Hero',
   stat: {
     shld: 3,

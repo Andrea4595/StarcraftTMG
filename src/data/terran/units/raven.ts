@@ -5,6 +5,7 @@ export const raven: UnitCard = {
   id: 'Raven',
   name: { en: 'Raven', ko: '밤까마귀' },
   isUnique: false,
+  wave: 3,
   type: 'Support',
   stat: {
     shld: null,

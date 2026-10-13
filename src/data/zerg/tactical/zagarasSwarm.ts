@@ -5,6 +5,7 @@ export const zagarasSwarm: TacticalCard = {
   id: "Zagara's Swarm",
   name: { en: "Zagara's Swarm", ko: '자가라의 군단' },
   isUnique: true,
+  wave: 3,
   resource: 1,
   slot: [
     { unitType: 'Hero', count: 1 },

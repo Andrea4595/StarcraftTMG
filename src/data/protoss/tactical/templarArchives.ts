@@ -5,6 +5,7 @@ export const templarArchives: TacticalCard = {
   id: 'Templar Archives',
   name: { en: 'Templar Archives', ko: '기사단 기록보관소' },
   isUnique: true,
+  wave: 3,
   gasPts: 40,
   resource: 1,
   slot: [{ unitType: 'Support', count: 2 }],

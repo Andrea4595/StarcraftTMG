@@ -5,6 +5,7 @@ export const roboticsFacility: TacticalCard = {
   id: 'Robotics Facility',
   name: { en: 'Robotics Facility', ko: '로보틱스 시설' },
   isUnique: true,
+  wave: 2,
   gasPts: 35,
   resource: 1,
   slot: [{ unitType: 'Elite', count: 2 }],

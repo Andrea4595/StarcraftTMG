@@ -5,6 +5,7 @@ export const nerazimWatchersAdept: UnitCard = {
   id: 'Nerazim Watchers (Adept)',
   name: { en: 'Nerazim Watchers (Adept)', ko: '네라짐 감시자 [사도]' },
   isUnique: false,
+  wave: 2,
   type: 'Core',
   stat: {
     shld: 2,

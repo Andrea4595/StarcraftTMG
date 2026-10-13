@@ -5,6 +5,7 @@ export const holoDecoy: UnitCard = {
   id: 'Holo Decoy',
   name: { en: 'Holo Decoy', ko: '홀로그램 분신' },
   isUnique: false,
+  wave: 3,
   type: 'Other',
   stat: {
     shld: null,

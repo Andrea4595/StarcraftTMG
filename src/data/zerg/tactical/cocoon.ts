@@ -5,6 +5,7 @@ export const cocoon: TacticalCard = {
   id: 'Cocoon',
   name: { en: 'Cocoon', ko: '고치' },
   isUnique: true,
+  wave: 2,
   gasPts: 30,
   resource: 0,
   slot: [{ unitType: 'Elite', count: 1 }],

@@ -5,6 +5,7 @@ export const templarCaste: TacticalCard = {
   id: 'Templar Caste',
   name: { en: 'Templar Caste', ko: '기사 계급' },
   isUnique: true,
+  wave: 3,
   resource: 1,
   slot: [
     { unitType: 'Hero', count: 1 },
