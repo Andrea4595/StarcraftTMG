@@ -3,6 +3,10 @@ const UNIT_FIELDS: { field: string; desc: string }[] = [
   { field: 'unit_type', desc: '유닛 슬롯 분류 (Hero/Core/Elite/Support/Other)' },
   { field: 'model_count', desc: '이 로스터에 포함된 모델 수' },
   { field: 'base_mm', desc: '미니어처 베이스의 실제 물리 크기 (가로/세로, mm)' },
+  {
+    field: 'base_shape',
+    desc: "베이스 모양 — 'circle'(원형), 'oval'(타원형), 'cross'(base_mm 크기의 가로·세로 막대가 중앙에서 겹친 십자형, 예: 밤까마귀)",
+  },
   { field: 'stat', desc: '쉴드/이동력·코헤런시/회피/방어력/체력/사이즈 등 전체 스탯. 해당 스탯이 없는 유닛은 null' },
   { field: 'tags', desc: '유닛 분류 태그 (생체/경장갑/지상 등, 한글/영문)' },
   { field: 'is_displacement', desc: '유닛 자체가 변위(DISPLACEMENT) 키워드를 지니는지' },

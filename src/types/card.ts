@@ -155,12 +155,14 @@ interface CardBase {
 
 /**
  * 미니어처의 물리 베이스 크기(mm). 사용자에게 노출하는 정보가 아니라, 다른 앱과의
- * 데이터 연동을 위해 보관한다. 원형(diameterMm 하나) / 타원형(widthMm x lengthMm)
- * 둘 다 표현 가능하도록 shape로 판별한다.
+ * 데이터 연동을 위해 보관한다. 원형(diameterMm 하나) / 타원형(widthMm x lengthMm) /
+ * 십자형(밤까마귀처럼 가로·세로 막대가 겹친 베이스, 전체 외곽 widthMm x lengthMm)을
+ * 표현 가능하도록 shape로 판별한다.
  */
 export type BaseSize =
   | { shape: 'circle'; diameterMm: number }
   | { shape: 'oval'; widthMm: number; lengthMm: number }
+  | { shape: 'cross'; widthMm: number; lengthMm: number }
 
 export interface Squad {
   /** Min과 Max 사이의 유닛 수는 이 스쿼드에 해당한다. */
@@ -199,6 +201,11 @@ export interface UnitCard extends CardBase {
   /** 시뮬레이터의 '범위 표시기' 기능에 쓰이는 거리 가이드라인. 없으면 표시할 범위가 없는 것 */
   ranges?: RangeIndicator[]
   baseSize: BaseSize
+  /**
+   * 이 유닛과 같은 로스터에 함께 넣을 수 없는 유닛 id들 (예: 노바 강습 모드 ↔ 노바 은신 모드).
+   * 양쪽 유닛 모두에 서로를 적어 둔다.
+   */
+  excludesUnitIds?: string[]
   squad: Squad[]
   abilities: Ability[]
   upgrades: Upgrade[]

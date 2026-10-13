@@ -12,6 +12,7 @@ import {
   rosterSlotUsage,
   rosterSupplyTotal,
   rosterUniqueViolations,
+  rosterExclusionViolations,
 } from '../rosterCalc'
 import { UnitEntryRow } from './UnitEntryRow'
 import { TacticalCardModal } from './TacticalCardModal'
@@ -110,6 +111,7 @@ function RosterPanelBody({
   const supplyTotal = rosterSupplyTotal(race, roster)
   const slotUsage = rosterSlotUsage(race, roster)
   const uniqueViolations = rosterUniqueViolations(race, roster)
+  const exclusionViolations = rosterExclusionViolations(race, roster)
   const overCap = mineralTotal > roster.mineralCap
   const overGasCap = gasTotal > gasCap
   const factionCard = findFactionCard(race, roster)
@@ -122,7 +124,12 @@ function RosterPanelBody({
   return (
     <>
       {uniqueViolations.length > 0 && (
-        <div className="roster-warning">Unique 중복: {uniqueViolations.join(', ')}</div>
+        <div className="roster-warning">Unique 중복: {uniqueViolations.map(localize).join(', ')}</div>
+      )}
+      {exclusionViolations.length > 0 && (
+        <div className="roster-warning">
+          동시 편성 불가: {exclusionViolations.map(([a, b]) => `${localize(a)} ↔ ${localize(b)}`).join(', ')}
+        </div>
       )}
 
       <div className="roster-section-title-row">

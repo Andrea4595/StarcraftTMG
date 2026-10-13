@@ -5,6 +5,7 @@ import {
   isAutoSummonedUnitId,
   rosterMineralTotal,
   rosterSlotUsage,
+  unitExclusionConflict,
   unitFactionMismatch,
   unitRequiredFactionCardId,
 } from '../rosterCalc'
@@ -59,7 +60,9 @@ export function UnitModal({
           /** 태그로 요구하는 팩션 카드(레이너 특공대/칼라이/케리건의 군단)가 지금 선택돼 있지 않으면
            *  이 유닛은 고를 수 없다 */
           const factionMismatch = unitFactionMismatch(unit, roster)
-          const disabled = alreadyIncluded || factionMismatch
+          /** 함께 넣을 수 없는 유닛(예: 노바 강습 모드 ↔ 은신 모드)이 이미 로스터에 있으면 고를 수 없다 */
+          const exclusionConflict = unitExclusionConflict(race, unit, roster)
+          const disabled = alreadyIncluded || factionMismatch || exclusionConflict !== undefined
           const requiredFactionTag = unitRequiredFactionCardId(unit)
           /** 'Other'는 어떤 카드로도 슬롯을 부여받지 않아 예산 개념이 없으므로 강조하지 않는다 */
           const typeColor = unit.type === 'Other' ? undefined : UNIT_TYPE_COLORS[unit.type]

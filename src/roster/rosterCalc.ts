@@ -38,11 +38,20 @@ export function findFactionCard(race: RaceData, roster: Roster): TacticalCard | 
 }
 
 /**
- * '레이너 특공대'/'칼라이'/'네라짐'/'케리건의 군단' 태그는 동명의 팩션 카드가 로스터에 선택돼
+ * '레이너 특공대'/'칼라이'/'네라짐'/'케리건의 군단'/'자가라의 군단'/'노바 비밀 작전'/'기사 계급' 태그는
+ * 동명의 팩션 카드가 로스터에 선택돼
  * 있어야만 그 유닛이나 택티컬 카드를 포함할 수 있다는 뜻이다. 태그 이름이 곧 해당 팩션 카드의 id와
  * 같다. 유닛(UnitCard.tags)과 택티컬 카드(TacticalCard.tags) 양쪽에서 공용으로 쓴다.
  */
-const FACTION_LOCKED_TAGS = new Set(["Raynor's Raiders", 'Khalai', 'Nerazim', "Kerrigan's Swarm"])
+const FACTION_LOCKED_TAGS = new Set([
+  "Raynor's Raiders",
+  'Khalai',
+  'Nerazim',
+  "Kerrigan's Swarm",
+  "Zagara's Swarm",
+  'Nova Covert Ops',
+  'Templar Caste',
+])
 
 /** 이 유닛이 특정 팩션 카드를 요구한다면(태그로 표시) 그 팩션 카드 id를 돌려준다. 카드 이름을
  *  UNIQUE 배지 옆에 별도 배지로 보여줄 때, 그리고 unitFactionMismatch가 함께 쓴다 */
@@ -64,6 +73,16 @@ export function unitFactionMismatch(unit: UnitCard, roster: Roster): boolean {
  *  팩션 카드가 선택돼 있어야만 포함할 수 있다 */
 export function tacticalCardRequiredFactionCardId(card: TacticalCard): string | undefined {
   return card.tags?.map((t) => t.name).find((name) => FACTION_LOCKED_TAGS.has(name))
+}
+
+/**
+ * 이 유닛과 함께 넣을 수 없는 유닛(UnitCard.excludesUnitIds) 중 로스터에 이미 들어 있는 유닛.
+ * 없으면 undefined. 유닛 선택 모달에서 고를 수 없게 막을 때 쓴다.
+ */
+export function unitExclusionConflict(race: RaceData, unit: UnitCard, roster: Roster): UnitCard | undefined {
+  const excluded = unit.excludesUnitIds ?? []
+  const conflictId = roster.units.map((e) => e.unitId).find((id) => excluded.includes(id))
+  return conflictId ? findUnit(race, conflictId) : undefined
 }
 
 /** unitFactionMismatch의 택티컬 카드 버전 */
@@ -372,6 +391,21 @@ export function rosterUniqueViolations(race: RaceData, roster: Roster): Rule[] {
     if (card?.isUnique && count > 1) violations.push(card.name)
   }
 
+  return violations
+}
+
+/** 함께 넣을 수 없는 유닛 쌍(UnitCard.excludesUnitIds)이 로스터에 같이 들어 있는지 검사. 쌍마다 한 번만 담는다 */
+export function rosterExclusionViolations(race: RaceData, roster: Roster): [Rule, Rule][] {
+  const violations: [Rule, Rule][] = []
+  const unitIds = [...new Set(roster.units.map((e) => e.unitId))]
+  for (const [i, id] of unitIds.entries()) {
+    const unit = findUnit(race, id)
+    if (!unit?.excludesUnitIds) continue
+    for (const otherId of unitIds.slice(i + 1)) {
+      const other = findUnit(race, otherId)
+      if (other && unit.excludesUnitIds.includes(otherId)) violations.push([unit.name, other.name])
+    }
+  }
   return violations
 }
 
@@ -841,6 +875,8 @@ export interface SimulatorExportUnit {
   unit_type: UnitType
   model_count: number
   base_mm: { width: number; height: number }
+  /** 베이스 모양. 'cross'는 base_mm 크기의 가로·세로 막대가 중앙에서 겹친 십자형 */
+  base_shape: BaseSize['shape']
   stat: SimulatorExportStat
   tags: SimulatorExportTag[]
   is_displacement: boolean
@@ -955,6 +991,7 @@ export function buildSimulatorExport(race: RaceData, roster: Roster): SimulatorE
       unit_type: unit.type,
       model_count: tier.modelMax,
       base_mm: baseSizeToMm(unit.baseSize),
+      base_shape: unit.baseSize.shape,
       stat: { ...unit.stat },
       tags: unit.tags.map(toExportTag),
       is_displacement: unit.hasDisplacement ?? false,
