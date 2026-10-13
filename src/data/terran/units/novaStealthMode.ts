@@ -72,13 +72,13 @@ export const novaStealthMode: UnitCard = {
     {
       kind: 'rule',
       id: 'Holo Decoy',
-      name: { en: 'Holo Decoy', ko: '홀로그램 미끼' },
+      name: { en: 'Holo Decoy', ko: '홀로그램 분신' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
       rule: {
         en: 'Resolve the SUMMON (Holo Decoy) effect. Then, Holo Decoy may immediately perform a Move action.',
-        ko: '소환(홀로그램 미끼)한다. 그 후, 홀로그램 미끼는 즉시 이동 액션을 할 수 있다.',
+        ko: '소환(홀로그램 분신)한다. 그 후, 홀로그램 분신는 즉시 이동 액션을 할 수 있다.',
       },
       summonsUnitId: 'Holo Decoy',
       simulatorFeature: {

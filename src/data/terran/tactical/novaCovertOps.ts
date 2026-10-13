@@ -22,7 +22,7 @@ export const novaCovertOps: TacticalCard = {
       cost: 0,
       rule: {
         en: 'Set a Friendly Sabotage Drone Unit Within 12" of a Friendly Unit, more than 1" away from any Enemy model. Remove this Unit at the End of the Round.',
-        ko: '아군 유닛의 12" 이내이며 모든 적 모델로부터 1" 넘게 떨어진 곳에 아군 파괴 공작 드론 유닛을 배치한다. 라운드 종료 시 이 유닛을 제거한다.',
+        ko: '아군 유닛의 12" 이내이며 모든 적 모델로부터 1" 넘게 떨어진 곳에 아군 파괴 드론 유닛을 배치한다. 라운드 종료 시 이 유닛을 제거한다.',
       },
       summonsUnitId: 'Sabotage Drone',
       simulatorFeature: {

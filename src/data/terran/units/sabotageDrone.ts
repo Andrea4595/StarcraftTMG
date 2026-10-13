@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const sabotageDrone: UnitCard = {
   category: 'unit',
   id: 'Sabotage Drone',
-  name: { en: 'Sabotage Drone', ko: '파괴 공작 드론' },
+  name: { en: 'Sabotage Drone', ko: '파괴 드론' },
   isUnique: false,
   type: 'Other',
   stat: {

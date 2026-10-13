@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const holoDecoy: UnitCard = {
   category: 'unit',
   id: 'Holo Decoy',
-  name: { en: 'Holo Decoy', ko: '홀로그램 미끼' },
+  name: { en: 'Holo Decoy', ko: '홀로그램 분신' },
   isUnique: false,
   type: 'Other',
   stat: {
