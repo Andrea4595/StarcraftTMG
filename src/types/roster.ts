@@ -32,4 +32,9 @@ export interface Roster {
    * sourceId+abilityId 조합으로 식별한다.
    */
   favoriteAbilities: { sourceId: string; abilityId: string }[]
+  /**
+   * 마지막으로 내용이 바뀐 시각(ms). 여러 기기에서 같은 로스터를 고쳤을 때 로그인 시점에 어느 쪽이
+   * 더 최신인지 가르는 데 쓴다. 이 필드가 생기기 전에 저장된 로스터에는 없다.
+   */
+  updatedAt?: number
 }
