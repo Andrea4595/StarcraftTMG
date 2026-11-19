@@ -15,6 +15,9 @@ import '../gameReference.css'
  *  더 이상 필요 없다) */
 export type ReferenceDetailTarget = { kind: 'unit'; entryId: string }
 
+/** 좁은 화면에서 택티컬 카드/유닛 중 어느 쪽을 보여줄지. 넓은 화면에서는 두 열로 둘 다 보여서 쓰이지 않는다 */
+export type ReferenceTab = 'tactical' | 'units'
+
 export function GameReferencePage({
   race,
   roster,
@@ -25,6 +28,7 @@ export function GameReferencePage({
   onClose: () => void
 }) {
   const { lang } = useLang()
+  const [tab, setTab] = useState<ReferenceTab>('units')
   const [detail, setDetail] = useState<ReferenceDetailTarget | null>(null)
   const [abilityDetail, setAbilityDetail] = useState<AbilitySelectionRef | null>(null)
 
@@ -67,6 +71,22 @@ export function GameReferencePage({
           <div className="game-ref-header-title">
             <span className="game-ref-header-name">{roster.name}</span>
             <span className="game-ref-header-race">{race.name}</span>
+            <div className="game-ref-tabs">
+              <button
+                type="button"
+                className={`game-ref-tab ${tab === 'tactical' ? 'game-ref-tab-active' : ''}`}
+                onClick={() => setTab('tactical')}
+              >
+                택티컬
+              </button>
+              <button
+                type="button"
+                className={`game-ref-tab ${tab === 'units' ? 'game-ref-tab-active' : ''}`}
+                onClick={() => setTab('units')}
+              >
+                유닛
+              </button>
+            </div>
           </div>
           <div className="game-ref-header-actions">
             <button type="button" className="btn btn-danger" onClick={onClose}>
@@ -77,7 +97,7 @@ export function GameReferencePage({
       </div>
 
       <div className="game-ref-body">
-        <GameReferenceCardsView race={race} roster={roster} onSelect={setDetail} onSelectAbility={setAbilityDetail} />
+        <GameReferenceCardsView race={race} roster={roster} tab={tab} onSelect={setDetail} onSelectAbility={setAbilityDetail} />
       </div>
 
       {detailContent && (

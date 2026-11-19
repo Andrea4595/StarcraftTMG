@@ -45,6 +45,39 @@
   display: flex;
   align-items: baseline;
   gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* 로스터 이름 우측의 '택티컬/유닛' 탭. 좁은 화면 전용이라 넓은 화면(2열 배치)에서는 숨긴다 */
+.game-ref-tabs {
+  display: flex;
+  gap: 6px;
+  align-self: center;
+  margin-left: 4px;
+}
+
+.game-ref-tab {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 12px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.game-ref-tab:hover {
+  border-color: var(--accent, var(--border));
+}
+
+.game-ref-tab-active {
+  border-color: var(--accent);
+  background: var(--accent-bg, rgba(255, 255, 255, 0.06));
+  color: var(--accent);
 }
 
 .game-ref-header-name {
@@ -152,25 +185,32 @@
 }
 
 /*
-  카드/유닛 목록. 좁은 화면에서는 택티컬 카드 -> 유닛 순으로 위아래로 쌓고, 가로로 넓은 화면에서는
-  택티컬 카드를 왼쪽, 유닛을 오른쪽에 나란히 둔다. 유닛 행은 칩이 많아 택티컬 카드보다 폭을 더 준다.
-  한쪽 섹션만 있으면(예: 유닛만 고른 로스터) 그 섹션이 전체 폭을 쓴다.
+  카드/유닛 목록. 좁은 화면에서는 헤더의 '택티컬/유닛' 탭으로 고른 쪽만 보여주고, 가로로 넓은 화면에서는
+  탭을 숨기고 택티컬 카드를 왼쪽, 유닛을 오른쪽에 나란히 둔다. 유닛 행은 칩이 많아 택티컬 카드보다 폭을
+  더 준다. 한쪽만 있으면(예: 유닛만 고른 로스터) split 클래스가 안 붙어 그쪽이 전체 폭을 쓴다.
 */
 .game-ref-cards {
   display: flex;
   flex-direction: column;
 }
 
+@media (max-width: 899px) {
+  .game-ref-column-inactive {
+    display: none;
+  }
+}
+
 @media (min-width: 900px) {
-  .game-ref-cards {
+  .game-ref-tabs,
+  .game-ref-narrow-only {
+    display: none;
+  }
+
+  .game-ref-cards-split {
     display: grid;
     grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
     gap: 16px;
     align-items: start;
-  }
-
-  .game-ref-column:only-child {
-    grid-column: 1 / -1;
   }
 
   /* 두 열이 나란히 놓이므로 각 열 제목이 같은 높이에서 시작하도록 위쪽 여백을 없앤다 */

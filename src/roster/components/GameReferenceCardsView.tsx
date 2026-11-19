@@ -4,16 +4,18 @@ import { useRosterStore } from '../RosterContext'
 import { useLocalize } from '../../LangContext'
 import { AbilityChipsRow, type AbilitySelectionRef } from './AbilityChipsRow'
 import { UnitEntryRow } from './UnitEntryRow'
-import type { ReferenceDetailTarget } from './GameReferencePage'
+import type { ReferenceDetailTarget, ReferenceTab } from './GameReferencePage'
 
 export function GameReferenceCardsView({
   race,
   roster,
+  tab,
   onSelect,
   onSelectAbility,
 }: {
   race: RaceData
   roster: Roster
+  tab: ReferenceTab
   onSelect: (target: ReferenceDetailTarget) => void
   onSelectAbility: (ref: AbilitySelectionRef) => void
 }) {
@@ -27,10 +29,22 @@ export function GameReferenceCardsView({
     return <div className="game-ref-empty">아직 선택한 카드/유닛이 없습니다.</div>
   }
 
+  const hasCards = cardSlots.length > 0
+  const hasUnits = roster.units.length > 0
+  /** 좁은 화면에서는 선택한 탭의 열만 보인다. 넓은 화면에서는 탭과 관계없이 둘 다 보인다 */
+  const columnClass = (forTab: ReferenceTab) => `game-ref-column ${tab === forTab ? '' : 'game-ref-column-inactive'}`
+
   return (
-    <div className="game-ref-cards">
-      {cardSlots.length > 0 && (
-        <section className="game-ref-column">
+    <div className={`game-ref-cards ${hasCards && hasUnits ? 'game-ref-cards-split' : ''}`}>
+      {/* 좁은 화면에서 비어 있는 탭을 골랐을 때 빈 화면 대신 안내 문구를 보여준다 (넓은 화면에서는 숨김) */}
+      {!hasCards && tab === 'tactical' && (
+        <div className="game-ref-empty game-ref-narrow-only">선택한 택티컬 카드가 없습니다.</div>
+      )}
+      {!hasUnits && tab === 'units' && (
+        <div className="game-ref-empty game-ref-narrow-only">선택한 유닛이 없습니다.</div>
+      )}
+      {hasCards && (
+        <section className={columnClass('tactical')}>
           <div className="game-ref-section-title">택티컬 카드</div>
           <ul className="game-ref-list">
             {cardSlots.map(({ card, isFactionCard, key }) => {
@@ -72,8 +86,8 @@ export function GameReferenceCardsView({
         </section>
       )}
 
-      {roster.units.length > 0 && (
-        <section className="game-ref-column">
+      {hasUnits && (
+        <section className={columnClass('units')}>
           <div className="game-ref-section-title">유닛 ({roster.units.length})</div>
           <ul className="game-ref-list">
             {roster.units.map((entry) => {
