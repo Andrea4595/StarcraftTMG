@@ -12,6 +12,14 @@ export interface RosterUnitEntry {
    * 화면에서는 제거 버튼 대신 출처 태그를 보여준다.
    */
   summonedBy?: string
+  /**
+   * 게임 레퍼런스 화면에서 이 유닛을 맵에 스폰한 스쿼드 등급(UnitCard.squad 인덱스). 로스터에서 정한
+   * squadTierIndex와 별개로, 실제 게임에서 깔린 등급을 기록해 서플라이 합계를 내는 데 쓴다. 스폰하지
+   * 않았으면 필드 자체가 없다 (Firestore가 undefined 값을 거부하므로 값 대신 키를 지운다).
+   */
+  spawnedTierIndex?: number
+  /** 게임 레퍼런스 화면에서 '사망' 처리한 유닛이면 true. 사망하면 스폰 기록은 지워진다 */
+  dead?: boolean
 }
 
 export interface Roster {

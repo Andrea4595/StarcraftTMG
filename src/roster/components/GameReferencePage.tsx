@@ -4,6 +4,7 @@ import { abilitySelectionRefFor, findUnit, unitActiveAbilities } from '../roster
 import { useLang, localize } from '../../LangContext'
 import { Modal } from './Modal'
 import { GameReferenceCardsView } from './GameReferenceCardsView'
+import { SpawnSupplyBar } from './SpawnSupplyBar'
 import { AbilityDetailModal } from './AbilityDetailModal'
 import { WeaponSummaryModal } from './WeaponSummaryModal'
 import type { AbilitySelectionRef } from './AbilityChipsRow'
@@ -115,6 +116,12 @@ export function GameReferencePage({
             </button>
           </div>
         </div>
+        {/* 좁은 화면의 유닛 탭: 서플라이 바를 상단 고정 바에 붙여 스크롤해도 보이게 한다 (넓은 화면은 유닛 열 맨 위) */}
+        {tab === 'units' && roster.units.length > 0 && (
+          <div className="game-ref-narrow-only">
+            <SpawnSupplyBar race={race} roster={roster} />
+          </div>
+        )}
       </div>
 
       <div className="game-ref-body">

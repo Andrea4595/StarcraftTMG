@@ -195,7 +195,8 @@
 }
 
 @media (max-width: 899px) {
-  .game-ref-column-inactive {
+  .game-ref-column-inactive,
+  .game-ref-wide-only {
     display: none;
   }
 }
@@ -245,6 +246,87 @@
   .game-ref-column > .game-ref-section-title {
     margin-top: 0;
   }
+}
+
+/* 넓은 화면: 서플라이 바를 유닛 열 맨 위에 고정한다 (열이 따로 스크롤하므로 열 기준 top:0) */
+.game-ref-spawn-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: var(--bg);
+  padding-bottom: 8px;
+}
+
+/* 맵에 스폰한 유닛 서플라이 바: [합계] [버블들...] [초기화] */
+.game-ref-spawn-bar {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 8px;
+}
+
+.game-ref-spawn-total {
+  flex: 0 0 auto;
+  align-self: center;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.game-ref-spawn-total strong {
+  font-size: 18px;
+  color: var(--text-h);
+  font-variant-numeric: tabular-nums;
+  margin-left: 2px;
+}
+
+.game-ref-spawn-bubbles {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-self: center;
+}
+
+.game-ref-spawn-bubble {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid rgba(91, 157, 255, 0.5);
+  border-radius: 999px;
+  background: rgba(91, 157, 255, 0.12);
+  padding: 4px 10px;
+  color: var(--text-h);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.game-ref-spawn-bubble .roster-squad-tier-supply-square {
+  width: 7px;
+  height: 7px;
+  background: #5b9dff;
+}
+
+.game-ref-spawn-reset {
+  flex: 0 0 auto;
+  align-self: center;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 5px 10px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.game-ref-spawn-reset:hover {
+  border-color: var(--accent, var(--border));
 }
 
 /* 택티컬/팩션 카드 행: 왼쪽에 카드 내용, 오른쪽에 '소모' 토글 버튼 */

@@ -100,7 +100,9 @@ export function UnitEntryRow({
     : undefined
 
   return (
-    <div className={`roster-entry ${factionMismatch ? 'roster-entry-faction-mismatch' : ''}`}>
+    <div
+      className={`roster-entry ${factionMismatch ? 'roster-entry-faction-mismatch' : ''} ${!interactive && entry.dead ? 'roster-entry-dead' : ''}`}
+    >
       <div className="roster-entry-header">
         <div className="roster-entry-title">
           <span className="roster-entry-name">{localize(unit.name)}</span>
@@ -127,6 +129,16 @@ export function UnitEntryRow({
       </div>
 
       <div className="roster-entry-squad-row">
+        {!interactive && (
+          <button
+            type="button"
+            className={`roster-entry-dead-btn ${entry.dead ? 'roster-entry-dead-btn-active' : ''}`}
+            aria-pressed={!!entry.dead}
+            onClick={() => store.toggleUnitDead(roster.id, entry.id)}
+          >
+            사망
+          </button>
+        )}
         <SquadTierSelector roster={roster} unit={unit} entry={entry} interactive={interactive} />
       </div>
 

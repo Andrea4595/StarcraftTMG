@@ -4,6 +4,7 @@ import { useRosterStore } from '../RosterContext'
 import { useLocalize } from '../../LangContext'
 import { AbilityChipsRow, type AbilitySelectionRef } from './AbilityChipsRow'
 import { UnitEntryRow } from './UnitEntryRow'
+import { SpawnSupplyBar, spawnAnchorId } from './SpawnSupplyBar'
 import type { ReferenceDetailTarget, ReferenceTab } from './GameReferencePage'
 
 export function GameReferenceCardsView({
@@ -88,13 +89,17 @@ export function GameReferenceCardsView({
 
       {hasUnits && (
         <section className={columnClass('units')}>
+          {/* 좁은 화면에서는 상단 고정 바 안에 따로 그린다 (GameReferencePage) */}
+          <div className="game-ref-wide-only game-ref-spawn-sticky">
+            <SpawnSupplyBar race={race} roster={roster} />
+          </div>
           <div className="game-ref-section-title">유닛 ({roster.units.length})</div>
           <ul className="game-ref-list">
             {roster.units.map((entry) => {
               const unit = findUnit(race, entry.unitId)
               if (!unit) return null
               return (
-                <li key={entry.id}>
+                <li key={entry.id} id={spawnAnchorId(entry.id)}>
                   <UnitEntryRow
                     race={race}
                     roster={roster}
