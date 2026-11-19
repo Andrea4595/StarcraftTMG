@@ -4,7 +4,9 @@ import { useRosterStore } from './RosterContext'
 import { RosterSwitcher } from './components/RosterSwitcher'
 import { RosterPanel } from './components/RosterPanel'
 import { GameReferencePage } from './components/GameReferencePage'
-import { SourceAbilitiesModal, type AbilitySource } from './components/SourceAbilitiesModal'
+import { AbilityDetailModal } from './components/AbilityDetailModal'
+import { WeaponSummaryModal } from './components/WeaponSummaryModal'
+import type { AbilitySelectionRef } from './components/AbilityChipsRow'
 import './roster.css'
 
 export function RosterBuilderPage({ races }: { races: RaceData[] }) {
@@ -12,13 +14,16 @@ export function RosterBuilderPage({ races }: { races: RaceData[] }) {
   const roster = store.activeRoster
   const race = races.find((r) => r.id === roster?.raceId)
   const [referenceOpen, setReferenceOpen] = useState(false)
-  /** 어빌리티 칩을 눌러 능력 전체를 펼쳐 보는 중인 카드/유닛 */
-  const [abilitySource, setAbilitySource] = useState<AbilitySource | null>(null)
+  /**
+   * '연관 어빌리티' 클릭 이동이 로스터 편집 화면 어디서든(유닛 목록의 칩, 유닛 상세 모달) 같은
+   * 모달을 띄우고 서로 전환할 수 있어야 해서, 이 상태를 여기서 관리한다.
+   */
+  const [abilityDetail, setAbilityDetail] = useState<AbilitySelectionRef | null>(null)
 
   /** 다른 로스터로 전환하면 이전 로스터의 카드를 가리키던 상세 선택은 의미가 없어진다 */
   useEffect(() => {
     setReferenceOpen(false)
-    setAbilitySource(null)
+    setAbilityDetail(null)
   }, [roster?.id])
 
   if (roster && race && referenceOpen) {
@@ -37,17 +42,28 @@ export function RosterBuilderPage({ races }: { races: RaceData[] }) {
         <div className="roster-empty-state">'+ 새 로스터'를 눌러 로스터를 시작하세요.</div>
       ) : (
         <div className="roster-builder-body">
-          <RosterPanel races={races} race={race} roster={roster} onOpenAbilities={setAbilitySource} />
+          <RosterPanel races={races} race={race} roster={roster} onSelectAbility={setAbilityDetail} />
         </div>
       )}
 
-      {roster && race && abilitySource && (
-        <SourceAbilitiesModal
-          source={abilitySource}
+      {roster && race && abilityDetail?.kind === 'ability' && (
+        <AbilityDetailModal
+          detail={abilityDetail}
+          onClose={() => setAbilityDetail(null)}
+          roster={roster}
+          race={race}
+          resourceLabel={race.resourceLabel.abbr}
+          onSelectAbility={setAbilityDetail}
+        />
+      )}
+      {roster && race && abilityDetail?.kind === 'weapon-summary' && (
+        <WeaponSummaryModal
+          detail={abilityDetail}
+          onClose={() => setAbilityDetail(null)}
           roster={roster}
           race={race}
           interactive
-          onClose={() => setAbilitySource(null)}
+          onSelectAbility={setAbilityDetail}
         />
       )}
     </div>

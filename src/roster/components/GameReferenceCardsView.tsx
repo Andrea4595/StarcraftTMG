@@ -2,8 +2,7 @@ import type { RaceData, Roster } from '../../types'
 import { findUnit, isCardConsumed, referenceCardSlots } from '../rosterCalc'
 import { useRosterStore } from '../RosterContext'
 import { useLocalize } from '../../LangContext'
-import { AbilityChipsRow } from './AbilityChipsRow'
-import type { AbilitySource } from './SourceAbilitiesModal'
+import { AbilityChipsRow, type AbilitySelectionRef } from './AbilityChipsRow'
 import { UnitEntryRow } from './UnitEntryRow'
 import type { ReferenceDetailTarget, ReferenceTab } from './GameReferencePage'
 
@@ -12,13 +11,13 @@ export function GameReferenceCardsView({
   roster,
   tab,
   onSelect,
-  onOpenAbilities,
+  onSelectAbility,
 }: {
   race: RaceData
   roster: Roster
   tab: ReferenceTab
   onSelect: (target: ReferenceDetailTarget) => void
-  onOpenAbilities: (source: AbilitySource) => void
+  onSelectAbility: (ref: AbilitySelectionRef) => void
 }) {
   const store = useRosterStore()
   const localize = useLocalize()
@@ -65,7 +64,9 @@ export function GameReferenceCardsView({
                       </div>
                       <AbilityChipsRow
                         abilities={card.cardAbilities}
-                        onOpen={() => onOpenAbilities({ kind: 'card', cardId: card.id })}
+                        sourceId={card.id}
+                        sourceLabel={localize(card.name)}
+                        onSelectAbility={onSelectAbility}
                         localize={localize}
                       />
                     </div>
@@ -101,7 +102,7 @@ export function GameReferenceCardsView({
                     entry={entry}
                     interactive={false}
                     onShowDetail={() => onSelect({ kind: 'unit', entryId: entry.id })}
-                    onOpenAbilities={(focus) => onOpenAbilities({ kind: 'unit', entryId: entry.id, focus })}
+                    onSelectAbility={onSelectAbility}
                   />
                 </li>
               )

@@ -473,6 +473,37 @@
   border-bottom: none;
 }
 
+/*
+  무기 행 바로 아래에 그 무기를 강화하는 어빌리티('강화:')를 별도의 열-병합 행으로 붙인다.
+  NAME 열 안에 넣으면 그 열만 내용 길이만큼 넓어지는 문제가 있었고, 다른 무기 행과도 잘
+  구분되지 않았다 — 그래서 테이블 열 구성과 무관하게 전체 폭을 쓰는 행으로 분리하고, 위 무기
+  행에 속한 부가 정보임을 들여쓰기로 드러낸다. 두 행 사이 경계선은 없애 하나로 묶여 보이게 하고,
+  다음 무기 행과의 경계는 이 행 아래에 그대로 남긴다.
+*/
+.card-weapon-row-has-related td {
+  border-bottom: none;
+}
+
+.card-weapon-related-row td {
+  padding: 0 8px 8px 32px;
+  border-bottom: 1px solid var(--gc-border);
+  white-space: normal;
+}
+
+.card-weapon-related-row .card-related-abilities {
+  margin-top: 0;
+}
+
+/*
+  강화 어빌리티 설명(말줄임 한 줄)이 길어도 표 폭이 따라 넓어지지 않게, 이 행의 내용은 표의
+  고유 폭 계산에 0으로 참여하고(width: 0) 실제로는 무기 스탯 열들이 정한 폭을 꽉 채운다(min-width:
+  100%). 표 폭은 무기 스탯만으로 정해지고, 가로 스크롤이 생겨도 그 폭이 바뀌지 않는다.
+*/
+.card-weapon-related-fit {
+  width: 0;
+  min-width: 100%;
+}
+
 .card-weapon-name-col {
   min-width: 120px;
 }
@@ -503,7 +534,17 @@
   padding-bottom: 0;
 }
 
-/* 카드/유닛 능력 전체를 보여주는 상세 모달에서, 키워드 정의가 하나도 없으면 그 칸이 빈 여백으로 남지 않게 한다 */
+/*
+  어빌리티 상세 모달(게임 레퍼런스, 능력 하나만 단독으로 보여줌) 전용: 그 아래에 KeywordDefinitionsList가
+  이어질 경우, 이 능력 자신의 구분선(border-bottom)과 키워드 목록의 구분선(border-top)이 겹쳐 줄이
+  두 개로 보인다. 여기서는 항상 이 능력이 그 페이즈 그룹의 유일한 항목이라 구분선이 필요 없다.
+*/
+.card-ability-detail-body .card-rule-ability {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* 택티컬 카드 능력 전체를 보여주는 상세 모달에서, 키워드 정의가 하나도 없으면 그 칸이 빈 여백으로 남지 않게 한다 */
 .card-phase-body:empty {
   display: none;
 }
@@ -570,6 +611,131 @@
    문단 흐름을 깨지 않으면서 눈에 띄게 한다 */
 .card-rule-keyword {
   color: var(--gc-keyword);
+}
+
+/*
+  이름 직접 언급으로 감지된 연관 어빌리티/무기 ('강화:'). WeaponTable의 NAME 셀(FOR 줄 아래)과
+  RuleAbilityBlock(룰 텍스트 아래) 양쪽에서 함께 쓴다. 대상이 무기 프로필이면 WeaponTable을
+  재사용한 스탯 한 줄로, 룰 어빌리티면 '이름 : 텍스트' 한 줄로 보여준다.
+*/
+.card-related-abilities {
+  margin-top: 6px;
+}
+
+/*
+  룰 어빌리티 블록(어빌리티 상세 모달) 안에서 강화 대상(무기 프로필/룰 어빌리티)을 보여줄 때는
+  '강화:' 라벨을 포함한 블록 전체를 룰 텍스트에 딸린 부가 정보로서 들여쓰기로 드러낸다 — 무기 표
+  안 강화 어빌리티 목록(.card-weapon-related-row)에 이미 쓰는 것과 같은 들여쓰기 폭.
+*/
+.card-rule-ability .card-related-abilities {
+  padding-left: 32px;
+}
+
+.card-related-abilities-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gc-text-dim);
+  margin-bottom: 4px;
+}
+
+.card-related-ability-lines {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.card-related-ability-line {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  min-width: 0;
+  border: none;
+  background: none;
+  padding: 0;
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+}
+
+.card-related-ability-line:hover .card-related-ability-line-name {
+  text-decoration: underline;
+}
+
+.card-related-ability-line-static {
+  cursor: default;
+}
+
+/*
+  지금 비활성 상태(업그레이드 미선택)인 대상은 줄 전체를 흐리게 해 활성/비활성을 드러낸다 —
+  어빌리티 상세를 눌러가며 이동할 때 지금 보는 대상이 실제로 켜져 있는지 계속 헷갈리지 않도록.
+*/
+.card-related-ability-line:not(.card-related-ability-line-active) {
+  opacity: 0.5;
+}
+
+.card-related-ability-line-icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  margin-right: 6px;
+}
+
+.card-related-ability-line-icon .card-phase-icon,
+.card-related-ability-line-icon .card-phase-any {
+  height: 11px;
+  font-size: 11px;
+}
+
+/* 패시브/액티브/리액션을 아이콘·이름 색으로 구분한다 (질문: "뭐가 패시브고 뭐가 액티브인지
+   알기 어렵다" — PhaseBadge가 --phase-tone-color를 상속해서 아이콘도 함께 물든다) */
+.card-related-ability-line-type-active {
+  --phase-tone-color: var(--gc-blue);
+  color: var(--gc-blue);
+}
+
+.card-related-ability-line-type-passive {
+  --phase-tone-color: var(--gc-green);
+  color: var(--gc-green);
+}
+
+.card-related-ability-line-type-reaction {
+  --phase-tone-color: var(--gc-orange);
+  color: var(--gc-orange);
+}
+
+.card-related-ability-line-name {
+  flex: 0 0 auto;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.card-related-ability-line-sep {
+  flex: 0 0 auto;
+  color: var(--gc-text-dim);
+}
+
+.card-related-ability-line-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: var(--gc-text-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-weapon-row-clickable {
+  cursor: pointer;
+}
+
+.card-weapon-row-clickable:hover {
+  background: var(--gc-bg-raised);
 }
 
 /* 어빌리티 상세 모달 전용: 능력 설명 아래에 거기 쓰인 키워드들의 정의를 나열한다 */

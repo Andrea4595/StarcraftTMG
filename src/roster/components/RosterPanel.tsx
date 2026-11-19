@@ -20,8 +20,7 @@ import { UnitModal } from './UnitModal'
 import { UnitConfigureView } from './UnitConfigureView'
 import { Modal } from './Modal'
 import { SlotUsageRow } from './SlotUsageRow'
-import { AbilityChipsRow } from './AbilityChipsRow'
-import type { AbilitySource } from './SourceAbilitiesModal'
+import { AbilityChipsRow, type AbilitySelectionRef } from './AbilityChipsRow'
 
 type ModalState =
   | { kind: 'tactical'; focusCardId?: string }
@@ -45,14 +44,14 @@ export function RosterPanel({
   races,
   race,
   roster,
-  onOpenAbilities,
+  onSelectAbility,
 }: {
   races: RaceData[]
   /** roster.raceId에 해당하는 종족. 아직 선택 전이면 undefined */
   race: RaceData | undefined
   roster: Roster
   /** 어빌리티/무기 칩을 누르면 이 콜백으로 상세 모달을 요청한다 (모달 자체는 공통 조상인 RosterBuilderPage가 그린다) */
-  onOpenAbilities: (source: AbilitySource) => void
+  onSelectAbility: (ref: AbilitySelectionRef) => void
 }) {
   const store = useRosterStore()
 
@@ -87,7 +86,7 @@ export function RosterPanel({
       {!race ? (
         <div className="roster-empty">종족을 선택하면 예산/슬롯 정보와 카드 선택이 표시됩니다.</div>
       ) : (
-        <RosterPanelBody race={race} roster={roster} onOpenAbilities={onOpenAbilities} />
+        <RosterPanelBody race={race} roster={roster} onSelectAbility={onSelectAbility} />
       )}
     </div>
   )
@@ -96,11 +95,11 @@ export function RosterPanel({
 function RosterPanelBody({
   race,
   roster,
-  onOpenAbilities,
+  onSelectAbility,
 }: {
   race: RaceData
   roster: Roster
-  onOpenAbilities: (source: AbilitySource) => void
+  onSelectAbility: (ref: AbilitySelectionRef) => void
 }) {
   const store = useRosterStore()
   const localize = useLocalize()
@@ -177,7 +176,9 @@ function RosterPanelBody({
             </div>
             <AbilityChipsRow
               abilities={factionCard.cardAbilities}
-              onOpen={() => onOpenAbilities({ kind: 'card', cardId: factionCard.id })}
+              sourceId={factionCard.id}
+              sourceLabel={localize(factionCard.name)}
+              onSelectAbility={onSelectAbility}
               localize={localize}
             />
           </div>
@@ -227,7 +228,9 @@ function RosterPanelBody({
               {card && (
                 <AbilityChipsRow
                   abilities={card.cardAbilities}
-                  onOpen={() => onOpenAbilities({ kind: 'card', cardId: card.id })}
+                  sourceId={card.id}
+                  sourceLabel={cardName}
+                  onSelectAbility={onSelectAbility}
                   localize={localize}
                 />
               )}
@@ -272,7 +275,7 @@ function RosterPanelBody({
                   unit={unit}
                   entry={entry}
                   onShowDetail={() => setModal({ kind: 'unit-detail', entryId: entry.id })}
-                  onOpenAbilities={(focus) => onOpenAbilities({ kind: 'unit', entryId: entry.id, focus })}
+                  onSelectAbility={onSelectAbility}
                 />
               )
             })}
@@ -311,6 +314,7 @@ function RosterPanelBody({
                 unit={unit}
                 entry={entry}
                 resourceLabel={race.resourceLabel.abbr}
+                onSelectAbility={onSelectAbility}
               />
             </Modal>
           )

@@ -21,11 +21,11 @@ import type {
 import { localize, type Lang } from '../LangContext'
 import { UNIT_TYPES } from '../types'
 import { TOKENS } from '../data/tokens'
-import { resolveScaledCost } from '../components/card/costDisplay'
+import { formatScaledCost, resolveScaledCost } from '../components/card/costDisplay'
 import { keywordEntryForName, stripKeywordPlaceholder } from '../components/card/keywordHighlight'
 import { localizeTag, localizeTagWordsInText } from '../components/card/tagLabels'
 import { makeId } from './makeId'
-import type { WeaponSummaryEntry, WeaponTone } from './components/AbilityChipsRow'
+import type { AbilitySelectionRef, UpgradeToggleRef, WeaponSummaryEntry, WeaponTone } from './components/AbilityChipsRow'
 
 export { resolveScaledCost }
 
@@ -474,8 +474,8 @@ export function unitActiveAbilities(unit: UnitCard, entry: RosterUnitEntry): Abi
 
 /**
  * 이 유닛의 업그레이드 능력이 대체(FOR)하는 원본 능력의 로컬라이즈된 이름을 조회하는 함수를 만든다.
- * 업그레이드가 아니거나 forId가 없으면 undefined를 돌려준다. unitActiveAbilities처럼 업그레이드 능력이
- * 일반 능력 목록에 섞여 넘어가는 읽기 전용 화면에서 FOR 표기를 되살리는 데 쓴다.
+ * 업그레이드가 아니거나 forId가 없으면 undefined를 돌려준다. AbilityChipsRow처럼 능력 하나만 아는
+ * 문맥(칩, 단독 상세 모달)에서 AbilitiesSection.resolveForName과 동등한 정보를 얻기 위해 쓴다.
  */
 export function unitForLabelResolver(
   unit: UnitCard,
@@ -494,6 +494,60 @@ export function unitForLabelResolver(
 }
 
 /**
+ * 이름 직접 언급으로 찾은 연관 어빌리티/무기(ability)를 눌렀을 때 열 상세 모달의 참조를 만든다.
+ * 무기면 그 무기가 속한 페이즈의 종합 모달(사격/근접 공격)로, 룰 어빌리티면 단독 상세 모달로
+ * 이동한다. entryId가 없으면(로스터 항목을 확정할 수 없을 때) 무기 참조의 entryId는 빈 문자열로 채워지므로, 호출부가 entryId 유무로 클릭 가능 여부를
+ * 미리 걸러야 한다.
+ */
+export function abilitySelectionRefFor(
+  unit: UnitCard,
+  ability: Ability,
+  ctx: {
+    sourceId: string
+    sourceLabel: string
+    unitType?: UnitType
+    entryId?: string
+    localize: (rule: Rule) => string
+    /** true면(로스터 편집 화면) 대상이 업그레이드 능력일 때 PTS 토글 버튼 정보를 함께 채운다 */
+    interactive?: boolean
+  },
+): AbilitySelectionRef {
+  if (ability.kind === 'weapon') {
+    return {
+      kind: 'weapon-summary',
+      sourceLabel: ctx.sourceLabel,
+      sourceId: ctx.sourceId,
+      unitType: ctx.unitType,
+      label: ability.phase === 'Assault' ? FIRE_LABEL : MELEE_LABEL,
+      entryId: ctx.entryId ?? '',
+      phase: ability.phase,
+    }
+  }
+  const upgradeIndex = unit.upgrades.findIndex((u) => u.ability.id === ability.id)
+  const upgrade = upgradeIndex >= 0 ? unit.upgrades[upgradeIndex] : undefined
+  return {
+    kind: 'ability',
+    ability,
+    sourceLabel: ctx.sourceLabel,
+    sourceId: ctx.sourceId,
+    unitType: ctx.unitType,
+    entryId: ctx.entryId,
+    forLabel: unitForLabelResolver(unit, ctx.localize)(ability),
+    upgradeToggle:
+      ctx.interactive && upgrade && ctx.entryId
+        ? { entryId: ctx.entryId, upgradeIndex, pts: upgrade.pts, exclusiveWith: upgradeExclusiveWith(unit, upgradeIndex) }
+        : undefined,
+  }
+}
+
+/**
+ * 이름 직접 언급으로 찾은 연관 어빌리티/무기(ability)가 지금 활성인지, 업그레이드라면 비용이 얼마인지
+ * 알려준다. 기본 능력(업그레이드가 아님)은 항상 활성으로, 비용 없이 취급한다.
+ *
+ * activeIndexes를 지정하지 않으면(로스터 항목을 확정할 수 없을 때) 항상 활성으로 본다 — 게임 레퍼런스 화면의 유닛 상세 카드처럼 애초에 활성인 것만 골라
+ * 넘긴 목록에서도 이 함수를 그대로 쓸 수 있도록 하기 위해서다.
+ */
+/**
  * 지금 활성화된 업그레이드가 대체(봉인)하는 기본 무기 id들. SPECIALIST 키워드가 붙은 업그레이드
  * 무기는 유닛의 모델 중 하나만 사용하는 것이라, 나머지 모델은 여전히 원래 무기를 쓰므로 원본을
  * 봉인하지 않는다.
@@ -508,6 +562,27 @@ function sealedWeaponIds(unit: UnitCard, activeIndexes: number[]): Set<string> {
     sealed.add(upgrade.forId)
   }
   return sealed
+}
+
+export function abilityActiveState(
+  unit: UnitCard,
+  ability: Ability,
+  ctx: { activeIndexes?: number[]; squadTierIndex?: number },
+): { active: boolean; cost?: string } {
+  const upgradeIndex = unit.upgrades.findIndex((u) => u.ability.id === ability.id)
+  if (upgradeIndex === -1) {
+    /** 기본 능력: 활성 업그레이드가 대체(봉인)하고 있으면 비활성으로 취급한다 */
+    const sealed = ctx.activeIndexes ? sealedWeaponIds(unit, ctx.activeIndexes).has(ability.id) : false
+    return { active: !sealed }
+  }
+  const upgrade = unit.upgrades[upgradeIndex]
+  return {
+    active: ctx.activeIndexes ? ctx.activeIndexes.includes(upgradeIndex) : true,
+    cost:
+      ctx.squadTierIndex !== undefined
+        ? String(resolveScaledCost(upgrade.pts, ctx.squadTierIndex))
+        : formatScaledCost(upgrade.pts),
+  }
 }
 
 /** unitAbilityChipEntries가 돌려주는 능력 하나. 기본 능력이면 upgradeActive가 undefined다 */
@@ -552,15 +627,46 @@ export const MELEE_LABEL: Rule = { en: 'Melee', ko: '근접 공격' }
  * 정리한다. 대체되지 않은 기본 무기는 'base', 활성 업그레이드로 얻은 무기는 'active', 업그레이드가
  * 있지만 켜지지 않았거나(미선택) 다른 활성 업그레이드에 봉인된 기본 무기는 'inactive'로 분류한다 —
  * unitAbilityChipEntries가 이미 이 세 가지를 upgradeActive(undefined/true/false)로 구분해주므로
- * 그대로 물려받는다.
+ * 그대로 물려받는다. 업그레이드로 나온 무기는 상세 모달의 켜기/끄기 버튼에 쓸 upgradeToggle도 함께
+ * 채운다 — 실제로 그 버튼을 누를 수 있게 할지는 호출부(모달)가 따로 결정한다(게임 레퍼런스는 읽기 전용).
  */
-export function unitWeaponSummaryEntries(unit: UnitCard, entry: RosterUnitEntry, phase: Phase): WeaponSummaryEntry[] {
+export function unitWeaponSummaryEntries(
+  unit: UnitCard,
+  entry: RosterUnitEntry,
+  phase: Phase,
+  localize: (rule: Rule) => string,
+): WeaponSummaryEntry[] {
+  const forFor = unitForLabelResolver(unit, localize)
+  const upgradeIndexByAbility = new Map<Ability, number>(unit.upgrades.map((u, i) => [u.ability, i]))
   return unitAbilityChipEntries(unit, entry)
     .filter((e) => e.ability.kind === 'weapon' && e.ability.phase === phase)
     .map((e) => {
       const tone: WeaponTone = e.upgradeActive === undefined ? 'base' : e.upgradeActive ? 'active' : 'inactive'
-      return { ability: e.ability as WeaponProfile, tone }
+      const i = upgradeIndexByAbility.get(e.ability)
+      const upgradeToggle: UpgradeToggleRef | undefined =
+        i === undefined
+          ? undefined
+          : { entryId: entry.id, upgradeIndex: i, pts: unit.upgrades[i].pts, exclusiveWith: upgradeExclusiveWith(unit, i) }
+      return { ability: e.ability as WeaponProfile, tone, forLabel: forFor(e.ability), upgradeToggle }
     })
+}
+
+/** 이 유닛의 어썰트 페이즈(원거리) 무기 프로필을 '사격' 종합 칩에 쓸 형태로 정리한다 */
+export function unitRangedWeaponEntries(
+  unit: UnitCard,
+  entry: RosterUnitEntry,
+  localize: (rule: Rule) => string,
+): WeaponSummaryEntry[] {
+  return unitWeaponSummaryEntries(unit, entry, 'Assault', localize)
+}
+
+/** 이 유닛의 컴뱃 페이즈(근접) 무기 프로필을 '근접 공격' 종합 칩에 쓸 형태로 정리한다 */
+export function unitMeleeWeaponEntries(
+  unit: UnitCard,
+  entry: RosterUnitEntry,
+  localize: (rule: Rule) => string,
+): WeaponSummaryEntry[] {
+  return unitWeaponSummaryEntries(unit, entry, 'Combat', localize)
 }
 
 export interface PhaseAbilityGroup {
