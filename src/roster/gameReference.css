@@ -206,11 +206,39 @@
     display: none;
   }
 
+  /*
+    넓은 화면에서는 페이지 전체가 아니라 좌우 열이 각자 스크롤한다 — 유닛 목록을 내려도 택티컬 카드가
+    위로 밀려 올라가지 않게. 그러려면 화면 높이가 고정돼야 하므로, 이미 100vh로 고정된 .roster-builder
+    안에서 페이지/본문/열이 남는 높이를 차례로 나눠 갖는다 (min-height:0이 없으면 flex/grid 자식이
+    내용 높이만큼 늘어나 스크롤이 생기지 않는다). 하단 언어 바 여백은 .roster-builder의 padding이
+    맡으므로, 페이지 자신의 padding-bottom은 필요 없다.
+  */
+  .game-ref-page {
+    flex: 1;
+    min-height: 0;
+    padding-bottom: 0;
+  }
+
+  .game-ref-body {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .game-ref-cards {
+    height: 100%;
+  }
+
+  .game-ref-column {
+    height: 100%;
+    overflow-y: auto;
+    /* 스크롤바가 카드 테두리에 바짝 붙지 않게 */
+    padding-right: 6px;
+  }
+
   .game-ref-cards-split {
     display: grid;
     grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
     gap: 16px;
-    align-items: start;
   }
 
   /* 두 열이 나란히 놓이므로 각 열 제목이 같은 높이에서 시작하도록 위쪽 여백을 없앤다 */
