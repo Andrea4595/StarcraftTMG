@@ -7,7 +7,7 @@ import { AbilitiesSection, type UpgradeToggleState } from './AbilitiesSection'
 import { formatScaledCost } from './costDisplay'
 import { localizeTag } from './tagLabels'
 import { useLang, useLocalize } from '../../LangContext'
-import { unitRequiredFactionCardId } from '../../roster/rosterCalc'
+import { unitForLabelResolver, unitRequiredFactionCardId } from '../../roster/rosterCalc'
 import { WaveBadge } from './WaveBadge'
 
 export function UnitCardView({
@@ -86,6 +86,7 @@ export function UnitCardView({
       {abilitiesOverride ? (
         <AbilitiesSection
           abilities={abilitiesOverride}
+          forNameOf={unitForLabelResolver(unit, localize)}
           resourceLabel={resourceLabel}
         />
       ) : (

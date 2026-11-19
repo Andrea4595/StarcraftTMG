@@ -4,6 +4,9 @@ import { PhaseBadge } from '../../components/card/PhaseBadge'
 /** 무기 하나가 이 유닛에서 지금 어떤 상태인지 */
 export type WeaponTone = 'base' | 'active' | 'inactive'
 
+/** 눌린 칩: 개별 능력 칩이면 그 능력, '사격'/'근접 공격' 종합 칩이면 그 페이즈의 무기 묶음 */
+export type ChipTarget = { kind: 'ability'; ability: Ability } | { kind: 'weapons'; phase: Phase }
+
 export interface WeaponSummaryEntry {
   ability: WeaponProfile
   tone: WeaponTone
@@ -38,8 +41,8 @@ function abilityTypeTone(ability: Ability): 'default' | 'active' | 'passive' | '
   }
 }
 
-/** 어빌리티/무기 프로필 칩 한 줄. 어느 칩을 누르든 그 카드/유닛의 능력 전체를 보여주는 모달을 띄운다
- *  (onOpen). 부모 카드/유닛 행의 클릭과 겹치지 않도록 stopPropagation한다 */
+/** 어빌리티/무기 프로필 칩 한 줄. 칩을 누르면 어느 칩인지(onOpen의 인자)와 함께 상세 모달을 띄운다.
+ *  부모 카드/유닛 행의 클릭과 겹치지 않도록 stopPropagation한다 */
 export function AbilityChipsRow({
   abilities,
   weaponSummaries = [],
@@ -54,8 +57,8 @@ export function AbilityChipsRow({
   weaponSummaries?: WeaponSummaryInput[]
   /** 종합 칩 이름에서 비활성(미선택) 무기 이름을 뺀다 — 게임 레퍼런스 화면 전용 */
   hideInactiveWeaponNames?: boolean
-  /** 칩을 누르면 호출된다. 이 칩들이 속한 카드/유닛의 능력 전체 모달을 여는 데 쓴다 */
-  onOpen: () => void
+  /** 칩을 누르면 눌린 칩 정보와 함께 호출된다 */
+  onOpen: (target: ChipTarget) => void
   localize: (rule: Rule) => string
   /**
    * 업그레이드에서 나온 능력의 활성/비활성 상태를 알려준다(로스터 편집 화면 전용). 기본 능력이거나
@@ -88,7 +91,7 @@ export function AbilityChipsRow({
               key={i}
               onClick={(e) => {
                 e.stopPropagation()
-                onOpen()
+                onOpen({ kind: 'weapons', phase: input.phase })
               }}
             >
               <PhaseBadge phase={input.phase} tone="default" />
@@ -120,7 +123,7 @@ export function AbilityChipsRow({
             key={i}
             onClick={(e) => {
               e.stopPropagation()
-              onOpen()
+              onOpen({ kind: 'ability', ability })
             }}
           >
             <PhaseBadge phase={ability.phase} tone={abilityTypeTone(ability)} />

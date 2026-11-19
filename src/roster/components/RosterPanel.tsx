@@ -272,7 +272,7 @@ function RosterPanelBody({
                   unit={unit}
                   entry={entry}
                   onShowDetail={() => setModal({ kind: 'unit-detail', entryId: entry.id })}
-                  onOpenAbilities={() => onOpenAbilities({ kind: 'unit', entryId: entry.id })}
+                  onOpenAbilities={(focus) => onOpenAbilities({ kind: 'unit', entryId: entry.id, focus })}
                 />
               )
             })}

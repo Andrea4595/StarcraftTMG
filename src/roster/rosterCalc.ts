@@ -473,6 +473,27 @@ export function unitActiveAbilities(unit: UnitCard, entry: RosterUnitEntry): Abi
 }
 
 /**
+ * 이 유닛의 업그레이드 능력이 대체(FOR)하는 원본 능력의 로컬라이즈된 이름을 조회하는 함수를 만든다.
+ * 업그레이드가 아니거나 forId가 없으면 undefined를 돌려준다. unitActiveAbilities처럼 업그레이드 능력이
+ * 일반 능력 목록에 섞여 넘어가는 읽기 전용 화면에서 FOR 표기를 되살리는 데 쓴다.
+ */
+export function unitForLabelResolver(
+  unit: UnitCard,
+  localize: (rule: Rule) => string,
+): (ability: Ability) => string | undefined {
+  const forIdByAbility = new Map<Ability, string>()
+  for (const upgrade of unit.upgrades) {
+    if (upgrade.forId) forIdByAbility.set(upgrade.ability, upgrade.forId)
+  }
+  return (ability) => {
+    const forId = forIdByAbility.get(ability)
+    if (!forId) return undefined
+    const found = unit.abilities.find((a) => a.id === forId)
+    return found ? localize(found.name) : forId
+  }
+}
+
+/**
  * 지금 활성화된 업그레이드가 대체(봉인)하는 기본 무기 id들. SPECIALIST 키워드가 붙은 업그레이드
  * 무기는 유닛의 모델 중 하나만 사용하는 것이라, 나머지 모델은 여전히 원래 무기를 쓰므로 원본을
  * 봉인하지 않는다.

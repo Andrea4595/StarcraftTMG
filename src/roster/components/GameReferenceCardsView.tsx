@@ -101,7 +101,7 @@ export function GameReferenceCardsView({
                     entry={entry}
                     interactive={false}
                     onShowDetail={() => onSelect({ kind: 'unit', entryId: entry.id })}
-                    onOpenAbilities={() => onOpenAbilities({ kind: 'unit', entryId: entry.id })}
+                    onOpenAbilities={(focus) => onOpenAbilities({ kind: 'unit', entryId: entry.id, focus })}
                   />
                 </li>
               )

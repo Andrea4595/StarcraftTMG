@@ -15,7 +15,7 @@ import { StatBoxes } from '../../components/card/StatBoxes'
 import { KeywordList } from '../../components/card/KeywordText'
 import { localizeTag } from '../../components/card/tagLabels'
 import { useLang, useLocalize } from '../../LangContext'
-import { AbilityChipsRow, type WeaponSummaryInput } from './AbilityChipsRow'
+import { AbilityChipsRow, type ChipTarget, type WeaponSummaryInput } from './AbilityChipsRow'
 import { SquadTierSelector } from './SquadTierSelector'
 import { WaveBadge } from '../../components/card/WaveBadge'
 
@@ -36,8 +36,8 @@ export function UnitEntryRow({
   entry: RosterUnitEntry
   /** 이 유닛의 상세 정보를 모달로 띄운다. '유닛 상세' 버튼을 누르면 호출된다 */
   onShowDetail: () => void
-  /** 어빌리티 칩을 누르면 호출된다. 이 유닛의 능력 전체 모달을 연다 */
-  onOpenAbilities: () => void
+  /** 어빌리티 칩을 누르면 눌린 칩 정보와 함께 호출된다. 그 능력과 연관 능력을 보여주는 모달을 연다 */
+  onOpenAbilities: (target: ChipTarget) => void
   /**
    * 기본은 로스터 편집 화면 전용 동작: 미구매 업그레이드까지 포함한 모든 능력을 가격과 함께 보여주고,
    * 스쿼드 등급을 클릭해 바꿀 수 있으며, 제거/이동 버튼이 붙는다. false를 주면 게임 레퍼런스 화면

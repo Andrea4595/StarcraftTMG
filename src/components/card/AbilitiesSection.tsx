@@ -29,6 +29,8 @@ export function AbilitiesSection({
   resourceLabel,
   title = 'ABILITIES',
   upgradeToggle,
+  visible,
+  forNameOf,
 }: {
   abilities: Ability[]
   /** 업그레이드로 얻는 능력. 지정하면 기본 능력과 같은 페이즈 그룹 안에 함께 표시된다 */
@@ -38,12 +40,22 @@ export function AbilitiesSection({
   title?: string
   /** 지정하면 업그레이드 PTS 배지가 켜고 끄는 버튼이 된다 (유닛 편집 화면) */
   upgradeToggle?: UpgradeToggleState
+  /**
+   * 지정하면 true를 돌려주는 능력/무기만 보여준다. abilities/upgrades 배열 자체를 걸러서 넘기지 않고
+   * 이걸 쓰는 이유는, upgradeToggle.activeIndexes가 upgrades 배열의 원래 인덱스를 가리키기 때문이다.
+   */
+  visible?: (ability: Ability) => boolean
+  /**
+   * 업그레이드 능력이 upgrades가 아니라 abilities에 섞여 넘어올 때(읽기 전용 화면: 지금 적용된 능력만
+   * 미리 걸러 넘기는 경우), 그 능력이 대체(FOR)하는 원본 이름을 알려준다
+   */
+  forNameOf?: (ability: Ability) => string | undefined
 }) {
   const localize = useLocalize()
   const entries: Entry[] = [
     ...abilities.map((ability): Entry => ({ kind: 'ability', ability })),
     ...upgrades.map((upgrade, index): Entry => ({ kind: 'upgrade', upgrade, index })),
-  ]
+  ].filter((e) => !visible || visible(entryAbility(e)))
   if (entries.length === 0) return null
 
   const groups = PHASES.map((phase) => ({
@@ -101,6 +113,7 @@ export function AbilitiesSection({
                     if (e.kind === 'ability') {
                       return {
                         weapon: e.ability as WeaponProfile,
+                        for: forNameOf?.(e.ability),
                         sealed: sealedWeaponIds.has(e.ability.id),
                       }
                     }
@@ -120,6 +133,7 @@ export function AbilitiesSection({
                     key={i}
                     ability={ability}
                     resourceLabel={resourceLabel}
+                    forWeapon={forNameOf?.(ability)}
                   />
                 ) : (
                   <RuleAbilityBlock
