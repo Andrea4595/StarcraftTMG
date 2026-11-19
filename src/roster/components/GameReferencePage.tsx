@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import type { RaceData, Roster } from '../../types'
 import { abilitySelectionRefFor, findUnit, unitActiveAbilities } from '../rosterCalc'
 import { useLang, localize } from '../../LangContext'
@@ -29,6 +29,27 @@ export function GameReferencePage({
 }) {
   const { lang } = useLang()
   const [tab, setTab] = useState<ReferenceTab>('units')
+  /**
+   * 좁은 화면에서 탭마다 마지막 스크롤 위치. 탭을 떠날 때 저장했다가 돌아오면 복원해, 탭을 오가며
+   * 보던 위치를 잃지 않게 한다. 한 번도 안 본 탭은 맨 위에서 시작한다. 이 화면을 닫으면 잊는다.
+   */
+  const tabScrollRef = useRef<Record<ReferenceTab, number>>({ tactical: 0, units: 0 })
+
+  function switchTab(next: ReferenceTab) {
+    if (next === tab) return
+    tabScrollRef.current[tab] = window.scrollY
+    setTab(next)
+  }
+
+  // 새 탭의 내용이 그려진 직후, 화면에 나타나기 전에 스크롤을 옮겨야 깜빡임 없이 복원된다
+  const isFirstRender = useRef(true)
+  useLayoutEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      return
+    }
+    window.scrollTo(0, tabScrollRef.current[tab])
+  }, [tab])
   const [detail, setDetail] = useState<ReferenceDetailTarget | null>(null)
   const [abilityDetail, setAbilityDetail] = useState<AbilitySelectionRef | null>(null)
 
@@ -75,14 +96,14 @@ export function GameReferencePage({
               <button
                 type="button"
                 className={`game-ref-tab ${tab === 'tactical' ? 'game-ref-tab-active' : ''}`}
-                onClick={() => setTab('tactical')}
+                onClick={() => switchTab('tactical')}
               >
                 택티컬
               </button>
               <button
                 type="button"
                 className={`game-ref-tab ${tab === 'units' ? 'game-ref-tab-active' : ''}`}
-                onClick={() => setTab('units')}
+                onClick={() => switchTab('units')}
               >
                 유닛
               </button>
