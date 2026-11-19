@@ -1,6 +1,5 @@
 import type { RaceData, Roster } from '../../types'
 import { findUnit } from '../rosterCalc'
-import { useRosterStore } from '../RosterContext'
 import { useLocalize } from '../../LangContext'
 
 /** 서플라이 바의 버블을 눌렀을 때 스크롤해 갈 유닛 항목의 DOM id */
@@ -11,11 +10,10 @@ export function spawnAnchorId(entryId: string): string {
 /**
  * 게임 레퍼런스 화면 유닛 목록 위의 서플라이 바. 맵에 스폰한(스쿼드 칩을 고른) 유닛들을 로스터 순서대로
  * 버블로 잇고, 맨 왼쪽에 그 서플라이 합계를 보여준다. 사망한 유닛은 스폰 기록이 지워지므로 자연히 빠진다.
- * 버블을 누르면 그 유닛 항목으로 스크롤한다. 오른쪽의 초기화는 한 게임의 진행 기록(스폰, 사망, 카드
- * 소모)을 모두 지운다.
+ * 버블을 누르면 그 유닛 항목으로 스크롤한다. 게임 진행 기록 초기화 버튼은 유닛만이 아니라 카드 소모까지
+ * 지우므로 이 바가 아니라 화면 헤더(GameReferencePage, 닫기 버튼 왼쪽)에 둔다.
  */
 export function SpawnSupplyBar({ race, roster }: { race: RaceData; roster: Roster }) {
-  const store = useRosterStore()
   const localize = useLocalize()
 
   const spawned = roster.units.flatMap((entry) => {
@@ -52,9 +50,6 @@ export function SpawnSupplyBar({ race, roster }: { race: RaceData; roster: Roste
           </button>
         ))}
       </div>
-      <button type="button" className="game-ref-spawn-reset" onClick={() => store.resetGameState(roster.id)}>
-        초기화
-      </button>
     </div>
   )
 }

@@ -2,6 +2,7 @@ import { useLayoutEffect, useRef, useState } from 'react'
 import type { RaceData, Roster } from '../../types'
 import { abilitySelectionRefFor, findUnit, unitActiveAbilities } from '../rosterCalc'
 import { useLang, localize } from '../../LangContext'
+import { useRosterStore } from '../RosterContext'
 import { Modal } from './Modal'
 import { GameReferenceCardsView } from './GameReferenceCardsView'
 import { SpawnSupplyBar } from './SpawnSupplyBar'
@@ -29,6 +30,7 @@ export function GameReferencePage({
   onClose: () => void
 }) {
   const { lang } = useLang()
+  const store = useRosterStore()
   const [tab, setTab] = useState<ReferenceTab>('units')
   /**
    * 좁은 화면에서 탭마다 마지막 스크롤 위치. 탭을 떠날 때 저장했다가 돌아오면 복원해, 탭을 오가며
@@ -111,6 +113,10 @@ export function GameReferencePage({
             </div>
           </div>
           <div className="game-ref-header-actions">
+            {/* 한 게임의 진행 기록(유닛 스폰/사망, 카드 소모)을 모두 지운다 */}
+            <button type="button" className="btn" onClick={() => store.resetGameState(roster.id)}>
+              초기화
+            </button>
             <button type="button" className="btn btn-danger" onClick={onClose}>
               닫기
             </button>
