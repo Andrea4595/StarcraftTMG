@@ -8,6 +8,7 @@ import { RuleAbilityBlock } from '../../components/card/RuleAbilityBlock'
 import { WeaponTable } from '../../components/card/WeaponTable'
 import { KeywordDefinitionsList } from '../../components/card/keywordHighlight'
 import { PhaseBadge } from '../../components/card/PhaseBadge'
+import { AbilitiesSection } from '../../components/card/AbilitiesSection'
 import { abilityEnhancedBy, abilityEnhances, abilityResourceCost } from '../../components/card/abilityReferences'
 import type { RelatedAbilityTarget } from '../../components/card/RelatedAbilities'
 import type { AbilityDetailRef, AbilitySelectionRef } from './AbilityChipsRow'
@@ -46,6 +47,13 @@ export function AbilityDetailModal({
   const upgradeToggle = detail.upgradeToggle
   const toggleEntry = upgradeToggle ? roster.units.find((e) => e.id === upgradeToggle.entryId) : undefined
   const sourceUnit = detail.unitType ? findUnit(race, detail.sourceId) : undefined
+  /**
+   * 택티컬/팩션 카드에서 온 능력이면, 누른 능력 하나만이 아니라 그 카드가 가진 능력 전체를 보여준다.
+   * 카드 능력은 서로 이어지는 경우가 많아(예: 같은 자원을 쓰는 연계 능력) 한 번에 보는 게 낫다.
+   */
+  const sourceCard = detail.unitType
+    ? undefined
+    : [...race.factionCards, ...race.tacticalCards].find((c) => c.id === detail.sourceId)
   const sourceEntry = detail.entryId ? roster.units.find((e) => e.id === detail.entryId) : undefined
   const allAbilities: Ability[] = sourceUnit
     ? [...sourceUnit.abilities, ...sourceUnit.upgrades.map((u) => u.ability)]
@@ -116,34 +124,43 @@ export function AbilityDetailModal({
       }
       onClose={onClose}
     >
-      <div className="game-card">
-        <div className="card-phase-header">
-          <PhaseBadge phase={detail.ability.phase} />
-          {(detail.ability.phase === 'Any' ? 'ANY' : detail.ability.phase.toUpperCase())} PHASE
+      {sourceCard ? (
+        <div className="game-card">
+          <AbilitiesSection abilities={sourceCard.cardAbilities} resourceLabel={resourceLabel} title="CARD ABILITIES" />
+          <div className="card-phase-body">
+            <KeywordDefinitionsList abilities={sourceCard.cardAbilities} />
+          </div>
         </div>
-        <div className="card-phase-body card-ability-detail-body">
-          {detail.ability.kind === 'rule' ? (
-            <RuleAbilityBlock
-              ability={detail.ability}
-              resourceLabel={resourceLabel}
-              forWeapon={detail.forLabel}
-              relatedTo={relatedTargets(abilityEnhances(allAbilities, detail.ability))}
-              referencedBy={relatedTargets(abilityEnhancedBy(allAbilities, detail.ability))}
-            />
-          ) : (
-            <WeaponTable
-              rows={[
-                {
-                  weapon: detail.ability,
-                  for: detail.forLabel,
-                  referencedBy: relatedTargets(abilityEnhancedBy(allAbilities, detail.ability)),
-                },
-              ]}
-            />
-          )}
-          <KeywordDefinitionsList ability={detail.ability} />
+      ) : (
+        <div className="game-card">
+          <div className="card-phase-header">
+            <PhaseBadge phase={detail.ability.phase} />
+            {(detail.ability.phase === 'Any' ? 'ANY' : detail.ability.phase.toUpperCase())} PHASE
+          </div>
+          <div className="card-phase-body card-ability-detail-body">
+            {detail.ability.kind === 'rule' ? (
+              <RuleAbilityBlock
+                ability={detail.ability}
+                resourceLabel={resourceLabel}
+                forWeapon={detail.forLabel}
+                relatedTo={relatedTargets(abilityEnhances(allAbilities, detail.ability))}
+                referencedBy={relatedTargets(abilityEnhancedBy(allAbilities, detail.ability))}
+              />
+            ) : (
+              <WeaponTable
+                rows={[
+                  {
+                    weapon: detail.ability,
+                    for: detail.forLabel,
+                    referencedBy: relatedTargets(abilityEnhancedBy(allAbilities, detail.ability)),
+                  },
+                ]}
+              />
+            )}
+            <KeywordDefinitionsList ability={detail.ability} />
+          </div>
         </div>
-      </div>
+      )}
     </Modal>
   )
 }

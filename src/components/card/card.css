@@ -544,6 +544,11 @@
   padding-bottom: 0;
 }
 
+/* 택티컬 카드 능력 전체를 보여주는 상세 모달에서, 키워드 정의가 하나도 없으면 그 칸이 빈 여백으로 남지 않게 한다 */
+.card-phase-body:empty {
+  display: none;
+}
+
 .card-rule-ability-header {
   display: flex;
   flex-wrap: wrap;
