@@ -15,8 +15,8 @@ import { localizeTag } from '../../components/card/tagLabels'
 import { UNIT_TYPE_COLORS } from '../unitTypeColor'
 import { Modal } from './Modal'
 import { SlotUsageRow } from './SlotUsageRow'
-import { AbilityChipsRow, type AbilitySelectionRef } from './AbilityChipsRow'
-import { AbilityDetailModal } from './AbilityDetailModal'
+import { AbilityChipsRow } from './AbilityChipsRow'
+import { SourceAbilitiesModal } from './SourceAbilitiesModal'
 import { WaveBadge } from '../../components/card/WaveBadge'
 
 export function TacticalCardModal({
@@ -34,7 +34,8 @@ export function TacticalCardModal({
   const store = useRosterStore()
   const [typeFilter, setTypeFilter] = useState<UnitType | null>(null)
   const [focusedId, setFocusedId] = useState<string | null>(focusCardId ?? null)
-  const [abilityDetail, setAbilityDetail] = useState<AbilitySelectionRef | null>(null)
+  /** 능력 칩을 눌러 능력 전체를 펼쳐 보는 중인 카드의 id */
+  const [abilityCardId, setAbilityCardId] = useState<string | null>(null)
 
   const gasTotal = rosterGasTotal(race, roster)
   const gasCap = rosterGasCap(roster)
@@ -88,7 +89,7 @@ export function TacticalCardModal({
               focused={focusedId === card.id}
               onFocusRow={() => setFocusedId(card.id)}
               onSelect={() => store.setFactionCard(roster.id, card.id)}
-              onSelectAbility={setAbilityDetail}
+              onOpenAbilities={() => setAbilityCardId(card.id)}
             />
           ))}
         </div>
@@ -106,20 +107,18 @@ export function TacticalCardModal({
               onFocusRow={() => setFocusedId(card.id)}
               onAdd={() => store.addTacticalCard(roster.id, card.id)}
               onRemove={() => store.removeTacticalCard(roster.id, card.id)}
-              onSelectAbility={setAbilityDetail}
+              onOpenAbilities={() => setAbilityCardId(card.id)}
             />
           ))}
         </div>
       </div>
 
-      {abilityDetail?.kind === 'ability' && (
-        <AbilityDetailModal
-          detail={abilityDetail}
-          onClose={() => setAbilityDetail(null)}
+      {abilityCardId && (
+        <SourceAbilitiesModal
+          source={{ kind: 'card', cardId: abilityCardId }}
           roster={roster}
           race={race}
-          resourceLabel={race.resourceLabel.abbr}
-          onSelectAbility={setAbilityDetail}
+          onClose={() => setAbilityCardId(null)}
         />
       )}
     </Modal>
@@ -157,7 +156,7 @@ function FactionPickerRow({
   focused,
   onFocusRow,
   onSelect,
-  onSelectAbility,
+  onOpenAbilities,
 }: {
   card: TacticalCard
   resourceAbbr: string
@@ -165,7 +164,7 @@ function FactionPickerRow({
   focused: boolean
   onFocusRow: () => void
   onSelect: () => void
-  onSelectAbility: (ref: AbilitySelectionRef) => void
+  onOpenAbilities: () => void
 }) {
   const localize = useLocalize()
   return (
@@ -200,9 +199,7 @@ function FactionPickerRow({
       </div>
       <AbilityChipsRow
         abilities={card.cardAbilities}
-        sourceId={card.id}
-        sourceLabel={localize(card.name)}
-        onSelectAbility={onSelectAbility}
+        onOpen={onOpenAbilities}
         localize={localize}
       />
     </div>
@@ -218,7 +215,7 @@ function TacticalPickerRow({
   onFocusRow,
   onAdd,
   onRemove,
-  onSelectAbility,
+  onOpenAbilities,
 }: {
   card: TacticalCard
   roster: Roster
@@ -228,7 +225,7 @@ function TacticalPickerRow({
   onFocusRow: () => void
   onAdd: () => void
   onRemove: () => void
-  onSelectAbility: (ref: AbilitySelectionRef) => void
+  onOpenAbilities: () => void
 }) {
   const localize = useLocalize()
   const { lang } = useLang()
@@ -302,9 +299,7 @@ function TacticalPickerRow({
       </div>
       <AbilityChipsRow
         abilities={card.cardAbilities}
-        sourceId={card.id}
-        sourceLabel={cardName}
-        onSelectAbility={onSelectAbility}
+        onOpen={onOpenAbilities}
         localize={localize}
       />
     </div>

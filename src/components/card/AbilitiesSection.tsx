@@ -1,12 +1,9 @@
-import { PHASES, type Ability, type RuleAbility, type UnitCard, type Upgrade, type WeaponProfile } from '../../types'
+import { PHASES, type Ability, type RuleAbility, type Upgrade, type WeaponProfile } from '../../types'
 import { WeaponTable, type WeaponRow } from './WeaponTable'
 import { RuleAbilityBlock } from './RuleAbilityBlock'
 import { PhaseBadge } from './PhaseBadge'
 import { formatScaledCost, resolveScaledCost } from './costDisplay'
 import { useLocalize } from '../../LangContext'
-import { abilityEnhancedBy, abilityEnhances, abilityResourceCost } from './abilityReferences'
-import type { RelatedAbilityTarget } from './RelatedAbilities'
-import { abilityActiveState } from '../../roster/rosterCalc'
 
 export interface UpgradeToggleState {
   /** 비용 계산 기준이 되는 현재 선택된 스쿼드 등급 */
@@ -27,18 +24,12 @@ function entryAbility(e: Entry): Ability {
 }
 
 export function AbilitiesSection({
-  unit,
   abilities,
   upgrades = [],
   resourceLabel,
   title = 'ABILITIES',
   upgradeToggle,
-  onSelectAbility,
-  showRelated = true,
 }: {
-  /** 연관 어빌리티 항목이 지금 활성인지/비용이 얼마인지 조회할 때 쓴다 (unit.upgrades 전체가 필요).
-   *  택티컬/팩션 카드처럼 유닛이 없는 경우엔 생략 — 그 카드 능력들은 항상 활성으로 취급한다 */
-  unit?: UnitCard
   abilities: Ability[]
   /** 업그레이드로 얻는 능력. 지정하면 기본 능력과 같은 페이즈 그룹 안에 함께 표시된다 */
   upgrades?: Upgrade[]
@@ -47,14 +38,6 @@ export function AbilitiesSection({
   title?: string
   /** 지정하면 업그레이드 PTS 배지가 켜고 끄는 버튼이 된다 (유닛 편집 화면) */
   upgradeToggle?: UpgradeToggleState
-  /** 지정하면 연관 어빌리티/무기 항목을 눌러 그 대상의 상세 모달로 이동할 수 있다 */
-  onSelectAbility?: (ability: Ability) => void
-  /**
-   * '강화:' 연관 어빌리티/무기 블록을 보여줄지. 유닛 카드 전체(UnitCardView)처럼 같은 페이지 안에
-   * 모든 능력이 이미 나열돼 있는 화면에서는 중복이라 꺼둔다. 어빌리티 하나만 단독으로 보여주는
-   * AbilityDetailModal에서는 다른 능력으로 옮겨갈 진입점이 되므로 계속 켜둔다.
-   */
-  showRelated?: boolean
 }) {
   const localize = useLocalize()
   const entries: Entry[] = [
@@ -62,31 +45,6 @@ export function AbilitiesSection({
     ...upgrades.map((upgrade, index): Entry => ({ kind: 'upgrade', upgrade, index })),
   ]
   if (entries.length === 0) return null
-
-  /**
-   * ability.enhances(데이터에 명시된 id)를 실제 Ability로 풀 때 검색 대상이 되는, 지금 이 섹션에
-   * 실제로 표시되는 어빌리티/무기 전체 목록. abilities/upgrades를 그대로 쓰는 이유는, 게임 레퍼런스
-   * 화면처럼 abilitiesOverride로 '지금 실제로 활성화된 것'만 걸러서 넘긴 경우 연관 표시도 그 범위
-   * 안에서만 이뤄져야 하기 때문이다 — 선택하지 않은 업그레이드를 참조하는 링크가 읽기 전용 화면에
-   * 나타나면 안 된다.
-   */
-  const allAbilities: Ability[] = [...abilities, ...upgrades.map((u) => u.ability)]
-  const relatedTargets = (list: Ability[]): RelatedAbilityTarget[] =>
-    list.map((a) => {
-      const state = unit
-        ? abilityActiveState(unit, a, {
-            activeIndexes: upgradeToggle?.activeIndexes,
-            squadTierIndex: upgradeToggle?.squadTierIndex,
-          })
-        : { active: true, cost: undefined }
-      return {
-        ability: a,
-        onClick: onSelectAbility ? () => onSelectAbility(a) : undefined,
-        active: state.active,
-        cost: state.cost,
-        resourceCost: abilityResourceCost(a, resourceLabel),
-      }
-    })
 
   const groups = PHASES.map((phase) => ({
     phase,
@@ -144,7 +102,6 @@ export function AbilitiesSection({
                       return {
                         weapon: e.ability as WeaponProfile,
                         sealed: sealedWeaponIds.has(e.ability.id),
-                        referencedBy: showRelated ? relatedTargets(abilityEnhancedBy(allAbilities, e.ability)) : undefined,
                       }
                     }
                     return {
@@ -152,9 +109,6 @@ export function AbilitiesSection({
                       for: resolveForName(e.upgrade.forId),
                       ptsLabel: ptsLabelFor(e.upgrade),
                       interactive: interactiveFor(e.index),
-                      referencedBy: showRelated
-                        ? relatedTargets(abilityEnhancedBy(allAbilities, e.upgrade.ability))
-                        : undefined,
                     }
                   })}
                 />
@@ -166,8 +120,6 @@ export function AbilitiesSection({
                     key={i}
                     ability={ability}
                     resourceLabel={resourceLabel}
-                    relatedTo={showRelated ? relatedTargets(abilityEnhances(allAbilities, ability)) : undefined}
-                    referencedBy={showRelated ? relatedTargets(abilityEnhancedBy(allAbilities, ability)) : undefined}
                   />
                 ) : (
                   <RuleAbilityBlock
@@ -177,8 +129,6 @@ export function AbilitiesSection({
                     forWeapon={resolveForName(e.upgrade.forId)}
                     ptsLabel={ptsLabelFor(e.upgrade)}
                     interactive={interactiveFor(e.index)}
-                    relatedTo={showRelated ? relatedTargets(abilityEnhances(allAbilities, ability)) : undefined}
-                    referencedBy={showRelated ? relatedTargets(abilityEnhancedBy(allAbilities, ability)) : undefined}
                   />
                 )
               })}

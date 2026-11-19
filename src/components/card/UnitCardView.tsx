@@ -19,7 +19,6 @@ export function UnitCardView({
   finalCost,
   abilitiesOverride,
   squadHighlightIndex,
-  onSelectAbility,
 }: {
   unit: UnitCard
   resourceLabel: string
@@ -42,8 +41,6 @@ export function UnitCardView({
   abilitiesOverride?: Ability[]
   /** squadSelection이 없을 때, 이 인덱스를 현재 등급으로 배지 강조만 한다 (클릭 불가) */
   squadHighlightIndex?: number
-  /** 지정하면 이름 직접 언급으로 찾은 연관 어빌리티/무기 항목을 눌러 그 대상의 상세 모달로 이동할 수 있다 */
-  onSelectAbility?: (ability: Ability) => void
 }) {
   const localize = useLocalize()
   const { lang } = useLang()
@@ -88,21 +85,15 @@ export function UnitCardView({
 
       {abilitiesOverride ? (
         <AbilitiesSection
-          unit={unit}
           abilities={abilitiesOverride}
           resourceLabel={resourceLabel}
-          onSelectAbility={onSelectAbility}
-          showRelated={false}
         />
       ) : (
         <AbilitiesSection
-          unit={unit}
           abilities={unit.abilities}
           upgrades={unit.upgrades}
           resourceLabel={resourceLabel}
           upgradeToggle={upgradeToggle}
-          onSelectAbility={onSelectAbility}
-          showRelated={false}
         />
       )}
     </div>

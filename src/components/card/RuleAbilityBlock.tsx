@@ -1,7 +1,6 @@
 import type { RuleAbility } from '../../types'
 import { localize, useLang } from '../../LangContext'
 import { highlightKeywords } from './keywordHighlight'
-import { RelatedAbilities, type RelatedAbilityTarget } from './RelatedAbilities'
 
 function formatBadge(ability: RuleAbility, resourceLabel: string): string {
   if (ability.type === 'Passive') return 'PASSIVE'
@@ -15,8 +14,6 @@ export function RuleAbilityBlock({
   ptsLabel,
   forWeapon,
   interactive,
-  relatedTo,
-  referencedBy,
 }: {
   ability: RuleAbility
   /** 이 종족의 자원 약어 (예: 'CP', 'BM', 'EN') */
@@ -26,10 +23,6 @@ export function RuleAbilityBlock({
   forWeapon?: string
   /** 지정하면 PTS 배지가 이 업그레이드를 켜고 끄는 버튼이 된다 */
   interactive?: { active: boolean; onToggle: () => void }
-  /** 이 능력의 룰 텍스트가 이름으로 직접 언급하는, 같은 유닛의 다른 어빌리티/무기 */
-  relatedTo?: RelatedAbilityTarget[]
-  /** 이 능력을 이름으로 언급(강화)하는, 같은 유닛의 다른 어빌리티 */
-  referencedBy?: RelatedAbilityTarget[]
 }) {
   const { lang } = useLang()
   const text = lang === 'en' ? ability.rule.en : ability.rule.ko || ability.rule.en
@@ -61,8 +54,6 @@ export function RuleAbilityBlock({
       </div>
       {forWeapon && <div className="card-weapon-for">FOR {forWeapon}</div>}
       <p className="card-rule-text">{highlightKeywords(text)}</p>
-      <RelatedAbilities items={relatedTo ?? []} />
-      <RelatedAbilities items={referencedBy ?? []} />
     </div>
   )
 }

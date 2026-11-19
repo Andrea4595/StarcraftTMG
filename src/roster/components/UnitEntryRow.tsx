@@ -7,18 +7,15 @@ import {
   unitAbilityChipEntries,
   unitActiveAbilities,
   unitEntryMineralCost,
-  unitForLabelResolver,
   unitFactionMismatch,
-  unitMeleeWeaponEntries,
-  unitRangedWeaponEntries,
   unitRequiredFactionCardId,
-  upgradeExclusiveWith,
+  unitWeaponSummaryEntries,
 } from '../rosterCalc'
 import { StatBoxes } from '../../components/card/StatBoxes'
 import { KeywordList } from '../../components/card/KeywordText'
 import { localizeTag } from '../../components/card/tagLabels'
 import { useLang, useLocalize } from '../../LangContext'
-import { AbilityChipsRow, type AbilitySelectionRef, type UpgradeToggleRef, type WeaponSummaryInput } from './AbilityChipsRow'
+import { AbilityChipsRow, type WeaponSummaryInput } from './AbilityChipsRow'
 import { SquadTierSelector } from './SquadTierSelector'
 import { WaveBadge } from '../../components/card/WaveBadge'
 
@@ -30,7 +27,7 @@ export function UnitEntryRow({
   unit,
   entry,
   onShowDetail,
-  onSelectAbility,
+  onOpenAbilities,
   interactive = true,
 }: {
   race: RaceData
@@ -39,7 +36,8 @@ export function UnitEntryRow({
   entry: RosterUnitEntry
   /** 이 유닛의 상세 정보를 모달로 띄운다. '유닛 상세' 버튼을 누르면 호출된다 */
   onShowDetail: () => void
-  onSelectAbility: (ref: AbilitySelectionRef) => void
+  /** 어빌리티 칩을 누르면 호출된다. 이 유닛의 능력 전체 모달을 연다 */
+  onOpenAbilities: () => void
   /**
    * 기본은 로스터 편집 화면 전용 동작: 미구매 업그레이드까지 포함한 모든 능력을 가격과 함께 보여주고,
    * 스쿼드 등급을 클릭해 바꿀 수 있으며, 제거/이동 버튼이 붙는다. false를 주면 게임 레퍼런스 화면
@@ -53,18 +51,14 @@ export function UnitEntryRow({
   const { lang } = useLang()
   const cost = unitEntryMineralCost(unit, entry)
   const requiredFactionTag = unitRequiredFactionCardId(unit)
-  const forFor = unitForLabelResolver(unit, localize)
-  const rangedSummary = unitRangedWeaponEntries(unit, entry, localize)
-  const meleeSummary = unitMeleeWeaponEntries(unit, entry, localize)
   const weaponSummaries: WeaponSummaryInput[] = [
-    { entryId: entry.id, phase: 'Assault', label: FIRE_LABEL, entries: rangedSummary },
-    { entryId: entry.id, phase: 'Combat', label: MELEE_LABEL, entries: meleeSummary },
+    { phase: 'Assault', label: FIRE_LABEL, entries: unitWeaponSummaryEntries(unit, entry, 'Assault') },
+    { phase: 'Combat', label: MELEE_LABEL, entries: unitWeaponSummaryEntries(unit, entry, 'Combat') },
   ]
 
   let nonWeaponSummaryAbilities: Ability[]
   let upgradeStateFor: ((ability: Ability) => 'active' | 'inactive' | undefined) | undefined
   let costFor: ((ability: Ability) => number | undefined) | undefined
-  let upgradeToggleFor: ((ability: Ability) => UpgradeToggleRef | undefined) | undefined
 
   if (interactive) {
     const abilityEntries = unitAbilityChipEntries(unit, entry)
@@ -78,15 +72,9 @@ export function UnitEntryRow({
     const upgradeCostByAbility = new Map<Ability, number>(
       abilityEntries.filter((e) => e.upgradePts !== undefined).map((e) => [e.ability, e.upgradePts as number]),
     )
-    const upgradeIndexByAbility = new Map<Ability, number>(unit.upgrades.map((u, i) => [u.ability, i]))
 
     upgradeStateFor = (ability) => upgradeStateByAbility.get(ability)
     costFor = (ability) => upgradeCostByAbility.get(ability)
-    upgradeToggleFor = (ability) => {
-      const i = upgradeIndexByAbility.get(ability)
-      if (i === undefined) return undefined
-      return { entryId: entry.id, upgradeIndex: i, pts: unit.upgrades[i].pts, exclusiveWith: upgradeExclusiveWith(unit, i) }
-    }
   } else {
     nonWeaponSummaryAbilities = unitActiveAbilities(unit, entry).filter(isNonSummaryWeapon)
   }
@@ -134,16 +122,10 @@ export function UnitEntryRow({
         abilities={nonWeaponSummaryAbilities}
         weaponSummaries={weaponSummaries}
         hideInactiveWeaponNames={!interactive}
-        sourceId={unit.id}
-        sourceLabel={localize(unit.name)}
-        unitType={unit.type}
-        entryId={entry.id}
-        onSelectAbility={onSelectAbility}
+        onOpen={onOpenAbilities}
         localize={localize}
         upgradeStateFor={upgradeStateFor}
         costFor={costFor}
-        forFor={forFor}
-        upgradeToggleFor={upgradeToggleFor}
       />
 
       <div className="roster-entry-footer">

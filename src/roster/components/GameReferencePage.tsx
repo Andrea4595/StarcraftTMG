@@ -1,12 +1,10 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 import type { RaceData, Roster } from '../../types'
-import { abilitySelectionRefFor, findUnit, unitActiveAbilities } from '../rosterCalc'
+import { findUnit, unitActiveAbilities } from '../rosterCalc'
 import { useLang, localize } from '../../LangContext'
 import { Modal } from './Modal'
 import { GameReferenceCardsView } from './GameReferenceCardsView'
-import { AbilityDetailModal } from './AbilityDetailModal'
-import { WeaponSummaryModal } from './WeaponSummaryModal'
-import type { AbilitySelectionRef } from './AbilityChipsRow'
+import { SourceAbilitiesModal, type AbilitySource } from './SourceAbilitiesModal'
 import { UnitCardView } from '../../components/card/UnitCardView'
 import '../gameReference.css'
 
@@ -51,7 +49,7 @@ export function GameReferencePage({
     window.scrollTo(0, tabScrollRef.current[tab])
   }, [tab])
   const [detail, setDetail] = useState<ReferenceDetailTarget | null>(null)
-  const [abilityDetail, setAbilityDetail] = useState<AbilitySelectionRef | null>(null)
+  const [abilitySource, setAbilitySource] = useState<AbilitySource | null>(null)
 
   const detailContent = (() => {
     if (!detail) return null
@@ -68,18 +66,6 @@ export function GameReferencePage({
           resourceLabel={race.resourceLabel.abbr}
           abilitiesOverride={unitActiveAbilities(unit, entry)}
           squadHighlightIndex={entry.squadTierIndex}
-          onSelectAbility={(ability) =>
-            setAbilityDetail(
-              abilitySelectionRefFor(unit, ability, {
-                sourceId: unit.id,
-                sourceLabel: localize(unit.name, lang),
-                unitType: unit.type,
-                entryId: entry.id,
-                localize: (rule) => localize(rule, lang),
-                interactive: false,
-              }),
-            )
-          }
         />
       ),
     }
@@ -118,7 +104,7 @@ export function GameReferencePage({
       </div>
 
       <div className="game-ref-body">
-        <GameReferenceCardsView race={race} roster={roster} tab={tab} onSelect={setDetail} onSelectAbility={setAbilityDetail} />
+        <GameReferenceCardsView race={race} roster={roster} tab={tab} onSelect={setDetail} onOpenAbilities={setAbilitySource} />
       </div>
 
       {detailContent && (
@@ -127,25 +113,8 @@ export function GameReferencePage({
         </Modal>
       )}
 
-      {abilityDetail?.kind === 'ability' && (
-        <AbilityDetailModal
-          detail={abilityDetail}
-          onClose={() => setAbilityDetail(null)}
-          roster={roster}
-          race={race}
-          resourceLabel={race.resourceLabel.abbr}
-          readOnly
-          onSelectAbility={setAbilityDetail}
-        />
-      )}
-      {abilityDetail?.kind === 'weapon-summary' && (
-        <WeaponSummaryModal
-          detail={abilityDetail}
-          onClose={() => setAbilityDetail(null)}
-          roster={roster}
-          race={race}
-          onSelectAbility={setAbilityDetail}
-        />
+      {abilitySource && (
+        <SourceAbilitiesModal source={abilitySource} roster={roster} race={race} onClose={() => setAbilitySource(null)} />
       )}
     </div>
   )
