@@ -320,6 +320,41 @@ export function groupedTacticalCards(race: RaceData, roster: Roster): { card: Ta
     .filter((v): v is { card: TacticalCard; count: number } => v !== null)
 }
 
+/** 게임 레퍼런스 화면에 나열하는 팩션/택티컬 카드 한 장. 같은 택티컬 카드를 여러 장 채용했으면 장마다 별도 항목이 된다 */
+export interface ReferenceCardSlot {
+  card: TacticalCard
+  isFactionCard: boolean
+  /** 소모 상태(Roster.consumedCardKeys)를 식별하는 키. 택티컬 카드는 같은 카드 중 몇 번째 장인지까지 붙는다 */
+  key: string
+}
+
+/** 팩션 카드를 맨 앞에, 그 뒤로 택티컬 카드를 장 단위로 펼쳐 나열한다 (같은 카드끼리는 붙어 있다) */
+export function referenceCardSlots(race: RaceData, roster: Roster): ReferenceCardSlot[] {
+  const slots: ReferenceCardSlot[] = []
+  const factionCard = findFactionCard(race, roster)
+  if (factionCard) slots.push({ card: factionCard, isFactionCard: true, key: `faction:${factionCard.id}` })
+  for (const { card, count } of groupedTacticalCards(race, roster)) {
+    for (let i = 0; i < count; i++) slots.push({ card, isFactionCard: false, key: `tactical:${card.id}#${i}` })
+  }
+  return slots
+}
+
+export function isCardConsumed(roster: Roster, key: string): boolean {
+  return roster.consumedCardKeys?.includes(key) ?? false
+}
+
+/**
+ * 로스터에서 빠진 카드(장 수가 줄었거나 팩션 카드를 바꾼 경우)의 소모 기록을 지운다. 그대로 두면 나중에
+ * 같은 카드를 다시 넣었을 때 처음부터 소모된 상태로 보인다. 지울 게 없으면 원래 객체를 그대로 돌려준다.
+ */
+export function pruneConsumedCards(race: RaceData, roster: Roster): Roster {
+  const keys = roster.consumedCardKeys
+  if (!keys || keys.length === 0) return roster
+  const valid = new Set(referenceCardSlots(race, roster).map((s) => s.key))
+  const kept = keys.filter((k) => valid.has(k))
+  return kept.length === keys.length ? roster : { ...roster, consumedCardKeys: kept }
+}
+
 export function rosterGasTotal(race: RaceData, roster: Roster): number {
   return roster.tacticalCardIds.reduce((sum, id) => {
     const card = race.tacticalCards.find((c) => c.id === id)
@@ -461,8 +496,7 @@ export function unitForLabelResolver(
 /**
  * 이름 직접 언급으로 찾은 연관 어빌리티/무기(ability)를 눌렀을 때 열 상세 모달의 참조를 만든다.
  * 무기면 그 무기가 속한 페이즈의 종합 모달(사격/근접 공격)로, 룰 어빌리티면 단독 상세 모달로
- * 이동한다. entryId가 없으면(예: 다른 유닛에서 즐겨찾기한 능력을 보는 중이라 롤 항목을 확정할 수
- * 없을 때) 무기 참조의 entryId는 빈 문자열로 채워지므로, 호출부가 entryId 유무로 클릭 가능 여부를
+ * 이동한다. entryId가 없으면(로스터 항목을 확정할 수 없을 때) 무기 참조의 entryId는 빈 문자열로 채워지므로, 호출부가 entryId 유무로 클릭 가능 여부를
  * 미리 걸러야 한다.
  */
 export function abilitySelectionRefFor(
@@ -510,8 +544,7 @@ export function abilitySelectionRefFor(
  * 이름 직접 언급으로 찾은 연관 어빌리티/무기(ability)가 지금 활성인지, 업그레이드라면 비용이 얼마인지
  * 알려준다. 기본 능력(업그레이드가 아님)은 항상 활성으로, 비용 없이 취급한다.
  *
- * activeIndexes를 지정하지 않으면(예: 다른 유닛에서 즐겨찾기한 능력이라 로스터 항목을 확정할 수
- * 없을 때) 항상 활성으로 본다 — 게임 레퍼런스 화면의 유닛 상세 카드처럼 애초에 활성인 것만 골라
+ * activeIndexes를 지정하지 않으면(로스터 항목을 확정할 수 없을 때) 항상 활성으로 본다 — 게임 레퍼런스 화면의 유닛 상세 카드처럼 애초에 활성인 것만 골라
  * 넘긴 목록에서도 이 함수를 그대로 쓸 수 있도록 하기 위해서다.
  */
 /**
@@ -640,8 +673,7 @@ export interface PhaseAbilityGroup {
   /** 화면에 보여줄 이름. 같은 유닛이 로스터에 여러 장이면 "해병 #2"처럼 번호가 붙는다 */
   sourceLabel: string
   /**
-   * 즐겨찾기 식별에 쓰는 안정적인 id(유닛/카드 원본 id). sourceLabel과 달리 로스터에 같은 유닛이
-   * 몇 장 있든 항상 같은 값이라, 즐겨찾기는 유닛/카드 종류 단위로 공유된다.
+   * 안정적인 id(유닛/카드 원본 id). sourceLabel과 달리 로스터에 같은 유닛이 몇 장 있든 항상 같은 값이다.
    */
   sourceId: string
   /** 유닛에서 나온 그룹일 때만 지정 (색상 강조용) */
@@ -649,7 +681,7 @@ export interface PhaseAbilityGroup {
   abilities: Ability[]
 }
 
-/** 로스터에 포함된 모든 카드/유닛의 능력을 출처별로 묶는다 (페이즈/즐겨찾기 필터는 호출부에서 따로 적용) */
+/** 로스터에 포함된 모든 카드/유닛의 능력을 출처별로 묶는다 (페이즈 필터는 호출부에서 따로 적용) */
 function rosterAbilitySources(race: RaceData, roster: Roster, lang: Lang): PhaseAbilityGroup[] {
   const groups: PhaseAbilityGroup[] = []
 
@@ -692,20 +724,6 @@ function byPhase(ability: Ability, phase: Phase): boolean {
 export function rosterAbilitiesByPhase(race: RaceData, roster: Roster, phase: Phase, lang: Lang): PhaseAbilityGroup[] {
   return rosterAbilitySources(race, roster, lang)
     .map((g) => ({ ...g, abilities: g.abilities.filter((a) => byPhase(a, phase)) }))
-    .filter((g) => g.abilities.length > 0)
-}
-
-export function isFavoriteAbility(roster: Roster, sourceId: string, abilityId: string): boolean {
-  return roster.favoriteAbilities.some((f) => f.sourceId === sourceId && f.abilityId === abilityId)
-}
-
-/** 로스터 전체에서 즐겨찾기된 능력만 출처별로 묶어 반환한다. 무기 프로필은 즐겨찾기 대상이 아니다 */
-export function rosterFavoriteAbilities(race: RaceData, roster: Roster, lang: Lang): PhaseAbilityGroup[] {
-  return rosterAbilitySources(race, roster, lang)
-    .map((g) => ({
-      ...g,
-      abilities: g.abilities.filter((a) => a.kind === 'rule' && isFavoriteAbility(roster, g.sourceId, a.id)),
-    }))
     .filter((g) => g.abilities.length > 0)
 }
 

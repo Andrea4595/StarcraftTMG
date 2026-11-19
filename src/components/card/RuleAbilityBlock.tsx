@@ -15,7 +15,6 @@ export function RuleAbilityBlock({
   ptsLabel,
   forWeapon,
   interactive,
-  favorite,
   relatedTo,
   referencedBy,
 }: {
@@ -27,8 +26,6 @@ export function RuleAbilityBlock({
   forWeapon?: string
   /** 지정하면 PTS 배지가 이 업그레이드를 켜고 끄는 버튼이 된다 */
   interactive?: { active: boolean; onToggle: () => void }
-  /** 지정하면 이름 왼쪽에 즐겨찾기 별 토글 버튼을 붙인다 (게임 레퍼런스 화면 전용 기능) */
-  favorite?: { active: boolean; onToggle: () => void }
   /** 이 능력의 룰 텍스트가 이름으로 직접 언급하는, 같은 유닛의 다른 어빌리티/무기 */
   relatedTo?: RelatedAbilityTarget[]
   /** 이 능력을 이름으로 언급(강화)하는, 같은 유닛의 다른 어빌리티 */
@@ -42,16 +39,6 @@ export function RuleAbilityBlock({
     <div className={`card-rule-ability ${interactive && !interactive.active ? 'card-rule-ability-dim' : ''}`}>
       <div className="card-rule-ability-header">
         <div className="card-rule-ability-title">
-          {favorite && (
-            <button
-              type="button"
-              className={`card-favorite-star ${favorite.active ? 'card-favorite-star-active' : ''}`}
-              onClick={favorite.onToggle}
-              aria-label={favorite.active ? `${name} 즐겨찾기 해제` : `${name} 즐겨찾기 추가`}
-            >
-              {favorite.active ? '★' : '☆'}
-            </button>
-          )}
           <span className="card-rule-ability-name">{name}</span>
         </div>
         <div className="card-rule-ability-right">

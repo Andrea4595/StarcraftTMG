@@ -1,5 +1,5 @@
 import type { Ability, RaceData, Roster } from '../../types'
-import { abilityActiveState, abilitySelectionRefFor, findUnit, isFavoriteAbility, resolveScaledCost } from '../rosterCalc'
+import { abilityActiveState, abilitySelectionRefFor, findUnit, resolveScaledCost } from '../rosterCalc'
 import { useRosterStore } from '../RosterContext'
 import { useLocalize } from '../../LangContext'
 import { UNIT_TYPE_COLORS } from '../unitTypeColor'
@@ -8,6 +8,7 @@ import { RuleAbilityBlock } from '../../components/card/RuleAbilityBlock'
 import { WeaponTable } from '../../components/card/WeaponTable'
 import { KeywordDefinitionsList } from '../../components/card/keywordHighlight'
 import { PhaseBadge } from '../../components/card/PhaseBadge'
+import { AbilitiesSection } from '../../components/card/AbilitiesSection'
 import { abilityEnhancedBy, abilityEnhances, abilityResourceCost } from '../../components/card/abilityReferences'
 import type { RelatedAbilityTarget } from '../../components/card/RelatedAbilities'
 import type { AbilityDetailRef, AbilitySelectionRef } from './AbilityChipsRow'
@@ -22,7 +23,7 @@ export function AbilityDetailModal({
   roster,
   race,
   resourceLabel,
-  showFavorite = false,
+  readOnly = false,
   onSelectAbility,
 }: {
   detail: AbilityDetailRef
@@ -32,8 +33,8 @@ export function AbilityDetailModal({
    *  타격틱 카드에서 온 능력이면(unitType 없음) 못 찾아도 정상 — 연관 목록이 그냥 비게 된다 */
   race: RaceData
   resourceLabel: string
-  /** 즐겨찾기 별 토글을 보여줄지. 즐겨찾기는 게임 레퍼런스 화면 전용 기능이라 기본은 꺼져 있다 */
-  showFavorite?: boolean
+  /** 게임 레퍼런스 화면처럼 확정된 로스터를 읽기만 하는 화면인지 */
+  readOnly?: boolean
   /** 지정하면 연관 어빌리티/무기 항목을 눌러 그 대상의 상세 모달로 이동할 수 있다 */
   onSelectAbility?: (ref: AbilitySelectionRef) => void
 }) {
@@ -46,12 +47,19 @@ export function AbilityDetailModal({
   const upgradeToggle = detail.upgradeToggle
   const toggleEntry = upgradeToggle ? roster.units.find((e) => e.id === upgradeToggle.entryId) : undefined
   const sourceUnit = detail.unitType ? findUnit(race, detail.sourceId) : undefined
+  /**
+   * 택티컬/팩션 카드에서 온 능력이면, 누른 능력 하나만이 아니라 그 카드가 가진 능력 전체를 보여준다.
+   * 카드 능력은 서로 이어지는 경우가 많아(예: 같은 자원을 쓰는 연계 능력) 한 번에 보는 게 낫다.
+   */
+  const sourceCard = detail.unitType
+    ? undefined
+    : [...race.factionCards, ...race.tacticalCards].find((c) => c.id === detail.sourceId)
   const sourceEntry = detail.entryId ? roster.units.find((e) => e.id === detail.entryId) : undefined
   const allAbilities: Ability[] = sourceUnit
     ? [...sourceUnit.abilities, ...sourceUnit.upgrades.map((u) => u.ability)]
     : []
   /**
-   * showFavorite(게임 레퍼런스 화면 전용)일 때는 비활성(미구매 업그레이드) 대상을 아예 목록에서
+   * readOnly(게임 레퍼런스 화면)일 때는 비활성(미구매 업그레이드) 대상을 아예 목록에서
    * 빼고, 표시되는 대상의 미네랄 가격도 보여주지 않는다 — 실전 참고용 화면이라 이미 확정된 로스터
    * 기준으로 "지금 실제로 쓰이는 것"만, 군더더기 없이 보여주면 된다.
    */
@@ -76,16 +84,16 @@ export function AbilityDetailModal({
                       unitType: detail.unitType,
                       entryId: detail.entryId,
                       localize,
-                      interactive: !showFavorite,
+                      interactive: !readOnly,
                     }),
                   )
               : undefined,
           active: state.active,
-          cost: showFavorite ? undefined : state.cost,
+          cost: readOnly ? undefined : state.cost,
           resourceCost: abilityResourceCost(a, resourceLabel),
         }
       })
-      .filter((t) => !showFavorite || t.active)
+      .filter((t) => !readOnly || t.active)
 
   return (
     <Modal
@@ -116,42 +124,43 @@ export function AbilityDetailModal({
       }
       onClose={onClose}
     >
-      <div className="game-card">
-        <div className="card-phase-header">
-          <PhaseBadge phase={detail.ability.phase} />
-          {(detail.ability.phase === 'Any' ? 'ANY' : detail.ability.phase.toUpperCase())} PHASE
+      {sourceCard ? (
+        <div className="game-card">
+          <AbilitiesSection abilities={sourceCard.cardAbilities} resourceLabel={resourceLabel} title="CARD ABILITIES" />
+          <div className="card-phase-body">
+            <KeywordDefinitionsList abilities={sourceCard.cardAbilities} />
+          </div>
         </div>
-        <div className="card-phase-body card-ability-detail-body">
-          {detail.ability.kind === 'rule' ? (
-            <RuleAbilityBlock
-              ability={detail.ability}
-              resourceLabel={resourceLabel}
-              forWeapon={detail.forLabel}
-              favorite={
-                showFavorite
-                  ? {
-                      active: isFavoriteAbility(roster, detail.sourceId, detail.ability.id),
-                      onToggle: () => store.toggleFavoriteAbility(roster.id, detail.sourceId, detail.ability.id),
-                    }
-                  : undefined
-              }
-              relatedTo={relatedTargets(abilityEnhances(allAbilities, detail.ability))}
-              referencedBy={relatedTargets(abilityEnhancedBy(allAbilities, detail.ability))}
-            />
-          ) : (
-            <WeaponTable
-              rows={[
-                {
-                  weapon: detail.ability,
-                  for: detail.forLabel,
-                  referencedBy: relatedTargets(abilityEnhancedBy(allAbilities, detail.ability)),
-                },
-              ]}
-            />
-          )}
-          <KeywordDefinitionsList ability={detail.ability} />
+      ) : (
+        <div className="game-card">
+          <div className="card-phase-header">
+            <PhaseBadge phase={detail.ability.phase} />
+            {(detail.ability.phase === 'Any' ? 'ANY' : detail.ability.phase.toUpperCase())} PHASE
+          </div>
+          <div className="card-phase-body card-ability-detail-body">
+            {detail.ability.kind === 'rule' ? (
+              <RuleAbilityBlock
+                ability={detail.ability}
+                resourceLabel={resourceLabel}
+                forWeapon={detail.forLabel}
+                relatedTo={relatedTargets(abilityEnhances(allAbilities, detail.ability))}
+                referencedBy={relatedTargets(abilityEnhancedBy(allAbilities, detail.ability))}
+              />
+            ) : (
+              <WeaponTable
+                rows={[
+                  {
+                    weapon: detail.ability,
+                    for: detail.forLabel,
+                    referencedBy: relatedTargets(abilityEnhancedBy(allAbilities, detail.ability)),
+                  },
+                ]}
+              />
+            )}
+            <KeywordDefinitionsList ability={detail.ability} />
+          </div>
         </div>
-      </div>
+      )}
     </Modal>
   )
 }

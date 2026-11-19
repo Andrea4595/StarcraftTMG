@@ -12,6 +12,14 @@ export interface RosterUnitEntry {
    * 화면에서는 제거 버튼 대신 출처 태그를 보여준다.
    */
   summonedBy?: string
+  /**
+   * 게임 레퍼런스 화면에서 이 유닛을 맵에 스폰한 스쿼드 등급(UnitCard.squad 인덱스). 로스터에서 정한
+   * squadTierIndex와 별개로, 실제 게임에서 깔린 등급을 기록해 서플라이 합계를 내는 데 쓴다. 스폰하지
+   * 않았으면 필드 자체가 없다 (Firestore가 undefined 값을 거부하므로 값 대신 키를 지운다).
+   */
+  spawnedTierIndex?: number
+  /** 게임 레퍼런스 화면에서 '사망' 처리한 유닛이면 true. 사망하면 스폰 기록은 지워진다 */
+  dead?: boolean
 }
 
 export interface Roster {
@@ -27,11 +35,11 @@ export interface Roster {
   tacticalCardIds: string[]
   units: RosterUnitEntry[]
   /**
-   * 게임 레퍼런스 화면에서 즐겨찾기한 RuleAbility들. sourceId는 그 능력이 속한 유닛/카드의 id
-   * (예: "Marine"), abilityId는 어빌리티의 id. 같은 id의 어빌리티라도 유닛/카드마다 내용이 다를 수 있어
-   * sourceId+abilityId 조합으로 식별한다.
+   * 게임 레퍼런스 화면에서 '소모' 처리한 팩션/택티컬 카드들의 키(consumedCardKey). 같은 택티컬 카드를
+   * 여러 장 채용했으면 장마다 따로 소모 처리할 수 있도록, 카드 id에 몇 번째 장인지까지 붙여 식별한다.
+   * Firestore에 이 필드가 생기기 전에 저장된 로스터는 값이 없을 수 있어 optional이다.
    */
-  favoriteAbilities: { sourceId: string; abilityId: string }[]
+  consumedCardKeys?: string[]
   /**
    * 마지막으로 내용이 바뀐 시각(ms). 여러 기기에서 같은 로스터를 고쳤을 때 로그인 시점에 어느 쪽이
    * 더 최신인지 가르는 데 쓴다. 이 필드가 생기기 전에 저장된 로스터에는 없다.

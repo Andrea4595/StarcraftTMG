@@ -168,6 +168,27 @@
   letter-spacing: 0.03em;
 }
 
+/* 좁은 화면에서는 이름 옆에 스탯 박스를 끼워 넣으면 이름이 비좁게 접히므로, 이름 줄이 한 줄을 다 쓰게
+   해 스탯 박스(와 COST 배지)를 그 아래 줄로 내린다. 스탯 6개는 한 줄에 같은 폭으로 나눠 채워, 폭이
+   모자라 마지막 칸만 다음 줄로 넘어가는 일이 없게 한다 */
+@media (max-width: 899px) {
+  .card-header-main {
+    flex-basis: 100%;
+  }
+
+  .card-statboxes {
+    flex: 1 1 100%;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 4px;
+  }
+
+  .card-statbox {
+    min-width: 0;
+    padding: 6px 2px;
+  }
+}
+
 /* 스쿼드 + PTS */
 .card-squad-row {
   display: flex;
@@ -523,6 +544,11 @@
   padding-bottom: 0;
 }
 
+/* 택티컬 카드 능력 전체를 보여주는 상세 모달에서, 키워드 정의가 하나도 없으면 그 칸이 빈 여백으로 남지 않게 한다 */
+.card-phase-body:empty {
+  display: none;
+}
+
 .card-rule-ability-header {
   display: flex;
   flex-wrap: wrap;
@@ -550,58 +576,6 @@
 
 .card-rule-ability-name {
   font-weight: 700;
-}
-
-/* 즐겨찾기 별 토글(게임 레퍼런스 화면 전용). 빈 별(☆)이 기본, 즐겨찾기하면 노란 채운 별(★)로 바뀐다 */
-.card-favorite-star {
-  display: inline-flex;
-  align-items: center;
-  border: none;
-  background: none;
-  padding: 0;
-  margin: 0;
-  font-size: 15px;
-  line-height: 1;
-  cursor: pointer;
-  color: var(--gc-text-dim);
-}
-
-.card-favorite-star:hover {
-  color: var(--gc-yellow);
-}
-
-.card-favorite-star-active {
-  color: var(--gc-yellow);
-}
-
-/*
-  다른 유닛/카드에서 즐겨찾기한 능력을, 지금 보는 카드의 같은 페이즈 그룹 하단에 이름만 알약 버튼으로
-  덧붙인 것 (게임 레퍼런스 유닛 상세 모달 전용). 이 카드 자신의 능력(RuleAbilityBlock)과 뚜렷이
-  구분되도록, 이름 앞에 노란 별을 붙여 "다른 곳에서 즐겨찾기한 능력"임을 드러낸다.
-*/
-.card-cross-favorites {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.card-cross-favorite {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border: 1px solid var(--gc-border);
-  border-radius: 999px;
-  padding: 4px 12px;
-  background: var(--gc-bg-raised);
-  color: var(--gc-text);
-  font: inherit;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.card-cross-favorite:hover {
-  border-color: var(--gc-yellow);
 }
 
 .card-badge {
@@ -817,13 +791,6 @@
 .ability-chip:hover {
   opacity: 1;
   border-color: var(--accent, var(--border));
-}
-
-/* 즐겨찾기된 어빌리티 칩: 별 아이콘 대신 배경/테두리를 노란 톤으로 살짝 물들여 강조한다 */
-.ability-chip-favorited {
-  background: rgba(240, 180, 41, 0.18);
-  border-color: rgba(240, 180, 41, 0.5);
-  opacity: 1;
 }
 
 /*

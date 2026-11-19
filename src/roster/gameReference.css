@@ -13,7 +13,7 @@
 }
 
 /*
-  헤더 + (페이즈 화면일 때) 페이즈 탭까지 화면 위에 고정해, 긴 목록을 스크롤해도 페이즈를 바로 바꿀 수 있게 한다.
+  헤더를 화면 위에 고정해, 긴 목록을 스크롤해도 로스터 이름과 닫기 버튼이 항상 보이게 한다.
   top은 반드시 0이어야 한다: 0보다 크면 뷰포트 맨 위와 고정 바 사이에 아무것도 덮지 않는 틈이 생겨,
   스크롤 중 그 틈으로 뒤의 내용이 순간적으로 비쳐 보인다.
 */
@@ -45,6 +45,39 @@
   display: flex;
   align-items: baseline;
   gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* 로스터 이름 우측의 '택티컬/유닛' 탭. 좁은 화면 전용이라 넓은 화면(2열 배치)에서는 숨긴다 */
+.game-ref-tabs {
+  display: flex;
+  gap: 6px;
+  align-self: center;
+  margin-left: 4px;
+}
+
+.game-ref-tab {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 12px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.game-ref-tab:hover {
+  border-color: var(--accent, var(--border));
+}
+
+.game-ref-tab-active {
+  border-color: var(--accent);
+  background: var(--accent-bg, rgba(255, 255, 255, 0.06));
+  color: var(--accent);
 }
 
 .game-ref-header-name {
@@ -63,36 +96,6 @@
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
-}
-
-/* 화면 최상단의 '로스터/즐겨찾기' 화면 전환 탭 버튼 한 벌의 공통 스타일 */
-.game-ref-tabs {
-  display: flex;
-  gap: 8px;
-}
-
-.game-ref-tab {
-  flex: 0 0 auto;
-  white-space: nowrap;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 6px 12px;
-  background: transparent;
-  color: var(--text);
-  font: inherit;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.game-ref-tab:hover {
-  border-color: var(--accent, var(--border));
-}
-
-.game-ref-tab-active {
-  border-color: var(--accent);
-  background: var(--accent-bg, rgba(255, 255, 255, 0.06));
-  color: var(--accent);
 }
 
 .game-ref-empty {
@@ -181,28 +184,177 @@
   border-radius: 1px;
 }
 
-/* 페이즈 화면: 출처(카드/유닛)별 그룹. .game-card를 함께 써서 실제 카드와 같은 다크 배색(--gc-*)을
-   물려받는다 (그렇지 않으면 WeaponTable/RuleAbilityBlock이 참조하는 --gc-* 변수가 정의되지 않는다) */
-.game-ref-phase-groups {
+/*
+  카드/유닛 목록. 좁은 화면에서는 헤더의 '택티컬/유닛' 탭으로 고른 쪽만 보여주고, 가로로 넓은 화면에서는
+  탭을 숨기고 택티컬 카드를 왼쪽, 유닛을 오른쪽에 나란히 둔다. 유닛 행은 칩이 많아 택티컬 카드보다 폭을
+  더 준다. 한쪽만 있으면(예: 유닛만 고른 로스터) split 클래스가 안 붙어 그쪽이 전체 폭을 쓴다.
+*/
+.game-ref-cards {
   display: flex;
   flex-direction: column;
-  gap: 16px;
 }
 
-.game-card.game-ref-phase-group {
-  border-left: 3px solid var(--type-color, var(--gc-border));
+@media (max-width: 899px) {
+  .game-ref-column-inactive,
+  .game-ref-wide-only {
+    display: none;
+  }
 }
 
-/* 카드 이름(무기/능력 이름)과 뚜렷이 구분되도록 대문자 라벨 형태의 헤더 바로 만든다 */
-.game-ref-phase-group-title {
-  padding: 8px 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border-bottom: 1px solid var(--gc-border);
+@media (min-width: 900px) {
+  .game-ref-tabs,
+  .game-ref-narrow-only {
+    display: none;
+  }
+
+  /*
+    넓은 화면에서는 페이지 전체가 아니라 좌우 열이 각자 스크롤한다 — 유닛 목록을 내려도 택티컬 카드가
+    위로 밀려 올라가지 않게. 그러려면 화면 높이가 고정돼야 하므로, 이미 100vh로 고정된 .roster-builder
+    안에서 페이지/본문/열이 남는 높이를 차례로 나눠 갖는다 (min-height:0이 없으면 flex/grid 자식이
+    내용 높이만큼 늘어나 스크롤이 생기지 않는다). 하단 언어 바 여백은 .roster-builder의 padding이
+    맡으므로, 페이지 자신의 padding-bottom은 필요 없다.
+  */
+  .game-ref-page {
+    flex: 1;
+    min-height: 0;
+    padding-bottom: 0;
+  }
+
+  .game-ref-body {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .game-ref-cards {
+    height: 100%;
+  }
+
+  .game-ref-column {
+    height: 100%;
+    overflow-y: auto;
+    /* 스크롤바가 카드 테두리에 바짝 붙지 않게 */
+    padding-right: 6px;
+  }
+
+  .game-ref-cards-split {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    gap: 16px;
+  }
+
+  /* 두 열이 나란히 놓이므로 각 열 제목이 같은 높이에서 시작하도록 위쪽 여백을 없앤다 */
+  .game-ref-column > .game-ref-section-title {
+    margin-top: 0;
+  }
+}
+
+/* 넓은 화면: 서플라이 바를 유닛 열 맨 위에 고정한다 (열이 따로 스크롤하므로 열 기준 top:0) */
+.game-ref-spawn-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: var(--bg);
+  padding-bottom: 8px;
+}
+
+/* 맵에 스폰한 유닛 서플라이 바: [합계] [버블들...] */
+.game-ref-spawn-bar {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 8px;
+}
+
+.game-ref-spawn-total {
+  flex: 0 0 auto;
+  align-self: center;
   font-size: 12px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--type-color, var(--gc-text));
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.game-ref-spawn-total strong {
+  font-size: 18px;
+  color: var(--text-h);
+  font-variant-numeric: tabular-nums;
+  margin-left: 2px;
+}
+
+.game-ref-spawn-bubbles {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-self: center;
+}
+
+.game-ref-spawn-bubble {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid rgba(91, 157, 255, 0.5);
+  border-radius: 999px;
+  background: rgba(91, 157, 255, 0.12);
+  padding: 4px 10px;
+  color: var(--text-h);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.game-ref-spawn-bubble .roster-squad-tier-supply-square {
+  width: 7px;
+  height: 7px;
+  background: #5b9dff;
+}
+
+/* 택티컬/팩션 카드 행: 왼쪽에 카드 내용, 오른쪽에 '소모' 토글 버튼 */
+.game-ref-card-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.game-ref-card-item-content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* 소모한 카드: 행 배경을 어둡게 깔고 내용은 흐리게 한다. 소모 버튼은 다시 눌러 되돌릴 수 있도록 흐리게 하지 않는다 */
+.game-ref-card-item-consumed {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.game-ref-card-item-consumed .game-ref-card-item-content {
+  opacity: 0.35;
+}
+
+.game-ref-consume-btn {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 12px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.game-ref-consume-btn:hover {
+  border-color: var(--accent, var(--border));
+}
+
+.game-ref-consume-btn-active {
+  border-color: var(--accent);
+  background: var(--accent-bg, rgba(255, 255, 255, 0.06));
+  color: var(--accent);
 }
 
 @media (max-width: 480px) {

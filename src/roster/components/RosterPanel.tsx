@@ -178,7 +178,6 @@ function RosterPanelBody({
               abilities={factionCard.cardAbilities}
               sourceId={factionCard.id}
               sourceLabel={localize(factionCard.name)}
-              roster={roster}
               onSelectAbility={onSelectAbility}
               localize={localize}
             />
@@ -231,7 +230,6 @@ function RosterPanelBody({
                   abilities={card.cardAbilities}
                   sourceId={card.id}
                   sourceLabel={cardName}
-                  roster={roster}
                   onSelectAbility={onSelectAbility}
                   localize={localize}
                 />

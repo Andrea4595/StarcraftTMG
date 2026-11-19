@@ -35,7 +35,7 @@ export interface Keyword {
 }
 
 interface AbilityBase {
-  /** 안정적인 영문 식별자. 기존 영문 name 문자열과 동일한 값 (sealed weapon 판정, 즐겨찾기 등에 쓰임) */
+  /** 안정적인 영문 식별자. 기존 영문 name 문자열과 동일한 값 (sealed weapon 판정 등에 쓰임) */
   id: string
   name: Rule
   phase: Phase
@@ -142,7 +142,7 @@ export interface Upgrade {
 
 interface CardBase {
   /**
-   * 안정적인 영문 식별자. 원래 name이 하던 역할(로스터 저장 데이터, 즐겨찾기, 팩션/택티컬 카드
+   * 안정적인 영문 식별자. 원래 name이 하던 역할(로스터 저장 데이터, 팩션/택티컬 카드
    * 선택 상태 등에서의 식별키)을 그대로 이어받는다 — 기존 영문 name 문자열과 동일한 값을 쓴다.
    */
   id: string

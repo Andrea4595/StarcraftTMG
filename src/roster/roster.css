@@ -682,6 +682,44 @@ button.roster-slot-pill:hover {
 /* 스쿼드 등급 선택기를 이름-스탯 줄 아래 독립된 줄로 내린다 */
 .roster-entry-squad-row {
   margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 게임 레퍼런스: 스쿼드 칩 줄 맨 왼쪽의 '사망' 토글 */
+.roster-entry-dead-btn {
+  flex: 0 0 auto;
+  align-self: stretch;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 0 10px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.roster-entry-dead-btn:hover {
+  border-color: #e5484d;
+}
+
+.roster-entry-dead-btn-active {
+  border-color: #e5484d;
+  background: rgba(229, 72, 77, 0.15);
+  color: #ff6b6f;
+}
+
+/* 사망한 유닛: 카드 배경을 어둡게 깔고 내용을 흐리게 한다. 사망 버튼은 다시 눌러 되돌릴 수 있도록 흐리게 하지 않는다 */
+.roster-entry-dead {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.roster-entry-dead > :not(.roster-entry-squad-row),
+.roster-entry-dead .roster-squad-tier-selector {
+  opacity: 0.35;
 }
 
 /* 로스터 목록에서는 한 유닛이 차지하는 높이를 줄이기 위해 스탯 박스를 원본 카드보다 작게 표시 */
@@ -742,6 +780,35 @@ button.roster-slot-pill:hover {
 }
 
 .roster-squad-tier-chip-disabled:hover {
+  border-color: var(--border);
+}
+
+/* 게임 레퍼런스에서 맵에 스폰한 스쿼드로 고른 칩: 배경을 채워 강조한다 */
+.roster-squad-tier-chip-spawned {
+  background: #5b9dff;
+  border-color: #5b9dff;
+  color: #fff;
+}
+
+.roster-squad-tier-chip-spawned .roster-squad-tier-supply-square {
+  background: #fff;
+}
+
+.roster-squad-tier-chip-spawned .roster-squad-tier-supply-square-hollow {
+  background: transparent;
+  border-color: #fff;
+}
+
+/* 같은 유닛에서 스폰으로 고르지 않은 나머지 칩 */
+.roster-squad-tier-chip-muted {
+  opacity: 0.35;
+}
+
+.roster-squad-tier-chip:disabled {
+  cursor: default;
+}
+
+.roster-squad-tier-chip:disabled:hover {
   border-color: var(--border);
 }
 
@@ -931,7 +998,7 @@ button.roster-slot-pill:hover {
 }
 
 /*
-  즐겨찾기한 능력의 출처가 유닛인지 택티컬/팩션 카드인지 표시하는 배지. 둘 다 한눈에 식별되도록 색을
+  어빌리티 상세 모달에서 능력의 출처가 유닛인지 택티컬/팩션 카드인지 표시하는 배지. 둘 다 한눈에 식별되도록 색을
   항상 인라인 style로 넘겨받는다: 유닛이면 게임 레퍼런스 곳곳에서 쓰는 유닛 타입 색(UNIT_TYPE_COLORS),
   카드면 노란색(--gc-yellow)으로 구분한다.
 */

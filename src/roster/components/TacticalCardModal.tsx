@@ -83,7 +83,6 @@ export function TacticalCardModal({
             <FactionPickerRow
               key={card.id}
               card={card}
-              roster={roster}
               resourceAbbr={race.resourceLabel.abbr}
               active={roster.factionCardId === card.id}
               focused={focusedId === card.id}
@@ -153,7 +152,6 @@ function CardCapacityMeta({ card, resourceAbbr }: { card: TacticalCard; resource
  */
 function FactionPickerRow({
   card,
-  roster,
   resourceAbbr,
   active,
   focused,
@@ -162,7 +160,6 @@ function FactionPickerRow({
   onSelectAbility,
 }: {
   card: TacticalCard
-  roster: Roster
   resourceAbbr: string
   active: boolean
   focused: boolean
@@ -205,7 +202,6 @@ function FactionPickerRow({
         abilities={card.cardAbilities}
         sourceId={card.id}
         sourceLabel={localize(card.name)}
-        roster={roster}
         onSelectAbility={onSelectAbility}
         localize={localize}
       />
@@ -308,7 +304,6 @@ function TacticalPickerRow({
         abilities={card.cardAbilities}
         sourceId={card.id}
         sourceLabel={cardName}
-        roster={roster}
         onSelectAbility={onSelectAbility}
         localize={localize}
       />

@@ -1,16 +1,15 @@
-import { useState } from 'react'
-import type { RaceData, Roster, RuleAbility } from '../../types'
-import { abilitySelectionRefFor, findUnit, isFavoriteAbility, rosterFavoriteAbilities, unitActiveAbilities } from '../rosterCalc'
-import { useRosterStore } from '../RosterContext'
+import { useLayoutEffect, useRef, useState } from 'react'
+import type { RaceData, Roster } from '../../types'
+import { abilitySelectionRefFor, findUnit, unitActiveAbilities } from '../rosterCalc'
 import { useLang, localize } from '../../LangContext'
+import { useRosterStore } from '../RosterContext'
 import { Modal } from './Modal'
 import { GameReferenceCardsView } from './GameReferenceCardsView'
-import { GameReferenceFavoritesView } from './GameReferenceFavoritesView'
+import { SpawnSupplyBar } from './SpawnSupplyBar'
 import { AbilityDetailModal } from './AbilityDetailModal'
 import { WeaponSummaryModal } from './WeaponSummaryModal'
 import type { AbilitySelectionRef } from './AbilityChipsRow'
 import { UnitCardView } from '../../components/card/UnitCardView'
-import type { CrossFavoriteRef, FavoriteToggle } from '../../components/card/AbilitiesSection'
 import '../gameReference.css'
 
 /** 게임 레퍼런스 카드 목록에서 상세 모달을 띄울 수 있는 건 유닛뿐이다 (택티컬/팩션 카드는 클릭해도
@@ -18,7 +17,8 @@ import '../gameReference.css'
  *  더 이상 필요 없다) */
 export type ReferenceDetailTarget = { kind: 'unit'; entryId: string }
 
-type Mode = 'cards' | 'favorites'
+/** 좁은 화면에서 택티컬 카드/유닛 중 어느 쪽을 보여줄지. 넓은 화면에서는 두 열로 둘 다 보여서 쓰이지 않는다 */
+export type ReferenceTab = 'tactical' | 'units'
 
 export function GameReferencePage({
   race,
@@ -29,19 +29,32 @@ export function GameReferencePage({
   roster: Roster
   onClose: () => void
 }) {
-  const store = useRosterStore()
   const { lang } = useLang()
-  const [mode, setMode] = useState<Mode>('cards')
+  const store = useRosterStore()
+  const [tab, setTab] = useState<ReferenceTab>('units')
+  /**
+   * 좁은 화면에서 탭마다 마지막 스크롤 위치. 탭을 떠날 때 저장했다가 돌아오면 복원해, 탭을 오가며
+   * 보던 위치를 잃지 않게 한다. 한 번도 안 본 탭은 맨 위에서 시작한다. 이 화면을 닫으면 잊는다.
+   */
+  const tabScrollRef = useRef<Record<ReferenceTab, number>>({ tactical: 0, units: 0 })
+
+  function switchTab(next: ReferenceTab) {
+    if (next === tab) return
+    tabScrollRef.current[tab] = window.scrollY
+    setTab(next)
+  }
+
+  // 새 탭의 내용이 그려진 직후, 화면에 나타나기 전에 스크롤을 옮겨야 깜빡임 없이 복원된다
+  const isFirstRender = useRef(true)
+  useLayoutEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      return
+    }
+    window.scrollTo(0, tabScrollRef.current[tab])
+  }, [tab])
   const [detail, setDetail] = useState<ReferenceDetailTarget | null>(null)
   const [abilityDetail, setAbilityDetail] = useState<AbilitySelectionRef | null>(null)
-
-  /** 지정한 소스(유닛/카드 원본 id)의 RuleAbility 즐겨찾기 상태를 읽고 토글하는 창구를 만든다 */
-  function favoriteToggleFor(sourceId: string): FavoriteToggle {
-    return {
-      isFavorite: (abilityId) => isFavoriteAbility(roster, sourceId, abilityId),
-      onToggle: (abilityId) => store.toggleFavoriteAbility(roster.id, sourceId, abilityId),
-    }
-  }
 
   const detailContent = (() => {
     if (!detail) return null
@@ -49,22 +62,6 @@ export function GameReferencePage({
     const entry = roster.units.find((e) => e.id === detail.entryId)
     const unit = entry ? findUnit(race, entry.unitId) : undefined
     if (!entry || !unit) return null
-
-    /**
-     * 다른 유닛/카드에서 즐겨찾기한 능력들 (이 유닛 자신의 것은 제외 — 이미 위쪽에 그대로 보인다).
-     * 같은 phase의 기존 PHASE 그룹 하단에 이름만 덧붙여서, 지금 이 유닛을 보는 도중에도 체크해야 할
-     * 다른 카드의 정보를 놓치지 않도록 한다.
-     */
-    const crossFavorites: CrossFavoriteRef[] = rosterFavoriteAbilities(race, roster, lang)
-      .filter((g) => g.sourceId !== unit.id)
-      .flatMap((g) =>
-        (g.abilities as RuleAbility[]).map((ability) => ({
-          ability,
-          sourceLabel: g.sourceLabel,
-          onSelect: () =>
-            setAbilityDetail({ kind: 'ability', ability, sourceLabel: g.sourceLabel, sourceId: g.sourceId, unitType: g.unitType }),
-        })),
-      )
 
     return {
       title: localize(unit.name, lang),
@@ -74,8 +71,6 @@ export function GameReferencePage({
           resourceLabel={race.resourceLabel.abbr}
           abilitiesOverride={unitActiveAbilities(unit, entry)}
           squadHighlightIndex={entry.squadTierIndex}
-          favorite={favoriteToggleFor(unit.id)}
-          crossFavorites={crossFavorites}
           onSelectAbility={(ability) =>
             setAbilityDetail(
               abilitySelectionRefFor(unit, ability, {
@@ -100,36 +95,43 @@ export function GameReferencePage({
           <div className="game-ref-header-title">
             <span className="game-ref-header-name">{roster.name}</span>
             <span className="game-ref-header-race">{race.name}</span>
-          </div>
-          <div className="game-ref-header-actions">
             <div className="game-ref-tabs">
               <button
                 type="button"
-                className={`game-ref-tab ${mode === 'cards' ? 'game-ref-tab-active' : ''}`}
-                onClick={() => setMode('cards')}
+                className={`game-ref-tab ${tab === 'tactical' ? 'game-ref-tab-active' : ''}`}
+                onClick={() => switchTab('tactical')}
               >
-                로스터
+                택티컬
               </button>
               <button
                 type="button"
-                className={`game-ref-tab ${mode === 'favorites' ? 'game-ref-tab-active' : ''}`}
-                onClick={() => setMode('favorites')}
+                className={`game-ref-tab ${tab === 'units' ? 'game-ref-tab-active' : ''}`}
+                onClick={() => switchTab('units')}
               >
-                즐겨찾기
+                유닛
               </button>
             </div>
+          </div>
+          <div className="game-ref-header-actions">
+            {/* 한 게임의 진행 기록(유닛 스폰/사망, 카드 소모)을 모두 지운다 */}
+            <button type="button" className="btn" onClick={() => store.resetGameState(roster.id)}>
+              초기화
+            </button>
             <button type="button" className="btn btn-danger" onClick={onClose}>
               닫기
             </button>
           </div>
         </div>
+        {/* 좁은 화면의 유닛 탭: 서플라이 바를 상단 고정 바에 붙여 스크롤해도 보이게 한다 (넓은 화면은 유닛 열 맨 위) */}
+        {tab === 'units' && roster.units.length > 0 && (
+          <div className="game-ref-narrow-only">
+            <SpawnSupplyBar race={race} roster={roster} />
+          </div>
+        )}
       </div>
 
       <div className="game-ref-body">
-        {mode === 'cards' && (
-          <GameReferenceCardsView race={race} roster={roster} onSelect={setDetail} onSelectAbility={setAbilityDetail} />
-        )}
-        {mode === 'favorites' && <GameReferenceFavoritesView race={race} roster={roster} />}
+        <GameReferenceCardsView race={race} roster={roster} tab={tab} onSelect={setDetail} onSelectAbility={setAbilityDetail} />
       </div>
 
       {detailContent && (
@@ -145,7 +147,7 @@ export function GameReferencePage({
           roster={roster}
           race={race}
           resourceLabel={race.resourceLabel.abbr}
-          showFavorite
+          readOnly
           onSelectAbility={setAbilityDetail}
         />
       )}

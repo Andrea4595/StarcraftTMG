@@ -9,6 +9,10 @@ import { catalogSquadTierIndexes } from '../rosterCalc'
  * 정보이기 때문이다. 서플라이가 0인 tier는 사각형(서플라이 1개짜리 홀로우 칩과 헷갈리기 쉽다)
  * 대신 'X' 표시로 확실히 구분한다. tier가 하나뿐인 유닛도 그 정보(서플라이 몇, 모델 몇)를
  * 보여주기 위해 항상 표시한다.
+ *
+ * 게임 레퍼런스 화면(interactive 꺼짐)에서는 등급 칩이 '맵에 스폰한 스쿼드' 선택 버튼이 된다. 실제
+ * 게임에서는 로스터 등급과 다른 등급으로 깔 수도 있어 모든 등급(빈 칩 포함)을 고를 수 있다. 고른 칩은
+ * 배경을 채우고 같은 유닛의 다른 칩은 흐리게 한다. 고른 게 없을 때만 로스터 등급을 강조한다.
  */
 export function SquadTierSelector({
   roster,
@@ -24,12 +28,13 @@ export function SquadTierSelector({
 }) {
   const store = useRosterStore()
   const selectableIndexes = new Set(catalogSquadTierIndexes(unit))
+  const spawned = entry.spawnedTierIndex
 
   return (
     <div className="roster-squad-tier-selector">
       {unit.squad.map((tier, i) => {
         const selectable = interactive && selectableIndexes.has(i)
-        const active = entry.squadTierIndex === i
+        const active = spawned === undefined && entry.squadTierIndex === i
         const content = (
           <>
             <span className="roster-squad-tier-supply">
@@ -47,6 +52,23 @@ export function SquadTierSelector({
             {tier.modelMax}
           </>
         )
+
+        if (!interactive) {
+          const spawnClass =
+            spawned === i ? 'roster-squad-tier-chip-spawned' : spawned !== undefined ? 'roster-squad-tier-chip-muted' : ''
+          return (
+            <button
+              type="button"
+              key={i}
+              className={`roster-squad-tier-chip ${active ? 'roster-squad-tier-chip-active' : ''} ${spawnClass}`}
+              aria-pressed={spawned === i}
+              disabled={entry.dead}
+              onClick={() => store.toggleSpawnedSquad(roster.id, entry.id, i)}
+            >
+              {content}
+            </button>
+          )
+        }
 
         if (!selectable) {
           return (
