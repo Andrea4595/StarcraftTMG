@@ -1,5 +1,4 @@
-import { PHASES, type Ability, type Phase, type Roster, type Rule, type SquadScaledCost, type UnitType, type WeaponProfile } from '../../types'
-import { isFavoriteAbility } from '../rosterCalc'
+import { PHASES, type Ability, type Phase, type Rule, type SquadScaledCost, type UnitType, type WeaponProfile } from '../../types'
 import { PhaseBadge } from '../../components/card/PhaseBadge'
 
 /**
@@ -19,7 +18,7 @@ export interface UpgradeToggleRef {
 
 /**
  * 어빌리티(룰/무기 프로필) 하나를 단독 모달로 띄울 때 필요한 정보. 게임 레퍼런스와 로스터 편집
- * 화면의 어빌리티 칩, 그리고 다른 유닛/카드에서 즐겨찾기한 능력을 눌렀을 때 모두 이 형태를 공유한다.
+ * 화면의 어빌리티 칩, 그리고 연관 어빌리티 목록에서 다른 능력으로 이동할 때 모두 이 형태를 공유한다.
  */
 export interface AbilityDetailRef {
   kind: 'ability'
@@ -34,8 +33,8 @@ export interface AbilityDetailRef {
   upgradeToggle?: UpgradeToggleRef
   /**
    * 유닛에서 나온 능력일 때, 그 유닛의 로스터 항목 id. 이 능력의 룰 텍스트가 언급하는 다른 무기로
-   * 이동할 때(연관 어빌리티 '강화:' 목록) 종합 무기 모달을 열려면 필요하다. 다른 유닛/카드에서
-   * 즐겨찾기한 능력을 볼 때처럼 특정 로스터 항목을 확정할 수 없는 경우 비워둔다.
+   * 이동할 때(연관 어빌리티 '강화:' 목록) 종합 무기 모달을 열려면 필요하다. 택티컬/팩션 카드 능력처럼
+   * 특정 로스터 항목을 확정할 수 없는 경우 비워둔다.
    */
   entryId?: string
 }
@@ -104,8 +103,7 @@ function abilityTypeTone(ability: Ability): 'default' | 'active' | 'passive' | '
 }
 
 /** 어빌리티/무기 프로필 칩 한 줄. 눌러진 칩은 즉시 그 능력만 담은 상세 모달을 띄운다(부모 카드/유닛의
- *  전체 상세를 여는 클릭과 겹치지 않도록 stopPropagation한다). 즐겨찾기된 룰 능력은 칩 배경색을
- *  달리해서 살짝 강조한다 */
+ *  전체 상세를 여는 클릭과 겹치지 않도록 stopPropagation한다) */
 export function AbilityChipsRow({
   abilities,
   weaponSummaries = [],
@@ -114,14 +112,12 @@ export function AbilityChipsRow({
   sourceLabel,
   unitType,
   entryId,
-  roster,
   onSelectAbility,
   localize,
   upgradeStateFor,
   costFor,
   forFor,
   upgradeToggleFor,
-  showFavorite = false,
 }: {
   abilities: Ability[]
   /** '사격'/'근접 공격'처럼 무기를 묶어 보여줄 종합 칩들. 비어 있는 항목은 알아서 무시된다 */
@@ -133,7 +129,6 @@ export function AbilityChipsRow({
   unitType?: UnitType
   /** 유닛에서 나온 칩일 때만 지정: 상세 모달에 담아 연관 어빌리티 '강화:' 목록의 무기 이동에 쓴다 */
   entryId?: string
-  roster: Roster
   onSelectAbility: (ref: AbilitySelectionRef) => void
   localize: (rule: Rule) => string
   /**
@@ -147,8 +142,6 @@ export function AbilityChipsRow({
   forFor?: (ability: Ability) => string | undefined
   /** 업그레이드에서 나온 능력이 어떤 업그레이드인지 알려준다(로스터 편집 화면 전용). 지정하면 상세 모달 타이틀에 PTS 토글 버튼이 붙는다 */
   upgradeToggleFor?: (ability: Ability) => UpgradeToggleRef | undefined
-  /** 즐겨찾기된 칩을 배경색으로 강조할지. 즐겨찾기는 게임 레퍼런스 화면 전용 기능이라 기본은 꺼져 있다 */
-  showFavorite?: boolean
 }) {
   const summaries = weaponSummaries.filter((s) => s.entries.length > 0)
   if (abilities.length === 0 && summaries.length === 0) return null
@@ -203,14 +196,13 @@ export function AbilityChipsRow({
         }
 
         const { ability } = item
-        const favorited = showFavorite && ability.kind === 'rule' && isFavoriteAbility(roster, sourceId, ability.id)
         /** 이 능력이 업그레이드로 나온 것인지, 나왔다면 지금 켜져 있는지 (undefined면 기본 능력) */
         const upgradeState = upgradeStateFor?.(ability)
         const cost = costFor?.(ability)
         return (
           <button
             type="button"
-            className={`ability-chip ${upgradeState === 'inactive' ? 'ability-chip-dim' : ''} ${upgradeState === 'active' ? 'ability-chip-upgrade' : ''} ${favorited ? 'ability-chip-favorited' : ''}`}
+            className={`ability-chip ${upgradeState === 'inactive' ? 'ability-chip-dim' : ''} ${upgradeState === 'active' ? 'ability-chip-upgrade' : ''}`}
             key={i}
             onClick={(e) => {
               e.stopPropagation()

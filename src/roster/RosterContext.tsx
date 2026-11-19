@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useReducer, useRef, useState, typ
 import { collection, doc, onSnapshot, setDoc, type DocumentData } from 'firebase/firestore'
 import type { RaceData, Roster, RosterUnitEntry } from '../types'
 import { makeId } from './makeId'
-import { syncSummonedUnits } from './rosterCalc'
+import { pruneConsumedCards, syncSummonedUnits } from './rosterCalc'
 import { useAuth } from '../AuthContext'
 import { db } from '../firebase'
 import { terran } from '../data/terran'
@@ -22,7 +22,7 @@ function createEmptyRoster(name: string): Roster {
     mineralCap: 2000,
     tacticalCardIds: [],
     units: [],
-    favoriteAbilities: [],
+    consumedCardKeys: [],
     updatedAt: Date.now(),
   }
 }
@@ -50,7 +50,7 @@ type Action =
       /** 이 업그레이드를 켤 때 함께 꺼야 하는 다른 업그레이드 인덱스들 (같은 무기를 대체하는 상호 배타 업그레이드) */
       exclusiveWith?: number[]
     }
-  | { type: 'toggleFavoriteAbility'; rosterId: string; sourceId: string; abilityId: string }
+  | { type: 'toggleConsumedCard'; rosterId: string; cardKey: string }
   /** 로그인 후 서버에서 받은 첫 스냅샷(컬렉션 전체)으로 로컬 로스터와 클라우드를 맞춘다 */
   | { type: 'reconcileCloud'; uid: string; docs: CloudDoc[] }
   /** 그 이후 스냅샷의 문서 단위 변경 사항 */
@@ -94,7 +94,6 @@ const emptyState: State = { rosters: [], activeRosterId: null, syncedUids: {}, p
  */
 function migrateLegacyRoster(r: Record<string, unknown>): Roster {
   const legacyUnits = Array.isArray(r.units) ? (r.units as Record<string, unknown>[]) : []
-  const legacyFavorites = Array.isArray(r.favoriteAbilities) ? (r.favoriteAbilities as Record<string, unknown>[]) : []
   return {
     id: r.id as string,
     name: r.name as string,
@@ -111,10 +110,8 @@ function migrateLegacyRoster(r: Record<string, unknown>): Roster {
       // 값으로 명시하면 Firestore setDoc이 "Unsupported field value: undefined"로 거부한다
       ...(typeof u.summonedBy === 'string' ? { summonedBy: u.summonedBy } : {}),
     })),
-    favoriteAbilities: legacyFavorites.map((f) => ({
-      sourceId: (f.sourceId ?? f.source) as string,
-      abilityId: (f.abilityId ?? f.name) as string,
-    })),
+    // 예전 버전의 favoriteAbilities(즐겨찾기, 기능 삭제됨)는 옮기지 않고 버린다
+    consumedCardKeys: Array.isArray(r.consumedCardKeys) ? (r.consumedCardKeys as string[]) : [],
     ...(typeof r.updatedAt === 'number' ? { updatedAt: r.updatedAt } : {}),
   }
 }
@@ -184,7 +181,7 @@ function mapRoster(state: State, rosterId: string, fn: (r: Roster) => Roster): S
       if (r.id !== rosterId) return r
       const updated = fn(r)
       const race = updated.raceId ? RACES.find((race) => race.id === updated.raceId) : undefined
-      const synced = race ? syncSummonedUnits(race, updated) : updated
+      const synced = race ? pruneConsumedCards(race, syncSummonedUnits(race, updated)) : updated
       // 실제로 바뀐 경우에만 수정 시각을 갱신한다 (참조가 그대로면 아무 변경도 없었던 것)
       return synced === r ? r : { ...synced, updatedAt: Date.now() }
     }),
@@ -295,16 +292,14 @@ function reducer(state: State, action: Action): State {
           }
         }),
       )
-    case 'toggleFavoriteAbility':
+    case 'toggleConsumedCard':
       return mapRoster(state, action.rosterId, (r) => {
-        const exists = r.favoriteAbilities.some(
-          (f) => f.sourceId === action.sourceId && f.abilityId === action.abilityId,
-        )
+        const keys = r.consumedCardKeys ?? []
         return {
           ...r,
-          favoriteAbilities: exists
-            ? r.favoriteAbilities.filter((f) => !(f.sourceId === action.sourceId && f.abilityId === action.abilityId))
-            : [...r.favoriteAbilities, { sourceId: action.sourceId, abilityId: action.abilityId }],
+          consumedCardKeys: keys.includes(action.cardKey)
+            ? keys.filter((k) => k !== action.cardKey)
+            : [...keys, action.cardKey],
         }
       })
     case 'reconcileCloud': {
@@ -415,7 +410,7 @@ interface RosterStore extends State {
   moveUnitEntry: (rosterId: string, entryId: string, direction: 'up' | 'down') => void
   setUnitEntrySquadTier: (rosterId: string, entryId: string, squadTierIndex: number) => void
   toggleUnitUpgrade: (rosterId: string, entryId: string, upgradeIndex: number, exclusiveWith?: number[]) => void
-  toggleFavoriteAbility: (rosterId: string, sourceId: string, abilityId: string) => void
+  toggleConsumedCard: (rosterId: string, cardKey: string) => void
 }
 
 const RosterStoreContext = createContext<RosterStore | null>(null)
@@ -536,8 +531,7 @@ export function RosterProvider({ children }: { children: ReactNode }) {
       dispatch({ type: 'setUnitEntrySquadTier', rosterId, entryId, squadTierIndex }),
     toggleUnitUpgrade: (rosterId, entryId, upgradeIndex, exclusiveWith) =>
       dispatch({ type: 'toggleUnitUpgrade', rosterId, entryId, upgradeIndex, exclusiveWith }),
-    toggleFavoriteAbility: (rosterId, sourceId, abilityId) =>
-      dispatch({ type: 'toggleFavoriteAbility', rosterId, sourceId, abilityId }),
+    toggleConsumedCard: (rosterId, cardKey) => dispatch({ type: 'toggleConsumedCard', rosterId, cardKey }),
   }
 
   return <RosterStoreContext.Provider value={store}>{children}</RosterStoreContext.Provider>

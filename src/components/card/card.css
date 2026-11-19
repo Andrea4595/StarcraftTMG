@@ -552,58 +552,6 @@
   font-weight: 700;
 }
 
-/* 즐겨찾기 별 토글(게임 레퍼런스 화면 전용). 빈 별(☆)이 기본, 즐겨찾기하면 노란 채운 별(★)로 바뀐다 */
-.card-favorite-star {
-  display: inline-flex;
-  align-items: center;
-  border: none;
-  background: none;
-  padding: 0;
-  margin: 0;
-  font-size: 15px;
-  line-height: 1;
-  cursor: pointer;
-  color: var(--gc-text-dim);
-}
-
-.card-favorite-star:hover {
-  color: var(--gc-yellow);
-}
-
-.card-favorite-star-active {
-  color: var(--gc-yellow);
-}
-
-/*
-  다른 유닛/카드에서 즐겨찾기한 능력을, 지금 보는 카드의 같은 페이즈 그룹 하단에 이름만 알약 버튼으로
-  덧붙인 것 (게임 레퍼런스 유닛 상세 모달 전용). 이 카드 자신의 능력(RuleAbilityBlock)과 뚜렷이
-  구분되도록, 이름 앞에 노란 별을 붙여 "다른 곳에서 즐겨찾기한 능력"임을 드러낸다.
-*/
-.card-cross-favorites {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.card-cross-favorite {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border: 1px solid var(--gc-border);
-  border-radius: 999px;
-  padding: 4px 12px;
-  background: var(--gc-bg-raised);
-  color: var(--gc-text);
-  font: inherit;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.card-cross-favorite:hover {
-  border-color: var(--gc-yellow);
-}
-
 .card-badge {
   font-size: 10px;
   font-weight: 700;
@@ -817,13 +765,6 @@
 .ability-chip:hover {
   opacity: 1;
   border-color: var(--accent, var(--border));
-}
-
-/* 즐겨찾기된 어빌리티 칩: 별 아이콘 대신 배경/테두리를 노란 톤으로 살짝 물들여 강조한다 */
-.ability-chip-favorited {
-  background: rgba(240, 180, 41, 0.18);
-  border-color: rgba(240, 180, 41, 0.5);
-  opacity: 1;
 }
 
 /*

@@ -27,11 +27,11 @@ export interface Roster {
   tacticalCardIds: string[]
   units: RosterUnitEntry[]
   /**
-   * 게임 레퍼런스 화면에서 즐겨찾기한 RuleAbility들. sourceId는 그 능력이 속한 유닛/카드의 id
-   * (예: "Marine"), abilityId는 어빌리티의 id. 같은 id의 어빌리티라도 유닛/카드마다 내용이 다를 수 있어
-   * sourceId+abilityId 조합으로 식별한다.
+   * 게임 레퍼런스 화면에서 '소모' 처리한 팩션/택티컬 카드들의 키(consumedCardKey). 같은 택티컬 카드를
+   * 여러 장 채용했으면 장마다 따로 소모 처리할 수 있도록, 카드 id에 몇 번째 장인지까지 붙여 식별한다.
+   * Firestore에 이 필드가 생기기 전에 저장된 로스터는 값이 없을 수 있어 optional이다.
    */
-  favoriteAbilities: { sourceId: string; abilityId: string }[]
+  consumedCardKeys?: string[]
   /**
    * 마지막으로 내용이 바뀐 시각(ms). 여러 기기에서 같은 로스터를 고쳤을 때 로그인 시점에 어느 쪽이
    * 더 최신인지 가르는 데 쓴다. 이 필드가 생기기 전에 저장된 로스터에는 없다.

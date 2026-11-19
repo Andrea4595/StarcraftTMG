@@ -3,7 +3,7 @@ import type { Ability, UnitCard } from '../../types'
 import { StatBoxes } from './StatBoxes'
 import { SquadTable, type SquadTableSelection } from './SquadTable'
 import { KeywordList } from './KeywordText'
-import { AbilitiesSection, type CrossFavoriteRef, type FavoriteToggle, type UpgradeToggleState } from './AbilitiesSection'
+import { AbilitiesSection, type UpgradeToggleState } from './AbilitiesSection'
 import { formatScaledCost } from './costDisplay'
 import { localizeTag } from './tagLabels'
 import { useLang, useLocalize } from '../../LangContext'
@@ -19,8 +19,6 @@ export function UnitCardView({
   finalCost,
   abilitiesOverride,
   squadHighlightIndex,
-  favorite,
-  crossFavorites,
   onSelectAbility,
 }: {
   unit: UnitCard
@@ -44,10 +42,6 @@ export function UnitCardView({
   abilitiesOverride?: Ability[]
   /** squadSelection이 없을 때, 이 인덱스를 현재 등급으로 배지 강조만 한다 (클릭 불가) */
   squadHighlightIndex?: number
-  /** 지정하면 능력 이름 옆에 즐겨찾기 별 버튼이 붙는다 (게임 레퍼런스 화면 전용) */
-  favorite?: FavoriteToggle
-  /** 다른 유닛/카드에서 즐겨찾기한 능력들을 같은 페이즈 그룹 하단에 덧붙인다 (게임 레퍼런스 유닛 상세 모달 전용) */
-  crossFavorites?: CrossFavoriteRef[]
   /** 지정하면 이름 직접 언급으로 찾은 연관 어빌리티/무기 항목을 눌러 그 대상의 상세 모달로 이동할 수 있다 */
   onSelectAbility?: (ability: Ability) => void
 }) {
@@ -97,8 +91,6 @@ export function UnitCardView({
           unit={unit}
           abilities={abilitiesOverride}
           resourceLabel={resourceLabel}
-          favorite={favorite}
-          crossFavorites={crossFavorites}
           onSelectAbility={onSelectAbility}
           showRelated={false}
         />
@@ -109,8 +101,6 @@ export function UnitCardView({
           upgrades={unit.upgrades}
           resourceLabel={resourceLabel}
           upgradeToggle={upgradeToggle}
-          favorite={favorite}
-          crossFavorites={crossFavorites}
           onSelectAbility={onSelectAbility}
           showRelated={false}
         />

@@ -16,22 +16,6 @@ export interface UpgradeToggleState {
   onToggle: (index: number) => void
 }
 
-/** 이 카드/유닛에 속한 RuleAbility들의 즐겨찾기 상태를 조회/토글하는 창구 (게임 레퍼런스 화면 전용) */
-export interface FavoriteToggle {
-  isFavorite: (abilityId: string) => boolean
-  onToggle: (abilityId: string) => void
-}
-
-/**
- * 이 카드/유닛 소유가 아닌, 다른 유닛/카드에서 즐겨찾기한 능력. ability.phase가 같은 페이즈 그룹의
- * 맨 아래에 이름만 덧붙여 보여준다 (게임 레퍼런스 유닛 상세 모달 전용).
- */
-export interface CrossFavoriteRef {
-  ability: RuleAbility
-  sourceLabel: string
-  onSelect: () => void
-}
-
 type Entry = { kind: 'ability'; ability: Ability } | { kind: 'upgrade'; upgrade: Upgrade; index: number }
 
 function entryPhase(e: Entry) {
@@ -49,8 +33,6 @@ export function AbilitiesSection({
   resourceLabel,
   title = 'ABILITIES',
   upgradeToggle,
-  favorite,
-  crossFavorites = [],
   onSelectAbility,
   showRelated = true,
 }: {
@@ -65,10 +47,6 @@ export function AbilitiesSection({
   title?: string
   /** 지정하면 업그레이드 PTS 배지가 켜고 끄는 버튼이 된다 (유닛 편집 화면) */
   upgradeToggle?: UpgradeToggleState
-  /** 지정하면 RuleAbility 이름 옆에 즐겨찾기 별 버튼이 붙는다 (게임 레퍼런스 화면 전용) */
-  favorite?: FavoriteToggle
-  /** 다른 유닛/카드에서 즐겨찾기한 능력들. 같은 phase의 그룹 하단에 이름만 덧붙인다 (게임 레퍼런스 유닛 상세 모달 전용) */
-  crossFavorites?: CrossFavoriteRef[]
   /** 지정하면 연관 어빌리티/무기 항목을 눌러 그 대상의 상세 모달로 이동할 수 있다 */
   onSelectAbility?: (ability: Ability) => void
   /**
@@ -83,7 +61,7 @@ export function AbilitiesSection({
     ...abilities.map((ability): Entry => ({ kind: 'ability', ability })),
     ...upgrades.map((upgrade, index): Entry => ({ kind: 'upgrade', upgrade, index })),
   ]
-  if (entries.length === 0 && crossFavorites.length === 0) return null
+  if (entries.length === 0) return null
 
   /**
    * ability.enhances(데이터에 명시된 id)를 실제 Ability로 풀 때 검색 대상이 되는, 지금 이 섹션에
@@ -113,8 +91,7 @@ export function AbilitiesSection({
   const groups = PHASES.map((phase) => ({
     phase,
     items: entries.filter((e) => entryPhase(e) === phase),
-    extra: crossFavorites.filter((f) => f.ability.phase === phase),
-  })).filter((g) => g.items.length > 0 || g.extra.length > 0)
+  })).filter((g) => g.items.length > 0)
 
   /** 업그레이드의 forId(원본 무기/능력의 영문 id)를 그 이름의 현재 언어 표기로 바꾼다. abilities에서
    *  못 찾으면(있어선 안 되지만) id 그대로 보여준다 */
@@ -130,8 +107,6 @@ export function AbilitiesSection({
     upgradeToggle
       ? { active: upgradeToggle.activeIndexes.includes(index), onToggle: () => upgradeToggle.onToggle(index) }
       : undefined
-  const favoriteFor = (ability: RuleAbility) =>
-    favorite ? { active: favorite.isFavorite(ability.id), onToggle: () => favorite.onToggle(ability.id) } : undefined
 
   /**
    * 현재 활성화된 업그레이드가 대체(봉인)하는 기본 무기 id들.
@@ -191,7 +166,6 @@ export function AbilitiesSection({
                     key={i}
                     ability={ability}
                     resourceLabel={resourceLabel}
-                    favorite={favoriteFor(ability)}
                     relatedTo={showRelated ? relatedTargets(abilityEnhances(allAbilities, ability)) : undefined}
                     referencedBy={showRelated ? relatedTargets(abilityEnhancedBy(allAbilities, ability)) : undefined}
                   />
@@ -203,22 +177,11 @@ export function AbilitiesSection({
                     forWeapon={resolveForName(e.upgrade.forId)}
                     ptsLabel={ptsLabelFor(e.upgrade)}
                     interactive={interactiveFor(e.index)}
-                    favorite={favoriteFor(ability)}
                     relatedTo={showRelated ? relatedTargets(abilityEnhances(allAbilities, ability)) : undefined}
                     referencedBy={showRelated ? relatedTargets(abilityEnhancedBy(allAbilities, ability)) : undefined}
                   />
                 )
               })}
-              {g.extra.length > 0 && (
-                <div className="card-cross-favorites">
-                  {g.extra.map((f, i) => (
-                    <button type="button" className="card-cross-favorite" key={i} onClick={f.onSelect}>
-                      <span className="card-favorite-star card-favorite-star-active">★</span>
-                      {localize(f.ability.name)}
-                    </button>
-                  ))}
-                </div>
-              )}
             </div>
           </div>
         )

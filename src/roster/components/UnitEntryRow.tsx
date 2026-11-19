@@ -138,14 +138,12 @@ export function UnitEntryRow({
         sourceLabel={localize(unit.name)}
         unitType={unit.type}
         entryId={entry.id}
-        roster={roster}
         onSelectAbility={onSelectAbility}
         localize={localize}
         upgradeStateFor={upgradeStateFor}
         costFor={costFor}
         forFor={forFor}
         upgradeToggleFor={upgradeToggleFor}
-        showFavorite={!interactive}
       />
 
       <div className="roster-entry-footer">
