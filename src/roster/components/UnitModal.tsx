@@ -107,7 +107,6 @@ export function UnitModal({ race, roster, onClose }: { race: RaceData; roster: R
                               ))
                             )}
                           </span>
-                          {tier.modelMax}
                         </span>
                         <span className="catalog-tier-btn-pts">{tier.pts}</span>
                       </div>
