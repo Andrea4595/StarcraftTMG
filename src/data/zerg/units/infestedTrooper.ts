@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const infestedTrooper: UnitCard = {
   category: 'unit',
   id: 'Infested Trooper',
-  name: { en: 'Infested Trooper', ko: '감염된 돌격병' },
+  name: { en: 'Infested Trooper', ko: '감염된 부대원' },
   isUnique: false,
   wave: 4,
   type: 'Elite',
