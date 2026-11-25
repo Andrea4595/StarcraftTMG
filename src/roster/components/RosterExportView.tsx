@@ -16,6 +16,7 @@ import {
 import { TacticalCardView } from '../../components/card/TacticalCardView'
 import { UnitCardView } from '../../components/card/UnitCardView'
 import { useLocalize } from '../../LangContext'
+import { BudgetGauge, gasGaugeSegments, mineralGaugeSegments } from './BudgetGauge'
 
 export type ExportMode = 'detailed' | 'simple'
 
@@ -49,6 +50,7 @@ export function RosterExportView({ race, roster, mode }: { race: RaceData; roste
   const resourceTotal = rosterResourceTotal(race, roster)
   const factionCard = findFactionCard(race, roster)
   const tacticalCardGroups = groupedTacticalCards(race, roster)
+  const localize = useLocalize()
 
   return (
     <div className={`roster-export-sheet ${mode === 'simple' ? 'roster-export-sheet-narrow' : ''}`}>
@@ -59,11 +61,34 @@ export function RosterExportView({ race, roster, mode }: { race: RaceData; roste
             {race.name} · {mode === 'detailed' ? '상세 로스터' : '간소화 로스터'}
           </div>
         </div>
-        <div className="roster-export-totals">
-          <TotalPill label="미네랄" value={String(mineralTotal)} suffix={` / ${roster.mineralCap}`} color="#5b9dff" />
-          <TotalPill label="가스" value={String(gasTotal)} suffix={` / ${gasCap}`} color="#4ade80" />
-          <TotalPill label={race.resourceLabel.abbr} value={String(resourceTotal)} color="#f0b429" />
-        </div>
+        {mode === 'detailed' ? (
+          <div className="roster-export-totals">
+            <TotalPill label="미네랄" value={String(mineralTotal)} suffix={` / ${roster.mineralCap}`} color="#5b9dff" />
+            <TotalPill label="가스" value={String(gasTotal)} suffix={` / ${gasCap}`} color="#4ade80" />
+            <TotalPill label={race.resourceLabel.abbr} value={String(resourceTotal)} color="#f0b429" />
+          </div>
+        ) : (
+          /* 간소화 출력: 미네랄/가스는 항목별 칸이 보이는 게이지로, CP는 가스 게이지 옆 알약으로 */
+          <div className="roster-export-gauges">
+            <BudgetGauge
+              label="미네랄"
+              kind="mineral"
+              total={mineralTotal}
+              cap={roster.mineralCap}
+              segments={mineralGaugeSegments(race, roster, localize)}
+            />
+            <div className="roster-export-gauge-row">
+              <BudgetGauge
+                label="가스"
+                kind="gas"
+                total={gasTotal}
+                cap={gasCap}
+                segments={gasGaugeSegments(race, roster, localize)}
+              />
+              <TotalPill label={race.resourceLabel.abbr} value={String(resourceTotal)} color="#f0b429" />
+            </div>
+          </div>
+        )}
       </div>
 
       {mode === 'detailed' ? (

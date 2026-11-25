@@ -18,6 +18,7 @@ import {
   CARD_GROUP_LABELS,
   sortedUnitEntries,
 } from '../rosterCalc'
+import { BudgetGauge, gasGaugeSegments, mineralGaugeSegments } from './BudgetGauge'
 import { UnitEntryRow } from './UnitEntryRow'
 import { TacticalCardModal } from './TacticalCardModal'
 import { UnitModal } from './UnitModal'
@@ -118,8 +119,6 @@ function RosterPanelBody({
   const exclusionViolations = rosterExclusionViolations(race, roster)
   const cardGroupStatus = rosterRequiredCardGroupStatus(race, roster)
   const cardGroupMismatched = rosterCardGroupMismatchedCards(race, roster)
-  const overCap = mineralTotal > roster.mineralCap
-  const overGasCap = gasTotal > gasCap
   const factionCard = findFactionCard(race, roster)
 
   const tacticalCardCounts = new Map<string, number>()
@@ -152,12 +151,13 @@ function RosterPanelBody({
         <span className="roster-section-title">택티컬 카드</span>
       </div>
       <div className="roster-resource-cp-row">
-        <div className={`roster-resource-pill roster-resource-gas ${overGasCap ? 'roster-budget-over' : ''}`}>
-          <span className="roster-resource-label">가스</span>
-          <span className="roster-resource-value">
-            {gasTotal} / {gasCap}
-          </span>
-        </div>
+        <BudgetGauge
+          label="가스"
+          kind="gas"
+          total={gasTotal}
+          cap={gasCap}
+          segments={gasGaugeSegments(race, roster, localize)}
+        />
         <span className="roster-cp-badge">
           <span className="roster-cp-badge-icon" />
           {resourceTotal}
@@ -265,12 +265,13 @@ function RosterPanelBody({
           </div>
           <div className="roster-sticky-summary">
             <div className="roster-resource-row">
-              <div className={`roster-resource-pill roster-resource-mineral ${overCap ? 'roster-budget-over' : ''}`}>
-                <span className="roster-resource-label">미네랄</span>
-                <span className="roster-resource-value">
-                  {mineralTotal} / {roster.mineralCap}
-                </span>
-              </div>
+              <BudgetGauge
+                label="미네랄"
+                kind="mineral"
+                total={mineralTotal}
+                cap={roster.mineralCap}
+                segments={mineralGaugeSegments(race, roster, localize)}
+              />
               <span className="roster-cp-badge roster-cp-badge-supply">
                 <span className="roster-cp-badge-icon" />
                 {supplyTotal}

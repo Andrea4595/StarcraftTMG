@@ -17,6 +17,7 @@ import { useLang, useLocalize } from '../../LangContext'
 import { localizeTag } from '../../components/card/tagLabels'
 import { UNIT_TYPE_COLORS } from '../unitTypeColor'
 import { Modal } from './Modal'
+import { BudgetGauge, gasGaugeSegments } from './BudgetGauge'
 import { SlotUsageRow } from './SlotUsageRow'
 import { AbilityChipsRow, type AbilitySelectionRef } from './AbilityChipsRow'
 import { AbilityDetailModal } from './AbilityDetailModal'
@@ -35,13 +36,13 @@ export function TacticalCardModal({
   onClose: () => void
 }) {
   const store = useRosterStore()
+  const localize = useLocalize()
   const [typeFilter, setTypeFilter] = useState<UnitType | null>(null)
   const [focusedId, setFocusedId] = useState<string | null>(focusCardId ?? null)
   const [abilityDetail, setAbilityDetail] = useState<AbilitySelectionRef | null>(null)
 
   const gasTotal = rosterGasTotal(race, roster)
   const gasCap = rosterGasCap(roster)
-  const overGasCap = gasTotal > gasCap
   const resourceTotal = rosterResourceTotal(race, roster)
   /** 아직 수용량이 없는 타입도 빠짐없이 보여준다 (0인 타입은 회색으로 표시되지만, 눌러서 그 타입을 채워주는 카드를 찾을 수 있다) */
   const slotUsageByType = rosterSlotUsage(race, roster)
@@ -62,12 +63,13 @@ export function TacticalCardModal({
       <div className="tactical-picker-list">
         <div className="tactical-picker-sticky-top">
           <div className="roster-resource-row">
-            <div className={`roster-resource-pill roster-resource-gas ${overGasCap ? 'roster-budget-over' : ''}`}>
-              <span className="roster-resource-label">가스</span>
-              <span className="roster-resource-value">
-                {gasTotal} / {gasCap}
-              </span>
-            </div>
+            <BudgetGauge
+              label="가스"
+              kind="gas"
+              total={gasTotal}
+              cap={gasCap}
+              segments={gasGaugeSegments(race, roster, localize)}
+            />
             <div className="roster-resource-pill roster-resource-cp">
               <span className="roster-resource-label">{race.resourceLabel.abbr}</span>
               <span className="roster-resource-value">{resourceTotal}</span>

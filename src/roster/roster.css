@@ -1270,133 +1270,148 @@ button.roster-slot-pill:hover {
 }
 
 /* 유닛 선택(모달 1단계): 이름/타입/스쿼드 등급 버튼만 보여주는 작은 타일 */
-/*
-  유닛 선택 모달: 왼쪽 유닛 타일 그리드 + 오른쪽 '추가된 유닛' 목록. 목록은 본문을 스크롤해도 보이도록
-  sticky로 둔다. 좁은 화면에서는 우측 목록 대신 상단 고정 영역(modal-subheader)의 가로 칩을 쓴다.
-*/
-.unit-picker-layout {
+/* 유닛 선택 모달의 스쿼드 크기 하나: 서플라이/모델 수, 비용, (−) 개수 (+). 하나라도 넣었으면 테두리를 강조한다 */
+.unit-picker-tier {
   display: flex;
-  align-items: flex-start;
-  gap: 16px;
-}
-
-.unit-picker-layout > .unit-picker-grid {
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
-.unit-added-side {
-  flex: 0 0 220px;
-  position: sticky;
-  top: 0;
-  max-height: calc(100vh - 220px);
-  overflow-y: auto;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
   border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 10px;
-  background: var(--bg, #0c0d12);
+  border-radius: 6px;
+  padding: 4px 8px 6px;
   font-size: 12px;
 }
 
-.unit-added-title {
-  font-weight: 700;
-  margin-bottom: 6px;
+.unit-picker-tier-active {
+  border-color: #4ade80;
 }
 
-.unit-added-empty {
-  opacity: 0.6;
+.unit-picker-tier .roster-squad-tier-supply-square {
+  background: #5b9dff;
 }
 
-.unit-added-type-group + .unit-added-type-group {
-  margin-top: 8px;
-}
-
-.unit-added-type {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  margin-bottom: 2px;
-}
-
-.unit-added-row {
+.unit-picker-tier-qty {
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 2px 0;
+  margin-top: 2px;
 }
 
-.unit-added-name {
+.unit-picker-tier-count-zero {
+  opacity: 0.4;
+}
+
+/*
+  예산 게이지(미네랄/가스). 막대 전체가 예산이고 항목마다 비용만큼의 칸이 이름과 함께 채워진다.
+  간소화 로스터 PNG(html-to-image)에서도 그대로 그려지도록 color-mix 같은 최신 CSS는 쓰지 않는다.
+*/
+.budget-gauge {
   flex: 1 1 auto;
   min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.unit-added-size {
+.budget-gauge-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.budget-gauge-label {
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  color: var(--gauge-color);
+}
+
+.budget-gauge-value {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text-h, #e5e7eb);
+}
+
+.budget-gauge-cap {
+  font-size: 11px;
   opacity: 0.6;
 }
 
-.unit-added-count {
-  flex: 0 0 auto;
-  font-weight: 700;
-}
-
-.unit-added-remove {
-  flex: 0 0 auto;
-  width: 20px;
-  height: 20px;
-  border: none;
-  border-radius: 50%;
-  background: #2b2e3a;
-  color: #e5e7eb;
-  font-weight: 700;
-  font-size: 13px;
-  line-height: 1;
-  padding: 0;
-  cursor: pointer;
-}
-
-.unit-added-remove:hover {
-  background: #3a3e4d;
-}
-
-/* 좁은 화면용 가로 칩. 넓은 화면에서는 숨긴다 */
-.unit-added-chips {
+.budget-gauge-track {
+  position: relative;
   display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-top: 8px;
+  gap: 1px;
+  height: 20px;
+  border: 1px solid var(--gauge-color);
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.04);
+  overflow: hidden;
+}
+
+.budget-gauge-segment {
+  flex: 0 0 auto;
+  min-width: 2px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.budget-gauge-segment-label {
+  padding: 0 4px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #0c0d12;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.budget-gauge-cap-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: #f87171;
+}
+
+.budget-gauge-over .budget-gauge-track {
+  border-color: #f87171;
+}
+
+.budget-gauge-over .budget-gauge-value {
+  color: #f87171;
+}
+
+.roster-panel .budget-gauge-value {
+  font-size: 17px;
+}
+
+.roster-panel .budget-gauge-track {
+  height: 24px;
+}
+
+.roster-panel .budget-gauge-segment-label {
   font-size: 11px;
 }
 
-.unit-added-chips .unit-added-row {
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 1px 2px 1px 8px;
-  gap: 4px;
+/* 간소화 로스터 출력: 헤더 아래에 미네랄 게이지 한 줄, 가스 게이지 + CP 알약 한 줄 */
+.roster-export-gauges {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.unit-added-chips .unit-added-name {
-  flex: 0 1 auto;
+.roster-export-gauge-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
 }
 
-.unit-added-chips .unit-added-remove {
-  width: 18px;
-  height: 18px;
-  font-size: 12px;
-}
-
-@media (min-width: 900px) {
-  .unit-added-chips {
-    display: none;
-  }
-}
-
-@media (max-width: 899px) {
-  .unit-added-side {
-    display: none;
-  }
+.roster-export-gauge-row .roster-export-total-pill {
+  flex: 0 0 auto;
 }
 
 .unit-picker-grid {
