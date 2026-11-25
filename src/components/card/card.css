@@ -829,7 +829,7 @@
   cursor: pointer;
 }
 
-/* 게임 레퍼런스 화면: 능력 발동 자원 비용(CP/BM/EN)만큼 이름 우측에 노란 네모를 나열한다 */
+/* 능력 칩: 능력 발동 자원 비용(CP/BM/EN)만큼 이름 우측에 노란 네모를 나열한다 */
 .ability-chip-resource-squares {
   display: inline-flex;
   align-items: center;

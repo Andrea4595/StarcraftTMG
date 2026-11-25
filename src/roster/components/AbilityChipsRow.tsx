@@ -124,7 +124,6 @@ export function AbilityChipsRow({
   abilities,
   weaponSummaries = [],
   hideInactiveWeaponNames = false,
-  showResourceCost = false,
   sourceId,
   sourceLabel,
   unitType,
@@ -141,8 +140,6 @@ export function AbilityChipsRow({
   weaponSummaries?: WeaponSummaryInput[]
   /** 종합 칩 이름에서 비활성(미선택) 무기 이름을 뺀다 — 게임 레퍼런스 화면 전용 */
   hideInactiveWeaponNames?: boolean
-  /** 룰 능력의 발동 자원 비용(CP/BM/EN)만큼 이름 우측에 노란 네모를 나열한다 — 게임 레퍼런스 화면 전용 */
-  showResourceCost?: boolean
   sourceId: string
   sourceLabel: string
   unitType?: UnitType
@@ -240,7 +237,7 @@ export function AbilityChipsRow({
             <PhaseBadge phase={ability.phase} tone={abilityTypeTone(ability)} />
             {localize(ability.name)}
             {cost !== undefined && ` (${cost})`}
-            {showResourceCost && <ResourceCostSquares ability={ability} />}
+            <ResourceCostSquares ability={ability} />
           </button>
         )
       })}
