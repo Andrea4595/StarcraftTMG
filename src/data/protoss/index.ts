@@ -3,6 +3,7 @@ import { daelaam } from './tactical/daelaam'
 import { khalai } from './tactical/khalai'
 import { nerazim } from './tactical/nerazim'
 import { templarCaste } from './tactical/templarCaste'
+import { taldarim } from './tactical/taldarim'
 import { forge } from './tactical/forge'
 import { gateChronoboosted } from './tactical/gateChronoboosted'
 import { gateway } from './tactical/gateway'
@@ -11,6 +12,7 @@ import { observer } from './tactical/observer'
 import { overchargedNexus } from './tactical/overchargedNexus'
 import { powerField } from './tactical/powerField'
 import { roboticsFacility } from './tactical/roboticsFacility'
+import { roboticsSupportBay } from './tactical/roboticsSupportBay'
 import { templarArchives } from './tactical/templarArchives'
 import { twilightCouncil } from './tactical/twilightCouncil'
 import { voidSeeker } from './tactical/voidSeeker'
@@ -29,13 +31,18 @@ import { tassadar } from './units/tassadar'
 import { twilightTemplar } from './units/twilightTemplar'
 import { zealot } from './units/zealot'
 import { zeratul } from './units/zeratul'
+import { alarak } from './units/alarak'
+import { reaver } from './units/reaver'
+import { phasingScarab, scarab, solariteScarab } from './units/scarabs'
+import { slayer } from './units/slayer'
+import { taldarimPylon } from './units/taldarimPylon'
 
 export const protoss: RaceData = {
   id: 'protoss',
   race: 'Protoss',
   name: 'Protoss',
   resourceLabel: { full: 'Psionic Energy', abbr: 'EN' },
-  factionCards: [daelaam, khalai, nerazim, templarCaste],
+  factionCards: [daelaam, khalai, nerazim, templarCaste, taldarim],
   tacticalCards: [
     forge,
     gateChronoboosted,
@@ -45,6 +52,7 @@ export const protoss: RaceData = {
     overchargedNexus,
     powerField,
     roboticsFacility,
+    roboticsSupportBay,
     templarArchives,
     twilightCouncil,
     voidSeeker,
@@ -53,13 +61,20 @@ export const protoss: RaceData = {
   ],
   units: [
     pylon,
+    taldarimPylon,
     adept,
+    alarak,
     artanis,
     highTemplar,
     immortal,
     nerazimWatchersAdept,
     praetorGuardZealot,
+    reaver,
+    scarab,
+    solariteScarab,
+    phasingScarab,
     sentry,
+    slayer,
     stalker,
     tassadar,
     twilightTemplar,

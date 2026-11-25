@@ -5,6 +5,7 @@ export const malignantCreep: TacticalCard = {
   id: 'Malignant Creep',
   name: { en: 'Malignant Creep', ko: '악성 점막' },
   isUnique: true,
+  cardGroup: 'Creep',
   gasPts: 10,
   resource: 0,
   slot: [],

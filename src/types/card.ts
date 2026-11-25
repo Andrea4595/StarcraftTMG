@@ -138,6 +138,12 @@ export interface Upgrade {
   pts: SquadScaledCost
   /** 이 업그레이드가 대체/강화하는 기본 무기·능력의 id. 없으면 undefined ('FOR -') */
   forId?: string
+  /**
+   * forId 무기를 유닛 전체가 아니라 원하는 수의 모델만 골라 대체하는 무기 업그레이드면 true.
+   * 켜도 원래 무기를 봉인하지 않고(나머지 모델은 계속 사용) FOR 표기에 '원하는 모델만'을 붙인다.
+   * 몇 명이 바꿀지는 앱에서 추적하지 않는다. 예: 감염된 해병의 야생 변이
+   */
+  perModel?: boolean
 }
 
 interface CardBase {
@@ -218,8 +224,23 @@ export interface Slot {
   count: number
 }
 
+/**
+ * 팩션 카드가 '아미 구성 시 정확히 한 장 넣으라'고 요구하는 택티컬 카드 묶음.
+ * - Creep: 점막 카드 (케리건/자가라/저그 군단의 '저그 점막' 규칙)
+ * - Virus: 바이러스 카드 (스투코프 군대의 '감염' 규칙. 점막 카드 대신 넣는다)
+ */
+export const CARD_GROUPS = ['Creep', 'Virus'] as const
+export type CardGroup = (typeof CARD_GROUPS)[number]
+
 export interface TacticalCard extends CardBase {
   category: 'tactical'
+  /** 이 카드가 속한 카드 묶음. 지정돼 있으면 그 묶음을 요구하는 팩션 카드(requiredCardGroup)가 선택돼 있어야만 넣을 수 있다 */
+  cardGroup?: CardGroup
+  /**
+   * 팩션 카드 전용. 이 팩션은 아미 구성 시 이 묶음의 카드를 정확히 한 장 넣어야 한다. 다른 묶음의
+   * 카드는 넣을 수 없다 (예: 스투코프 군대는 바이러스 카드 한 장, 점막 카드는 불가)
+   */
+  requiredCardGroup?: CardGroup
   /** 로스터에 포함시키는데 필요한 가스 비용. 팩션 카드처럼 비용이 없으면 undefined */
   gasPts?: number
   /** 라운드 진행 도중 이 카드를 소모시켜 얻는 Command Point */

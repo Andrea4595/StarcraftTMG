@@ -5,6 +5,7 @@ export const acceleratingCreep: TacticalCard = {
   id: 'Accelerating Creep',
   name: { en: 'Accelerating Creep', ko: '가속 점막' },
   isUnique: true,
+  cardGroup: 'Creep',
   gasPts: 0,
   resource: 0,
   slot: [],

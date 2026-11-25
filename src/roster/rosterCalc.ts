@@ -2,6 +2,7 @@ import type {
   Ability,
   AbilityType,
   BaseSize,
+  CardGroup,
   Keyword,
   Phase,
   Placement,
@@ -24,6 +25,7 @@ import { TOKENS } from '../data/tokens'
 import { formatScaledCost, resolveScaledCost } from '../components/card/costDisplay'
 import { keywordEntryForName, stripKeywordPlaceholder } from '../components/card/keywordHighlight'
 import { localizeTag, localizeTagWordsInText } from '../components/card/tagLabels'
+import { forLabelWithScope, isPartialWeaponUpgrade, upgradeSealsBaseWeapon } from '../components/card/upgradeRules'
 import { makeId } from './makeId'
 import type { AbilitySelectionRef, UpgradeToggleRef, WeaponSummaryEntry, WeaponTone } from './components/AbilityChipsRow'
 
@@ -38,7 +40,8 @@ export function findFactionCard(race: RaceData, roster: Roster): TacticalCard | 
 }
 
 /**
- * '레이너 특공대'/'칼라이'/'네라짐'/'케리건의 군단'/'자가라의 군단'/'노바 비밀 작전'/'기사 계급' 태그는
+ * '레이너 특공대'/'칼라이'/'네라짐'/'케리건의 군단'/'자가라의 군단'/'노바 비밀 작전'/'기사 계급'/'탈다림'/
+ * '스투코프 군대' 태그는
  * 동명의 팩션 카드가 로스터에 선택돼
  * 있어야만 그 유닛이나 택티컬 카드를 포함할 수 있다는 뜻이다. 태그 이름이 곧 해당 팩션 카드의 id와
  * 같다. 유닛(UnitCard.tags)과 택티컬 카드(TacticalCard.tags) 양쪽에서 공용으로 쓴다.
@@ -51,6 +54,8 @@ const FACTION_LOCKED_TAGS = new Set([
   "Zagara's Swarm",
   'Nova Covert Ops',
   'Templar Caste',
+  "Tal'darim",
+  "Stukov's Forces",
 ])
 
 /** 이 유닛이 특정 팩션 카드를 요구한다면(태그로 표시) 그 팩션 카드 id를 돌려준다. 카드 이름을
@@ -91,16 +96,61 @@ export function tacticalCardFactionMismatch(card: TacticalCard, roster: Roster):
   return required !== undefined && required !== roster.factionCardId
 }
 
+/** 카드 묶음(CardGroup)의 화면 표시 이름 */
+export const CARD_GROUP_LABELS: Record<CardGroup, Rule> = {
+  Creep: { en: 'Creep Card', ko: '점막 카드' },
+  Virus: { en: 'Virus Card', ko: '바이러스 카드' },
+}
+
+/**
+ * 카드 묶음(점막/바이러스)에 속한 카드인데, 지금 선택된 팩션 카드가 그 묶음을 요구하지 않으면 true.
+ * 팩션 카드를 아직 고르지 않았을 때도 true — 어느 묶음을 넣어야 하는지 팩션이 정하기 때문이다.
+ */
+export function tacticalCardGroupMismatch(race: RaceData, card: TacticalCard, roster: Roster): boolean {
+  if (!card.cardGroup) return false
+  return findFactionCard(race, roster)?.requiredCardGroup !== card.cardGroup
+}
+
+/** 로스터에 들어 있는 택티컬 카드 중 이 묶음에 속한 카드의 장 수 */
+export function rosterCardGroupCount(race: RaceData, roster: Roster, group: CardGroup): number {
+  return roster.tacticalCardIds.filter((id) => race.tacticalCards.find((c) => c.id === id)?.cardGroup === group).length
+}
+
+/**
+ * 팩션 카드가 요구하는 묶음 카드(정확히 한 장)를 몇 장 넣었는지. 요구하는 묶음이 없는 팩션이면 undefined.
+ * count가 1이 아니면 로스터 화면에 경고를 띄운다.
+ */
+export function rosterRequiredCardGroupStatus(
+  race: RaceData,
+  roster: Roster,
+): { group: CardGroup; count: number } | undefined {
+  const group = findFactionCard(race, roster)?.requiredCardGroup
+  if (!group) return undefined
+  return { group, count: rosterCardGroupCount(race, roster, group) }
+}
+
+/** 로스터에 들어 있지만 지금 팩션에서 쓸 수 없는 묶음 카드들 (예: 스투코프 군대로 바꿨는데 남아 있는 점막 카드) */
+export function rosterCardGroupMismatchedCards(race: RaceData, roster: Roster): TacticalCard[] {
+  return groupedTacticalCards(race, roster)
+    .map(({ card }) => card)
+    .filter((card) => tacticalCardGroupMismatch(race, card, roster))
+}
+
 /** 카드/유닛 하나가 로스터에 있을 때 자동으로 추가돼야 하는 유닛 id들 (summonsUnitId를 가진 능력들) */
-function summonedUnitIdsOf(abilities: RuleAbility[]): string[] {
-  return abilities.filter((a) => a.summonsUnitId !== undefined).map((a) => a.summonsUnitId as string)
+function summonedUnitIdsOf(abilities: Ability[]): string[] {
+  return abilities
+    .filter((a): a is RuleAbility => a.kind === 'rule' && a.summonsUnitId !== undefined)
+    .map((a) => a.summonsUnitId as string)
+}
+
+/** 유닛의 기본 능력과 모든 업그레이드 능력 (업그레이드로 얻는 소환 능력도 찾을 수 있게) */
+function unitAllAbilities(unit: UnitCard): Ability[] {
+  return [...unit.abilities, ...unit.upgrades.map((u) => u.ability)]
 }
 
 /** 이 종족 데이터 안에서, 어떤 카드/유닛의 능력으로든 자동 소환되는 유닛인지 (수동 추가 목록에서 숨기는 데 쓴다) */
 export function isAutoSummonedUnitId(race: RaceData, unitId: string): boolean {
-  const fromUnits = race.units.some((u) =>
-    summonedUnitIdsOf(u.abilities.filter((a): a is RuleAbility => a.kind === 'rule')).includes(unitId),
-  )
+  const fromUnits = race.units.some((u) => summonedUnitIdsOf(unitAllAbilities(u)).includes(unitId))
   const fromCards = [...race.factionCards, ...race.tacticalCards].some((c) =>
     summonedUnitIdsOf(c.cardAbilities).includes(unitId),
   )
@@ -122,10 +172,8 @@ export function summonSourceLabel(
   const card = unit ? undefined : [...race.factionCards, ...race.tacticalCards].find((c) => c.id === sourceId)
   const sourceName = unit ? localize(unit.name) : card ? localize(card.name) : sourceId
 
-  const abilities: RuleAbility[] = unit
-    ? unit.abilities.filter((a): a is RuleAbility => a.kind === 'rule')
-    : (card?.cardAbilities ?? [])
-  const ability = abilities.find((a) => a.summonsUnitId === summonedUnitId)
+  const abilities: Ability[] = unit ? unitAllAbilities(unit) : (card?.cardAbilities ?? [])
+  const ability = abilities.find((a) => a.kind === 'rule' && a.summonsUnitId === summonedUnitId)
 
   return ability ? `${sourceName} - ${localize(ability.name)}` : sourceName
 }
@@ -136,10 +184,8 @@ function summonSourceInfo(race: RaceData, sourceId: string, summonedUnitId: stri
   const card = unit ? undefined : [...race.factionCards, ...race.tacticalCards].find((c) => c.id === sourceId)
   const sourceName = unit ? unit.name : card ? card.name : { en: sourceId, ko: sourceId }
 
-  const abilities: RuleAbility[] = unit
-    ? unit.abilities.filter((a): a is RuleAbility => a.kind === 'rule')
-    : (card?.cardAbilities ?? [])
-  const ability = abilities.find((a) => a.summonsUnitId === summonedUnitId)
+  const abilities: Ability[] = unit ? unitAllAbilities(unit) : (card?.cardAbilities ?? [])
+  const ability = abilities.find((a) => a.kind === 'rule' && a.summonsUnitId === summonedUnitId)
 
   return { source_name: sourceName, ability_name: ability ? ability.name : null }
 }
@@ -178,13 +224,14 @@ function collectSummonRequirements(race: RaceData, roster: Roster): SummonRequir
     }
   }
 
-  const unitCounts = new Map<string, number>()
-  for (const entry of roster.units) unitCounts.set(entry.unitId, (unitCounts.get(entry.unitId) ?? 0) + 1)
-  for (const [id, count] of unitCounts) {
-    const unit = findUnit(race, id)
+  // 유닛은 엔트리마다 장착한 업그레이드가 다를 수 있어(예: 리버의 '태양석 스캐럽' 업그레이드) 엔트리
+  // 단위로 실제 적용 능력을 훑는다. 같은 출처/유닛 쌍은 syncSummonedUnits에서 개수가 합쳐진다.
+  for (const entry of roster.units) {
+    if (entry.summonedBy) continue
+    const unit = findUnit(race, entry.unitId)
     if (!unit) continue
-    for (const unitId of summonedUnitIdsOf(unit.abilities.filter((a): a is RuleAbility => a.kind === 'rule'))) {
-      requirements.push({ sourceId: unit.id, unitId, count })
+    for (const unitId of summonedUnitIdsOf(unitActiveAbilities(unit, entry))) {
+      requirements.push({ sourceId: unit.id, unitId, count: 1 })
     }
   }
 
@@ -260,13 +307,19 @@ export function unitEquippedUpgrades(unit: UnitCard, entry: RosterUnitEntry): Up
 /**
  * 이 업그레이드와 같은 무기(forId)를 대체하는 다른 무기 업그레이드들의 인덱스. 하나를 켜면 이들은
  * 자동으로 꺼져야 한다 — 같은 기본 무기를 두 번 대체할 수는 없다.
+ * 단, 일부 모델만 쓰는 무기 업그레이드(SPECIALIST, 원하는 모델만)끼리는 서로 배타적이지 않다. 서로 다른
+ * 모델에게 하나씩 쥐여줄 수 있기 때문이다 (예: 감염된 해병의 감염된 미사일 발사기 2종과 야생 변이).
  */
 export function upgradeExclusiveWith(unit: UnitCard, index: number): number[] {
   const target = unit.upgrades[index]
   if (!target || target.ability.kind !== 'weapon' || !target.forId) return []
   return unit.upgrades
     .map((_, i) => i)
-    .filter((i) => i !== index && unit.upgrades[i].ability.kind === 'weapon' && unit.upgrades[i].forId === target.forId)
+    .filter((i) => {
+      const other = unit.upgrades[i]
+      if (i === index || other.ability.kind !== 'weapon' || other.forId !== target.forId) return false
+      return !(isPartialWeaponUpgrade(target) && isPartialWeaponUpgrade(other))
+    })
 }
 
 export function unitEntryMineralCost(unit: UnitCard, entry: RosterUnitEntry): number {
@@ -455,13 +508,7 @@ function unitActiveAbilitiesTagged(unit: UnitCard, entry: RosterUnitEntry): { ab
     .map((i) => unit.upgrades[i])
     .filter((u): u is UnitCard['upgrades'][number] => u !== undefined)
 
-  const sealedIds = new Set<string>()
-  for (const upgrade of activeUpgrades) {
-    if (!upgrade.forId || upgrade.ability.kind !== 'weapon') continue
-    const isSpecialist = upgrade.ability.stat.keyword.some((k) => k.name === 'SPECIALIST')
-    if (isSpecialist) continue
-    sealedIds.add(upgrade.forId)
-  }
+  const sealedIds = sealedWeaponIds(unit, entry.upgradeIndexes)
 
   const baseAbilities = unit.abilities.filter((a) => !sealedIds.has(a.id)).map((ability) => ({ ability, isUpgrade: false }))
   const upgradeAbilities = activeUpgrades.map((u) => ({ ability: u.ability, isUpgrade: true }))
@@ -481,15 +528,15 @@ export function unitForLabelResolver(
   unit: UnitCard,
   localize: (rule: Rule) => string,
 ): (ability: Ability) => string | undefined {
-  const forIdByAbility = new Map<Ability, string>()
+  const upgradeByAbility = new Map<Ability, Upgrade>()
   for (const upgrade of unit.upgrades) {
-    if (upgrade.forId) forIdByAbility.set(upgrade.ability, upgrade.forId)
+    if (upgrade.forId) upgradeByAbility.set(upgrade.ability, upgrade)
   }
   return (ability) => {
-    const forId = forIdByAbility.get(ability)
-    if (!forId) return undefined
-    const found = unit.abilities.find((a) => a.id === forId)
-    return found ? localize(found.name) : forId
+    const upgrade = upgradeByAbility.get(ability)
+    if (!upgrade?.forId) return undefined
+    const found = unit.abilities.find((a) => a.id === upgrade.forId)
+    return forLabelWithScope(found ? localize(found.name) : upgrade.forId, upgrade, localize)
   }
 }
 
@@ -548,18 +595,14 @@ export function abilitySelectionRefFor(
  * 넘긴 목록에서도 이 함수를 그대로 쓸 수 있도록 하기 위해서다.
  */
 /**
- * 지금 활성화된 업그레이드가 대체(봉인)하는 기본 무기 id들. SPECIALIST 키워드가 붙은 업그레이드
- * 무기는 유닛의 모델 중 하나만 사용하는 것이라, 나머지 모델은 여전히 원래 무기를 쓰므로 원본을
- * 봉인하지 않는다.
+ * 지금 활성화된 업그레이드가 대체(봉인)하는 기본 무기 id들. 일부 모델만 쓰는 무기 업그레이드
+ * (SPECIALIST, 원하는 모델만)는 나머지 모델이 여전히 원래 무기를 쓰므로 원본을 봉인하지 않는다.
  */
 function sealedWeaponIds(unit: UnitCard, activeIndexes: number[]): Set<string> {
   const sealed = new Set<string>()
   for (const i of activeIndexes) {
     const upgrade = unit.upgrades[i]
-    if (!upgrade?.forId || upgrade.ability.kind !== 'weapon') continue
-    const isSpecialist = upgrade.ability.stat.keyword.some((k) => k.name === 'SPECIALIST')
-    if (isSpecialist) continue
-    sealed.add(upgrade.forId)
+    if (upgrade?.forId && upgradeSealsBaseWeapon(upgrade)) sealed.add(upgrade.forId)
   }
   return sealed
 }

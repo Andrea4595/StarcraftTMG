@@ -5,6 +5,7 @@ export const kerrigansSwarm: TacticalCard = {
   id: "Kerrigan's Swarm",
   name: { en: "Kerrigan's Swarm", ko: '케리건의 군단' },
   isUnique: true,
+  requiredCardGroup: 'Creep',
   resource: 1,
   slot: [
     { unitType: 'Hero', count: 1 },

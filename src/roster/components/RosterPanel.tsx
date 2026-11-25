@@ -13,6 +13,9 @@ import {
   rosterSupplyTotal,
   rosterUniqueViolations,
   rosterExclusionViolations,
+  rosterRequiredCardGroupStatus,
+  rosterCardGroupMismatchedCards,
+  CARD_GROUP_LABELS,
 } from '../rosterCalc'
 import { UnitEntryRow } from './UnitEntryRow'
 import { TacticalCardModal } from './TacticalCardModal'
@@ -112,6 +115,8 @@ function RosterPanelBody({
   const slotUsage = rosterSlotUsage(race, roster)
   const uniqueViolations = rosterUniqueViolations(race, roster)
   const exclusionViolations = rosterExclusionViolations(race, roster)
+  const cardGroupStatus = rosterRequiredCardGroupStatus(race, roster)
+  const cardGroupMismatched = rosterCardGroupMismatchedCards(race, roster)
   const overCap = mineralTotal > roster.mineralCap
   const overGasCap = gasTotal > gasCap
   const factionCard = findFactionCard(race, roster)
@@ -129,6 +134,16 @@ function RosterPanelBody({
       {exclusionViolations.length > 0 && (
         <div className="roster-warning">
           동시 편성 불가: {exclusionViolations.map(([a, b]) => `${localize(a)} ↔ ${localize(b)}`).join(', ')}
+        </div>
+      )}
+      {cardGroupStatus && cardGroupStatus.count !== 1 && (
+        <div className="roster-warning">
+          {localize(CARD_GROUP_LABELS[cardGroupStatus.group])}를 정확히 1장 넣어야 합니다 (현재 {cardGroupStatus.count}장)
+        </div>
+      )}
+      {cardGroupMismatched.length > 0 && (
+        <div className="roster-warning">
+          현재 팩션에서 쓸 수 없는 카드: {cardGroupMismatched.map((c) => localize(c.name)).join(', ')}
         </div>
       )}
 
