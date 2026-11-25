@@ -829,6 +829,32 @@
   cursor: pointer;
 }
 
+/* 게임 레퍼런스 화면: 능력 발동 자원 비용(CP/BM/EN)만큼 이름 우측에 노란 네모를 나열한다 */
+.ability-chip-resource-squares {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: 2px;
+}
+
+.ability-chip-resource-square {
+  width: 7px;
+  height: 7px;
+  background: #f0b429;
+  border-radius: 1px;
+}
+
+/* 가변 비용(X): 네모 하나 안에 X를 적는다 */
+.ability-chip-resource-square-x {
+  width: auto;
+  height: auto;
+  padding: 0 3px;
+  color: #2b1d02;
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
 .ability-chip:hover {
   opacity: 1;
   border-color: var(--accent, var(--border));

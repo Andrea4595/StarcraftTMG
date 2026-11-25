@@ -65,6 +65,7 @@ export function GameReferenceCardsView({
                       </div>
                       <AbilityChipsRow
                         abilities={card.cardAbilities}
+                        showResourceCost
                         sourceId={card.id}
                         sourceLabel={localize(card.name)}
                         onSelectAbility={onSelectAbility}

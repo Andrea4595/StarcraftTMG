@@ -146,6 +146,7 @@ export function UnitEntryRow({
         abilities={nonWeaponSummaryAbilities}
         weaponSummaries={weaponSummaries}
         hideInactiveWeaponNames={!interactive}
+        showResourceCost={!interactive}
         sourceId={unit.id}
         sourceLabel={localize(unit.name)}
         unitType={unit.type}
