@@ -13,6 +13,18 @@ export interface GaugeSegment {
 const MINERAL_COLOR = '#5b9dff'
 const GAS_COLOR = '#4ade80'
 
+/**
+ * 게이지 칸 배경색: 원래 색에서 채도를 낮추고(회색 쪽으로 45%) 어둡게(60%) 만들어, 그 위에 흰 글씨가
+ * 잘 읽히게 한다. 간소화 로스터 PNG에서도 같은 색이 나오도록 CSS 필터 대신 여기서 직접 계산한다.
+ */
+function mutedColor(hex: string): string {
+  const n = parseInt(hex.slice(1), 16)
+  const rgb = [(n >> 16) & 255, (n >> 8) & 255, n & 255]
+  const gray = (rgb[0] + rgb[1] + rgb[2]) / 3
+  const [r, g, b] = rgb.map((c) => Math.round((gray + (c - gray) * 0.55) * 0.6))
+  return `rgb(${r}, ${g}, ${b})`
+}
+
 /** 로스터 유닛 항목 하나당 한 칸. 로스터 화면과 같은 순서(타입 순)이고, 칸 색은 유닛 타입 색이다.
  *  비용이 0인 항목(자동 소환 유닛 등)은 칸을 만들지 않는다 */
 export function mineralGaugeSegments(race: RaceData, roster: Roster, localize: (rule: Rule) => string): GaugeSegment[] {
@@ -73,7 +85,7 @@ export function BudgetGauge({
           <div
             key={s.key}
             className="budget-gauge-segment"
-            style={{ flexGrow: s.value, background: s.color }}
+            style={{ flexGrow: s.value, background: mutedColor(s.color) }}
             title={`${s.label} ${s.value}`}
           >
             <span className="budget-gauge-segment-label">{s.label}</span>

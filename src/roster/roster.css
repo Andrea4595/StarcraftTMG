@@ -1310,12 +1310,13 @@ button.roster-slot-pill:hover {
 
 /*
   예산 게이지(미네랄/가스). 막대 전체가 예산이고 항목마다 비용만큼의 칸이 이름과 함께 채워진다.
-  칸은 트랙 안에 2px 간격으로 떨어진 작은 알약이고, 위쪽에 은은한 광택을 얹어 입체감을 준다.
+  칸은 트랙 안에 2px 간격으로 떨어진 작은 알약이고, 채도를 낮춘 어두운 색 위에 흰 글씨를 얹는다.
   남은 예산 부분은 옅은 사선 무늬로 비워 둔다. 간소화 로스터 PNG(html-to-image)에서도 그대로
   그려지도록 color-mix 같은 최신 CSS는 쓰지 않는다.
 */
 .budget-gauge {
-  flex: 1 1 auto;
+  /* 내용(칸 이름) 폭과 상관없이 남는 폭을 다 차지한다 — 옆의 CP/서플라이 표시 폭이 칸 구성에 따라 흔들리지 않게 */
+  flex: 1 1 0;
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -1398,22 +1399,13 @@ button.roster-slot-pill:hover {
   box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.2);
 }
 
-/* 위쪽 광택 */
-.budget-gauge-segment::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(0, 0, 0, 0.06) 100%);
-  pointer-events: none;
-}
-
 .budget-gauge-segment-label {
   position: relative;
   z-index: 1;
   padding: 0 6px;
   font-size: 10px;
   font-weight: 700;
-  color: rgba(8, 10, 16, 0.85);
+  color: #fff;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1464,8 +1456,16 @@ button.roster-slot-pill:hover {
   gap: 10px;
 }
 
-.roster-export-gauge-row .roster-export-total-pill {
+/* 게이지 옆에 붙는 CP/서플라이 표시는 내용에 필요한 폭으로 고정한다 (게이지 칸 구성이 바뀌어도 폭이 흔들리지 않게).
+   간소화 출력의 알약은 .roster-export-sheet-narrow .roster-export-total-pill(flex: 1 1 0)보다 우선해야 해서 선택자를 한 단계 더 붙인다 */
+.budget-gauge ~ .roster-cp-badge,
+.budget-gauge ~ .roster-resource-pill,
+.roster-export-sheet-narrow .roster-export-gauge-row .roster-export-total-pill {
   flex: 0 0 auto;
+}
+
+.roster-export-sheet-narrow .roster-export-gauge-row .roster-export-total-pill {
+  min-width: 72px;
 }
 
 .unit-picker-grid {
