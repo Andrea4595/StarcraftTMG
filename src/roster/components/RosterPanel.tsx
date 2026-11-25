@@ -314,7 +314,6 @@ function RosterPanelBody({
         <UnitModal
           race={race}
           roster={roster}
-          onAdded={() => setModal(null)}
           onClose={() => setModal(null)}
         />
       )}

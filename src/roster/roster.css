@@ -1270,6 +1270,135 @@ button.roster-slot-pill:hover {
 }
 
 /* 유닛 선택(모달 1단계): 이름/타입/스쿼드 등급 버튼만 보여주는 작은 타일 */
+/*
+  유닛 선택 모달: 왼쪽 유닛 타일 그리드 + 오른쪽 '추가된 유닛' 목록. 목록은 본문을 스크롤해도 보이도록
+  sticky로 둔다. 좁은 화면에서는 우측 목록 대신 상단 고정 영역(modal-subheader)의 가로 칩을 쓴다.
+*/
+.unit-picker-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.unit-picker-layout > .unit-picker-grid {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.unit-added-side {
+  flex: 0 0 220px;
+  position: sticky;
+  top: 0;
+  max-height: calc(100vh - 220px);
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  background: var(--bg, #0c0d12);
+  font-size: 12px;
+}
+
+.unit-added-title {
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.unit-added-empty {
+  opacity: 0.6;
+}
+
+.unit-added-type-group + .unit-added-type-group {
+  margin-top: 8px;
+}
+
+.unit-added-type {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  margin-bottom: 2px;
+}
+
+.unit-added-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 0;
+}
+
+.unit-added-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.unit-added-size {
+  opacity: 0.6;
+}
+
+.unit-added-count {
+  flex: 0 0 auto;
+  font-weight: 700;
+}
+
+.unit-added-remove {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 50%;
+  background: #2b2e3a;
+  color: #e5e7eb;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+}
+
+.unit-added-remove:hover {
+  background: #3a3e4d;
+}
+
+/* 좁은 화면용 가로 칩. 넓은 화면에서는 숨긴다 */
+.unit-added-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 8px;
+  font-size: 11px;
+}
+
+.unit-added-chips .unit-added-row {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 1px 2px 1px 8px;
+  gap: 4px;
+}
+
+.unit-added-chips .unit-added-name {
+  flex: 0 1 auto;
+}
+
+.unit-added-chips .unit-added-remove {
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+}
+
+@media (min-width: 900px) {
+  .unit-added-chips {
+    display: none;
+  }
+}
+
+@media (max-width: 899px) {
+  .unit-added-side {
+    display: none;
+  }
+}
+
 .unit-picker-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
