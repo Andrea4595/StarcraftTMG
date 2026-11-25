@@ -91,7 +91,6 @@ export function UnitEntryRow({
     nonWeaponSummaryAbilities = unitActiveAbilities(unit, entry).filter(isNonSummaryWeapon)
   }
 
-  const index = roster.units.findIndex((e) => e.id === entry.id)
   /** 이 유닛을 추가한 뒤 팩션 카드를 바꿔서, 태그로 요구하던 팩션 카드가 더 이상 선택돼 있지 않은 상태 */
   const factionMismatch = unitFactionMismatch(unit, roster)
   /** 다른 택티컬 카드/유닛의 능력으로 자동 소환된 유닛이면 그 출처 이름. 수동으로 추가한 유닛은 undefined */
@@ -168,28 +167,6 @@ export function UnitEntryRow({
           <button type="button" className="roster-entry-detail-btn" onClick={onShowDetail}>
             유닛 상세
           </button>
-          {interactive && (
-            <div className="roster-entry-move">
-              <button
-                type="button"
-                className="roster-entry-move-btn"
-                disabled={index <= 0}
-                onClick={() => store.moveUnitEntry(roster.id, entry.id, 'up')}
-                aria-label="위로 이동"
-              >
-                ▲
-              </button>
-              <button
-                type="button"
-                className="roster-entry-move-btn"
-                disabled={index === -1 || index === roster.units.length - 1}
-                onClick={() => store.moveUnitEntry(roster.id, entry.id, 'down')}
-                aria-label="아래로 이동"
-              >
-                ▼
-              </button>
-            </div>
-          )}
         </div>
       </div>
     </div>

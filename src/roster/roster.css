@@ -136,54 +136,10 @@
   padding-bottom: 68px;
 }
 
-/*
-  유닛 카드(로스터 목록 항목) 우측 하단, summary 줄 오른쪽에 두는 순서 이동 버튼.
-  상세 패널이 아니라 목록 항목 자체에 둬야 목록 전체를 보면서(눈으로 순서를 확인하며) 옮길 수 있다.
-*/
-.roster-entry-move {
-  display: flex;
-  flex: 0 0 auto;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  overflow: hidden;
-  background: var(--bg);
-}
-
-.roster-entry-move-btn {
-  width: 26px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  background: transparent;
-  color: var(--text);
-  font-size: 8px;
-  line-height: 1;
-  padding: 0;
-  cursor: pointer;
-}
-
-.roster-entry-move-btn:first-child {
-  border-right: 1px solid var(--border);
-}
-
-.roster-entry-move-btn:hover:not(:disabled) {
-  background: var(--accent-bg, rgba(255, 255, 255, 0.06));
-  color: var(--accent);
-}
-
-.roster-entry-move-btn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-
-/* 순서 이동 버튼 바로 왼쪽에 두는 유닛 상세 모달 여는 버튼. 카드 전체를 눌러도 같은 모달이 뜨지만,
+/* 유닛 카드 우측 하단의 유닛 상세 모달 여는 버튼. 카드 전체를 눌러도 같은 모달이 뜨지만,
    이 버튼이 그 상호작용을 눈에 띄게 알려준다 */
 .roster-entry-detail-btn {
   flex: 0 0 auto;
-  /* 옆의 이동 버튼 묶음(.roster-entry-move)은 안쪽 버튼(20px) + 자기 테두리(1px*2)로 실제 22px
-     높이가 되므로, 겉보기 높이를 맞추려면 이쪽도 22px로 줘야 한다 */
   height: 22px;
   display: flex;
   align-items: center;
@@ -1314,9 +1270,243 @@ button.roster-slot-pill:hover {
 }
 
 /* 유닛 선택(모달 1단계): 이름/타입/스쿼드 등급 버튼만 보여주는 작은 타일 */
+/* 유닛 선택 모달의 스쿼드 크기 하나: 서플라이/모델 수, 비용, (−) 개수 (+). 하나라도 넣었으면 테두리를 강조한다 */
+.unit-picker-tier {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 4px 8px 6px;
+  font-size: 12px;
+}
+
+.unit-picker-tier-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.unit-picker-tier-active {
+  border-color: #4ade80;
+}
+
+.unit-picker-tier .roster-squad-tier-supply-square {
+  background: #5b9dff;
+}
+
+.unit-picker-tier-qty {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.unit-picker-tier-count-zero {
+  opacity: 0.4;
+}
+
+/*
+  예산 게이지(미네랄/가스). 막대 전체가 예산이고 항목마다 비용만큼의 칸이 이름과 함께 채워진다.
+  칸은 트랙 안에 2px 간격으로 떨어진 작은 알약이고, 채도를 낮춘 어두운 색 위에 흰 글씨를 얹는다.
+  남은 예산 부분은 옅은 사선 무늬로 비워 둔다. 간소화 로스터 PNG(html-to-image)에서도 그대로
+  그려지도록 color-mix 같은 최신 CSS는 쓰지 않는다.
+*/
+.budget-gauge {
+  /* 내용(칸 이름) 폭과 상관없이 남는 폭을 다 차지한다 — 옆의 CP/서플라이 표시 폭이 칸 구성에 따라 흔들리지 않게 */
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.budget-gauge-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.budget-gauge-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--gauge-color);
+}
+
+/* 라벨 앞의 작은 점: 게이지 종류(미네랄 파랑/가스 초록)를 색으로 알려준다 */
+.budget-gauge-label::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gauge-color);
+  box-shadow: 0 0 6px var(--gauge-color);
+}
+
+.budget-gauge-value {
+  font-weight: 800;
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-h, #e5e7eb);
+}
+
+.budget-gauge-cap {
+  font-size: 11px;
+  font-weight: 600;
+  opacity: 0.5;
+}
+
+.budget-gauge-track {
+  position: relative;
+  display: flex;
+  gap: 2px;
+  height: 22px;
+  padding: 2px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.03);
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.035) 0,
+    rgba(255, 255, 255, 0.035) 4px,
+    transparent 4px,
+    transparent 8px
+  );
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+
+.budget-gauge-rest {
+  flex-basis: 0;
+}
+
+.budget-gauge-segment {
+  position: relative;
+  flex-shrink: 1;
+  flex-basis: 0;
+  min-width: 3px;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* 같은 유닛 버블 안을 로스터 항목마다 비용 비율로 나누는 칸. 첫 칸 빼고 왼쪽에 세로선을 긋는다 */
+.budget-gauge-part {
+  position: relative;
+  flex-basis: 0;
+  align-self: stretch;
+}
+
+/* 세로선은 위아래를 살짝 비워 버블 안에서 떠 있게 */
+.budget-gauge-part + .budget-gauge-part::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 4px;
+  bottom: 4px;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* 이름은 버블 전체 위에 한 번만 얹는다 (나뉜 칸과 상관없이 왼쪽부터) */
+.budget-gauge-part ~ .budget-gauge-segment-label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.budget-gauge-segment-label {
+  position: relative;
+  z-index: 1;
+  padding: 0 6px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+  /* 버블 안 세로선 위에 글씨가 얹혀도 잘 읽히게 */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.budget-gauge-cap-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: #f87171;
+  box-shadow: 0 0 6px #f87171;
+  z-index: 2;
+}
+
+.budget-gauge-over .budget-gauge-track {
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(248, 113, 113, 0.6);
+}
+
+.budget-gauge-over .budget-gauge-value {
+  color: #f87171;
+}
+
+.roster-panel .budget-gauge-value {
+  font-size: 18px;
+}
+
+.roster-panel .budget-gauge-track {
+  height: 26px;
+}
+
+.roster-panel .budget-gauge-segment-label {
+  font-size: 11px;
+}
+
+/* 간소화 로스터 출력: 헤더 아래에 미네랄 게이지 한 줄, 가스 게이지 + CP 알약 한 줄 */
+.roster-export-gauges {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* 간소화 출력은 시트 폭이 좁아(420px) 칸 이름을 평소(10px)보다 작게 줄여 더 많은 이름이 칸 안에 들어가게 한다 */
+.roster-export-gauges .budget-gauge-segment-label {
+  font-size: 8px;
+  padding: 0 4px;
+}
+
+.roster-export-gauge-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+/* 게이지 옆에 붙는 CP/서플라이 표시는 내용에 필요한 폭으로 고정한다 (게이지 칸 구성이 바뀌어도 폭이 흔들리지 않게).
+   간소화 출력의 알약은 .roster-export-sheet-narrow .roster-export-total-pill(flex: 1 1 0)보다 우선해야 해서 선택자를 한 단계 더 붙인다 */
+.budget-gauge ~ .roster-cp-badge,
+.budget-gauge ~ .roster-resource-pill,
+.roster-export-sheet-narrow .roster-export-gauge-row .roster-export-total-pill {
+  flex: 0 0 auto;
+}
+
+.roster-export-sheet-narrow .roster-export-gauge-row .roster-export-total-pill {
+  min-width: 72px;
+}
+
 .unit-picker-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  /* 스쿼드 크기 두 개((−) 개수 (+) 포함)가 한 줄에 나란히 들어가는 최소 폭 */
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 12px;
   align-items: start;
 }

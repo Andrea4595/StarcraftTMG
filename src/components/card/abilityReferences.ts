@@ -17,12 +17,18 @@ export function abilityEnhancedBy(pool: Ability[], ability: Ability): Ability[] 
   return pool.filter((other) => other.kind === 'rule' && other.enhances?.includes(ability.id))
 }
 
+/** 능력 발동 자원 비용: 양(가변 비용이면 'X')과 종족 자원 약어 */
+export interface ResourceCost {
+  amount: number | 'X'
+  label: string
+}
+
 /**
  * 룰 어빌리티를 실제로 발동시키는 데 드는 자원 비용(CP/EN/BM 등). Passive는 발동 개념이 없어
  * 항상 undefined, Active/Reaction이면서 비용이 0보다 클 때만(가변 비용 'X' 포함) 값을 돌려준다.
  * 미네랄로 사는 업그레이드 비용(RelatedAbilityTarget.cost)과는 다른 값이다.
  */
-export function abilityResourceCost(ability: Ability, resourceLabel: string): string | undefined {
+export function abilityResourceCost(ability: Ability, resourceLabel: string): ResourceCost | undefined {
   if (ability.kind !== 'rule' || ability.type === 'Passive' || ability.cost === 0) return undefined
-  return `${ability.cost} ${resourceLabel}`
+  return { amount: ability.cost, label: resourceLabel }
 }

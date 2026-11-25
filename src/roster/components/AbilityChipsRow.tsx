@@ -102,6 +102,22 @@ function abilityTypeTone(ability: Ability): 'default' | 'active' | 'passive' | '
   }
 }
 
+/** 룰 능력 발동 자원 비용만큼 노란 네모를 나열한다. Passive이거나 비용이 0이면 아무것도 안 그리고,
+ *  가변 비용('X')은 네모 하나 안에 X를 적어 보여준다 */
+function ResourceCostSquares({ ability }: { ability: Ability }) {
+  if (ability.kind !== 'rule' || ability.type === 'Passive' || ability.cost === 0) return null
+  const { cost } = ability
+  return (
+    <span className="ability-chip-resource-squares" aria-label={`${cost}`}>
+      {cost === 'X' ? (
+        <span className="ability-chip-resource-square ability-chip-resource-square-x">X</span>
+      ) : (
+        Array.from({ length: cost }).map((_, i) => <span className="ability-chip-resource-square" key={i} />)
+      )}
+    </span>
+  )
+}
+
 /** 어빌리티/무기 프로필 칩 한 줄. 눌러진 칩은 즉시 그 능력만 담은 상세 모달을 띄운다(부모 카드/유닛의
  *  전체 상세를 여는 클릭과 겹치지 않도록 stopPropagation한다) */
 export function AbilityChipsRow({
@@ -221,6 +237,7 @@ export function AbilityChipsRow({
             <PhaseBadge phase={ability.phase} tone={abilityTypeTone(ability)} />
             {localize(ability.name)}
             {cost !== undefined && ` (${cost})`}
+            <ResourceCostSquares ability={ability} />
           </button>
         )
       })}
