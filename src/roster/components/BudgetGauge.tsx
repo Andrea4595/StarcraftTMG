@@ -73,12 +73,14 @@ export function BudgetGauge({
           <div
             key={s.key}
             className="budget-gauge-segment"
-            style={{ width: `${(s.value / scale) * 100}%`, background: s.color }}
+            style={{ flexGrow: s.value, background: s.color }}
             title={`${s.label} ${s.value}`}
           >
             <span className="budget-gauge-segment-label">{s.label}</span>
           </div>
         ))}
+        {/* 남은 예산만큼 비워 두는 투명 칸. 칸 사이 간격이 있어도 비율이 어긋나지 않도록 폭을 flex-grow 비율로 나눈다 */}
+        {scale > total && <div className="budget-gauge-rest" style={{ flexGrow: scale - total }} />}
         {over && <div className="budget-gauge-cap-line" style={{ left: `${(cap / scale) * 100}%` }} />}
       </div>
     </div>

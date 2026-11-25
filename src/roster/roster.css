@@ -1282,6 +1282,13 @@ button.roster-slot-pill:hover {
   font-size: 12px;
 }
 
+.unit-picker-tier-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
 .unit-picker-tier-active {
   border-color: #4ade80;
 }
@@ -1303,14 +1310,16 @@ button.roster-slot-pill:hover {
 
 /*
   예산 게이지(미네랄/가스). 막대 전체가 예산이고 항목마다 비용만큼의 칸이 이름과 함께 채워진다.
-  간소화 로스터 PNG(html-to-image)에서도 그대로 그려지도록 color-mix 같은 최신 CSS는 쓰지 않는다.
+  칸은 트랙 안에 2px 간격으로 떨어진 작은 알약이고, 위쪽에 은은한 광택을 얹어 입체감을 준다.
+  남은 예산 부분은 옅은 사선 무늬로 비워 둔다. 간소화 로스터 PNG(html-to-image)에서도 그대로
+  그려지도록 color-mix 같은 최신 CSS는 쓰지 않는다.
 */
 .budget-gauge {
   flex: 1 1 auto;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
 }
 
 .budget-gauge-head {
@@ -1321,47 +1330,90 @@ button.roster-slot-pill:hover {
 }
 
 .budget-gauge-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   font-weight: 700;
   font-size: 11px;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.06em;
   color: var(--gauge-color);
 }
 
+/* 라벨 앞의 작은 점: 게이지 종류(미네랄 파랑/가스 초록)를 색으로 알려준다 */
+.budget-gauge-label::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gauge-color);
+  box-shadow: 0 0 6px var(--gauge-color);
+}
+
 .budget-gauge-value {
-  font-weight: 700;
-  font-size: 14px;
+  font-weight: 800;
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
   color: var(--text-h, #e5e7eb);
 }
 
 .budget-gauge-cap {
   font-size: 11px;
-  opacity: 0.6;
+  font-weight: 600;
+  opacity: 0.5;
 }
 
 .budget-gauge-track {
   position: relative;
   display: flex;
-  gap: 1px;
-  height: 20px;
-  border: 1px solid var(--gauge-color);
-  border-radius: 5px;
-  background: rgba(255, 255, 255, 0.04);
+  gap: 2px;
+  height: 22px;
+  padding: 2px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.03);
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.035) 0,
+    rgba(255, 255, 255, 0.035) 4px,
+    transparent 4px,
+    transparent 8px
+  );
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
   overflow: hidden;
+}
+
+.budget-gauge-rest {
+  flex-basis: 0;
 }
 
 .budget-gauge-segment {
-  flex: 0 0 auto;
-  min-width: 2px;
+  position: relative;
+  flex-shrink: 1;
+  flex-basis: 0;
+  min-width: 3px;
   display: flex;
   align-items: center;
+  border-radius: 5px;
   overflow: hidden;
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* 위쪽 광택 */
+.budget-gauge-segment::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.06) 50%, rgba(0, 0, 0, 0.06) 100%);
+  pointer-events: none;
 }
 
 .budget-gauge-segment-label {
-  padding: 0 4px;
+  position: relative;
+  z-index: 1;
+  padding: 0 6px;
   font-size: 10px;
   font-weight: 700;
-  color: #0c0d12;
+  color: rgba(8, 10, 16, 0.85);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1374,10 +1426,12 @@ button.roster-slot-pill:hover {
   width: 2px;
   margin-left: -1px;
   background: #f87171;
+  box-shadow: 0 0 6px #f87171;
+  z-index: 2;
 }
 
 .budget-gauge-over .budget-gauge-track {
-  border-color: #f87171;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(248, 113, 113, 0.6);
 }
 
 .budget-gauge-over .budget-gauge-value {
@@ -1385,11 +1439,11 @@ button.roster-slot-pill:hover {
 }
 
 .roster-panel .budget-gauge-value {
-  font-size: 17px;
+  font-size: 18px;
 }
 
 .roster-panel .budget-gauge-track {
-  height: 24px;
+  height: 26px;
 }
 
 .roster-panel .budget-gauge-segment-label {
@@ -1416,7 +1470,8 @@ button.roster-slot-pill:hover {
 
 .unit-picker-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  /* 스쿼드 크기 두 개((−) 개수 (+) 포함)가 한 줄에 나란히 들어가는 최소 폭 */
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 12px;
   align-items: start;
 }

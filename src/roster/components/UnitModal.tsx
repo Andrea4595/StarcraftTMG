@@ -96,19 +96,21 @@ export function UnitModal({ race, roster, onClose }: { race: RaceData; roster: R
                   const count = added.length
                   return (
                     <div key={tierIndex} className={`unit-picker-tier ${count > 0 ? 'unit-picker-tier-active' : ''}`}>
-                      <span className="catalog-tier-btn-top">
-                        <span className="roster-squad-tier-supply">
-                          {tier.supply === 0 ? (
-                            <span className="roster-squad-tier-supply-empty">×</span>
-                          ) : (
-                            Array.from({ length: tier.supply }).map((_, j) => (
-                              <span className="roster-squad-tier-supply-square" key={j} />
-                            ))
-                          )}
+                      <div className="unit-picker-tier-info">
+                        <span className="catalog-tier-btn-top">
+                          <span className="roster-squad-tier-supply">
+                            {tier.supply === 0 ? (
+                              <span className="roster-squad-tier-supply-empty">×</span>
+                            ) : (
+                              Array.from({ length: tier.supply }).map((_, j) => (
+                                <span className="roster-squad-tier-supply-square" key={j} />
+                              ))
+                            )}
+                          </span>
+                          {tier.modelMax}
                         </span>
-                        {tier.modelMax}
-                      </span>
-                      <span className="catalog-tier-btn-pts">{tier.pts}</span>
+                        <span className="catalog-tier-btn-pts">{tier.pts}</span>
+                      </div>
                       <div className="unit-picker-tier-qty">
                         <button
                           type="button"
