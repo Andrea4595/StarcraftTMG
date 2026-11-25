@@ -40,7 +40,6 @@ type Action =
   | { type: 'removeTacticalCard'; rosterId: string; cardId: string }
   | { type: 'addUnitEntry'; rosterId: string; unitId: string; squadTierIndex: number; id: string }
   | { type: 'removeUnitEntry'; rosterId: string; entryId: string }
-  | { type: 'moveUnitEntry'; rosterId: string; entryId: string; direction: 'up' | 'down' }
   | { type: 'setUnitEntrySquadTier'; rosterId: string; entryId: string; squadTierIndex: number }
   | {
       type: 'toggleUnitUpgrade'
@@ -275,15 +274,6 @@ function reducer(state: State, action: Action): State {
         ...r,
         units: r.units.filter((e) => e.id !== action.entryId),
       }))
-    case 'moveUnitEntry':
-      return mapRoster(state, action.rosterId, (r) => {
-        const idx = r.units.findIndex((e) => e.id === action.entryId)
-        const swapIdx = action.direction === 'up' ? idx - 1 : idx + 1
-        if (idx === -1 || swapIdx < 0 || swapIdx >= r.units.length) return r
-        const units = [...r.units]
-        ;[units[idx], units[swapIdx]] = [units[swapIdx], units[idx]]
-        return { ...r, units }
-      })
     case 'setUnitEntrySquadTier':
       return mapRoster(state, action.rosterId, (r) =>
         mapUnitEntry(r, action.entryId, (e) => ({ ...e, squadTierIndex: action.squadTierIndex })),
@@ -439,7 +429,6 @@ interface RosterStore extends State {
   removeTacticalCard: (rosterId: string, cardId: string) => void
   addUnitEntry: (rosterId: string, unitId: string, squadTierIndex: number, id: string) => void
   removeUnitEntry: (rosterId: string, entryId: string) => void
-  moveUnitEntry: (rosterId: string, entryId: string, direction: 'up' | 'down') => void
   setUnitEntrySquadTier: (rosterId: string, entryId: string, squadTierIndex: number) => void
   toggleUnitUpgrade: (rosterId: string, entryId: string, upgradeIndex: number, exclusiveWith?: number[]) => void
   toggleConsumedCard: (rosterId: string, cardKey: string) => void
@@ -561,7 +550,6 @@ export function RosterProvider({ children }: { children: ReactNode }) {
     addUnitEntry: (rosterId, unitId, squadTierIndex, id) =>
       dispatch({ type: 'addUnitEntry', rosterId, unitId, squadTierIndex, id }),
     removeUnitEntry: (rosterId, entryId) => dispatch({ type: 'removeUnitEntry', rosterId, entryId }),
-    moveUnitEntry: (rosterId, entryId, direction) => dispatch({ type: 'moveUnitEntry', rosterId, entryId, direction }),
     setUnitEntrySquadTier: (rosterId, entryId, squadTierIndex) =>
       dispatch({ type: 'setUnitEntrySquadTier', rosterId, entryId, squadTierIndex }),
     toggleUnitUpgrade: (rosterId, entryId, upgradeIndex, exclusiveWith) =>

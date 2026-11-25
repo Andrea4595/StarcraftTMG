@@ -16,6 +16,7 @@ import {
   rosterRequiredCardGroupStatus,
   rosterCardGroupMismatchedCards,
   CARD_GROUP_LABELS,
+  sortedUnitEntries,
 } from '../rosterCalc'
 import { UnitEntryRow } from './UnitEntryRow'
 import { TacticalCardModal } from './TacticalCardModal'
@@ -279,7 +280,7 @@ function RosterPanelBody({
           </div>
           <div className="roster-unit-list">
             {roster.units.length === 0 && <div className="roster-empty">유닛을 추가하세요.</div>}
-            {roster.units.map((entry) => {
+            {sortedUnitEntries(race, roster.units).map((entry) => {
               const unit = findUnit(race, entry.unitId)
               if (!unit) return null
               return (

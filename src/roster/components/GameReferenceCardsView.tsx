@@ -1,5 +1,5 @@
 import type { RaceData, Roster } from '../../types'
-import { findUnit, isCardConsumed, referenceCardSlots } from '../rosterCalc'
+import { findUnit, isCardConsumed, referenceCardSlots, sortedUnitEntries } from '../rosterCalc'
 import { useRosterStore } from '../RosterContext'
 import { useLocalize } from '../../LangContext'
 import { AbilityChipsRow, type AbilitySelectionRef } from './AbilityChipsRow'
@@ -95,7 +95,7 @@ export function GameReferenceCardsView({
           </div>
           <div className="game-ref-section-title">유닛 ({roster.units.length})</div>
           <ul className="game-ref-list">
-            {roster.units.map((entry) => {
+            {sortedUnitEntries(race, roster.units).map((entry) => {
               const unit = findUnit(race, entry.unitId)
               if (!unit) return null
               return (

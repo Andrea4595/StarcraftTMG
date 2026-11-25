@@ -190,6 +190,50 @@ function summonSourceInfo(race: RaceData, sourceId: string, summonedUnitId: stri
   return { source_name: sourceName, ability_name: ability ? ability.name : null }
 }
 
+/**
+ * 로스터 유닛을 화면에 보여줄 순서로 정렬한다: 유닛 타입(Hero → Core → Elite → Support → Other) 순,
+ * 같은 타입 안에서는 추가한 순서를 유지한다. 다른 유닛이 소환한 유닛은 그 소환 유닛 바로 아래에 붙인다
+ * — 같은 소환 유닛이 여러 개면 실제로 소환 능력을 가진 항목들에 하나씩 차례로 나눠 붙이고, 남는 건
+ * 마지막 항목 아래로 보낸다. 카드(팩션/택티컬)가 소환한 유닛이나 소환 유닛이 로스터에 없는 경우는
+ * 자기 타입 자리에 일반 유닛처럼 섞는다. 저장된 순서는 바꾸지 않고 보여줄 때만 쓴다.
+ */
+export function sortedUnitEntries(race: RaceData, units: RosterUnitEntry[]): RosterUnitEntry[] {
+  const typeRank = (entry: RosterUnitEntry) => {
+    const unit = findUnit(race, entry.unitId)
+    return unit ? UNIT_TYPES.indexOf(unit.type) : UNIT_TYPES.length
+  }
+  const sourceUnitIds = new Set(units.filter((e) => !e.summonedBy).map((e) => e.unitId))
+  const attached = units.filter((e) => e.summonedBy && sourceUnitIds.has(e.summonedBy))
+  const main = units
+    .filter((e) => !attached.includes(e))
+    .map((entry, i) => ({ entry, i, rank: typeRank(entry) }))
+    .sort((a, b) => a.rank - b.rank || a.i - b.i)
+    .map((x) => x.entry)
+
+  // 소환된 항목을 붙일 소환 유닛 항목 id → 그 아래에 붙을 소환 항목들
+  const children = new Map<string, RosterUnitEntry[]>()
+  const pending = new Map<string, RosterUnitEntry[]>()
+  for (const e of attached) {
+    const key = `${e.summonedBy}::${e.unitId}`
+    pending.set(key, [...(pending.get(key) ?? []), e])
+  }
+  for (const [key, summoned] of pending) {
+    const [sourceId, summonedUnitId] = key.split('::')
+    const sources = main.filter((e) => e.unitId === sourceId && !e.summonedBy)
+    const unit = findUnit(race, sourceId)
+    const summoning = unit
+      ? sources.filter((e) => summonedUnitIdsOf(unitActiveAbilities(unit, e)).includes(summonedUnitId))
+      : []
+    const targets = summoning.length > 0 ? summoning : sources
+    summoned.forEach((e, i) => {
+      const target = targets[Math.min(i, targets.length - 1)]
+      children.set(target.id, [...(children.get(target.id) ?? []), e])
+    })
+  }
+
+  return main.flatMap((e) => [e, ...(children.get(e.id) ?? [])])
+}
+
 interface SummonRequirement {
   /** 이 소환을 발생시키는 카드/유닛의 id. summonedBy 값이자, 화면에 보여줄 출처 이름을 찾는 키 */
   sourceId: string
