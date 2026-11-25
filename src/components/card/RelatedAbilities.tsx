@@ -2,6 +2,8 @@ import type { Ability, RuleAbility, WeaponProfile } from '../../types'
 import { localize, useLang } from '../../LangContext'
 import { WeaponTable, type WeaponRow } from './WeaponTable'
 import { PhaseBadge } from './PhaseBadge'
+import { ResourceCostBubble } from './ResourceCostBubble'
+import type { ResourceCost } from './abilityReferences'
 
 export interface RelatedAbilityTarget {
   ability: Ability
@@ -11,8 +13,8 @@ export interface RelatedAbilityTarget {
   active?: boolean
   /** 업그레이드로 얻는 능력일 때만 지정: 이름 옆에 '(20)' 형태로 붙는 미네랄 비용 */
   cost?: string
-  /** Active/Reaction이고 비용이 있을 때만 지정: 이름 옆에 '(1 CP)' 형태로 붙는 발동 자원 비용 */
-  resourceCost?: string
+  /** Active/Reaction이고 비용이 있을 때만 지정: 이름 옆에 노란 버블로 붙는 발동 자원 비용 */
+  resourceCost?: ResourceCost
 }
 
 const TYPE_CLASS: Record<RuleAbility['type'], string> = {
@@ -44,7 +46,7 @@ export function RelatedAbilities({ items }: { items: RelatedAbilityTarget[] }) {
     onClick?: () => void
     active?: boolean
     cost?: string
-    resourceCost?: string
+    resourceCost?: ResourceCost
   }[]
 
   return (
@@ -79,8 +81,10 @@ export function RelatedAbilities({ items }: { items: RelatedAbilityTarget[] }) {
                 <span className="card-related-ability-line-name">
                   {name}
                   {r.cost !== undefined && ` (${r.cost})`}
-                  {r.resourceCost !== undefined && ` (${r.resourceCost})`}
                 </span>
+                {r.resourceCost !== undefined && (
+                  <ResourceCostBubble amount={r.resourceCost.amount} label={r.resourceCost.label} small />
+                )}
                 <span className="card-related-ability-line-sep"> : </span>
                 <span className="card-related-ability-line-text" title={text}>
                   {text}

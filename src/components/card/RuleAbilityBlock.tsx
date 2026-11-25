@@ -2,12 +2,9 @@ import type { RuleAbility } from '../../types'
 import { localize, useLang } from '../../LangContext'
 import { highlightKeywords } from './keywordHighlight'
 import { RelatedAbilities, type RelatedAbilityTarget } from './RelatedAbilities'
+import { ResourceCostBubble } from './ResourceCostBubble'
 
-function formatBadge(ability: RuleAbility, resourceLabel: string): string {
-  if (ability.type === 'Passive') return 'PASSIVE'
-  const label = ability.type.toUpperCase()
-  return ability.cost === 0 ? label : `${label} (${ability.cost} ${resourceLabel.toUpperCase()})`
-}
+
 
 export function RuleAbilityBlock({
   ability,
@@ -54,9 +51,10 @@ export function RuleAbilityBlock({
             ) : (
               <span className="card-pts-badge">PTS: {ptsLabel}</span>
             ))}
-          <span className={`card-badge card-badge-${ability.type.toLowerCase()}`}>
-            {formatBadge(ability, resourceLabel)}
-          </span>
+          <span className={`card-badge card-badge-${ability.type.toLowerCase()}`}>{ability.type.toUpperCase()}</span>
+          {ability.type !== 'Passive' && ability.cost !== 0 && (
+            <ResourceCostBubble amount={ability.cost} label={resourceLabel} />
+          )}
         </div>
       </div>
       {forWeapon && <div className="card-weapon-for">FOR {forWeapon}</div>}
