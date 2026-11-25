@@ -6,7 +6,10 @@ import {
   rosterGasTotal,
   rosterResourceTotal,
   rosterSlotUsage,
+  CARD_GROUP_LABELS,
+  rosterCardGroupCount,
   tacticalCardFactionMismatch,
+  tacticalCardGroupMismatch,
   tacticalCardRequiredFactionCardId,
   TRACKED_UNIT_TYPES,
 } from '../rosterCalc'
@@ -99,6 +102,7 @@ export function TacticalCardModal({
             <TacticalPickerRow
               key={card.id}
               card={card}
+              race={race}
               roster={roster}
               resourceAbbr={race.resourceLabel.abbr}
               count={roster.tacticalCardIds.filter((id) => id === card.id).length}
@@ -211,6 +215,7 @@ function FactionPickerRow({
 
 function TacticalPickerRow({
   card,
+  race,
   roster,
   resourceAbbr,
   count,
@@ -221,6 +226,7 @@ function TacticalPickerRow({
   onSelectAbility,
 }: {
   card: TacticalCard
+  race: RaceData
   roster: Roster
   resourceAbbr: string
   count: number
@@ -233,9 +239,11 @@ function TacticalPickerRow({
   const localize = useLocalize()
   const { lang } = useLang()
   /** 태그로 요구하는 팩션 카드(예: 네라짐)가 지금 선택돼 있지 않으면 이 택티컬 카드는 추가할 수 없다 */
-  const factionMismatch = tacticalCardFactionMismatch(card, roster)
+  const factionMismatch = tacticalCardFactionMismatch(card, roster) || tacticalCardGroupMismatch(race, card, roster)
   const requiredFactionTag = tacticalCardRequiredFactionCardId(card)
-  const atMax = (card.isUnique && count > 0) || factionMismatch
+  /** 점막/바이러스 카드는 팩션당 정확히 한 장이라, 같은 묶음 카드가 이미 들어 있으면 더 넣을 수 없다 */
+  const groupFull = card.cardGroup !== undefined && rosterCardGroupCount(race, roster, card.cardGroup) > 0
+  const atMax = (card.isUnique && count > 0) || factionMismatch || groupFull
   const cardName = localize(card.name)
 
   return (
@@ -256,6 +264,7 @@ function TacticalPickerRow({
           {card.isUnique && <span className="tactical-picker-row-unique">UNIQUE</span>}
           <WaveBadge wave={card.wave} />
           {requiredFactionTag && <span className="card-faction-badge">{localizeTag(requiredFactionTag, lang)}</span>}
+          {card.cardGroup && <span className="card-faction-badge">{localize(CARD_GROUP_LABELS[card.cardGroup])}</span>}
         </div>
         <CardCapacityMeta card={card} resourceAbbr={resourceAbbr} />
         {/*

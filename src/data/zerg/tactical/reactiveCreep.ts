@@ -5,6 +5,7 @@ export const reactiveCreep: TacticalCard = {
   id: 'Reactive Creep',
   name: { en: 'Reactive Creep', ko: '반응성 점막' },
   isUnique: true,
+  cardGroup: 'Creep',
   wave: 3,
   gasPts: 10,
   resource: 0,

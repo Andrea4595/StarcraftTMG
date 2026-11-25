@@ -81,4 +81,11 @@ export const TOKENS: TokenEntry[] = [
     base_mm: { width: 32, height: 32 },
     is_displacement: false,
   },
+  {
+    // 화염방사병 '소각 건틀릿'. 실물 토큰 크기 미확인 - 역장 벽과 같은 벽 형태 크기로 임시 지정
+    id: 'Fire Wall',
+    name: { en: 'Fire Wall', ko: '화염 벽' },
+    base_mm: { width: 40, height: 100 },
+    is_displacement: false,
+  },
 ]

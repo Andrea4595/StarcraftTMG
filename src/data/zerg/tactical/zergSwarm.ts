@@ -5,6 +5,7 @@ export const zergSwarm: TacticalCard = {
   id: 'Zerg Swarm',
   name: { en: 'Zerg Swarm', ko: '저그 군단' },
   isUnique: true,
+  requiredCardGroup: 'Creep',
   resource: 1,
   slot: [
     { unitType: 'Elite', count: 1 },

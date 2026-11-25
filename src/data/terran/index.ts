@@ -7,6 +7,7 @@ import { armory } from './tactical/armory'
 import { barracks } from './tactical/barracks'
 import { barracksProxy } from './tactical/barracksProxy'
 import { barracksTechLab } from './tactical/barracksTechLab'
+import { barracksReactor } from './tactical/barracksReactor'
 import { dropship } from './tactical/dropship'
 import { engineeringBay } from './tactical/engineeringBay'
 import { factory } from './tactical/factory'
@@ -17,6 +18,7 @@ import { vanadiumPlating } from './tactical/vanadiumPlating'
 import { marine } from './units/marine'
 import { autoTurret } from './units/autoTurret'
 import { goliath } from './units/goliath'
+import { firebat } from './units/firebat'
 import { holoDecoy } from './units/holoDecoy'
 import { jimRaynor } from './units/jimRaynor'
 import { medic } from './units/medic'
@@ -42,6 +44,7 @@ export const terran: RaceData = {
     barracks,
     barracksProxy,
     barracksTechLab,
+    barracksReactor,
     dropship,
     engineeringBay,
     factory,
@@ -53,6 +56,7 @@ export const terran: RaceData = {
   units: [
     marine,
     autoTurret,
+    firebat,
     goliath,
     holoDecoy,
     jimRaynor,

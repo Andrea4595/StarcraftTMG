@@ -2,6 +2,7 @@ import type {
   Ability,
   AbilityType,
   BaseSize,
+  CardGroup,
   Keyword,
   Phase,
   Placement,
@@ -38,7 +39,8 @@ export function findFactionCard(race: RaceData, roster: Roster): TacticalCard | 
 }
 
 /**
- * '레이너 특공대'/'칼라이'/'네라짐'/'케리건의 군단'/'자가라의 군단'/'노바 비밀 작전'/'기사 계급' 태그는
+ * '레이너 특공대'/'칼라이'/'네라짐'/'케리건의 군단'/'자가라의 군단'/'노바 비밀 작전'/'기사 계급'/'탈다림'/
+ * '스투코프 군대' 태그는
  * 동명의 팩션 카드가 로스터에 선택돼
  * 있어야만 그 유닛이나 택티컬 카드를 포함할 수 있다는 뜻이다. 태그 이름이 곧 해당 팩션 카드의 id와
  * 같다. 유닛(UnitCard.tags)과 택티컬 카드(TacticalCard.tags) 양쪽에서 공용으로 쓴다.
@@ -51,6 +53,8 @@ const FACTION_LOCKED_TAGS = new Set([
   "Zagara's Swarm",
   'Nova Covert Ops',
   'Templar Caste',
+  "Tal'darim",
+  "Stukov's Forces",
 ])
 
 /** 이 유닛이 특정 팩션 카드를 요구한다면(태그로 표시) 그 팩션 카드 id를 돌려준다. 카드 이름을
@@ -91,16 +95,61 @@ export function tacticalCardFactionMismatch(card: TacticalCard, roster: Roster):
   return required !== undefined && required !== roster.factionCardId
 }
 
+/** 카드 묶음(CardGroup)의 화면 표시 이름 */
+export const CARD_GROUP_LABELS: Record<CardGroup, Rule> = {
+  Creep: { en: 'Creep Card', ko: '점막 카드' },
+  Virus: { en: 'Virus Card', ko: '바이러스 카드' },
+}
+
+/**
+ * 카드 묶음(점막/바이러스)에 속한 카드인데, 지금 선택된 팩션 카드가 그 묶음을 요구하지 않으면 true.
+ * 팩션 카드를 아직 고르지 않았을 때도 true — 어느 묶음을 넣어야 하는지 팩션이 정하기 때문이다.
+ */
+export function tacticalCardGroupMismatch(race: RaceData, card: TacticalCard, roster: Roster): boolean {
+  if (!card.cardGroup) return false
+  return findFactionCard(race, roster)?.requiredCardGroup !== card.cardGroup
+}
+
+/** 로스터에 들어 있는 택티컬 카드 중 이 묶음에 속한 카드의 장 수 */
+export function rosterCardGroupCount(race: RaceData, roster: Roster, group: CardGroup): number {
+  return roster.tacticalCardIds.filter((id) => race.tacticalCards.find((c) => c.id === id)?.cardGroup === group).length
+}
+
+/**
+ * 팩션 카드가 요구하는 묶음 카드(정확히 한 장)를 몇 장 넣었는지. 요구하는 묶음이 없는 팩션이면 undefined.
+ * count가 1이 아니면 로스터 화면에 경고를 띄운다.
+ */
+export function rosterRequiredCardGroupStatus(
+  race: RaceData,
+  roster: Roster,
+): { group: CardGroup; count: number } | undefined {
+  const group = findFactionCard(race, roster)?.requiredCardGroup
+  if (!group) return undefined
+  return { group, count: rosterCardGroupCount(race, roster, group) }
+}
+
+/** 로스터에 들어 있지만 지금 팩션에서 쓸 수 없는 묶음 카드들 (예: 스투코프 군대로 바꿨는데 남아 있는 점막 카드) */
+export function rosterCardGroupMismatchedCards(race: RaceData, roster: Roster): TacticalCard[] {
+  return groupedTacticalCards(race, roster)
+    .map(({ card }) => card)
+    .filter((card) => tacticalCardGroupMismatch(race, card, roster))
+}
+
 /** 카드/유닛 하나가 로스터에 있을 때 자동으로 추가돼야 하는 유닛 id들 (summonsUnitId를 가진 능력들) */
-function summonedUnitIdsOf(abilities: RuleAbility[]): string[] {
-  return abilities.filter((a) => a.summonsUnitId !== undefined).map((a) => a.summonsUnitId as string)
+function summonedUnitIdsOf(abilities: Ability[]): string[] {
+  return abilities
+    .filter((a): a is RuleAbility => a.kind === 'rule' && a.summonsUnitId !== undefined)
+    .map((a) => a.summonsUnitId as string)
+}
+
+/** 유닛의 기본 능력과 모든 업그레이드 능력 (업그레이드로 얻는 소환 능력도 찾을 수 있게) */
+function unitAllAbilities(unit: UnitCard): Ability[] {
+  return [...unit.abilities, ...unit.upgrades.map((u) => u.ability)]
 }
 
 /** 이 종족 데이터 안에서, 어떤 카드/유닛의 능력으로든 자동 소환되는 유닛인지 (수동 추가 목록에서 숨기는 데 쓴다) */
 export function isAutoSummonedUnitId(race: RaceData, unitId: string): boolean {
-  const fromUnits = race.units.some((u) =>
-    summonedUnitIdsOf(u.abilities.filter((a): a is RuleAbility => a.kind === 'rule')).includes(unitId),
-  )
+  const fromUnits = race.units.some((u) => summonedUnitIdsOf(unitAllAbilities(u)).includes(unitId))
   const fromCards = [...race.factionCards, ...race.tacticalCards].some((c) =>
     summonedUnitIdsOf(c.cardAbilities).includes(unitId),
   )
@@ -122,10 +171,8 @@ export function summonSourceLabel(
   const card = unit ? undefined : [...race.factionCards, ...race.tacticalCards].find((c) => c.id === sourceId)
   const sourceName = unit ? localize(unit.name) : card ? localize(card.name) : sourceId
 
-  const abilities: RuleAbility[] = unit
-    ? unit.abilities.filter((a): a is RuleAbility => a.kind === 'rule')
-    : (card?.cardAbilities ?? [])
-  const ability = abilities.find((a) => a.summonsUnitId === summonedUnitId)
+  const abilities: Ability[] = unit ? unitAllAbilities(unit) : (card?.cardAbilities ?? [])
+  const ability = abilities.find((a) => a.kind === 'rule' && a.summonsUnitId === summonedUnitId)
 
   return ability ? `${sourceName} - ${localize(ability.name)}` : sourceName
 }
@@ -136,10 +183,8 @@ function summonSourceInfo(race: RaceData, sourceId: string, summonedUnitId: stri
   const card = unit ? undefined : [...race.factionCards, ...race.tacticalCards].find((c) => c.id === sourceId)
   const sourceName = unit ? unit.name : card ? card.name : { en: sourceId, ko: sourceId }
 
-  const abilities: RuleAbility[] = unit
-    ? unit.abilities.filter((a): a is RuleAbility => a.kind === 'rule')
-    : (card?.cardAbilities ?? [])
-  const ability = abilities.find((a) => a.summonsUnitId === summonedUnitId)
+  const abilities: Ability[] = unit ? unitAllAbilities(unit) : (card?.cardAbilities ?? [])
+  const ability = abilities.find((a) => a.kind === 'rule' && a.summonsUnitId === summonedUnitId)
 
   return { source_name: sourceName, ability_name: ability ? ability.name : null }
 }
@@ -178,13 +223,14 @@ function collectSummonRequirements(race: RaceData, roster: Roster): SummonRequir
     }
   }
 
-  const unitCounts = new Map<string, number>()
-  for (const entry of roster.units) unitCounts.set(entry.unitId, (unitCounts.get(entry.unitId) ?? 0) + 1)
-  for (const [id, count] of unitCounts) {
-    const unit = findUnit(race, id)
+  // 유닛은 엔트리마다 장착한 업그레이드가 다를 수 있어(예: 리버의 '태양석 스캐럽' 업그레이드) 엔트리
+  // 단위로 실제 적용 능력을 훑는다. 같은 출처/유닛 쌍은 syncSummonedUnits에서 개수가 합쳐진다.
+  for (const entry of roster.units) {
+    if (entry.summonedBy) continue
+    const unit = findUnit(race, entry.unitId)
     if (!unit) continue
-    for (const unitId of summonedUnitIdsOf(unit.abilities.filter((a): a is RuleAbility => a.kind === 'rule'))) {
-      requirements.push({ sourceId: unit.id, unitId, count })
+    for (const unitId of summonedUnitIdsOf(unitActiveAbilities(unit, entry))) {
+      requirements.push({ sourceId: unit.id, unitId, count: 1 })
     }
   }
 
