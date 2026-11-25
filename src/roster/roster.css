@@ -1399,6 +1399,25 @@ button.roster-slot-pill:hover {
   box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.2);
 }
 
+/* 같은 유닛 버블 안을 로스터 항목마다 비용 비율로 나누는 칸. 첫 칸 빼고 왼쪽에 세로선을 긋는다 */
+.budget-gauge-part {
+  flex-basis: 0;
+  align-self: stretch;
+}
+
+.budget-gauge-part + .budget-gauge-part {
+  border-left: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+/* 이름은 버블 전체 위에 한 번만 얹는다 (나뉜 칸과 상관없이 왼쪽부터) */
+.budget-gauge-part ~ .budget-gauge-segment-label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .budget-gauge-segment-label {
   position: relative;
   z-index: 1;
@@ -1406,6 +1425,8 @@ button.roster-slot-pill:hover {
   font-size: 10px;
   font-weight: 700;
   color: #fff;
+  /* 버블 안 세로선 위에 글씨가 얹혀도 잘 읽히게 */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

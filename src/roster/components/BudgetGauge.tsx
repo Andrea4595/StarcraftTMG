@@ -3,11 +3,28 @@ import type { RaceData, Roster, Rule } from '../../types'
 import { findUnit, groupedTacticalCards, sortedUnitEntries, unitEntryMineralCost } from '../rosterCalc'
 import { UNIT_TYPE_COLORS } from '../unitTypeColor'
 
+/** 게이지 버블 하나 = 같은 유닛(또는 같은 택티컬 카드) 묶음. parts는 묶음 안 항목 하나하나의 비용이고,
+ *  버블 안에서 그 비율대로 세로선으로 나뉜다 */
 export interface GaugeSegment {
   key: string
-  label: string
-  value: number
+  name: string
+  parts: number[]
   color: string
+}
+
+/** 같은 key끼리 처음 나온 자리에 묶는다 (순서는 처음 등장한 순서) */
+function groupSegments(items: { key: string; name: string; value: number; color: string }[]): GaugeSegment[] {
+  const groups = new Map<string, GaugeSegment>()
+  for (const item of items) {
+    const group = groups.get(item.key)
+    if (group) group.parts.push(item.value)
+    else groups.set(item.key, { key: item.key, name: item.name, parts: [item.value], color: item.color })
+  }
+  return [...groups.values()]
+}
+
+function segmentLabel(s: GaugeSegment): string {
+  return s.parts.length > 1 ? `${s.name} x${s.parts.length}` : s.name
 }
 
 const MINERAL_COLOR = '#5b9dff'
@@ -25,29 +42,26 @@ function mutedColor(hex: string): string {
   return `rgb(${r}, ${g}, ${b})`
 }
 
-/** 로스터 유닛 항목 하나당 한 칸. 로스터 화면과 같은 순서(타입 순)이고, 칸 색은 유닛 타입 색이다.
- *  비용이 0인 항목(자동 소환 유닛 등)은 칸을 만들지 않는다 */
+/** 같은 유닛끼리 버블 하나로 묶고, 그 안을 로스터 항목마다 비용 비율대로 나눈다. 로스터 화면과 같은
+ *  순서(타입 순)이고 색은 유닛 타입 색이다. 비용이 0인 항목(자동 소환 유닛 등)은 넣지 않는다 */
 export function mineralGaugeSegments(race: RaceData, roster: Roster, localize: (rule: Rule) => string): GaugeSegment[] {
-  return sortedUnitEntries(race, roster.units).flatMap((entry) => {
-    const unit = findUnit(race, entry.unitId)
-    if (!unit) return []
-    const value = unitEntryMineralCost(unit, entry)
-    if (value <= 0) return []
-    return [{ key: entry.id, label: localize(unit.name), value, color: UNIT_TYPE_COLORS[unit.type] }]
-  })
+  return groupSegments(
+    sortedUnitEntries(race, roster.units).flatMap((entry) => {
+      const unit = findUnit(race, entry.unitId)
+      if (!unit) return []
+      const value = unitEntryMineralCost(unit, entry)
+      if (value <= 0) return []
+      return [{ key: unit.id, name: localize(unit.name), value, color: UNIT_TYPE_COLORS[unit.type] }]
+    }),
+  )
 }
 
-/** 택티컬 카드 한 장당 한 칸 (같은 카드를 여러 장 넣으면 칸도 여러 개). 가스 비용이 없는 카드는 칸이 없다 */
+/** 같은 택티컬 카드끼리 버블 하나로 묶고 장마다 나눈다. 가스 비용이 없는 카드는 넣지 않는다 */
 export function gasGaugeSegments(race: RaceData, roster: Roster, localize: (rule: Rule) => string): GaugeSegment[] {
   return groupedTacticalCards(race, roster).flatMap(({ card, count }) => {
     const value = card.gasPts ?? 0
     if (value <= 0) return []
-    return Array.from({ length: count }, (_, i) => ({
-      key: `${card.id}#${i}`,
-      label: localize(card.name),
-      value,
-      color: GAS_COLOR,
-    }))
+    return [{ key: card.id, name: localize(card.name), parts: Array.from({ length: count }, () => value), color: GAS_COLOR }]
   })
 }
 
@@ -70,6 +84,7 @@ export function BudgetGauge({
   kind: 'mineral' | 'gas'
 }) {
   const over = total > cap
+  const sum = (parts: number[]) => parts.reduce((a, b) => a + b, 0)
   const scale = Math.max(cap, total, 1)
   const color = kind === 'mineral' ? MINERAL_COLOR : GAS_COLOR
   return (
@@ -81,16 +96,21 @@ export function BudgetGauge({
         </span>
       </div>
       <div className="budget-gauge-track">
-        {segments.map((s) => (
-          <div
-            key={s.key}
-            className="budget-gauge-segment"
-            style={{ flexGrow: s.value, background: mutedColor(s.color) }}
-            title={`${s.label} ${s.value}`}
-          >
-            <span className="budget-gauge-segment-label">{s.label}</span>
-          </div>
-        ))}
+        {segments.map((s) => {
+          const label = segmentLabel(s)
+          return (
+            <div
+              key={s.key}
+              className="budget-gauge-segment"
+              style={{ flexGrow: sum(s.parts), background: mutedColor(s.color) }}
+              title={`${label} · ${sum(s.parts)}`}
+            >
+              {s.parts.length > 1 &&
+                s.parts.map((value, i) => <div key={i} className="budget-gauge-part" style={{ flexGrow: value }} />)}
+              <span className="budget-gauge-segment-label">{label}</span>
+            </div>
+          )
+        })}
         {/* 남은 예산만큼 비워 두는 투명 칸. 칸 사이 간격이 있어도 비율이 어긋나지 않도록 폭을 flex-grow 비율로 나눈다 */}
         {scale > total && <div className="budget-gauge-rest" style={{ flexGrow: scale - total }} />}
         {over && <div className="budget-gauge-cap-line" style={{ left: `${(cap / scale) * 100}%` }} />}
