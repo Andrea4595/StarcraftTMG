@@ -170,11 +170,11 @@ export const infestedMarine: UnitCard = {
       },
     },
     {
-      // 원본 화면에는 PTS 1, 'FOR Infested C-14 Rifle'로 표기돼 있다. 근접 무기가 사격 무기를 대체하는 건
-      // 말이 안 되고(사격 무기가 봉인돼 버린다) 기본 근접 무기는 Strike뿐이라 Strike 대체로 넣었다.
-      // PTS 1도 오기로 보이지만 확인 전까지 원문 값을 유지한다.
+      // 스페셜리스트를 제외한 해병 중 원하는 수만큼 C-14 소총 대신 이 근접 무기를 든다.
+      // PTS 1은 공식 앱 표기 그대로다.
       pts: 1,
-      forId: 'Strike',
+      forId: 'Infested C-14 Rifle',
+      perModel: true,
       ability: {
         kind: 'weapon',
         id: 'Wild Mutation',

@@ -50,9 +50,10 @@ export const reaver: UnitCard = {
       phase: 'Movement',
       type: 'Active',
       cost: 2,
+      enhances: ['Scarab'],
       rule: {
         en: "This Unit's Scarab Special Ability can be used this Round even if it was already used.",
-        ko: '이 라운드에 이 유닛의 스캐럽 특수능력을 이미 사용했더라도 다시 사용할 수 있다.',
+        ko: '이 유닛의 스캐럽 특수능력을 이미 사용했더라도, 이번 라운드에 사용할 수 있다.',
       },
     },
     {

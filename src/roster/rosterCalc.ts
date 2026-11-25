@@ -25,6 +25,7 @@ import { TOKENS } from '../data/tokens'
 import { formatScaledCost, resolveScaledCost } from '../components/card/costDisplay'
 import { keywordEntryForName, stripKeywordPlaceholder } from '../components/card/keywordHighlight'
 import { localizeTag, localizeTagWordsInText } from '../components/card/tagLabels'
+import { forLabelWithScope, isPartialWeaponUpgrade, upgradeSealsBaseWeapon } from '../components/card/upgradeRules'
 import { makeId } from './makeId'
 import type { AbilitySelectionRef, UpgradeToggleRef, WeaponSummaryEntry, WeaponTone } from './components/AbilityChipsRow'
 
@@ -306,13 +307,19 @@ export function unitEquippedUpgrades(unit: UnitCard, entry: RosterUnitEntry): Up
 /**
  * 이 업그레이드와 같은 무기(forId)를 대체하는 다른 무기 업그레이드들의 인덱스. 하나를 켜면 이들은
  * 자동으로 꺼져야 한다 — 같은 기본 무기를 두 번 대체할 수는 없다.
+ * 단, 일부 모델만 쓰는 무기 업그레이드(SPECIALIST, 원하는 모델만)끼리는 서로 배타적이지 않다. 서로 다른
+ * 모델에게 하나씩 쥐여줄 수 있기 때문이다 (예: 감염된 해병의 감염된 미사일 발사기 2종과 야생 변이).
  */
 export function upgradeExclusiveWith(unit: UnitCard, index: number): number[] {
   const target = unit.upgrades[index]
   if (!target || target.ability.kind !== 'weapon' || !target.forId) return []
   return unit.upgrades
     .map((_, i) => i)
-    .filter((i) => i !== index && unit.upgrades[i].ability.kind === 'weapon' && unit.upgrades[i].forId === target.forId)
+    .filter((i) => {
+      const other = unit.upgrades[i]
+      if (i === index || other.ability.kind !== 'weapon' || other.forId !== target.forId) return false
+      return !(isPartialWeaponUpgrade(target) && isPartialWeaponUpgrade(other))
+    })
 }
 
 export function unitEntryMineralCost(unit: UnitCard, entry: RosterUnitEntry): number {
@@ -501,13 +508,7 @@ function unitActiveAbilitiesTagged(unit: UnitCard, entry: RosterUnitEntry): { ab
     .map((i) => unit.upgrades[i])
     .filter((u): u is UnitCard['upgrades'][number] => u !== undefined)
 
-  const sealedIds = new Set<string>()
-  for (const upgrade of activeUpgrades) {
-    if (!upgrade.forId || upgrade.ability.kind !== 'weapon') continue
-    const isSpecialist = upgrade.ability.stat.keyword.some((k) => k.name === 'SPECIALIST')
-    if (isSpecialist) continue
-    sealedIds.add(upgrade.forId)
-  }
+  const sealedIds = sealedWeaponIds(unit, entry.upgradeIndexes)
 
   const baseAbilities = unit.abilities.filter((a) => !sealedIds.has(a.id)).map((ability) => ({ ability, isUpgrade: false }))
   const upgradeAbilities = activeUpgrades.map((u) => ({ ability: u.ability, isUpgrade: true }))
@@ -527,15 +528,15 @@ export function unitForLabelResolver(
   unit: UnitCard,
   localize: (rule: Rule) => string,
 ): (ability: Ability) => string | undefined {
-  const forIdByAbility = new Map<Ability, string>()
+  const upgradeByAbility = new Map<Ability, Upgrade>()
   for (const upgrade of unit.upgrades) {
-    if (upgrade.forId) forIdByAbility.set(upgrade.ability, upgrade.forId)
+    if (upgrade.forId) upgradeByAbility.set(upgrade.ability, upgrade)
   }
   return (ability) => {
-    const forId = forIdByAbility.get(ability)
-    if (!forId) return undefined
-    const found = unit.abilities.find((a) => a.id === forId)
-    return found ? localize(found.name) : forId
+    const upgrade = upgradeByAbility.get(ability)
+    if (!upgrade?.forId) return undefined
+    const found = unit.abilities.find((a) => a.id === upgrade.forId)
+    return forLabelWithScope(found ? localize(found.name) : upgrade.forId, upgrade, localize)
   }
 }
 
@@ -594,18 +595,14 @@ export function abilitySelectionRefFor(
  * 넘긴 목록에서도 이 함수를 그대로 쓸 수 있도록 하기 위해서다.
  */
 /**
- * 지금 활성화된 업그레이드가 대체(봉인)하는 기본 무기 id들. SPECIALIST 키워드가 붙은 업그레이드
- * 무기는 유닛의 모델 중 하나만 사용하는 것이라, 나머지 모델은 여전히 원래 무기를 쓰므로 원본을
- * 봉인하지 않는다.
+ * 지금 활성화된 업그레이드가 대체(봉인)하는 기본 무기 id들. 일부 모델만 쓰는 무기 업그레이드
+ * (SPECIALIST, 원하는 모델만)는 나머지 모델이 여전히 원래 무기를 쓰므로 원본을 봉인하지 않는다.
  */
 function sealedWeaponIds(unit: UnitCard, activeIndexes: number[]): Set<string> {
   const sealed = new Set<string>()
   for (const i of activeIndexes) {
     const upgrade = unit.upgrades[i]
-    if (!upgrade?.forId || upgrade.ability.kind !== 'weapon') continue
-    const isSpecialist = upgrade.ability.stat.keyword.some((k) => k.name === 'SPECIALIST')
-    if (isSpecialist) continue
-    sealed.add(upgrade.forId)
+    if (upgrade?.forId && upgradeSealsBaseWeapon(upgrade)) sealed.add(upgrade.forId)
   }
   return sealed
 }

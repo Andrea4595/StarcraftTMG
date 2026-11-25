@@ -138,6 +138,12 @@ export interface Upgrade {
   pts: SquadScaledCost
   /** 이 업그레이드가 대체/강화하는 기본 무기·능력의 id. 없으면 undefined ('FOR -') */
   forId?: string
+  /**
+   * forId 무기를 유닛 전체가 아니라 원하는 수의 모델만 골라 대체하는 무기 업그레이드면 true.
+   * 켜도 원래 무기를 봉인하지 않고(나머지 모델은 계속 사용) FOR 표기에 '원하는 모델만'을 붙인다.
+   * 몇 명이 바꿀지는 앱에서 추적하지 않는다. 예: 감염된 해병의 야생 변이
+   */
+  perModel?: boolean
 }
 
 interface CardBase {

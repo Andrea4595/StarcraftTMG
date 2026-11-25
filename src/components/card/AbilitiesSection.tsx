@@ -7,6 +7,7 @@ import { useLocalize } from '../../LangContext'
 import { abilityEnhancedBy, abilityEnhances, abilityResourceCost } from './abilityReferences'
 import type { RelatedAbilityTarget } from './RelatedAbilities'
 import { abilityActiveState } from '../../roster/rosterCalc'
+import { forLabelWithScope, upgradeSealsBaseWeapon } from './upgradeRules'
 
 export interface UpgradeToggleState {
   /** 비용 계산 기준이 되는 현재 선택된 스쿼드 등급 */
@@ -116,18 +117,21 @@ export function AbilitiesSection({
 
   /**
    * 현재 활성화된 업그레이드가 대체(봉인)하는 기본 무기 id들.
-   * SPECIALIST 키워드가 붙은 업그레이드 무기는 유닛의 모델 중 하나만 사용하는 것이라, 나머지 모델은
-   * 여전히 원래 무기를 쓰므로 원본을 봉인하지 않는다.
+   * 일부 모델만 쓰는 무기 업그레이드(SPECIALIST, 원하는 모델만)는 나머지 모델이 여전히 원래 무기를
+   * 쓰므로 원본을 봉인하지 않는다.
    */
   const sealedWeaponIds = new Set<string>()
   if (upgradeToggle) {
     for (const index of upgradeToggle.activeIndexes) {
       const upgrade = upgrades[index]
-      if (!upgrade?.forId || upgrade.ability.kind !== 'weapon') continue
-      const isSpecialist = upgrade.ability.stat.keyword.some((k) => k.name === 'SPECIALIST')
-      if (isSpecialist) continue
-      sealedWeaponIds.add(upgrade.forId)
+      if (upgrade?.forId && upgradeSealsBaseWeapon(upgrade)) sealedWeaponIds.add(upgrade.forId)
     }
+  }
+
+  /** 업그레이드 FOR 표기. '원하는 모델만' 업그레이드면 범위를 덧붙인다 */
+  const upgradeForName = (upgrade: Upgrade): string | undefined => {
+    const name = resolveForName(upgrade.forId)
+    return name === undefined ? undefined : forLabelWithScope(name, upgrade, localize)
   }
 
   return (
@@ -156,7 +160,7 @@ export function AbilitiesSection({
                     }
                     return {
                       weapon: e.upgrade.ability as WeaponProfile,
-                      for: resolveForName(e.upgrade.forId),
+                      for: upgradeForName(e.upgrade),
                       ptsLabel: ptsLabelFor(e.upgrade),
                       interactive: interactiveFor(e.index),
                       referencedBy: showRelated
@@ -182,7 +186,7 @@ export function AbilitiesSection({
                     key={i}
                     ability={ability}
                     resourceLabel={resourceLabel}
-                    forWeapon={resolveForName(e.upgrade.forId)}
+                    forWeapon={upgradeForName(e.upgrade)}
                     ptsLabel={ptsLabelFor(e.upgrade)}
                     interactive={interactiveFor(e.index)}
                     relatedTo={showRelated ? relatedTargets(abilityEnhances(allAbilities, ability)) : undefined}
