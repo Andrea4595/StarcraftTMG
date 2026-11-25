@@ -1479,10 +1479,10 @@ button.roster-slot-pill:hover {
   gap: 10px;
 }
 
-/* 간소화 출력은 시트 폭이 좁아(420px) 칸 이름을 평소(10px)의 60%로 줄여 더 많은 이름이 칸 안에 들어가게 한다 */
+/* 간소화 출력은 시트 폭이 좁아(420px) 칸 이름을 평소(10px)보다 작게 줄여 더 많은 이름이 칸 안에 들어가게 한다 */
 .roster-export-gauges .budget-gauge-segment-label {
-  font-size: 6px;
-  padding: 0 3px;
+  font-size: 8px;
+  padding: 0 4px;
 }
 
 .roster-export-gauge-row {
