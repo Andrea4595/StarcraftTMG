@@ -21,13 +21,13 @@ export const kerrigan: UnitCard = {
     {
       kind: 'rule',
       id: 'Commander',
-      name: { en: 'Commander', ko: '지휘관' },
+      name: { en: 'Commander', ko: '사령관' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: "Treat this Unit's Supply characteristic as increased by 1 for Controlling and Contesting Mission Markers, completing objectives, and resolving Disengage checks.",
-        ko: '이 유닛이 미션 마커를 경쟁할 때, 점령할 때, 이탈, 미션의 목표달성을 계산할 때 서플라이 값을 1 높은 걸로 친다.',
+        ko: '임무 마커를 점령하거나 이를 두고 경합할 때, 목표를 완료할 때, 그리고 이탈 판정을 해결할 때 이 유닛의 인구수는 1 증가한 것으로 간주합니다.',
       },
     },
     {
@@ -39,7 +39,7 @@ export const kerrigan: UnitCard = {
       cost: 1,
       rule: {
         en: 'Select one Enemy Unit Within 12". That Unit counts as Activated in this Phase (set an Activation Marker next to it).',
-        ko: '12" 안의 적 유닛을 고른다. 그 유닛은 이 페이즈에 활성화한 것으로 친다. (활성화 마커를 옆에 둔다.)',
+        ko: '12인치 이내의 적 유닛 1개를 선택합니다. 해당 유닛은 이번 단계에서 이미 활성화된 것으로 간주합니다(그 유닛 옆에 활성화 마커를 놓습니다).',
       },
       simulatorFeature: { kind: 'targetOne', side: 'enemy', range: 12 },
     },
@@ -52,7 +52,7 @@ export const kerrigan: UnitCard = {
       cost: 1,
       rule: {
         en: 'Select one Enemy Unit Within 18". This Unit is eligible to make an Evade Roll against all attacks made by the selected Enemy Unit, with a +2 Modifier applied to those Evade Rolls.',
-        ko: '18" 이내의 적 유닛을 하나 고른다. 이 유닛이 그 적 유닛의 공격 목표가 될 때 회피 롤을 할 수 있다. 그 굴림에서 +2를 얻는다.',
+        ko: '18인치 이내의 적 유닛 1개를 선택합니다. 이 유닛은 선택된 적 유닛이 수행하는 모든 공격에 대해 회피 굴림을 할 수 있으며, 해당 회피 굴림에 +2 수정치를 받습니다.',
       },
       simulatorFeature: { kind: 'targetOne', side: 'enemy', range: 18 },
     },
@@ -81,7 +81,7 @@ export const kerrigan: UnitCard = {
       cost: 1,
       rule: {
         en: 'If Unengaged, resolve the PLACE (6) effect.',
-        ko: '만약 인게이지 상태가 아니라면, 위치(6)한다.',
+        ko: '이 유닛이 교전 중이 아니라면 배치(6) 효과를 수행합니다.',
       },
       simulatorFeature: { kind: 'selfMove', range: 6 },
     },
@@ -94,7 +94,7 @@ export const kerrigan: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (4) 4+ effect.',
-        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 임팩트(4)를 4+로 입힌다.',
+        ko: '이 유닛이 돌격에 성공한 직후, 충격(4) 4+ 효과를 수행합니다.',
       },
     },
     {

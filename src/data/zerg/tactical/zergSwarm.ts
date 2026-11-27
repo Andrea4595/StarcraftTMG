@@ -22,7 +22,7 @@ export const zergSwarm: TacticalCard = {
       cost: 0,
       rule: {
         en: 'Use before a Friendly Unit makes an Evade Roll. Apply a +1 Modifier to that roll.',
-        ko: '아군 유닛이 회피 롤을 할 때 그 굴림에 +1',
+        ko: '아군 유닛이 회피 굴림을 수행하기 전에 사용합니다. 해당 굴림에 +1 수정치를 적용합니다.',
       },
     },
     {
@@ -34,7 +34,7 @@ export const zergSwarm: TacticalCard = {
       cost: 0,
       rule: {
         en: 'During Army Building, select exactly one Creep Card and add it to their Army List, paying its listed cost (if any).',
-        ko: '아미 구성 시, 점막 카드 중 하나를 선택해 아미에 넣는다. (그 카드가 자원을 소모한다면 그만큼 소모한다)',
+        ko: '병력 편성 중, 점막 카드 1장을 반드시 선택하여 병력 목록에 추가해야 하며, 명시된 비용이 있다면 해당 비용을 지불해야 합니다.',
       },
     },
     {
@@ -46,7 +46,7 @@ export const zergSwarm: TacticalCard = {
       cost: 0,
       rule: {
         en: 'Select one Friendly, Unengaged Ground Zerg Unit on the battlefield. That Unit gains the Burrowed Status, even if it has already been Activated this Round.',
-        ko: '인게이지 상태가 아닌 아군 지상 저그 유닛을 하나 고른다. 그 유닛은 잠복 상태를 얻는다. 그 유닛이 이번 라운드에서 이미 활성화 되었다더라도 대상이 될 수 있다.',
+        ko: '전장에 있는 교전 중이 아닌 아군 저그 지상 유닛 1개를 선택합니다. 해당 유닛은 이번 라운드에 이미 활성화되었더라도 잠복 상태를 얻습니다.',
       },
     },
   ],

@@ -18,7 +18,7 @@ export const hydraliskDen: TacticalCard = {
       cost: 0,
       rule: {
         en: "The active Unit's first Ranged Weapon used gains PRECISION (1).",
-        ko: '활성화 중인 유닛이 처음으로 사용하는 사격은 프리시전(1)을 얻는다.',
+        ko: '활성화된 유닛이 이번 단계에서 처음 사용하는 원거리 무기는 정밀(1) 특성을 얻습니다.',
       },
     },
   ],

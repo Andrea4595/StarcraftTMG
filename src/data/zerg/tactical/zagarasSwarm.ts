@@ -23,7 +23,7 @@ export const zagarasSwarm: TacticalCard = {
       cost: 0,
       rule: {
         en: 'Use when an Enemy Unit declares a Close Combat Attack against a Friendly Unit. That Friendly Unit becomes eligible to make an Evade Roll against that attack.',
-        ko: '적 유닛이 아군 유닛에게 근접 공격을 선언할 때 사용한다. 그 아군 유닛은 그 공격에 대해 회피 롤을 할 수 있다.',
+        ko: '적 유닛이 아군 유닛을 대상으로 근접전 공격을 선언할 때 사용합니다. 해당 아군 유닛은 그 공격에 대해 회피 굴림을 할 수 있습니다.',
       },
     },
     {
@@ -35,19 +35,19 @@ export const zagarasSwarm: TacticalCard = {
       cost: 0,
       rule: {
         en: 'During Army Building, select exactly one Creep Card and add it to their Army List, paying its listed cost (if any).',
-        ko: '아미 구성 시, 점막 카드 중 하나를 선택해 아미에 넣는다. (그 카드가 자원을 소모한다면 그만큼 소모한다)',
+        ko: '병력 편성 중, 점막 카드 1장을 반드시 선택하여 병력 목록에 추가해야 하며, 명시된 비용이 있다면 해당 비용을 지불해야 합니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Scourge Queen',
-      name: { en: 'Scourge Queen', ko: '재앙의 여왕' },
+      name: { en: 'Scourge Queen', ko: '갈귀 여왕' },
       phase: 'Combat',
       type: 'Active',
       cost: 0,
       rule: {
         en: 'If the active Unit contains more models than the combined number of models in all Engaged Enemy Units, its Close Combat Weapons gain INSTANT and PRECISION (4).',
-        ko: '활성화된 유닛의 모델 수가 그 유닛과 인게이지된 모든 적 유닛의 모델 수 합보다 많다면, 그 유닛의 근접 무기는 인스턴트와 프리시전(4)을 얻는다.',
+        ko: '활성화된 유닛의 모형 수가 자신과 교전 중인 모든 적 유닛의 모형 수 합계보다 많다면, 해당 유닛의 근접전 무기는 반응 불가와 정밀(4)을 얻습니다.',
       },
     },
   ],

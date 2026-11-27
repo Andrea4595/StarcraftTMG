@@ -12,13 +12,13 @@ export const roachWarren: TacticalCard = {
     {
       kind: 'rule',
       id: 'Nasty Surprise',
-      name: { en: 'Nasty Surprise', ko: '기습' },
+      name: { en: 'Nasty Surprise', ko: '깜짝 선물' },
       phase: 'Assault',
       type: 'Active',
       cost: 0,
       rule: {
         en: 'The active Ground Unit loses the Burrowed Status.',
-        ko: '활성화된 지상유닛이 잠복 상태를 잃는다.',
+        ko: '활성화된 지상 유닛은 잠복 상태를 잃습니다.',
       },
     },
   ],

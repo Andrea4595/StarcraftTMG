@@ -18,19 +18,19 @@ export const evolutionChamber: TacticalCard = {
       cost: 0,
       rule: {
         en: 'Use before a Friendly Unit makes an Armour Roll. That Unit gains TOUGH (1) for this roll.',
-        ko: '아군 유닛이 아머 롤을 할 때 사용 가능하다. 그 유닛에게 터프(1)를 준다.',
+        ko: '아군 유닛이 방어 굴림을 수행하기 전에 사용합니다. 해당 굴림 동안 그 유닛은 강인함(1) 특성을 얻습니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Extended Claws',
-      name: { en: 'Extended Claws', ko: '발톱 강화' },
+      name: { en: 'Extended Claws', ko: '펼쳐진 발톱' },
       phase: 'Assault',
       type: 'Active',
       cost: 0,
       rule: {
         en: 'The active Unit gains a +1 Modifier to all IMPACT Hit Rolls.',
-        ko: '활성화된 아군 유닛이 임팩트 힛 롤을 할 때 +1',
+        ko: '활성화된 유닛은 모든 충격 명중 굴림에 +1 수정치를 얻습니다.',
       },
     },
   ],

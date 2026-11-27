@@ -30,7 +30,7 @@ export const roach: UnitCard = {
       cost: 2,
       rule: {
         en: 'If this Unit is Unengaged, it gains or loses the Burrowed Status.',
-        ko: '이 유닛이 인게이지 상태가 아니라면, 이 유닛이 잠복 상태를 잃거나, 얻을 수 있다.',
+        ko: '이 유닛이 교전 중이 아니라면, 잠복 상태를 얻거나 제거합니다.',
       },
     },
     {
@@ -52,14 +52,14 @@ export const roach: UnitCard = {
     {
       kind: 'rule',
       id: 'Regeneration',
-      name: { en: 'Regeneration', ko: '재생' },
+      name: { en: 'Regeneration', ko: '재생력' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
       enhances: ['Burrow'],
       rule: {
         en: 'When this Unit becomes Activated, if it has the Burrowed Status, resolve the HEAL (2) effect.',
-        ko: '이 유닛이 활성화될 때 잠복 상태라면, 치유(2)한다.',
+        ko: '이 유닛이 활성화될 때, 잠복 상태라면 치유(2) 효과를 수행합니다.',
       },
     },
     {
@@ -71,7 +71,7 @@ export const roach: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (2) 4+ effect.',
-        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 임팩트(2)를 4+로 입힌다.',
+        ko: '이 유닛이 돌격에 성공한 직후, 충격(2) 4+ 효과를 수행합니다.',
       },
     },
     {
@@ -104,7 +104,7 @@ export const roach: UnitCard = {
         enhances: ['Burrow'],
         rule: {
           en: "While this Unit has the Burrowed Status, it may perform the Move and Run actions without losing that Status. It may also move through other Units' bases.",
-          ko: '이 유닛이 잠복 상태일 때, 이동과 질주를 해도 잠복 상태를 잃지 않는다. 또한 이렇게 이동할 때 다른 유닛의 베이스를 존재하지 않는 것처럼 통과해 이동할 수 있다.',
+          ko: '이 유닛이 잠복 상태인 동안, 해당 상태를 잃지 않고 이동 및 질주 행동을 수행할 수 있습니다. 또한 다른 유닛의 베이스를 통과해 이동할 수 있습니다.',
         },
       },
     },
@@ -119,7 +119,7 @@ export const roach: UnitCard = {
         cost: 0,
         rule: {
           en: "When this Unit is nominated to deploy from the Reserves, it may resolve the PLACE (18) effect from the controlling player's Entry Edge. No model may be set Within 10\" of any Enemy model. This Unit's Activation ends.",
-          ko: '이 유닛이 리저브에서 나올 때, 조종하는 플레이어의 엔트리 엣지에서 위치(18)를 적용해 배치될 수 있다. 10" 이내에 다른 적 유닛이 없어야 하며, 이렇게 배치된 후에는 이 유닛의 활성화가 종료된다.',
+          ko: '이 유닛이 예비 병력에서 전개 대상으로 지정되면, 조종 플레이어의 진입 경계로부터 배치(18) 효과를 수행할 수 있습니다. 어떠한 모형도 적 모형의 10인치 이내에 놓을 수 없습니다. 이 유닛의 활성화는 종료됩니다.',
         },
       },
     },
@@ -134,7 +134,7 @@ export const roach: UnitCard = {
         cost: 1,
         rule: {
           en: 'This Unit gains BUFF SPEED (1), or BUFF SPEED (2) if the Unit is ON CREEP.',
-          ko: '이 유닛이 버프 스피드(1)을 얻는다. 점막 위라면 대신 버프 스피드(2)를 얻는다.',
+          ko: '이 유닛은 속도(1) 강화를 얻습니다. 만약 이 유닛이 점막 위에 있다면 대신 속도(2) 강화를 얻습니다.',
         },
       },
     },
@@ -150,7 +150,7 @@ export const roach: UnitCard = {
         enhances: ['Acid Saliva'],
         rule: {
           en: "This Unit's Acid Saliva weapon gains Surge Type: Light, and S Dice: D3+1.",
-          ko: '이 유닛의 산성 타액은 서지 타입: 경장갑과 S DICE: D3+1을 얻는다.',
+          ko: '이 유닛의 산성 타액 무기는 상성 유형: 경장갑, 그리고 상성 주사위: D3+1을 얻습니다.',
         },
       },
     },

@@ -23,20 +23,20 @@ export const hive: TacticalCard = {
       // 원문의 'a Friendly, Ground Unit' 쉼표는 카드 표기 그대로 둔다
       rule: {
         en: 'Immediately after an Enemy Unit ends its Activation Within 12" of a Friendly, Ground Unit. That Friendly Unit gains or loses the BURROWED Status.',
-        ko: '적 유닛이 아군 지상 유닛의 12" 이내에서 활성화를 마친 직후 사용한다. 그 아군 유닛은 잠복 상태를 얻거나 잃는다.',
+        ko: '적 유닛이 아군 지상 유닛의 12인치 이내에서 활성화를 끝낸 직후 사용합니다. 해당 아군 유닛은 잠복 상태를 얻거나 잃습니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Creep Spread',
-      name: { en: 'Creep Spread', ko: '점막 살포' },
+      name: { en: 'Creep Spread', ko: '점막 확산' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
       placesTokenId: 'Creep Tumor',
       rule: {
         en: 'Set a Creep Tumor token on the battlefield Within 6" (Line of Sight is not required) of either a Friendly Entry Edge or an existing Friendly Creep Tumor token.',
-        ko: '이미 배치된 점막 종양이나, 아군 엔트리 엣지의 6" 이내에 점막 종양 토큰을 둔다. 이 배치에 시야는 불필요하다.',
+        ko: '전장에 점막 종양 토큰 1개를 놓습니다. 해당 토큰은 아군 진입 경계 또는 기존 아군 점막 종양 토큰 중 하나의 6인치 이내에 배치되어야 합니다(시야는 필요하지 않습니다).',
       },
       simulatorFeature: {
         kind: 'placeToken',
