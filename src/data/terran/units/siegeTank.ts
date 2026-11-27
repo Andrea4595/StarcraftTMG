@@ -27,7 +27,7 @@ export const siegeTank: UnitCard = {
       type: 'Passive',
       cost: 0,
       rule: {
-        en: "When this Unit's Leading Model moves, it cannot pass through physical gaps smaller than 3\" wide, regardless of its size. If the Leading Model's path of travel passes through, or any model in this Unit ends its movement on a Size 0 or Size 1 Impassable Terrain piece during any movement action, that terrain piece is immediately removed from the game.",
+        en: "When this Unit's Leading Model moves, it cannot pass through physical gaps smaller than 3\" wide, regardless of its size. If the Leading Model's path of travel passes through, or any model in this Unit ends its movement on a Size 0 or Size 1 Impassable Terrain piece (excluding Tokens) during any movement action, that terrain piece is immediately removed from the game.",
         ko: '이 유닛의 대표 모형이 이동할 때, 자신의 크기와 관계없이 폭이 3인치 미만인 물리적 틈새를 통과할 수 없습니다. 대표 모형의 이동 경로가 크기 0 또는 크기 1의 통과 불가 지형 기물을 통과하거나, 어떤 이동 행동 중 이 유닛의 모형이 그러한 지형 기물 위에서 이동을 종료한다면, 해당 지형 기물을 즉시 게임에서 제거합니다. 토큰은 제외합니다.',
       },
     },
@@ -39,7 +39,7 @@ export const siegeTank: UnitCard = {
       type: 'Passive',
       cost: 0,
       rule: {
-        en: 'Whenever this Unit resolves an Armour Roll, it gains TOUGH (1), provided it does not currently have the SIEGE MODE Status.',
+        en: 'When this Unit resolves an Armour Roll, it gains TOUGH (1), provided it does not currently have the SIEGE MODE Status.',
         ko: '이 유닛이 방어 굴림을 처리할 때, 현재 공성 모드 상태가 아니라면 강인함(1)을 얻습니다.',
       },
     },
@@ -188,7 +188,7 @@ export const siegeTank: UnitCard = {
         cost: 0,
         enhances: ['Shock Cannon'],
         rule: {
-          en: 'Once per Game. When this Unit has SIEGE MODE Status, its weapon gains PINPOINT and LOCKED IN (4).',
+          en: 'Once per Game. When this Unit declares a Ranged Attack action. If this Unit has SIEGE MODE Status, its weapon gains PINPOINT and LOCKED IN (4).',
           ko: '게임당 1회. 이 유닛이 원거리 공격 행동을 선언할 때 사용합니다. 이 유닛이 공성 모드 상태라면, 해당 무기는 저격과 정지 사격(4)을 얻습니다.',
         },
       },
@@ -204,7 +204,7 @@ export const siegeTank: UnitCard = {
         cost: 0,
         enhances: ['Shock Cannon'],
         rule: {
-          en: 'Once per Game. When this Unit has SIEGE MODE Status, its weapon gains INDIRECT FIRE and LONG RANGE (24).',
+          en: 'Once per Game. When this Unit declares a Ranged Attack action. If this Unit has SIEGE MODE Status, its weapon gains INDIRECT FIRE and LONG RANGE (24).',
           ko: '게임당 1회. 이 유닛이 원거리 공격 행동을 선언할 때 사용합니다. 이 유닛이 공성 모드 상태라면, 해당 무기는 곡사와 장거리 사격(24")을 얻습니다.',
         },
       },

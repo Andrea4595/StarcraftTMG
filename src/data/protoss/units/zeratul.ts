@@ -39,7 +39,7 @@ export const zeratul: UnitCard = {
       type: 'Reaction',
       cost: 1,
       rule: {
-        en: "REPEATABLE. Use when this Unit is selected as the target of an attack. This Unit's Evade characteristic is treated as 4+ against this attack.",
+        en: "REPEATABLE. Use when this Unit is selected as the target of an attack. This Unit's Evade characteristic is treated as 4+ against this attack and cannot be modified.",
         ko: '반복 가능. 이 유닛이 공격 대상이 됐을 때 사용합니다. 이번 공격에 대해 이 유닛의 회피 특성치는 4+로 취급되며 수정되지 않습니다.',
       },
     },
@@ -59,13 +59,13 @@ export const zeratul: UnitCard = {
     {
       kind: 'rule',
       id: 'Blink',
-      name: { en: 'Blink', ko: '공허 점멸' },
-      phase: 'Movement',
+      name: { en: 'Void Blink', ko: '공허 점멸' },
+      phase: 'Assault',
       type: 'Active',
       cost: 1,
       rule: {
-        en: 'Resolve the PLACE (6) effect. Models set by this effect cannot be set up Within the Engagement Range of any Enemy Unit.',
-        ko: '배치(6) 효과를 수행합니다. 이 효과로 배치되는 모형은 적 유닛의 교전 범위 안쪽에 놓일 수 없습니다.',
+        en: 'If Unengaged, resolve the PLACE (6) effect.',
+        ko: '이 유닛이 교전 중이 아니라면 배치(6) 효과를 수행합니다.',
       },
       simulatorFeature: { kind: 'selfMove', range: 6 },
     },
