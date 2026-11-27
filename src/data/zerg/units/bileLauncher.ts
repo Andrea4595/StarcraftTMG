@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const bileLauncher: UnitCard = {
   category: 'unit',
   id: 'Bile Launcher',
-  name: { en: 'Bile Launcher', ko: '담즙 발사기' },
+  name: { en: 'Bile Launcher', ko: '부패주둥이' },
   isUnique: true,
   wave: 3,
   type: 'Support',
