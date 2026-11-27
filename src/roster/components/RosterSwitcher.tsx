@@ -3,6 +3,7 @@ import type { RaceData, Roster } from '../../types'
 import { useRosterStore } from '../RosterContext'
 import { RACE_THEME_COLORS } from '../raceThemeColor'
 import { RosterExportButton } from './RosterExportButton'
+import { RosterShareButton } from './RosterShareButton'
 import { CreditButton } from './CreditButton'
 import { AuthButton } from './AuthButton'
 
@@ -65,6 +66,7 @@ export function RosterSwitcher({
       <div className="roster-switcher-actions">
         {race && roster && (
           <>
+            <RosterShareButton roster={roster} />
             <RosterExportButton race={race} roster={roster} />
             <button
               type="button"

@@ -29,6 +29,8 @@ function createEmptyRoster(name: string): Roster {
 
 type Action =
   | { type: 'createRoster'; name: string }
+  /** 공유 링크로 받은 로스터를 새 로스터로 추가하고 선택한다 */
+  | { type: 'importRoster'; roster: Roster }
   /** uid: 지금 로그인 중인 계정. 이미 동기화 기록이 있으면 그 계정이 우선한다 */
   | { type: 'deleteRoster'; rosterId: string; uid: string | null }
   | { type: 'renameRoster'; rosterId: string; name: string }
@@ -209,6 +211,13 @@ function reducer(state: State, action: Action): State {
   switch (action.type) {
     case 'createRoster': {
       const roster = createEmptyRoster(action.name)
+      return { ...state, rosters: [...state.rosters, roster], activeRosterId: roster.id }
+    }
+    case 'importRoster': {
+      const imported = action.roster
+      const race = RACES.find((r) => r.id === imported.raceId)
+      // 공유 이후 카드 데이터가 바뀌었을 수 있으니 자동 소환 유닛 개수를 지금 데이터 기준으로 다시 맞춘다
+      const roster = race ? pruneConsumedCards(race, syncSummonedUnits(race, imported)) : imported
       return { ...state, rosters: [...state.rosters, roster], activeRosterId: roster.id }
     }
     case 'deleteRoster': {
@@ -419,6 +428,7 @@ function reducer(state: State, action: Action): State {
 interface RosterStore extends State {
   activeRoster: Roster | undefined
   createRoster: (name: string) => void
+  importRoster: (roster: Roster) => void
   deleteRoster: (rosterId: string) => void
   renameRoster: (rosterId: string, name: string) => void
   selectRoster: (rosterId: string) => void
@@ -539,6 +549,7 @@ export function RosterProvider({ children }: { children: ReactNode }) {
     ...state,
     activeRoster: state.rosters.find((r) => r.id === state.activeRosterId),
     createRoster: (name) => dispatch({ type: 'createRoster', name }),
+    importRoster: (roster) => dispatch({ type: 'importRoster', roster }),
     deleteRoster: (rosterId) => dispatch({ type: 'deleteRoster', rosterId, uid }),
     renameRoster: (rosterId, name) => dispatch({ type: 'renameRoster', rosterId, name }),
     selectRoster: (rosterId) => dispatch({ type: 'selectRoster', rosterId }),

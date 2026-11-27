@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { RaceData } from '../types'
 import { useRosterStore } from './RosterContext'
 import { RosterSwitcher } from './components/RosterSwitcher'
@@ -7,6 +7,8 @@ import { GameReferencePage } from './components/GameReferencePage'
 import { AbilityDetailModal } from './components/AbilityDetailModal'
 import { WeaponSummaryModal } from './components/WeaponSummaryModal'
 import type { AbilitySelectionRef } from './components/AbilityChipsRow'
+import { Modal } from './components/Modal'
+import { clearShareHash, decodeSharedRoster, readShareHash } from './rosterShare'
 import './roster.css'
 
 export function RosterBuilderPage({ races }: { races: RaceData[] }) {
@@ -20,11 +22,42 @@ export function RosterBuilderPage({ races }: { races: RaceData[] }) {
    */
   const [abilityDetail, setAbilityDetail] = useState<AbilitySelectionRef | null>(null)
 
+  /** 공유 링크로 들어왔을 때 로스터를 추가한 결과 안내. ok=false면 실패 사유 */
+  const [importNotice, setImportNotice] = useState<{ ok: boolean; message: string } | null>(null)
+  const importHandledRef = useRef(false)
+
+  // 공유 링크(#share=...)로 열렸으면 그 로스터를 새로 추가한다. 해시는 바로 지워서 새로고침해도 다시 추가되지 않게 한다
+  useEffect(() => {
+    if (importHandledRef.current) return
+    importHandledRef.current = true
+    const encoded = readShareHash()
+    if (!encoded) return
+    clearShareHash()
+    decodeSharedRoster(encoded, races)
+      .then((shared) => {
+        store.importRoster(shared)
+        setImportNotice({ ok: true, message: `공유받은 '${shared.name}' 로스터를 추가했습니다.` })
+      })
+      .catch((err) => {
+        console.error(err)
+        setImportNotice({ ok: false, message: '공유 링크가 올바르지 않아 로스터를 추가하지 못했습니다.' })
+      })
+    // 앱을 처음 열 때 한 번만 확인한다
+  }, [])
+
   /** 다른 로스터로 전환하면 이전 로스터의 카드를 가리키던 상세 선택은 의미가 없어진다 */
   useEffect(() => {
     setReferenceOpen(false)
     setAbilityDetail(null)
   }, [roster?.id])
+
+  const importNoticeModal = importNotice && (
+    <Modal title="로스터 공유" onClose={() => setImportNotice(null)}>
+      <div className={`roster-export-status ${importNotice.ok ? '' : 'roster-export-status-error'}`}>
+        {importNotice.message}
+      </div>
+    </Modal>
+  )
 
   if (roster && race && referenceOpen) {
     return (
@@ -45,6 +78,8 @@ export function RosterBuilderPage({ races }: { races: RaceData[] }) {
           <RosterPanel races={races} race={race} roster={roster} onSelectAbility={setAbilityDetail} />
         </div>
       )}
+
+      {importNoticeModal}
 
       {roster && race && abilityDetail?.kind === 'ability' && (
         <AbilityDetailModal
