@@ -10,7 +10,7 @@ const TAG_LABELS_KO: Record<string, string> = {
   Light: '경장갑',
   All: '전체',
   Ground: '지상',
-  Flying: '비행',
+  Flying: '공중',
   Biological: '생체',
   Mechanical: '기계',
   Psionic: '사이오닉',
@@ -20,10 +20,11 @@ const TAG_LABELS_KO: Record<string, string> = {
   Nerazim: '네라짐',
   "Zagara's Swarm": '자가라의 군단',
   'Nova Covert Ops': '노바 비밀 작전',
-  'Templar Caste': '기사 계급',
+  'Templar Caste': '기사단 계급',
   Infested: '감염',
   "Tal'darim": '탈다림',
   "Stukov's Forces": '스투코프의 군대',
+  Status: '상태',
 }
 
 /** SurgeType/TargetType/유닛 태그처럼 Rule(en/ko 쌍)이 아니라 영문 상수 하나로 저장된 값을 번역한다.

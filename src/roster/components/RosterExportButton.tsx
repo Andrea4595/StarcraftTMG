@@ -113,20 +113,20 @@ export function RosterExportButton({ race, roster }: { race: RaceData; roster: R
             <button type="button" className="roster-export-choice-option" onClick={() => startExport('detailed')}>
               <span className="roster-export-choice-option-title">상세 로스터</span>
               <span className="roster-export-choice-option-desc">
-                포함된 모든 팩션/택티컬 카드와 유닛 카드의 상세 정보를 그대로 보여줍니다.
+                포함된 모든 진영/전술 카드와 유닛 카드의 상세 정보를 그대로 보여줍니다.
               </span>
             </button>
             <button type="button" className="roster-export-choice-option" onClick={() => startExport('simple')}>
               <span className="roster-export-choice-option-title">간소화 로스터</span>
               <span className="roster-export-choice-option-desc">
-                택티컬 카드 이름과, 유닛별로 선택한 업그레이드만 목록으로 보여줍니다.
+                전술 카드 이름과, 유닛별로 선택한 업그레이드만 목록으로 보여줍니다.
               </span>
             </button>
             <div className="roster-export-choice-row">
               <button type="button" className="roster-export-choice-option" onClick={downloadSimulatorData}>
                 <span className="roster-export-choice-option-title">시뮬레이터 연동 데이터</span>
                 <span className="roster-export-choice-option-desc">
-                  유닛의 스탯/태그/능력(무기 포함)/스쿼드 정보 전체, 베이스 크기(mm), 변위 여부, 범위 표시기 가이드라인, 배치되는 토큰, 팩션/택티컬 카드 정보를 JSON 파일로 내보냅니다.
+                  유닛의 특성/태그/능력(무기 포함)/스쿼드 정보 전체, 베이스 크기(mm), 위치 변환 여부, 범위 표시기 가이드라인, 배치되는 토큰, 진영/전술 카드 정보를 JSON 파일로 내보냅니다.
                 </span>
               </button>
               <button

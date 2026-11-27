@@ -19,7 +19,7 @@ export function upgradeSealsBaseWeapon(upgrade: Upgrade): boolean {
   return upgrade.forId !== undefined && upgrade.ability.kind === 'weapon' && !isPartialWeaponUpgrade(upgrade)
 }
 
-const PER_MODEL_SCOPE: Rule = { en: 'any models', ko: '원하는 모델만' }
+const PER_MODEL_SCOPE: Rule = { en: 'any models', ko: '원하는 모형만' }
 
 /** FOR 표기 뒤에 '원하는 모델만'을 덧붙인다 (perModel 업그레이드일 때만) */
 export function forLabelWithScope(forName: string, upgrade: Upgrade, localize: (rule: Rule) => string): string {

@@ -39,14 +39,14 @@ export function GameReferenceCardsView({
     <div className={`game-ref-cards ${hasCards && hasUnits ? 'game-ref-cards-split' : ''}`}>
       {/* 좁은 화면에서 비어 있는 탭을 골랐을 때 빈 화면 대신 안내 문구를 보여준다 (넓은 화면에서는 숨김) */}
       {!hasCards && tab === 'tactical' && (
-        <div className="game-ref-empty game-ref-narrow-only">선택한 택티컬 카드가 없습니다.</div>
+        <div className="game-ref-empty game-ref-narrow-only">선택한 전술 카드가 없습니다.</div>
       )}
       {!hasUnits && tab === 'units' && (
         <div className="game-ref-empty game-ref-narrow-only">선택한 유닛이 없습니다.</div>
       )}
       {hasCards && (
         <section className={columnClass('tactical')}>
-          <div className="game-ref-section-title">택티컬 카드</div>
+          <div className="game-ref-section-title">전술 카드</div>
           <ul className="game-ref-list">
             {cardSlots.map(({ card, isFactionCard, key }) => {
               const consumed = isCardConsumed(roster, key)

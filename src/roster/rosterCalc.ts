@@ -706,8 +706,8 @@ export function unitAbilityChipEntries(unit: UnitCard, entry: RosterUnitEntry): 
 }
 
 /** 무기 종합 칩의 이름 앞에 붙는 라벨 */
-export const FIRE_LABEL: Rule = { en: 'Fire', ko: '사격' }
-export const MELEE_LABEL: Rule = { en: 'Melee', ko: '근접 공격' }
+export const FIRE_LABEL: Rule = { en: 'Fire', ko: '원거리전' }
+export const MELEE_LABEL: Rule = { en: 'Melee', ko: '근접전' }
 
 /**
  * 이 유닛이 가진 특정 phase의 무기 프로필을 모두 모아 '사격'/'근접 공격' 종합 칩에 쓸 형태로

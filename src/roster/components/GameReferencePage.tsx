@@ -101,7 +101,7 @@ export function GameReferencePage({
                 className={`game-ref-tab ${tab === 'tactical' ? 'game-ref-tab-active' : ''}`}
                 onClick={() => switchTab('tactical')}
               >
-                택티컬
+                전술
               </button>
               <button
                 type="button"
