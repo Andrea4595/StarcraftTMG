@@ -28,7 +28,7 @@ export const queen: UnitCard = {
       placesTokenId: 'Creep Tumor',
       rule: {
         en: 'Set a Creep Tumor token in base-to-base contact with this Unit.',
-        ko: '이 유닛과 베이스 접촉을 한 상태로 점막 종양을 둔다.',
+        ko: '이 유닛과 베이스 접촉 상태로 점막 종양 토큰 1개를 놓습니다.',
       },
       simulatorFeature: {
         kind: 'placeToken',
@@ -45,7 +45,7 @@ export const queen: UnitCard = {
       cost: 1,
       rule: {
         en: 'Use when another Friendly Biological Unit (including a Structure) suffers Damage Within 4". Reduce the Total Damage before allocation by 2.',
-        ko: '데미지를 입은 4" 이내의 아군 생체 유닛을 선택한다 (구조물을 포함한다). 가지고 있는 총 데미지를 2만큼 제거한다.',
+        ko: '4인치 이내에 들어온 다른 아군 생체 유닛(구조물 포함)이 피해를 받을 때 사용합니다. 피해 배분 전에 최종 피해를 2 감소시킵니다.',
       },
       simulatorFeature: { kind: 'targetOne', side: 'ally', range: 4 },
     },
@@ -58,7 +58,7 @@ export const queen: UnitCard = {
       cost: 1,
       rule: {
         en: 'Use when a Friendly Unit Within 4" receives a DEBUFF. Remove all DEBUFFS from it.',
-        ko: '디버프를 받게 된 4" 이내의 아군 유닛을 고른다. 해당 유닛이 받을 모든 디버프를 제거한다.',
+        ko: '4인치 이내의 아군 유닛이 약화 효과를 받을 때 사용합니다. 그 유닛의 모든 약화 효과를 제거합니다.',
       },
       simulatorFeature: { kind: 'targetOne', side: 'ally', range: 4 },
     },
@@ -71,7 +71,7 @@ export const queen: UnitCard = {
       cost: 0,
       rule: {
         en: 'Once per Round, if there are at least 7 Friendly models Within 6" of this Unit, it may resolve its Special Ability with the BM cost reduced by 1.',
-        ko: '라운드당 한 번, 이 유닛의 6" 이내에 아군 모델이 7모델 이상 있다면, BM을 소모하는 특수능력의 비용을 1 줄인다.',
+        ko: '라운드당 1회, 이 유닛의 6인치 이내에 최소 7기의 아군 모형이 있다면, 이 유닛은 BM 비용이 1 감소된 상태로 특수 능력을 처리할 수 있습니다.',
       },
     },
     {
@@ -115,7 +115,7 @@ export const queen: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (4) 3+ effect.',
-        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 임팩트(4)를 3+로 입힌다.',
+        ko: '이 유닛이 돌격에 성공한 직후, 충격(4) 3+ 효과를 수행합니다.',
       },
     },
     {
@@ -141,13 +141,13 @@ export const queen: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Creep Speed',
-        name: { en: 'Creep Speed', ko: '빠른 점막' },
+        name: { en: 'Creep Speed', ko: '점막 속도' },
         phase: 'Any',
         type: 'Passive',
         cost: 0,
         rule: {
           en: "While this Unit is ON CREEP, increase this Unit's Speed characteristic by 2.",
-          ko: '이 유닛이 점막 위에 있다면, 이 유닛의 스피드를 2 더한다.',
+          ko: '이 유닛이 점막 위에 있는 동안, 이 유닛의 속도 수치를 2 증가시킵니다.',
         },
       },
     },
@@ -156,13 +156,13 @@ export const queen: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Domineering Presence',
-        name: { en: 'Domineering Presence', ko: '지배적인 존재감' },
+        name: { en: 'Domineering Presence', ko: '압도적 존재감' },
         phase: 'Movement',
         type: 'Active',
         cost: 1,
         rule: {
           en: 'Select another Friendly Unit Within 6" (Line of Sight is not required). That Unit\'s Supply characteristic is increased by 1 for Controlling and Contesting Mission Markers and completing objectives.',
-          ko: '이 유닛의 6" 안에 있는 아군 유닛을 고른다 (시야는 필요로 하지 않는다). 그 유닛이 점령, 경쟁, 미션의 목표달성을 판정할 때 서플라이 값을 1 큰 걸로 친다.',
+          ko: '6인치 이내의 다른 아군 유닛 1개를 선택합니다(시야는 필요하지 않습니다). 해당 유닛은 임무 마커를 점령하거나 경합할 때, 또는 목표를 완료할 때 인구수 특성치가 1 증가한 것으로 간주합니다.',
         },
         simulatorFeature: { kind: 'targetOne', side: 'ally', range: 6 },
       },

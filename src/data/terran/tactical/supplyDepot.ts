@@ -16,13 +16,13 @@ export const supplyDepot: TacticalCard = {
     {
       kind: 'rule',
       id: 'Additional Supply Depots',
-      name: { en: 'Additional Supply Depots', ko: '추가 보급품' },
+      name: { en: 'Additional Supply Depots', ko: '추가 보급고' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
       rule: {
         en: "The active Unit's Supply Value is improved by 1 for Controlling and Contesting Mission Markers and completing objectives.",
-        ko: '활성화중인 유닛이 미션 마커를 제어, 경쟁, 점령, 목표 달성 조건 계산에서 서플라이 값을 1 증가시킨다.',
+        ko: '활성화된 유닛은 임무 마커를 점령하거나 이를 두고 경합할 때, 또는 목표를 완료할 때 인구수가 1 증가한 것으로 간주합니다.',
       },
     },
   ],

@@ -34,7 +34,9 @@ export function SquadTierSelector({
     <div className="roster-squad-tier-selector">
       {unit.squad.map((tier, i) => {
         const selectable = interactive && selectableIndexes.has(i)
-        const active = spawned === undefined && entry.squadTierIndex === i
+        // 로스터 편집 화면은 게임 레퍼런스의 스폰 기록과 상관없이 로스터 등급을 강조한다. 스폰 기록이 있을 때
+        // 로스터 등급 강조를 끄는 건 게임 레퍼런스(읽기 전용) 화면에서만이다
+        const active = entry.squadTierIndex === i && (interactive || spawned === undefined)
         const content = (
           <>
             <span className="roster-squad-tier-supply">

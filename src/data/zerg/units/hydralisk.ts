@@ -25,13 +25,13 @@ export const hydralisk: UnitCard = {
     {
       kind: 'rule',
       id: 'Squadron',
-      name: { en: 'Squadron', ko: '부대' },
+      name: { en: 'Squadron', ko: '분대' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: "This Unit's Horizontal Coherency is 4\".",
-        ko: '이 유닛의 코헤런시는 4"이다.',
+        ko: '이 유닛의 수평 대형은 4인치입니다.',
       },
     },
     {
@@ -59,7 +59,7 @@ export const hydralisk: UnitCard = {
       cost: 1,
       rule: {
         en: 'When another Friendly Unit Within 10" is the target of a Ranged Attack, after the attack is fully resolved, this Unit, if Unengaged, may perform a Move action Directly Towards the attacking Unit.',
-        ko: '다른 10" 이내에 있는 아군 유닛이 원거리 공격의 대상이 되었을 때, 그 공격이 완전히 처리된 후, 이 유닛이 인게이지 상태가 아닐 경우, 공격했던 유닛에게 곧바로 이동할 수 있다.',
+        ko: '10인치 이내의 다른 아군 유닛이 원거리 공격의 대상이 되었을 때, 해당 공격이 완전히 해결된 후 이 유닛이 교전 중이 아니라면 공격한 유닛을 향해 가까워지도록 이동 행동을 수행할 수 있습니다.',
       },
       // 실제 이동 목적지(공격한 유닛 위치)는 시뮬레이터가 도와줄 수 없어, 발동 조건인
       // "10" 이내 아군"을 확인하는 대상 지정으로 표현한다
@@ -88,13 +88,13 @@ export const hydralisk: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Ancillary Carapace',
-        name: { en: 'Ancillary Carapace', ko: '보조갑피' },
+        name: { en: 'Ancillary Carapace', ko: '보조 갑피' },
         phase: 'Any',
         type: 'Passive',
         cost: 0,
         rule: {
           en: 'This Unit gains TOUGH (1) on the first Armour Roll of each Activation.',
-          ko: '이 유닛은 각 활성화의 첫 아머 롤에서 터프(1)을 갖는다.',
+          ko: '이 유닛은 각 활성화마다 처음 수행하는 방어 굴림에서 강인함(1)을 얻습니다.',
         },
       },
     },
@@ -103,13 +103,13 @@ export const hydralisk: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Lurking',
-        name: { en: 'Lurking', ko: '숨기' },
+        name: { en: 'Lurking', ko: '매복' },
         phase: 'Any',
         type: 'Passive',
         cost: 0,
         rule: {
           en: 'If this Unit has Stationary Status, it is eligible to make an Evade Roll against the first Ranged Attack targeting it this Round. If this Unit is ON CREEP, it gains +1 Modifier to the Evade Roll.',
-          ko: '이 유닛이 정지 상태이면 이 라운드에서 받는 첫 사격에서 이 유닛이 회피 롤을 할 수 있다. 점막 위에 있다면 추가로 그 회피 롤에서 +1를 얻는다.',
+          ko: '이 유닛이 정지한 상태라면, 이번 라운드에 자신을 대상으로 하는 첫 번째 원거리 공격에 대해 회피 굴림을 할 수 있습니다. 이 유닛이 점막 위에 있다면, 해당 회피 굴림에 +1 수정치를 얻습니다.',
         },
       },
     },
@@ -124,7 +124,7 @@ export const hydralisk: UnitCard = {
         cost: 0,
         rule: {
           en: "When this Unit is nominated to deploy from the Reserves, it may resolve the PLACE (18) effect from the controlling player's Entry Edge. No model may be set Within 10\" of any Enemy model. This Unit's Activation ends.",
-          ko: '이 유닛이 리저브에서 나올 때, 조종하는 플레이어의 엔트리 엣지에서 배치(18)을 적용해 배치될 수 있다. 10" 이내에 다른 적 유닛이 없어야 하며, 이렇게 배치된 후에는 이 유닛의 활성화가 종료된다.',
+          ko: '이 유닛이 예비 병력에서 전개 대상으로 지정되면, 조종 플레이어의 진입 경계로부터 배치(18) 효과를 수행할 수 있습니다. 어떠한 모형도 적 모형의 10인치 이내에 놓을 수 없습니다. 이 유닛의 활성화는 종료됩니다.',
         },
       },
     },
@@ -140,7 +140,7 @@ export const hydralisk: UnitCard = {
         enhances: ['Needle Spines'],
         rule: {
           en: 'This Unit\'s Needle Spines ranged weapon gains LONG RANGE (16").',
-          ko: '이 유닛의 바늘 가시뼈는 롱 레인지(16")을 갖는다.',
+          ko: '이 유닛의 바늘 가시뼈 원거리 무기는 장거리 사격(16")을 얻습니다.',
         },
       },
     },

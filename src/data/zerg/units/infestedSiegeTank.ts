@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const infestedSiegeTank: UnitCard = {
   category: 'unit',
   id: 'Infested Siege Tank',
-  name: { en: 'Infested Siege Tank', ko: '감염된 공성 전차' },
+  name: { en: 'Infested Siege Tank', ko: '감염된 공성전차' },
   isUnique: false,
   wave: 4,
   type: 'Elite',
@@ -28,31 +28,31 @@ export const infestedSiegeTank: UnitCard = {
     {
       kind: 'rule',
       id: 'Large',
-      name: { en: 'Large', ko: '거구' },
+      name: { en: 'Large', ko: '거대' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: "When this Unit's Leading Model moves, it cannot pass through physical gaps smaller than 3\" wide, regardless of its size. If the Leading Model's path of travel passes through, or any model in this Unit ends its movement on a Size 0 or Size 1 Impassable Terrain piece (excluding Tokens) during any movement action, that terrain piece is immediately removed from the game.",
-        ko: '이 유닛의 리딩 모델이 이동할 때, 자신의 사이즈와 무관하게 폭 3" 미만의 틈새를 통과할 수 없다. 리딩 모델의 이동 경로가 사이즈 0이나 1의 통과 불가능한 지형(토큰 제외)을 통과하거나, 어떤 이동 액션 중에 이 유닛의 모델이 그 지형 위에서 이동을 마친다면, 그 지형은 즉시 게임에서 제거된다.',
+        ko: '이 유닛의 대표 모형이 이동할 때, 자신의 크기와 관계없이 폭이 3인치 미만인 물리적 틈새를 통과할 수 없습니다. 대표 모형의 이동 경로가 크기 0 또는 크기 1의 통과 불가 지형 기물을 통과하거나, 어떤 이동 행동 중 이 유닛의 모형이 그러한 지형 기물 위에서 이동을 종료한다면, 해당 지형 기물을 즉시 게임에서 제거합니다. 토큰은 제외합니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Heavy Plating',
-      name: { en: 'Heavy Plating', ko: '강화 장갑' },
+      name: { en: 'Heavy Plating', ko: '중장갑판' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'When this Unit resolves an Armour Roll, it gains TOUGH (1), provided it does not currently have the SIEGE MODE Status.',
-        ko: '이 유닛이 아머 롤을 할 때마다, 현재 공성모드 상태가 아니라면 터프(1)를 얻는다.',
+        ko: '이 유닛이 방어 굴림을 처리할 때, 현재 공성 모드 상태가 아니라면 강인함(1)을 얻습니다.',
       },
     },
     {
       kind: 'weapon',
       id: 'Twin Cannon',
-      name: { en: 'Twin Cannon', ko: '쌍열포' },
+      name: { en: 'Twin Cannon', ko: '90mm 포' },
       phase: 'Assault',
       stat: {
         rng: 12,
@@ -68,7 +68,7 @@ export const infestedSiegeTank: UnitCard = {
     {
       kind: 'weapon',
       id: 'Shock Cannon',
-      name: { en: 'Shock Cannon', ko: '충격포' },
+      name: { en: 'Shock Cannon', ko: '크루시오 충격포' },
       phase: 'Assault',
       stat: {
         rng: 18,
@@ -90,20 +90,20 @@ export const infestedSiegeTank: UnitCard = {
       cost: 0,
       rule: {
         en: 'While Engaged, this Unit may target and be targeted by Unengaged Enemy Units. In both cases, the defending Unit gains an Evade Roll against those attacks.',
-        ko: '인게이지 상태일 때에도 이 유닛은 인게이지되지 않은 적 유닛을 공격의 목표로 삼을 수 있다. 상대도 마찬가지로 이 유닛이 인게이지된 상태에서 공격의 대상으로 삼을 수 있다. 그럴 경우 공격의 대상이 된 유닛은 그 공격에 대해 회피 롤을 할 수 있다.',
+        ko: '교전 중인 동안, 이 유닛은 교전 중이 아닌 적 유닛을 대상으로 할 수 있으며, 교전 중이 아닌 적 유닛에게 대상으로 선택될 수 있습니다. 두 경우 모두, 방어 측 유닛은 해당 공격에 대해 회피 굴림을 할 수 있습니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Point Blank',
-      name: { en: 'Point Blank', ko: '사각지대' },
+      name: { en: 'Point Blank', ko: '영거리 사격' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
       enhances: ['Shock Cannon'],
       rule: {
         en: 'While this Unit has the SIEGE MODE Status, it cannot target Enemy Units it is Engaged with.',
-        ko: '이 유닛이 공성모드 상태일 때, 인게이지된 적 유닛을 공격 목표로 삼을 수 없다.',
+        ko: '이 유닛이 공성 모드 상태인 동안, 이 유닛과 교전 중인 적 유닛을 대상으로 지정할 수 없습니다.',
       },
     },
     {
@@ -116,7 +116,7 @@ export const infestedSiegeTank: UnitCard = {
       enhances: ['Shock Cannon'],
       rule: {
         en: 'When this Unit has the SIEGE MODE Status, its Damage characteristic is treated as equal to the Size characteristic of the current target Unit (to a minimum of 1).',
-        ko: '이 유닛이 공성모드 상태일 때, 데미지 특성치는 목표 유닛의 사이즈 특성치와 같은 것으로 취급한다 (최소 1).',
+        ko: '이 유닛이 공성 모드 상태라면, 이 유닛의 피해 특성치는 현재 대상 유닛의 크기 특성과 같은 값으로 취급합니다. 단, 최소 1입니다.',
       },
     },
     {
@@ -128,7 +128,7 @@ export const infestedSiegeTank: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (4) 3+ effect.',
-        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 임팩트(4)를 3+로 입힌다.',
+        ko: '이 유닛이 돌격에 성공한 직후, 충격(4) 3+ 효과를 수행합니다.',
       },
     },
     {
@@ -154,13 +154,13 @@ export const infestedSiegeTank: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Mode Transformation',
-        name: { en: 'Mode Transformation', ko: '모드 전환' },
+        name: { en: 'Mode Transformation', ko: '모드 변환' },
         phase: 'Movement',
         type: 'Active',
         cost: 1,
         rule: {
           en: 'The active Unit gains or loses the SIEGE MODE Status. While this Unit has the SIEGE MODE Status, its Size characteristic is treated as if it was 3.',
-          ko: '활성화된 유닛은 공성모드 상태를 얻거나 잃는다. 이 유닛이 공성모드 상태일 때, 사이즈 특성치는 3인 것으로 취급한다.',
+          ko: '활성화된 유닛은 공성 모드 상태를 얻거나 잃습니다. 이 유닛이 공성 모드 상태인 동안, 이 유닛의 크기 특성은 3으로 취급합니다.',
         },
       },
     },
@@ -169,14 +169,14 @@ export const infestedSiegeTank: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Coordinated Strike',
-        name: { en: 'Coordinated Strike', ko: '협조 사격' },
+        name: { en: 'Coordinated Strike', ko: '연계 타격' },
         phase: 'Movement',
         type: 'Active',
         cost: 0,
         enhances: ['Shock Cannon'],
         rule: {
           en: "Target a Friendly Non-Engaged Unit on the battlefield (Line of Sight is not required). When this Unit resolves a Ranged Attack using the Shock Cannon weapon profile this Round, it may choose to ignore the weapon's standard Range characteristic. If it does, it may target an Enemy Unit that is Within 8\" of, and Visible to, a model of the selected Friendly Unit, treating that model as the acting model.",
-          ko: '전장의 인게이지되지 않은 아군 유닛을 목표로 삼는다 (시야는 필요로 하지 않는다). 이 라운드에 이 유닛이 충격포 무기 프로필로 사격을 할 때, 그 무기의 기본 사거리 특성치를 무시하도록 선택할 수 있다. 그렇게 했다면, 선택된 아군 유닛의 한 모델로부터 8" 이내에 있고 그 모델의 시야가 확보된 적 유닛을 목표로 삼을 수 있으며, 그 모델을 공격을 가하는 모델로 취급한다.',
+          ko: '전장에 있는 교전 중이 아닌 아군 유닛 1개를 대상으로 지정합니다. 시야는 필요하지 않습니다. 이번 라운드에 이 유닛이 크루시오 충격포 무기 프로필을 사용하여 원거리 공격을 처리할 때, 해당 무기의 기본 사거리 특성치를 무시할 수 있습니다. 그렇게 한다면, 선택한 아군 유닛의 모형 하나의 8인치 범위에 들어오고, 그 모형에게 보이는 적 유닛을 대상으로 지정할 수 있습니다. 이때 해당 아군 모형을 행동하는 모형으로 취급합니다.',
         },
         // 원문에 아군 지정 사거리 제한이 없다(전장 전체). 지정한 아군 기준 8" 이내에서 실제 공격
         // 목표(적)를 고르는 2단계 능력이지만, 시뮬레이터 기능은 1단계(아군 지정)만 지원하면 된다.
@@ -188,14 +188,14 @@ export const infestedSiegeTank: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Shaped Blast',
-        name: { en: 'Shaped Blast', ko: '성형 폭발' },
+        name: { en: 'Shaped Blast', ko: '성형작약탄' },
         phase: 'Assault',
         type: 'Reaction',
         cost: 0,
         enhances: ['Shock Cannon'],
         rule: {
           en: 'Once per Game. When this Unit declares a Ranged Attack action. If this Unit has SIEGE MODE Status, its weapon gains PINPOINT and LOCKED IN (4).',
-          ko: '게임당 한번. 이 유닛이 사격 공격 액션을 선언할 때 사용한다. 이 유닛이 공성모드 상태라면, 이 유닛의 무기는 핀포인트와 록 인(4)을 얻는다.',
+          ko: '게임당 1회. 이 유닛이 원거리 공격 행동을 선언할 때 사용합니다. 이 유닛이 공성 모드 상태라면, 해당 무기는 저격과 정지 사격(4)을 얻습니다.',
         },
       },
     },
@@ -204,14 +204,14 @@ export const infestedSiegeTank: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Smart Shells',
-        name: { en: 'Smart Shells', ko: '유도 포탄' },
+        name: { en: 'Smart Shells', ko: '스마트 포탄' },
         phase: 'Assault',
         type: 'Reaction',
         cost: 0,
         enhances: ['Shock Cannon'],
         rule: {
           en: 'Once per Game. When this Unit declares a Ranged Attack action. If this Unit has SIEGE MODE Status, its weapon gains INDIRECT FIRE and LONG RANGE (24).',
-          ko: '게임당 한번. 이 유닛이 사격 공격 액션을 선언할 때 사용한다. 이 유닛이 공성모드 상태라면, 이 유닛의 무기는 인다이렉트 파이어와 롱 레인지(24)를 얻는다.',
+          ko: '게임당 1회. 이 유닛이 원거리 공격 행동을 선언할 때 사용합니다. 이 유닛이 공성 모드 상태라면, 해당 무기는 곡사와 장거리 사격(24")을 얻습니다.',
         },
       },
     },

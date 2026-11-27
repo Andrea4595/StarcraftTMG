@@ -18,7 +18,7 @@ export const spawningPool: TacticalCard = {
       cost: 0,
       rule: {
         en: "The active Unit's first Close Combat Weapon used gains PRECISION (2).",
-        ko: '활성화된 유닛이 처음으로 사용하는 근접 무기가 프리시전(2)를 얻는다.',
+        ko: '활성화된 유닛이 이번 단계에서 처음 사용하는 근접전 무기는 정밀(2) 특성을 얻습니다.',
       },
     },
   ],

@@ -32,13 +32,13 @@ export const marine: UnitCard = {
       enhances: ['C-14 Rifle', 'Strike', 'Bayonet'],
       rule: {
         en: 'This Unit suffers NON-LETHAL DAMAGE (2). This Unit gains BUFF Speed (3). Additionally, its C-14 Rifle and all Close Combat Weapons gain PRECISION (3).',
-        ko: '이 유닛은 논 리썰 데미지(2)를 받고 버프 스피드(3)를 받는다. 추가로 C-14 소총과 모든 근접무기가 프리시전(3)을 갖는다.',
+        ko: '이 유닛은 비살상 피해(2)를 받고, 속도(3) 강화를 얻습니다. 또한 이 유닛의 C-14 가우스 소총과 모든 근접전 무기는 정밀(3) 특성을 얻습니다.',
       },
     },
     {
       kind: 'weapon',
       id: 'C-14 Rifle',
-      name: { en: 'C-14 Rifle', ko: 'C-14 소총' },
+      name: { en: 'C-14 Rifle', ko: 'C-14 가우스 소총' },
       phase: 'Assault',
       stat: {
         rng: 12,
@@ -54,7 +54,7 @@ export const marine: UnitCard = {
     {
       kind: 'weapon',
       id: 'Strike',
-      name: { en: 'Strike', ko: '타격' },
+      name: { en: 'Strike', ko: '근접 타격' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -80,7 +80,7 @@ export const marine: UnitCard = {
         cost: 1,
         rule: {
           en: 'This Unit is always eligible to make an Evade Roll against any Close Combat Attack targeting it and any Damage from an Enemy Special Ability.',
-          ko: '적의 근접공격과 적의 특수능력으로 인해 발생하는 데미지에 대해 회피 롤을 할 수 있다.',
+          ko: '이 유닛은 자신을 대상으로 하는 모든 근접전 공격에 대해 항상 회피 굴림을 할 수 있으며, 적 특수 능력으로 받는 모든 피해를 회피 굴림할 수 있습니다.',
         },
       },
     },
@@ -90,7 +90,7 @@ export const marine: UnitCard = {
       ability: {
         kind: 'weapon',
         id: 'AGG-12',
-        name: { en: 'AGG-12', ko: 'AGG-12' },
+        name: { en: 'AGG-12', ko: 'AGG-12 유탄 발사기' },
         phase: 'Assault',
         stat: {
           rng: 12,
@@ -136,14 +136,14 @@ export const marine: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Slugthrower',
-        name: { en: 'Slugthrower', ko: '슬러그 쓰로워' },
+        name: { en: 'Slugthrower', ko: '화약 권총' },
         phase: 'Assault',
         type: 'Passive',
         cost: 0,
         enhances: ['C-14 Rifle'],
         rule: {
           en: 'When this Unit makes a Ranged Attack with a C-14 Rifle and the target is Within 8", that weapon gains ANTI-EVADE (1).',
-          ko: '이 유닛이 8" 이내의 적 유닛을 상대로 C-14 소총을 사용해 사격할 때, 그 무기에 안티-회피(1)을 준다.',
+          ko: '이 유닛이 C-14 가우스 소총으로 원거리 공격을 수행하고 대상이 8인치 이내에 있다면, 해당 무기는 회피 억제(1) 특성을 얻습니다.',
         },
       },
     },
@@ -152,14 +152,14 @@ export const marine: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Grenades - Frag',
-        name: { en: 'Grenades - Frag', ko: '분쇄 수류탄' },
+        name: { en: 'Grenades - Frag', ko: '파편 수류탄' },
         phase: 'Assault',
         type: 'Passive',
         cost: 0,
         enhances: ['C-14 Rifle'],
         rule: {
           en: "When this Unit makes a Ranged Attack with a C-14 Rifle and the target is Within 8\", that weapon's S Dice is replaced by D6.",
-          ko: '이 유닛이 8" 이내의 적 유닛을 상대로 C-14 소총을 사용해 사격을 할 때, 그 무기의 S Dice에 D6을 준다.',
+          ko: '이 유닛이 C-14 가우스 소총으로 원거리 공격을 수행하고 대상이 8인치 이내에 있다면, 해당 무기의 상성 주사위는 D6으로 대체됩니다.',
         },
       },
     },

@@ -33,7 +33,7 @@ export const TOKENS: TokenEntry[] = [
   },
   {
     id: 'Ravager Burrow',
-    name: { en: 'Ravager Burrow', ko: '궤멸충 땅굴' },
+    name: { en: 'Ravager Burrow', ko: '궤멸충 잠복' },
     base_mm: { width: 80, height: 80 },
     is_displacement: true,
   },
@@ -45,7 +45,7 @@ export const TOKENS: TokenEntry[] = [
   },
   {
     id: 'Faction Marker',
-    name: { en: 'Faction Marker', ko: '팩션 마커' },
+    name: { en: 'Faction Marker', ko: '진영 표시 마커' },
     base_mm: { width: 25, height: 25 },
     is_displacement: false,
   },
@@ -64,13 +64,13 @@ export const TOKENS: TokenEntry[] = [
   {
     // 5" 원형 블래스트 템플릿
     id: 'Plague Blast Template',
-    name: { en: 'Plague Blast Template', ko: '역병 블래스트 템플릿' },
+    name: { en: 'Plague Blast Template', ko: '역병 폭발 템플릿' },
     base_mm: { width: 127, height: 127 },
     is_displacement: false,
   },
   {
     id: 'Force Wall',
-    name: { en: 'Force Wall', ko: '역장 벽' },
+    name: { en: 'Force Wall', ko: '역장 방벽' },
     base_mm: { width: 40, height: 100 },
     is_displacement: false,
   },

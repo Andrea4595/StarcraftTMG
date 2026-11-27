@@ -38,19 +38,19 @@ export const infestedMissileTurret: UnitCard = {
       cost: 0,
       rule: {
         en: 'While Enemy Units are Within 8" of this Unit, they lose the HIDDEN Status.',
-        ko: '적 유닛은 이 유닛의 8" 안에 있는 동안 은폐 상태를 잃는다.',
+        ko: '이 유닛의 8인치 이내에 들어온 적 유닛은 은신 상태를 잃습니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Source of Creep',
-      name: { en: 'Source of Creep', ko: '점막 공급원' },
+      name: { en: 'Source of Creep', ko: '점막 생성원' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'A Friendly or Enemy Ground Zerg Unit Within 6" of this Unit, counts as being ON CREEP.',
-        ko: '다른 6" 이내에 있는 적과 아군의 지상 저그 유닛은 점막 위에 있는 것으로 친다.',
+        ko: '이 유닛의 6인치 이내에 들어온 아군 또는 적 지상 저그 유닛은 점막 위에 있는 것으로 간주합니다.',
       },
     },
     {
@@ -62,7 +62,7 @@ export const infestedMissileTurret: UnitCard = {
       cost: 0,
       rule: {
         en: 'When the Supply of an Enemy Unit with the INFESTATION Status is reduced to 0, or when that Unit is Destroyed, you can apply the INFESTATION Status to another Enemy Unit Within 8" of that Unit. For the purposes of resolving Special Abilities, this effect is treated as a DEBUFF.',
-        ko: '감염 상태인 적 유닛의 서플라이가 0이 되거나 그 유닛이 파괴되었을 때, 그 유닛의 8" 이내에 있는 다른 적 유닛에게 감염 상태를 부여할 수 있다. 특수능력을 처리할 때 이 효과는 디버프로 취급한다.',
+        ko: '감염 상태인 적 유닛의 인구수가 0으로 감소하거나 해당 유닛이 파괴될 때, 그 유닛의 8인치 이내에 있는 다른 적 유닛에게 감염 상태를 적용할 수 있습니다. 특수 능력을 처리할 때 이 효과는 약화 효과로 취급합니다.',
       },
     },
     {
@@ -74,7 +74,7 @@ export const infestedMissileTurret: UnitCard = {
       cost: 0,
       rule: {
         en: 'This Unit cannot be Activated in any Phase and cannot perform actions. Additionally, its Current Supply Value is treated as 0, and it can never Control or Contest Mission Markers, ignoring the standard Zero Supply Exception. This Unit cannot be a target of an ability, unless stated otherwise.',
-        ko: '이 유닛은 어떤 페이즈에도 활성화될 수 없고, 어떤 액션도 할 수 없다. 서플라이 값은 0으로 취급하지만 서플라이 값이 0인 유닛의 점령, 경쟁 규칙은 적용되지 않는다. 이 유닛은 점령이나 경쟁할 수 없고 다른 언급이 있지 않는 한 다른 능력의 대상이 될 수 없다.',
+        ko: '이 유닛은 어떤 단계에서도 활성화될 수 없으며 행동을 수행할 수 없습니다. 또한 현재 인구수는 0으로 간주되며, 일반적인 "보급 0 규칙"을 무시하고 임무 마커를 점령하거나 이를 두고 경합할 수 없습니다. 별도 언급이 없는 한, 이 유닛은 능력의 대상이 될 수 없습니다.',
       },
     },
     {
@@ -103,7 +103,7 @@ export const infestedMissileTurret: UnitCard = {
       enhances: ['Firefly Missiles'],
       rule: {
         en: 'When an Enemy Flying Unit ends its Activation Within 14". This Unit immediately performs a Ranged Attack against that Enemy Unit.',
-        ko: '적 비행 유닛이 14" 이내에서 활성화를 마쳤을 때, 이 유닛은 즉시 그 적 유닛에게 사격 공격을 한다.',
+        ko: '적 공중 유닛이 14인치 이내에서 활성화를 끝낼 때 사용합니다. 이 유닛은 즉시 해당 적 유닛을 대상으로 원거리 공격을 수행합니다.',
       },
     },
   ],

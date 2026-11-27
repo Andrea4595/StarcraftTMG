@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const vilelingZergling: UnitCard = {
   category: 'unit',
   id: 'Vileling (Zergling)',
-  name: { en: 'Vileling (Zergling)', ko: '고름 변종 [저글링]' },
+  name: { en: 'Vileling (Zergling)', ko: '고름충 (저글링)' },
   isUnique: false,
   wave: 3,
   type: 'Core',
@@ -25,13 +25,13 @@ export const vilelingZergling: UnitCard = {
     {
       kind: 'rule',
       id: 'Squadron',
-      name: { en: 'Squadron', ko: '부대' },
+      name: { en: 'Squadron', ko: '분대' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: "This Unit's Horizontal Coherency is 4\".",
-        ko: '이 유닛의 코헤런시는 4”이다.',
+        ko: '이 유닛의 수평 대형은 4인치입니다.',
       },
     },
     {
@@ -43,7 +43,7 @@ export const vilelingZergling: UnitCard = {
       cost: 0,
       rule: {
         en: "When this Unit is nominated to deploy from the Reserves, it may resolve the PLACE (18) effect from the controlling player's Entry Edge. No model may be set Within 10\" of any Enemy model. This Unit's Activation ends.",
-        ko: '이 유닛이 리저브에서 나올 때, 조종하는 플레이어의 엔트리 엣지에서 위치(18)를 적용해 배치될 수 있다. 10" 이내에 다른 적 유닛이 없어야 하며, 이렇게 배치된 후에는 이 유닛의 활성화가 종료된다.',
+        ko: '이 유닛이 예비 병력에서 전개 대상으로 지정되면, 조종 플레이어의 진입 경계로부터 배치(18) 효과를 수행할 수 있습니다. 어떠한 모형도 적 모형의 10인치 이내에 놓을 수 없습니다. 이 유닛의 활성화는 종료됩니다.',
       },
     },
     {
@@ -55,19 +55,19 @@ export const vilelingZergling: UnitCard = {
       cost: 1,
       rule: {
         en: 'Resolve the RESPAWN (2) effect, or RESPAWN (3) if the Unit is ON CREEP.',
-        ko: '리스폰(2)한다. 이 유닛이 점막 위라면 리스폰(3)한다.',
+        ko: '재생성(2) 효과를 수행합니다. 이 유닛이 점막 위에 있다면 대신 재생성(3) 효과를 수행합니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Metabolic Boost',
-      name: { en: 'Metabolic Boost', ko: '대사 촉진' },
+      name: { en: 'Metabolic Boost', ko: '대사촉진' },
       phase: 'Assault',
       type: 'Active',
       cost: 1,
       rule: {
         en: "When determining Charge Distance for this Unit, roll 2D6 instead of D6 and use the higher result to add to the Unit's Speed characteristic.",
-        ko: '이 유닛이 차지할 때 차지 값을 정할 때 기존의 D6 대신 2D6를 굴려서 그중 더 높은 값을 스피드 능력치에 더한다.',
+        ko: '이 유닛의 돌격 거리를 결정할 때, D6 대신 2D6을 굴리고 더 높은 결과값을 이 유닛의 속도 수치에 추가합니다.',
       },
     },
     {
@@ -79,7 +79,7 @@ export const vilelingZergling: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (1) 5+ effect.',
-        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 임팩트(1)를 5+로 입힌다.',
+        ko: '이 유닛이 돌격에 성공한 직후, 충격(1) 5+ 효과를 수행합니다.',
       },
     },
     {
@@ -108,7 +108,7 @@ export const vilelingZergling: UnitCard = {
       enhances: ['Claws'],
       rule: {
         en: "After an Enemy Unit suffers Damage from this Unit, apply DEBUFF Hit (1) to each of that Unit's Weapons.",
-        ko: '적 유닛이 이 유닛에게 데미지를 받은 후, 그 유닛의 각 무기에 디버프 힛(1)을 적용한다.',
+        ko: '적 유닛이 이 유닛에게 피해를 받은 후, 해당 유닛의 각 무기에 명중(1) 약화를 적용합니다.',
       },
     },
   ],

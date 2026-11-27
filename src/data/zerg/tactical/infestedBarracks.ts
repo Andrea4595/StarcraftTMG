@@ -19,7 +19,7 @@ export const infestedBarracks: TacticalCard = {
       cost: 0,
       rule: {
         en: 'The active Biological Ground Unit performs a 2" Move action. This does not count towards its action limit.',
-        ko: '활성화중인 생체 지상 유닛은 2" 이동 액션을 한다. 이 이동은 액션을 제한하는 조건이 되지 않는다.',
+        ko: '활성화된 생체 지상 유닛은 2인치 이동 행동을 수행합니다. 이 행동은 행동 제한에 포함되지 않습니다.',
       },
     },
   ],

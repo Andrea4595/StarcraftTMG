@@ -4,7 +4,8 @@ import { Modal } from './Modal'
 /** Document/credit.txt의 내용을 그대로 옮김 */
 const CREDIT_ITEMS: { label: string; value: string }[] = [
   { label: '제작', value: '세탁기' },
-  { label: '룰 한글 번역', value: '정의진' },
+  { label: '룰 한글 번역', value: '자원이 부족합니다 (마로카니, 런빌드카, Kms, 사이엔)' },
+  { label: '이전 번역', value: '정의진 (이전 버전까지 함께해주셨습니다)' },
   { label: '폰트', value: 'Pretendard' },
   { label: '문의', value: '4595jmg@gmail.com' },
 ]

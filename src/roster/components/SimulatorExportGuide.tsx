@@ -1,26 +1,26 @@
 const UNIT_FIELDS: { field: string; desc: string }[] = [
   { field: 'name', desc: '유닛 이름 (한글/영문)' },
   { field: 'unit_type', desc: '유닛 슬롯 분류 (Hero/Core/Elite/Support/Other)' },
-  { field: 'model_count', desc: '이 로스터에 포함된 모델 수' },
+  { field: 'model_count', desc: '이 로스터에 포함된 모형 수' },
   { field: 'base_mm', desc: '미니어처 베이스의 실제 물리 크기 (가로/세로, mm)' },
   {
     field: 'base_shape',
     desc: "베이스 모양 — 'circle'(원형), 'oval'(타원형), 'cross'(base_mm 크기의 가로·세로 막대가 중앙에서 겹친 십자형, 예: 밤까마귀)",
   },
-  { field: 'stat', desc: '쉴드/이동력·코헤런시/회피/방어력/체력/사이즈 등 전체 스탯. 해당 스탯이 없는 유닛은 null' },
+  { field: 'stat', desc: '보호막/이동력·대형/회피/방어/체력/크기 등 전체 특성. 해당 특성이 없는 유닛은 null' },
   { field: 'tags', desc: '유닛 분류 태그 (생체/경장갑/지상 등, 한글/영문)' },
-  { field: 'is_displacement', desc: '유닛 자체가 변위(DISPLACEMENT) 키워드를 지니는지' },
+  { field: 'is_displacement', desc: '유닛 자체가 위치 변환(DISPLACEMENT) 키워드를 지니는지' },
   { field: 'ranges', desc: '거리(inch)와 상시 표시 여부(always_show)로 이루어진 범위 표시기 가이드라인 목록' },
-  { field: 'abilities', desc: '보유한 룰/무기 능력 전체 목록. 이름, 설명, 무기 스탯, 업그레이드로 얻었는지(is_upgrade)를 포함' },
+  { field: 'abilities', desc: '보유한 룰/무기 능력 전체 목록. 이름, 설명, 무기 특성, 업그레이드로 얻었는지(is_upgrade)를 포함' },
   {
     field: 'squad_tiers',
     desc:
-      '이 유닛의 전체 스쿼드 등급 목록 (모델 수 범위 오름차순) — 각 등급은 model_min/model_max(모델 수 범위), supply(서플라이), pts(미네랄 비용). 게임 중 모델이 줄어들 때 이 목록에서 해당하는 등급을 찾아 서플라이를 실시간으로 갱신하는 데 쓴다',
+      '이 유닛의 전체 스쿼드 등급 목록 (모형 수 범위 오름차순) — 각 등급은 model_min/model_max(모형 수 범위), supply(인구수), pts(광물 비용). 게임 중 모형이 줄어들 때 이 목록에서 해당하는 등급을 찾아 인구수를 실시간으로 갱신하는 데 쓴다',
   },
   { field: 'squad_tier_index', desc: '로스터에서 선택한 스쿼드 등급이 squad_tiers 중 몇 번째(0-based)인지 — 배치 시 초기 상태' },
   {
     field: 'supply_override',
-    desc: '서플라이 풀 계산 시 squad_tiers의 supply 대신 이 값을 대입해 취급해야 하면 그 값(더하는 보정치가 아니라 대입값), 아니면 null. 예: 의무관이 "고급 의무관 시설"을 장착하면 0',
+    desc: '보급품 한도 계산 시 squad_tiers의 supply 대신 이 값을 대입해 취급해야 하면 그 값(더하는 보정치가 아니라 대입값), 아니면 null. 예: 의무관이 "고급 의무관 시설"을 장착하면 0',
   },
   { field: 'specialists', desc: '이 유닛이 장착한 업그레이드 중 SPECIALIST 키워드를 가진 무기가 있으면 그 무기 이름 목록 (한글/영문)' },
   {
@@ -33,15 +33,15 @@ const UNIT_FIELDS: { field: string; desc: string }[] = [
 const TOKEN_FIELDS: { field: string; desc: string }[] = [
   { field: 'name', desc: '토큰 이름 (한글/영문) — 역장, 점막 종양, 그림자 등' },
   { field: 'base_mm', desc: '토큰의 실제 물리 베이스 크기 (mm)' },
-  { field: 'is_displacement', desc: '이 토큰이 변위(DISPLACEMENT) 키워드를 지니는지' },
+  { field: 'is_displacement', desc: '이 토큰이 위치 변환(DISPLACEMENT) 키워드를 지니는지' },
   { field: 'ranges', desc: '거리(inch)와 상시 표시 여부(always_show)로 이루어진 범위 표시기 가이드라인 목록' },
 ]
 
 const TACTICAL_CARD_FIELDS: { field: string; desc: string }[] = [
   { field: 'name', desc: '카드 이름 (한글/영문)' },
-  { field: 'is_faction_card', desc: '로스터에 항상 하나 포함되는 팩션 카드인지, 별도로 선택한 택티컬 카드인지' },
+  { field: 'is_faction_card', desc: '로스터에 항상 하나 포함되는 진영 카드인지, 별도로 선택한 전술 카드인지' },
   { field: 'count', desc: '이 로스터에 같은 카드가 몇 장 포함됐는지' },
-  { field: 'gas_cost', desc: '이 카드를 로스터에 포함시키는 데 든 가스 비용. 팩션 카드처럼 비용이 없으면 null' },
+  { field: 'gas_cost', desc: '이 카드를 로스터에 포함시키는 데 든 가스 비용. 진영 카드처럼 비용이 없으면 null' },
   { field: 'resource', desc: '이 카드가 소모될 때 얻는 종족 자원의 양. 단위는 최상위 resource_label 참고' },
   { field: 'slots', desc: '이 카드가 제공하는 유닛 슬롯 (unit_type별 count)' },
   { field: 'abilities', desc: '이 카드가 지닌 능력 전체 목록' },
@@ -60,7 +60,7 @@ export function SimulatorExportGuide() {
       <p className="export-guide-text">
         <code>roster_name</code>(로스터 이름), <code>resource_label</code>(이 종족의 카드 자원 명칭 — 테란 CP, 저그
         BM, 프로토스 EN 등), <code>units</code>(유닛 목록), <code>tokens</code>(유닛/카드가 전장에 배치하는 토큰
-        목록), <code>tactical_cards</code>(팩션 카드와 선택한 택티컬 카드 목록) 다섯 부분으로 이루어져 있습니다.
+        목록), <code>tactical_cards</code>(진영 카드와 선택한 전술 카드 목록) 다섯 부분으로 이루어져 있습니다.
       </p>
 
       <h3 className="export-guide-section-title">유닛 (units)</h3>
@@ -83,7 +83,7 @@ export function SimulatorExportGuide() {
         ))}
       </dl>
 
-      <h3 className="export-guide-section-title">택티컬/팩션 카드 (tactical_cards)</h3>
+      <h3 className="export-guide-section-title">전술/진영 카드 (tactical_cards)</h3>
       <dl className="export-guide-list">
         {TACTICAL_CARD_FIELDS.map((f) => (
           <div className="export-guide-item" key={f.field}>
@@ -95,8 +95,8 @@ export function SimulatorExportGuide() {
 
       <h3 className="export-guide-section-title">활용 예시</h3>
       <ul className="export-guide-bullets">
-        <li>base_mm으로 각 유닛/토큰 모델을 실제 크기 그대로 배치하는 시뮬레이터 제작</li>
-        <li>stat.spd와 ranges 정보로 이동/코헤런시/능력 사거리를 자동으로 표시</li>
+        <li>base_mm으로 각 유닛/토큰 모형을 실제 크기 그대로 배치하는 시뮬레이터 제작</li>
+        <li>stat.spd와 ranges 정보로 이동/대형/능력 사거리를 자동으로 표시</li>
         <li>is_displacement로 변위 규칙이 적용되는 대상을 자동 판별</li>
         <li>abilities의 설명 텍스트를 그대로 활용한 개인용 참고 카드/뷰어 제작</li>
         <li>tactical_cards의 resource/slots로 라운드별 자원·유닛 슬롯 현황을 함께 추적</li>

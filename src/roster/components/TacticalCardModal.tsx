@@ -59,7 +59,7 @@ export function TacticalCardModal({
     : race.tacticalCards
 
   return (
-    <Modal title="택티컬 카드 선택" onClose={onClose}>
+    <Modal title="전술 카드 선택" onClose={onClose}>
       <div className="tactical-picker-list">
         <div className="tactical-picker-sticky-top">
           <div className="roster-resource-row">
@@ -82,7 +82,7 @@ export function TacticalCardModal({
           />
         </div>
 
-        <span className="roster-section-title">팩션 카드</span>
+        <span className="roster-section-title">진영 카드</span>
         <div className="tactical-picker-rows">
           {factionCards.map((card) => (
             <FactionPickerRow
@@ -98,7 +98,7 @@ export function TacticalCardModal({
           ))}
         </div>
 
-        <span className="roster-section-title">택티컬 카드</span>
+        <span className="roster-section-title">전술 카드</span>
         <div className="tactical-picker-rows">
           {cards.map((card) => (
             <TacticalPickerRow

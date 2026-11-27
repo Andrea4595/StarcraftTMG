@@ -18,7 +18,7 @@ export const overseer: TacticalCard = {
       cost: 0,
       rule: {
         en: 'Set a Faction Indicator anywhere on the battlefield. While Enemy Units are Within 6" of this Faction Indicator, they lose HIDDEN Status.',
-        ko: '팩션 마크를 전장에 둔다. 그 팩션 마커의 6" 이내의 모든 적은 은폐 상태를 잃는다.',
+        ko: '전장 아무 위치에 진영 표시 마커 1개를 놓습니다. 적 유닛이 해당 진영 표시 마커의 6인치 이내에 있는 동안, 은신 상태를 잃습니다.',
       },
       placesTokenId: 'Faction Marker',
       simulatorFeature: {
@@ -30,13 +30,13 @@ export const overseer: TacticalCard = {
     {
       kind: 'rule',
       id: 'Pneumatized Carapace',
-      name: { en: 'Pneumatized Carapace', ko: '기낭 갑피' },
+      name: { en: 'Pneumatized Carapace', ko: '기낭갑피' },
       phase: 'Assault',
       type: 'Reaction',
       cost: 0,
       rule: {
         en: 'Use after a Friendly Unit rolls a D6 for Charge Distance. Roll an additional D6 and use the higher result to calculate the total Charge Distance.',
-        ko: '아군 유닛이 차지를 위해 차지 롤을 한 후 사용한다. D6대신 2D6을 굴리고 더 높은쪽을 선택해 스피드에 더해서 차지값을 정한다.',
+        ko: '아군 유닛이 돌격 거리 판정을 위해 D6을 굴린 직후 사용합니다. 추가로 D6 하나를 더 굴리고, 더 높은 결과값을 사용해 최종 돌격 거리를 계산합니다.',
       },
     },
   ],

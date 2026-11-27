@@ -32,13 +32,13 @@ export const marauder: UnitCard = {
       enhances: ['Quad K12', 'Strike'],
       rule: {
         en: 'This Unit suffers NON-LETHAL DAMAGE (2). This Unit gains BUFF Speed (3). Additionally, its Quad K12 and all Close Combat Weapons gain PRECISION (2).',
-        ko: '이 유닛은 논 리썰 데미지(2)를 받고 버프 스피드(3)를 받는다. 추가로 쿼드 K12와 모든 근접무기가 프리시전(2)을 갖는다.',
+        ko: '이 유닛은 비살상 피해(2)를 받고, 속도(3) 강화를 얻습니다. 또한 이 유닛의 쿼드 K12 유탄 발사기와 모든 근접전 무기는 정밀(2) 특성을 얻습니다.',
       },
     },
     {
       kind: 'weapon',
       id: 'Quad K12',
-      name: { en: 'Quad K12', ko: '쿼드 K12' },
+      name: { en: 'Quad K12', ko: '쿼드 K12 유탄 발사기' },
       phase: 'Assault',
       stat: {
         rng: 12,
@@ -60,13 +60,13 @@ export const marauder: UnitCard = {
       cost: 1,
       rule: {
         en: 'When an Enemy declares a Charge against a Friendly Unit Within 8", that Enemy gains DEBUFF Speed (2).',
-        ko: '이 유닛의 8" 이내의 아군 유닛에게 상대 유닛이 차지를 선언했을 경우, 그 유닛은 디버프 스피드(2)를 받는다.',
+        ko: '8인치 이내의 아군 유닛을 대상으로 적이 돌격을 선언할 때 사용합니다. 해당 적 유닛은 속도(2) 약화를 얻습니다.',
       },
     },
     {
       kind: 'weapon',
       id: 'Strike',
-      name: { en: 'Strike', ko: '타격' },
+      name: { en: 'Strike', ko: '근접 타격' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -92,7 +92,7 @@ export const marauder: UnitCard = {
         cost: 0,
         rule: {
           en: 'While this Unit is Within 3" of a Mission Marker, its Armour characteristic is increased by 1.',
-          ko: '이 유닛이 미션 마커로부터 3" 이내에 있을 경우, 아머 능력치를 1 향상시킨다.',
+          ko: '이 유닛이 임무 마커의 3인치 이내에 있는 동안, 이 유닛의 방어 수치가 1 증가합니다.',
         },
       },
     },
@@ -107,7 +107,7 @@ export const marauder: UnitCard = {
         cost: 0,
         rule: {
           en: "Increase this Unit's Hit Points characteristic by 1.",
-          ko: '이 유닛의 HP를 1 올린다.',
+          ko: '이 유닛의 체력 수치를 1 증가시킵니다.',
         },
       },
     },
@@ -123,7 +123,7 @@ export const marauder: UnitCard = {
         enhances: ['Quad K12'],
         rule: {
           en: "This Unit's Quad K12 weapon gains LONG RANGE (16\").",
-          ko: '이 유닛의 쿼드 K12는 롱 레인지(16")를 갖는다.',
+          ko: '이 유닛의 쿼드 K12 유탄 발사기 무기는 장거리 사격(16") 특성을 얻습니다.',
         },
       },
     },

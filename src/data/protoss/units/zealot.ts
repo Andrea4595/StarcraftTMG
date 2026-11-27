@@ -24,13 +24,13 @@ export const zealot: UnitCard = {
     {
       kind: 'rule',
       id: 'Charge',
-      name: { en: 'Charge', ko: '돌진' },
+      name: { en: 'Charge', ko: '돌격' },
       phase: 'Assault',
       type: 'Active',
       cost: 1,
       rule: {
         en: "When determining Charge Distance for this Unit, roll 2D6 instead of D6 and use the higher result to add to the Unit's Speed characteristic.",
-        ko: '이 유닛이 차지할 때 차지 값을 정할 때 기존의 D6 대신 2D6를 굴려서 그중 더 높은 값을 스피드 능력치에 더한다.',
+        ko: '이 유닛의 돌격 거리를 결정할 때, D6 대신 2D6을 굴리고 더 높은 결과값을 이 유닛의 속도 수치에 더합니다.',
       },
     },
     {
@@ -42,7 +42,7 @@ export const zealot: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (3) 4+ effect.',
-        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 임팩트(3)를 4+로 입힌다.',
+        ko: '이 유닛이 돌격에 성공한 직후, 충격(3) 4+ 효과를 수행합니다.',
       },
     },
     {
@@ -75,7 +75,7 @@ export const zealot: UnitCard = {
         enhances: ['Devastating Charge'],
         rule: {
           en: 'When this Unit resolves IMPACT, each eligible model generates 1 additional IMPACT die.',
-          ko: '이 유닛이 임팩트를 처리할 때, 적합한 모델마다 하나의 주사위를 추가로 굴린다.',
+          ko: '이 유닛이 충격을 해결할 때, 조건을 만족하는 각 모형은 추가 충격 주사위 1개를 생성합니다.',
         },
       },
     },
@@ -84,13 +84,13 @@ export const zealot: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Leg Enhancements',
-        name: { en: 'Leg Enhancements', ko: '각력 강화' },
+        name: { en: 'Leg Enhancements', ko: '다리 강화' },
         phase: 'Movement',
         type: 'Active',
         cost: 1,
         rule: {
           en: 'This Unit performs a 2" Move action. This does not count towards its action limit.',
-          ko: '이 유닛은 2”의 이동액션을 한다. 이 이동은 라운드의 남은 기간동안 액션을 제한하는 조건이 되지 않는다.',
+          ko: '이 유닛은 2인치 이동 행동을 수행합니다. 이 행동은 행동 제한에 포함되지 않습니다.',
         },
       },
     },
@@ -99,13 +99,13 @@ export const zealot: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Zealous Round',
-        name: { en: 'Zealous Round', ko: '광전사의 원' },
+        name: { en: 'Zealous Round', ko: '열성의 원' },
         phase: 'Assault',
         type: 'Reaction',
         cost: 0,
         rule: {
           en: 'When this Unit is not Activated and receives Damage, the controlling player may count this Unit as Activated in this Phase (flip its Activation Marker) to reduce the Total Damage by 2.',
-          ko: '이 유닛이 아직 활성화되지 않은 채 데미지를 받게 될 때, 이 유닛을 조종하는 플레이어는 이 유닛이 활성화한 것으로 치고 발생한 총 데미지를 2만큼 줄일 수 있다.',
+          ko: '이 유닛이 활성화되지 않은 상태에서 피해를 받을 때, 조종 플레이어는 이 유닛을 이번 단계에서 활성화된 것으로 간주할 수 있습니다. 그렇게 한다면, 이 유닛의 활성화 마커를 뒤집고, 최종 피해를 2 감소시킵니다.',
         },
       },
     },
@@ -114,14 +114,14 @@ export const zealot: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'We Stand as One',
-        name: { en: 'We Stand as One', ko: '우리는 하나되어 싸운다' },
+        name: { en: 'We Stand as One', ko: '우리는 하나다' },
         phase: 'Combat',
         type: 'Passive',
         cost: 0,
         enhances: ['Psi Blades'],
         rule: {
           en: "When this Unit makes a Close Combat Attack, if the target is Engaged with at least 1 other Friendly Unit, this Unit's Close Combat Weapon gains PRECISION (2).",
-          ko: '이 유닛이 근접공격을 할 때, 이 유닛이 아닌 다른 아군 유닛 하나 이상과 인게이지된 상태라면 이 유닛의 근접무기는 프리시전(2)를 갖는다.',
+          ko: '이 유닛이 근접전 공격을 수행할 때, 그 대상이 최소 1개의 다른 아군 유닛과 교전 중이라면 이 유닛의 근접전 무기는 정밀(2) 특성을 얻습니다.',
         },
       },
     },

@@ -22,7 +22,7 @@ export const powerField: TacticalCard = {
       cost: 0,
       rule: {
         en: 'Use before a Friendly Ground Unit makes an Armour Roll. That Unit gains DODGE (2) for this roll.',
-        ko: '아군 지상 유닛이 아머 롤을 하기 전에 사용한다. 그 유닛은 그 굴림동안 닷지(2)를 지닌다.',
+        ko: '아군 지상 유닛이 방어 굴림을 수행하기 전에 사용합니다. 해당 굴림 동안 그 유닛은 경감(2) 특성을 얻습니다.',
       },
     },
   ],

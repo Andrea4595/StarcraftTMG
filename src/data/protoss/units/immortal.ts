@@ -22,19 +22,19 @@ export const immortal: UnitCard = {
     {
       kind: 'rule',
       id: 'Improved Barrier',
-      name: { en: 'Improved Barrier', ko: '개선된 방벽' },
+      name: { en: 'Improved Barrier', ko: '향상된 방어막' },
       phase: 'Any',
       type: 'Reaction',
       cost: 0,
       rule: {
         en: 'Use when this Unit is selected as the target of an attack. If this Unit has the Shielded Status, the Damage characteristic of the attacking weapon is treated as a maximum of 1 for this attack.',
-        ko: '이 유닛이 공격의 목표로 선택되었을 때 사용한다. 이 유닛이 보호막 상태라면, 그 공격을 가하는 무기의 데미지 특성치는 최대 1로 취급한다.',
+        ko: '이 유닛이 공격 대상이 됐을 때 사용합니다. 이 유닛이 보호막 가동 상태라면, 그 공격으로 인한 무기의 피해 특성치는 최대 1로 취급합니다.',
       },
     },
     {
       kind: 'weapon',
       id: 'Left Photon Disruptor',
-      name: { en: 'Left Photon Disruptor', ko: '좌측 광자 분열기' },
+      name: { en: 'Left Photon Disruptor', ko: '광자 분열기(좌)' },
       phase: 'Assault',
       stat: {
         rng: 12,
@@ -53,7 +53,7 @@ export const immortal: UnitCard = {
     {
       kind: 'weapon',
       id: 'Right Photon Disruptor',
-      name: { en: 'Right Photon Disruptor', ko: '우측 광자 분열기' },
+      name: { en: 'Right Photon Disruptor', ko: '광자 분열기(우)' },
       phase: 'Assault',
       stat: {
         rng: 12,
@@ -79,7 +79,7 @@ export const immortal: UnitCard = {
       cost: 0,
       rule: {
         en: 'While Engaged, this Unit may target and be targeted by Unengaged Enemy Units. In both cases, the defending Unit gains an Evade Roll against those attacks.',
-        ko: '인게이지 상태일 때에도 이 유닛은 인게이지되지 않은 적 유닛을 공격의 목표로 삼을 수 있다. 상대도 마찬가지로 이 유닛이 인게이지된 상태에서 공격의 대상으로 삼을 수 있다. 그럴 경우 공격의 대상이 된 유닛은 그 공격에 대해 회피 롤을 할 수 있다.',
+        ko: '교전 중인 동안, 이 유닛은 교전 중이 아닌 적 유닛을 대상으로 할 수 있으며, 교전 중이 아닌 적 유닛에게 대상으로 선택될 수 있습니다. 두 경우 모두, 방어 측 유닛은 해당 공격에 대해 회피 굴림을 할 수 있습니다.',
       },
     },
     {
@@ -91,7 +91,7 @@ export const immortal: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (4) 3+ effect.',
-        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 임팩트(4)를 3+로 입힌다.',
+        ko: '이 유닛이 돌격에 성공한 직후, 충격(4) 3+ 효과를 수행합니다.',
       },
     },
     {
@@ -123,7 +123,7 @@ export const immortal: UnitCard = {
         cost: 1,
         rule: {
           en: 'Use before this Unit makes an Armour Roll. If this Unit has the Shielded Status, It gains TOUGH (2) for this roll.',
-          ko: '이 유닛이 아머 롤을 하기 전에 사용한다. 이 유닛이 보호막 상태라면, 그 굴림에서 터프(2)를 얻는다.',
+          ko: '이 유닛이 방어 굴림을 굴리기 전에 사용합니다. 이 유닛이 보호막 가동 상태라면, 이번 방어 굴림에 강인함(2)을 얻습니다.',
         },
       },
     },
@@ -133,7 +133,7 @@ export const immortal: UnitCard = {
       ability: {
         kind: 'weapon',
         id: 'Left Phase Disruptor',
-        name: { en: 'Left Phase Disruptor', ko: '좌측 위상 분열기' },
+        name: { en: 'Left Phase Disruptor', ko: '위상 분열기(좌)' },
         phase: 'Assault',
         stat: {
           rng: 12,
@@ -153,7 +153,7 @@ export const immortal: UnitCard = {
       ability: {
         kind: 'weapon',
         id: 'Right Phase Disruptor',
-        name: { en: 'Right Phase Disruptor', ko: '우측 위상 분열기' },
+        name: { en: 'Right Phase Disruptor', ko: '위상 분열기(우)' },
         phase: 'Assault',
         stat: {
           rng: 12,
@@ -172,13 +172,13 @@ export const immortal: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Fury Unyielding',
-        name: { en: 'Fury Unyielding', ko: '불굴의 분노' },
+        name: { en: 'Fury Unyielding', ko: '꺼지지 않는 분노' },
         phase: 'Assault',
         type: 'Passive',
         cost: 0,
         rule: {
           en: "While this Unit is Within 3\" of a Mission Marker, its Ranged Weapons gain CRITICAL HIT (1) when targeting an Enemy Unit that is also Within 3\" of that same Mission Marker.",
-          ko: '이 유닛이 미션 마커의 3”이내에 있을 때, 이 유닛의 사격 무기는 같은 미션 마커의 3”이내에 있는 적 유닛을 목표로 할 때 크리티컬 힛(1)을 얻는다.',
+          ko: '이 유닛이 임무 마커의 3인치 범위에 들어와 있는 동안, 해당 임무 마커의 3인치 범위에 들어온 적 유닛을 대상으로 사격할 때, 이 유닛의 원거리 무기는 치명타(1)를 얻습니다.',
         },
       },
     },
@@ -193,7 +193,7 @@ export const immortal: UnitCard = {
         cost: 0,
         rule: {
           en: 'When this Unit makes a Ranged Attack, if the target Unit is more than 8" away, the attacking weapons gain PRECISION (1).',
-          ko: '이 유닛이 사격을 할 때, 목표 유닛이 8”보다 멀리 있다면 공격하는 무기는 프리시전(1)을 얻는다.',
+          ko: '이 유닛이 원거리 공격할 때, 대상 유닛이 8인치보다 멀다면, 공격 무기는 정밀(1)을 얻습니다.',
         },
       },
     },

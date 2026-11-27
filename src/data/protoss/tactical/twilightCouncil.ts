@@ -21,19 +21,19 @@ export const twilightCouncil: TacticalCard = {
       cost: 0,
       rule: {
         en: 'Use after a Friendly Unit resolves a PLACE effect. That Unit immediately resolves the HEAL (2) effect.',
-        ko: '아군 유닛이 위치 효과를 사용한 후, 그 유닛에게 즉시 치유(2)를 적용시킨다.',
+        ko: '아군 유닛이 배치 효과를 해결한 후 사용합니다. 해당 유닛은 즉시 치유(2) 효과를 수행합니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Weapons of the Firstborn',
-      name: { en: 'Weapons of the Firstborn', ko: '첫번째 자손의 무기' },
+      name: { en: 'Weapons of the Firstborn', ko: '첫 번째 자손의 무기' },
       phase: 'Assault',
       type: 'Active',
       cost: 0,
       rule: {
         en: "The active Ground Unit's first Ranged Weapon used gains BUFF Range (4).",
-        ko: '활성화중인 지상유닛이 첫번째로 사용하는 원거리무기는 버프 레인지(4)를 갖는다.',
+        ko: '활성화된 지상 유닛이 이번 단계에서 처음 사용하는 원거리 무기는 사거리(4) 강화를 얻습니다.',
       },
     },
   ],

@@ -12,26 +12,26 @@ export const hatchery: TacticalCard = {
     {
       kind: 'rule',
       id: 'Lie in Wait',
-      name: { en: 'Lie in Wait', ko: '매복' },
+      name: { en: 'Lie in Wait', ko: '잠복 태세' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
       rule: {
         en: 'The active, Unengaged Ground Unit gains the Burrowed Status.',
-        ko: '활성화된 인게이지 상태가 아닌 지상유닛은 잠복 상태를 얻는다.',
+        ko: '활성화된 교전 중이 아닌 지상 유닛은 잠복 상태를 얻습니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Creep Spread',
-      name: { en: 'Creep Spread', ko: '점막 살포' },
+      name: { en: 'Creep Spread', ko: '점막 확산' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
       placesTokenId: 'Creep Tumor',
       rule: {
         en: 'Set a Creep Tumor token on the battlefield Within 6" (Line of Sight is not required) of either a Friendly Entry Edge or an existing Friendly Creep Tumor token.',
-        ko: '이미 배치된 점막 종양이나, 아군 엔트리 엣지의 6" 이내에 점막 종양 토큰을 둔다. 이 배치에 시야는 불필요하다.',
+        ko: '전장에 점막 종양 토큰 1개를 놓습니다. 해당 토큰은 아군 진입 경계 또는 기존 아군 점막 종양 토큰 중 하나의 6인치 이내에 배치되어야 합니다(시야는 필요하지 않습니다).',
       },
       simulatorFeature: {
         kind: 'placeToken',

@@ -37,7 +37,7 @@ export function UnitModal({ race, roster, onClose }: { race: RaceData; roster: R
   const subHeader = (
     <>
       <BudgetGauge
-        label="미네랄"
+        label="광물"
         kind="mineral"
         total={mineralTotal}
         cap={roster.mineralCap}

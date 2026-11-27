@@ -63,7 +63,7 @@ export function RosterExportView({ race, roster, mode }: { race: RaceData; roste
         </div>
         {mode === 'detailed' ? (
           <div className="roster-export-totals">
-            <TotalPill label="미네랄" value={String(mineralTotal)} suffix={` / ${roster.mineralCap}`} color="#5b9dff" />
+            <TotalPill label="광물" value={String(mineralTotal)} suffix={` / ${roster.mineralCap}`} color="#5b9dff" />
             <TotalPill label="가스" value={String(gasTotal)} suffix={` / ${gasCap}`} color="#4ade80" />
             <TotalPill label={race.resourceLabel.abbr} value={String(resourceTotal)} color="#f0b429" />
           </div>
@@ -71,7 +71,7 @@ export function RosterExportView({ race, roster, mode }: { race: RaceData; roste
           /* 간소화 출력: 미네랄/가스는 항목별 칸이 보이는 게이지로, CP는 가스 게이지 옆 알약으로 */
           <div className="roster-export-gauges">
             <BudgetGauge
-              label="미네랄"
+              label="광물"
               kind="mineral"
               total={mineralTotal}
               cap={roster.mineralCap}
@@ -115,7 +115,7 @@ function DetailedBody({
     <>
       {(factionCard || tacticalCardGroups.length > 0) && (
         <>
-          <div className="roster-export-section-title">택티컬 카드</div>
+          <div className="roster-export-section-title">전술 카드</div>
           <div className="roster-export-cards-grid">
             {factionCard && <TacticalCardView card={factionCard} resourceLabel={race.resourceLabel} isFactionCard />}
             {tacticalCardGroups.map(({ card, count }) => (
@@ -174,7 +174,7 @@ function SimpleBody({
 
   return (
     <>
-      <div className="roster-export-section-title">택티컬 카드</div>
+      <div className="roster-export-section-title">전술 카드</div>
       <ul className="roster-export-simple-list">
         {factionCard && (
           <li className="roster-export-simple-item">

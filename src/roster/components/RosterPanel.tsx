@@ -64,7 +64,7 @@ export function RosterPanel({
     <div className="roster-panel">
       <div className="roster-top-row">
         <label className="roster-mineral-cap">
-          미네랄 예산
+          광물 예산
           <input
             type="number"
             min={0}
@@ -143,12 +143,12 @@ function RosterPanelBody({
       )}
       {cardGroupMismatched.length > 0 && (
         <div className="roster-warning">
-          현재 팩션에서 쓸 수 없는 카드: {cardGroupMismatched.map((c) => localize(c.name)).join(', ')}
+          현재 진영에서 쓸 수 없는 카드: {cardGroupMismatched.map((c) => localize(c.name)).join(', ')}
         </div>
       )}
 
       <div className="roster-section-title-row">
-        <span className="roster-section-title">택티컬 카드</span>
+        <span className="roster-section-title">전술 카드</span>
       </div>
       <div className="roster-resource-cp-row">
         <BudgetGauge
@@ -185,7 +185,7 @@ function RosterPanelBody({
                   e.stopPropagation()
                   store.setFactionCard(roster.id, null)
                 }}
-                aria-label="팩션 카드 제거"
+                aria-label="진영 카드 제거"
               >
                 ✕
               </button>
@@ -208,7 +208,7 @@ function RosterPanelBody({
               if (e.key === 'Enter' || e.key === ' ') setModal({ kind: 'tactical' })
             }}
           >
-            팩션 카드 선택
+            진영 카드 선택
           </div>
         )}
         {[...tacticalCardCounts.entries()].map(([id, count]) => {
@@ -266,7 +266,7 @@ function RosterPanelBody({
           <div className="roster-sticky-summary">
             <div className="roster-resource-row">
               <BudgetGauge
-                label="미네랄"
+                label="광물"
                 kind="mineral"
                 total={mineralTotal}
                 cap={roster.mineralCap}

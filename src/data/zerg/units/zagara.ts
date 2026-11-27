@@ -26,13 +26,13 @@ export const zagara: UnitCard = {
     {
       kind: 'rule',
       id: 'Commander',
-      name: { en: 'Commander', ko: '지휘관' },
+      name: { en: 'Commander', ko: '사령관' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: "Treat this Unit's Supply characteristic as increased by 1 for Controlling and Contesting Mission Markers, completing objectives, and resolving Disengage checks.",
-        ko: '이 유닛이 미션 마커를 경쟁할 때, 점령할 때, 이탈, 미션의 목표달성을 계산할 때 서플라이 값을 1 높은 걸로 친다.',
+        ko: '임무 마커를 점령하거나 이를 두고 경합할 때, 목표를 완료할 때, 그리고 이탈 판정을 해결할 때 이 유닛의 인구수는 1 증가한 것으로 간주합니다.',
       },
     },
     {
@@ -44,7 +44,7 @@ export const zagara: UnitCard = {
       cost: 1,
       rule: {
         en: 'Use when another Friendly Biological Unit (including a Structure) suffers Damage Within 4". Reduce the Total Damage before allocation by 2.',
-        ko: '이 유닛의 4" 이내의 다른 아군 생체 유닛(구조물 포함)이 데미지를 받을 때 사용한다. 할당 전의 총 데미지를 2 줄인다.',
+        ko: '4인치 이내에 들어온 다른 아군 생체 유닛(구조물 포함)이 피해를 받을 때 사용합니다. 피해 배분 전에 최종 피해를 2 감소시킵니다.',
       },
       simulatorFeature: { kind: 'targetOne', side: 'ally', range: 4 },
     },
@@ -57,7 +57,7 @@ export const zagara: UnitCard = {
       cost: 0,
       rule: {
         en: 'Once per Round, if there are at least 7 Friendly models Within 6" of this Unit, it may resolve its Special Ability with the BM cost reduced by 1.',
-        ko: '라운드당 한 번, 이 유닛의 6" 이내에 아군 모델이 7개 이상 있다면, 이 유닛은 특수능력을 BM 비용을 1 줄여서 사용할 수 있다.',
+        ko: '라운드당 1회, 이 유닛의 6인치 이내에 최소 7기의 아군 모형이 있다면, 이 유닛은 BM 비용이 1 감소된 상태로 특수 능력을 처리할 수 있습니다.',
       },
     },
     {
@@ -69,19 +69,19 @@ export const zagara: UnitCard = {
       cost: 1,
       rule: {
         en: 'Apply one of the following effects to all Friendly units (Line of Sight is not required). You cannot apply the effect chosen in the previous Game Round: Units of Size 1 gain a +1 Modifier to all IMPACT Rolls. All weapons of Size 2 Units gain CRITICAL HIT (1). Units of Size 3 or more gain TOUGH (1).',
-        ko: '다음 효과 중 하나를 모든 아군 유닛에게 적용한다 (시야는 필요하지 않다). 이전 게임 라운드에 선택한 효과는 고를 수 없다: 사이즈 1 유닛은 모든 임팩트 롤에 +1 수정치를 얻는다. 사이즈 2 유닛의 모든 무기는 크리티컬 힛(1)을 얻는다. 사이즈 3 이상의 유닛은 터프(1)를 얻는다.',
+        ko: '모든 아군 유닛에 다음 효과 중 하나를 적용합니다. 시야는 필요하지 않습니다. 직전 게임 라운드에 선택한 효과는 선택할 수 없습니다. 크기 1인 유닛은 모든 충격 굴림에 +1 수정치를 얻습니다. 크기 2인 유닛의 모든 무기는 치명타(1)를 얻습니다. 크기 3 이상인 유닛은 강인함(1)을 얻습니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Infested Drop',
-      name: { en: 'Infested Drop', ko: '감염된 투하' },
+      name: { en: 'Infested Drop', ko: '감염체 투하' },
       phase: 'Movement',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'The base of the Zagara counts as an Entry Edge. Each Round, Friendly Units with a combined Supply cost of 1 may be Deployed via this Entry Edge.',
-        ko: '자가라의 베이스는 엔트리 엣지로 친다. 매 라운드, 서플라이 비용 합계가 1인 아군 유닛들을 이 엔트리 엣지를 통해 배치할 수 있다.',
+        ko: '자가라의 베이스는 진입 경계로 간주합니다. 매 라운드마다 합산 인구수가 1인 아군 유닛들을 이 진입 경계를 통해 전개할 수 있습니다.',
       },
     },
     {
@@ -103,7 +103,7 @@ export const zagara: UnitCard = {
     {
       kind: 'weapon',
       id: "Zagara's Acid Spines",
-      name: { en: "Zagara's Acid Spines", ko: '자가라의 산성 가시' },
+      name: { en: "Zagara's Acid Spines", ko: '자가라의 산성 가시뼈' },
       phase: 'Assault',
       stat: {
         rng: 14,
@@ -125,7 +125,7 @@ export const zagara: UnitCard = {
       cost: 0,
       rule: {
         en: 'While Engaged, this Unit may target and be targeted by Unengaged Enemy Units. In both cases, the defending Unit gains an Evade Roll against those attacks.',
-        ko: '인게이지 상태일 때에도 이 유닛은 인게이지되지 않은 적 유닛을 공격의 목표로 삼을 수 있다. 상대도 마찬가지로 이 유닛이 인게이지된 상태에서 공격의 대상으로 삼을 수 있다. 그럴 경우 공격의 대상이 된 유닛은 그 공격에 대해 회피 롤을 할 수 있다.',
+        ko: '교전 중인 동안, 이 유닛은 교전 중이 아닌 적 유닛을 대상으로 할 수 있으며, 교전 중이 아닌 적 유닛에게 대상으로 선택될 수 있습니다. 두 경우 모두, 방어 측 유닛은 해당 공격에 대해 회피 굴림을 할 수 있습니다.',
       },
     },
     {
@@ -137,7 +137,7 @@ export const zagara: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (6) 3+ effect.',
-        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 임팩트(6)를 3+로 입힌다.',
+        ko: '이 유닛이 돌격에 성공한 직후, 충격(6) 3+ 효과를 수행합니다.',
       },
     },
   ],

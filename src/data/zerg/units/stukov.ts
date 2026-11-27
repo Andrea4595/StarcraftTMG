@@ -22,25 +22,25 @@ export const stukov: UnitCard = {
     {
       kind: 'rule',
       id: 'Commander',
-      name: { en: 'Commander', ko: '지휘관' },
+      name: { en: 'Commander', ko: '사령관' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: "Treat this Unit's Supply characteristic as increased by 1 for Controlling and Contesting Mission Markers, completing objectives, and resolving Disengage checks.",
-        ko: '이 유닛이 미션 마커를 경쟁할 때, 점령할 때, 이탈, 미션의 목표달성을 계산할 때 서플라이 값을 1 높은 걸로 친다.',
+        ko: '임무 마커를 점령하거나 이를 두고 경합할 때, 목표를 완료할 때, 그리고 이탈 판정을 해결할 때 이 유닛의 인구수는 1 증가한 것으로 간주합니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Plague Warden',
-      name: { en: 'Plague Warden', ko: '역병의 감시자' },
+      name: { en: 'Plague Warden', ko: '역병 감시자' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'Treat the Supply characteristic of any Enemy Unit that has the INFESTATION Status and is Within 6" as reduced by 1 (to a minimum of 0) for Controlling and Contesting Mission Markers, and completing objectives.',
-        ko: '6" 이내에 있는 감염 상태의 적 유닛이 미션 마커를 점령하거나 경쟁할 때, 미션의 목표달성을 계산할 때 서플라이 값을 1 낮은 걸로 친다 (최소 0).',
+        ko: '6인치 이내에 있는 감염 상태의 모든 적 유닛은 임무 마커를 점령하거나 이를 두고 경합할 때, 그리고 목표를 완료할 때 인구수가 1 감소한 것으로 간주합니다(최소 0).',
       },
     },
     {
@@ -52,7 +52,7 @@ export const stukov: UnitCard = {
       cost: 1,
       rule: {
         en: 'Target an Enemy Unit Within 8". The targeted Unit gains the INFESTATION Status. For the purposes of resolving Special Abilities, this effect is treated as a DEBUFF.',
-        ko: '8" 이내의 적 유닛 하나를 목표로 삼는다. 그 유닛은 감염 상태를 얻는다. 특수능력을 처리할 때 이 효과는 디버프로 취급한다.',
+        ko: '8인치 이내의 적 유닛 1개를 대상으로 지정합니다. 대상 유닛은 감염 상태를 얻습니다. 특수 능력을 처리할 때 이 효과는 약화 효과로 취급합니다.',
       },
       simulatorFeature: { kind: 'targetOne', side: 'enemy', range: 8 },
     },
@@ -65,7 +65,7 @@ export const stukov: UnitCard = {
       cost: 1,
       rule: {
         en: 'Target an Enemy Unit Within 8" that has the INFESTATION Status. That Unit counts as Activated in this Phase (set an Activation Marker next to it) and remove the INFESTATION Status from that Unit. You may target any Non-Unique Infested Friendly Unit that is Within 8" of the previously targeted Enemy Unit. Remove the Activation Marker from that targeted Friendly Unit.',
-        ko: '8" 이내에 있는 감염 상태의 적 유닛 하나를 목표로 삼는다. 그 유닛은 이 페이즈에 활성화한 것으로 치고(활성화 마커를 옆에 둔다) 감염 상태를 제거한다. 그 후 앞서 목표로 삼은 적 유닛의 8" 이내에 있는, 유니크가 아닌 아군 감염 유닛 하나를 목표로 삼을 수 있다. 그 아군 유닛의 활성화 마커를 제거한다.',
+        ko: '8인치 이내에 있는 감염 상태의 적 유닛 1개를 대상으로 지정합니다. 해당 유닛은 이번 단계에서 이미 활성화된 것으로 간주하며(그 유닛 옆에 활성화 마커를 놓습니다), 해당 유닛의 감염 상태를 제거합니다. 앞서 대상으로 지정한 적 유닛의 8인치 이내에 있는 유일이 아닌 아군 감염 유닛 1개를 대상으로 지정할 수 있습니다. 대상이 된 아군 유닛에서 활성화 마커를 제거합니다.',
       },
       simulatorFeature: { kind: 'targetOne', side: 'enemy', range: 8 },
     },
@@ -88,13 +88,13 @@ export const stukov: UnitCard = {
     {
       kind: 'rule',
       id: 'Bio-Kill Switch',
-      name: { en: 'Bio-Kill Switch', ko: '생체 사멸 장치' },
+      name: { en: 'Bio-Kill Switch', ko: '생체 자폭 장치' },
       phase: 'Assault',
       type: 'Active',
       cost: 0,
       rule: {
         en: 'Each Enemy Unit with the INFESTATION Status on the Battlefield suffers Damage (2). Immediately after this Special Ability is resolved, Remove the INFESTATION Status from Units that suffered Damage.',
-        ko: '전장에 있는 감염 상태의 모든 적 유닛은 데미지(2)를 받는다. 이 특수능력을 처리한 직후, 데미지를 받은 유닛들의 감염 상태를 제거한다.',
+        ko: '전장에 있는 감염 상태의 각 적 유닛은 피해 2를 받습니다. 이 특수 능력을 처리한 직후, 피해를 받은 유닛의 감염 상태를 제거합니다.',
       },
     },
     {
@@ -107,7 +107,7 @@ export const stukov: UnitCard = {
       enhances: ['Corrosive Blast'],
       rule: {
         en: 'Immediately after this Unit resolves a Ranged Attack against an Enemy Unit, the targeted Unit suffers the DEBUFF Armour (1).',
-        ko: '이 유닛이 적 유닛에게 사격 공격을 한 직후, 공격 대상이 된 유닛은 디버프 아머(1)를 받는다.',
+        ko: '이 유닛이 적 유닛을 대상으로 원거리 공격을 처리한 직후, 대상 유닛은 방어(1) 약화를 받습니다.',
       },
     },
     {
@@ -119,7 +119,7 @@ export const stukov: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (6) 4+ effect.',
-        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 임팩트(6)를 4+로 입힌다.',
+        ko: '이 유닛이 돌격에 성공한 직후, 충격(6) 4+ 효과를 수행합니다.',
       },
     },
     {

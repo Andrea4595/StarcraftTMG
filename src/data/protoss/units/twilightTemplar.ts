@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const twilightTemplar: UnitCard = {
   category: 'unit',
   id: 'Twilight Templar (High Templar)',
-  name: { en: 'Twilight Templar (High Templar)', ko: '황혼 기사 [고위 기사]' },
+  name: { en: 'Twilight Templar (High Templar)', ko: '황혼 기사 (고위 기사)' },
   isUnique: true,
   wave: 3,
   type: 'Support',
@@ -33,25 +33,25 @@ export const twilightTemplar: UnitCard = {
     {
       kind: 'rule',
       id: 'Bound by the Khala',
-      name: { en: 'Bound by the Khala', ko: '칼라의 연결' },
+      name: { en: 'Bound by the Khala', ko: '칼라를 통해' },
       phase: 'Any',
       type: 'Reaction',
       cost: 0,
       rule: {
         en: 'Use when the Current Supply Value of another Friendly Unit Within 8" of this Unit is reduced. Return one Non-Unique Exhausted Tactical Card to the Ready state.',
-        ko: '이 유닛의 8" 이내의 다른 아군 유닛의 현재 서플라이 값이 줄어들 때 사용한다. 소모된 비유니크 택티컬 카드 하나를 준비 상태로 되돌린다.',
+        ko: '이 유닛의 8인치 이내에 들어온 다른 아군 유닛의 현재 인구수가 감소할 때 사용합니다. 유일이 아닌 소모 상태의 전술 카드 1장을 준비 상태로 되돌립니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Warp-In',
-      name: { en: 'Warp-In', ko: '차원 전송' },
+      name: { en: 'Warp-In', ko: '소환' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
       rule: {
         en: 'Resolve the PLACE (6) effect.',
-        ko: '위치(6)를 적용한다.',
+        ko: '배치(6) 효과를 수행합니다.',
       },
       simulatorFeature: { kind: 'selfMove', range: 6 },
     },
@@ -65,7 +65,7 @@ export const twilightTemplar: UnitCard = {
       placesTokenId: 'Psionic Storm',
       rule: {
         en: 'Set a Psionic Storm token Within 10" and Line of Sight of this Unit. This token is not removed if this Unit is Destroyed. At the End of each Phase, set a Psionic Storm Blast Template on the centre of this token. For each Unit that has at least one model whose base is partially covered by the template, roll 3 dice, plus 1 additional die for each model in that Unit whose base is partially covered. For each result of 4+, that Unit suffers an effect depending on the current Phase: Movement Phase: NON-LETHAL DAMAGE (1). Assault Phase: 1 Damage. If multiple effects trigger at the End of the Assault Phase, resolve them in the order specified in Part 8.9.4.',
-        ko: '이 유닛의 10" 이내이며 시야 내인 곳에 사이오닉 폭풍 토큰을 둔다. 이 토큰은 이 유닛이 파괴되어도 제거되지 않는다. 각 페이즈 종료 시, 이 토큰의 중앙에 사이오닉 폭풍 블래스트 템플릿을 둔다. 베이스가 템플릿에 일부라도 덮인 모델이 하나 이상 있는 유닛마다 주사위 3개를 굴리고, 그 유닛에서 베이스가 일부라도 덮인 모델마다 주사위를 1개씩 추가로 굴린다. 4+가 나온 주사위마다, 그 유닛은 현재 페이즈에 따라 다음 효과를 받는다: 무브먼트 페이즈: 논 리썰 데미지(1). 어썰트 페이즈: 데미지 1. 어썰트 페이즈 종료 시 여러 효과가 발생하면, 8.9.4장에 명시된 순서대로 처리한다.',
+        ko: '이 유닛의 10인치 이내에 들어온, 시야가 확보된 위치에 사이오닉 폭풍 토큰 1개를 놓습니다. 이 유닛이 파괴되더라도 해당 토큰은 제거되지 않습니다. 각 단계 종료 시 해당 토큰의 중앙에 사이오닉 폭풍 폭발 템플릿을 놓습니다. 베이스의 일부라도 템플릿에 덮인 모형이 하나 이상 있는 각 유닛마다 주사위 3개를 굴리고, 해당 유닛에서 베이스의 일부가 템플릿에 덮인 모형 하나마다 주사위 1개를 추가로 굴립니다. 4+ 결과 하나마다 현재 단계에 따라 해당 유닛에 다음 효과를 적용합니다. 이동 단계: 비살상 피해(1). 공세 단계: 피해 1. 공세 단계 종료 시 여러 효과가 동시에 발동한다면 8.9.4 항목에 명시된 순서대로 처리합니다.',
       },
       simulatorFeature: {
         kind: 'placeToken',
@@ -82,14 +82,14 @@ export const twilightTemplar: UnitCard = {
       cost: 1,
       rule: {
         en: 'Target one Enemy Mechanical or Psionic Unit Within 8". Until the End of the Round, after that Unit resolves an Active or Reaction Special Ability (excluding abilities granted by a Tactical Card or Faction Card), it suffers NON-LETHAL DAMAGE (3).',
-        ko: '8" 이내의 적 기계 또는 사이오닉 유닛 하나를 목표로 삼는다. 라운드 종료 시까지, 그 유닛이 활성 또는 반응 특수능력(택티컬 카드나 팩션 카드로 얻은 능력 제외)을 사용한 후, 논 리썰 데미지(3)를 받는다.',
+        ko: '8인치 이내에 들어온 적 기계 또는 사이오닉 유닛 1개를 선택합니다. 라운드 종료 시까지 해당 유닛은 발동형 또는 반응형 특수 능력을 처리한 후, 비살상 피해(3)를 받습니다. 전술 카드 또는 진영 카드로 부여된 능력은 제외합니다.',
       },
       simulatorFeature: { kind: 'targetOne', side: 'enemy', range: 8 },
     },
     {
       kind: 'weapon',
       id: 'Psi Blast',
-      name: { en: 'Psi Blast', ko: '사이오닉 파동' },
+      name: { en: 'Psi Blast', ko: '사이오닉 폭발' },
       phase: 'Assault',
       stat: {
         rng: 8,
@@ -105,7 +105,7 @@ export const twilightTemplar: UnitCard = {
     {
       kind: 'weapon',
       id: 'Strike',
-      name: { en: 'Strike', ko: '타격' },
+      name: { en: 'Strike', ko: '근접 타격' },
       phase: 'Combat',
       stat: {
         rng: 'E',

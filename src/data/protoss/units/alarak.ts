@@ -23,25 +23,25 @@ export const alarak: UnitCard = {
     {
       kind: 'rule',
       id: 'Commander',
-      name: { en: 'Commander', ko: '지휘관' },
+      name: { en: 'Commander', ko: '사령관' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: "Treat this Unit's Supply characteristic as increased by 1 for Controlling and Contesting Mission Markers, completing objectives, and resolving Disengage checks.",
-        ko: '이 유닛이 미션 마커를 경쟁할 때, 점령할 때, 이탈, 미션의 목표달성을 계산할 때 서플라이 값을 1 높은 걸로 친다.',
+        ko: '임무 마커를 점령하거나 이를 두고 경합할 때, 목표를 완료할 때, 그리고 이탈 판정을 해결할 때 이 유닛의 인구수는 1 증가한 것으로 간주합니다.',
       },
     },
     {
       kind: 'rule',
       id: "Highlord of the Tal'darim",
-      name: { en: "Highlord of the Tal'darim", ko: '탈다림의 군주' },
+      name: { en: "Highlord of the Tal'darim", ko: '탈다림의 대군주' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: "Calculate the total lost Supply of all Friendly Units (a Unit's lost Supply is its Initial Supply Value minus its Current Supply Value). While this total is: 2 or more: When this Unit resolves IMPACT, it generates 3 additional IMPACT dice. 4 or more: This Unit's weapons gain INSTANT. 6 or more: This Unit's abilities are Empowered.",
-        ko: '모든 아군 유닛이 잃은 서플라이의 합을 계산한다 (유닛이 잃은 서플라이 = 처음 서플라이 값 - 현재 서플라이 값). 그 합이 2 이상: 이 유닛이 임팩트를 처리할 때 임팩트 주사위를 3개 더 굴린다. 4 이상: 이 유닛의 무기는 인스턴트를 얻는다. 6 이상: 이 유닛의 능력이 강화된다.',
+        ko: '모든 아군 유닛이 잃은 인구수의 합계를 계산합니다(유닛이 잃은 인구수는 시작 인구수에서 현재 인구수를 뺀 값입니다). 이 합계가 다음과 같은 동안: 2 이상: 이 유닛이 충격을 해결할 때 충격 주사위를 3개 추가로 생성합니다. 4 이상: 이 유닛의 무기는 반응 불가 특성을 얻습니다. 6 이상: 이 유닛의 능력은 증폭됩니다.',
       },
     },
     {
@@ -53,32 +53,32 @@ export const alarak: UnitCard = {
       cost: 1,
       rule: {
         en: 'When this Unit receives Damage, target another Friendly Biological Unit Within 8". The targeted Unit suffers 2 Damage, and the Damage received by this Unit is reduced by 2 (when Empowered, reduced by 3).',
-        ko: '이 유닛이 데미지를 받을 때, 8" 이내의 다른 아군 생체 유닛 하나를 목표로 삼는다. 그 유닛은 데미지 2를 받고, 이 유닛이 받는 데미지는 2 줄어든다 (강화 시 3 줄어든다).',
+        ko: '이 유닛이 피해를 받을 때, 8인치 이내의 다른 아군 생체 유닛 1개를 대상으로 지정합니다. 대상 유닛은 피해 2를 받고, 이 유닛이 받는 피해는 2 감소합니다(증폭된 경우 3 감소).',
       },
     },
     {
       kind: 'rule',
       id: 'Wrath of the Highlord',
-      name: { en: 'Wrath of the Highlord', ko: '군주의 분노' },
+      name: { en: 'Wrath of the Highlord', ko: '대군주의 분노' },
       phase: 'Assault',
       type: 'Active',
       cost: 0,
       rule: {
         en: 'Target another Friendly Biological Unit Within 8". The targeted Unit suffers 2 Damage, and this Unit performs a 4" Run Action (when Empowered, perform a 6" Run Action).',
-        ko: '8" 이내의 다른 아군 생체 유닛 하나를 목표로 삼는다. 그 유닛은 데미지 2를 받고, 이 유닛은 4" 질주 액션을 한다 (강화 시 6" 질주 액션).',
+        ko: '8인치 이내의 다른 아군 생체 유닛 1개를 대상으로 지정합니다. 대상 유닛은 피해 2를 받고, 이 유닛은 4인치 질주 행동을 수행합니다(증폭된 경우 6인치 질주 행동).',
       },
       simulatorFeature: { kind: 'targetOne', side: 'ally', range: 8 },
     },
     {
       kind: 'rule',
       id: 'Destruction Wave',
-      name: { en: 'Destruction Wave', ko: '파괴의 파동' },
+      name: { en: 'Destruction Wave', ko: '파멸파' },
       phase: 'Assault',
       type: 'Active',
       cost: 0,
       rule: {
         en: 'Target another Friendly Biological Unit Within 8". The targeted Friendly Unit suffers 2 Damage. Then target an Enemy Unit Within 8" of this Unit. The targeted Enemy Unit suffers HITS 4 (1) (when Empowered, HITS 6 (1)).',
-        ko: '8" 이내의 다른 아군 생체 유닛 하나를 목표로 삼는다. 그 아군 유닛은 데미지 2를 받는다. 그 후 이 유닛의 8" 이내의 적 유닛 하나를 목표로 삼는다. 그 적 유닛은 힛 4(1)를 받는다 (강화 시 힛 6(1)).',
+        ko: '8인치 이내의 다른 아군 생체 유닛 1개를 대상으로 지정합니다. 대상 아군 유닛은 피해 2를 받습니다. 그 후 이 유닛의 8인치 이내에 있는 적 유닛 1개를 대상으로 지정합니다. 대상 적 유닛은 명중 4(1) 효과를 받습니다(증폭된 경우 명중 6(1)).',
       },
       simulatorFeature: { kind: 'targetOne', side: 'ally', range: 8 },
     },
@@ -92,7 +92,7 @@ export const alarak: UnitCard = {
       enhances: ['Bane Blades'],
       rule: {
         en: "Target another Friendly Biological Unit Within 8\". The targeted Unit suffers 2 Damage, and this Unit's Bane Blades gain BUFF RoA (4) (when Empowered, BUFF RoA (6)).",
-        ko: '8" 이내의 다른 아군 생체 유닛 하나를 목표로 삼는다. 그 유닛은 데미지 2를 받고, 이 유닛의 파멸의 칼날은 버프 RoA(4)를 얻는다 (강화 시 버프 RoA(6)).',
+        ko: '8인치 이내의 다른 아군 생체 유닛 1개를 대상으로 지정합니다. 대상 유닛은 피해 2를 받고, 이 유닛의 파멸의 검은 타수(4) 강화를 얻습니다(증폭된 경우 타수(6) 강화).',
       },
       simulatorFeature: { kind: 'targetOne', side: 'ally', range: 8 },
     },
@@ -105,13 +105,13 @@ export const alarak: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (6) 4+ effect.',
-        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 임팩트(6)를 4+로 입힌다.',
+        ko: '이 유닛이 돌격에 성공한 직후, 충격(6) 4+ 효과를 수행합니다.',
       },
     },
     {
       kind: 'weapon',
       id: 'Bane Blades',
-      name: { en: 'Bane Blades', ko: '파멸의 칼날' },
+      name: { en: 'Bane Blades', ko: '파멸의 검' },
       phase: 'Combat',
       stat: {
         rng: 'E',

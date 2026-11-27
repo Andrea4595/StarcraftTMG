@@ -38,19 +38,19 @@ export const infestedTrooper: UnitCard = {
       enhances: ['Infested C-14 Rifle', 'Bayonet'],
       rule: {
         en: 'When this Unit attacks an Enemy Unit with the INFESTATION Status or a Unit Within 6" of any Source of Creep or Creep Tumor, its Infested C-14 Rifle and all Close Combat Attacks gain PRECISION (2).',
-        ko: '이 유닛이 감염 상태인 적 유닛, 또는 점막 공급원이나 점막 종양의 6" 이내에 있는 유닛을 공격할 때, 감염된 C-14 소총과 모든 근접 공격은 프리시전(2)을 얻는다.',
+        ko: '이 유닛이 감염 상태인 적 유닛, 또는 점막 생성원이나 점막 종양의 6인치 이내에 있는 유닛을 공격할 때, 이 유닛의 감염된 C-14 가우스 소총과 모든 근접전 공격은 정밀(2) 특성을 얻습니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Detonation',
-      name: { en: 'Detonation', ko: '자폭' },
+      name: { en: 'Detonation', ko: '폭발' },
       phase: 'Any',
       type: 'Reaction',
       cost: 1,
       rule: {
         en: 'Immediately before any models in this Unit are Destroyed, Enemy Units Within 2" suffer HITS 1 (2) for each model in this Unit that will be Destroyed.',
-        ko: '이 유닛의 모델이 파괴되기 직전에, 2" 이내의 적 유닛들은 파괴될 이 유닛의 모델 하나마다 힛 1(2)을 받는다.',
+        ko: '이 유닛의 모형이 파괴되기 직전, 2인치 이내의 적 유닛은 파괴될 이 유닛의 모형 하나마다 명중 1(2) 효과를 받습니다.',
       },
     },
     {
@@ -62,7 +62,7 @@ export const infestedTrooper: UnitCard = {
       cost: 1,
       rule: {
         en: 'Target an Enemy Unit Within 8". The targeted Unit gains the INFESTATION Status. For the purposes of resolving Special Abilities, this effect is treated as a DEBUFF.',
-        ko: '8" 이내의 적 유닛 하나를 목표로 삼는다. 그 유닛은 감염 상태를 얻는다. 특수능력을 처리할 때 이 효과는 디버프로 취급한다.',
+        ko: '8인치 이내의 적 유닛 1개를 대상으로 지정합니다. 대상 유닛은 감염 상태를 얻습니다. 특수 능력을 처리할 때 이 효과는 약화 효과로 취급합니다.',
       },
       simulatorFeature: { kind: 'targetOne', side: 'enemy', range: 8 },
     },
@@ -75,13 +75,13 @@ export const infestedTrooper: UnitCard = {
       cost: 0,
       rule: {
         en: "When this Unit is nominated to deploy from the Reserves, it may resolve the PLACE (18) effect from the controlling player's Entry Edge. No model may be set Within 10\" of any Enemy model. This Unit's Activation ends.",
-        ko: '이 유닛이 리저브에서 배치되도록 지정되었을 때, 조종하는 플레이어의 엔트리 엣지에서 위치(18)할 수 있다. 어떤 모델도 적 모델의 10" 이내에 배치될 수 없다. 이 유닛의 활성화는 종료된다.',
+        ko: '이 유닛이 예비 병력에서 전개 대상으로 지정되면, 조종 플레이어의 진입 경계로부터 배치(18) 효과를 수행할 수 있습니다. 어떠한 모형도 적 모형의 10인치 이내에 놓을 수 없습니다. 이 유닛의 활성화는 종료됩니다.',
       },
     },
     {
       kind: 'weapon',
       id: 'Infested C-14 Rifle',
-      name: { en: 'Infested C-14 Rifle', ko: '감염된 C-14 소총' },
+      name: { en: 'Infested C-14 Rifle', ko: '감염된 C-14 가우스 소총' },
       phase: 'Assault',
       stat: {
         rng: 12,
@@ -104,7 +104,7 @@ export const infestedTrooper: UnitCard = {
       enhances: ['Infested C-14 Rifle'],
       rule: {
         en: 'Immediately after an attack with the Infested C-14 Rifle, if the attacked Unit suffered Damage, it also suffers NON-LETHAL Damage (1).',
-        ko: '감염된 C-14 소총으로 공격한 직후, 공격받은 유닛이 데미지를 받았다면 논 리썰 데미지(1)도 받는다.',
+        ko: '감염된 C-14 가우스 소총으로 공격한 직후, 공격받은 유닛이 피해를 받았다면 추가로 비살상 피해(1)를 받습니다.',
       },
     },
     {
@@ -116,7 +116,7 @@ export const infestedTrooper: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (2) 4+ effect.',
-        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 임팩트(2)를 4+로 입힌다.',
+        ko: '이 유닛이 돌격에 성공한 직후, 충격(2) 4+ 효과를 수행합니다.',
       },
     },
     {

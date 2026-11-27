@@ -25,13 +25,13 @@ export const slayer: UnitCard = {
     {
       kind: 'rule',
       id: 'Squadron',
-      name: { en: 'Squadron', ko: '부대' },
+      name: { en: 'Squadron', ko: '분대' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: "This Unit's Horizontal Coherency is 4\".",
-        ko: '이 유닛의 코헤런시는 4”이다.',
+        ko: '이 유닛의 수평 대형은 4인치입니다.',
       },
     },
     {
@@ -43,7 +43,7 @@ export const slayer: UnitCard = {
       cost: 1,
       rule: {
         en: 'When the Current Supply Value of another Friendly Unit Within 12" of this Unit is reduced, this Unit, if Unengaged, may perform a Move action Directly Towards that Friendly Unit.',
-        ko: '이 유닛의 12" 이내에 있는 다른 아군 유닛의 현재 서플라이 값이 줄어들 때, 이 유닛이 인게이지 상태가 아니라면 그 아군 유닛을 향해 곧장 이동 액션을 할 수 있다.',
+        ko: '이 유닛의 12인치 이내에 있는 다른 아군 유닛의 현재 인구수가 감소할 때, 이 유닛이 교전 중이 아니라면 해당 아군 유닛을 향해 곧장 가까워지도록 이동 행동을 수행할 수 있습니다.',
       },
     },
     {
@@ -56,7 +56,7 @@ export const slayer: UnitCard = {
       enhances: ['Blink', 'Particle Disruptors'],
       rule: {
         en: "Immediately before this Unit resolves any PLACE effect, you may target one Enemy Unit. This Unit's weapons gain BUFF ROA (1) against the targeted Unit, but this Unit must perform PLACE Directly Towards the chosen Unit.",
-        ko: '이 유닛이 위치 효과를 처리하기 직전에, 적 유닛 하나를 목표로 삼을 수 있다. 이 유닛의 무기는 그 유닛을 상대로 버프 RoA(1)를 얻지만, 이 유닛은 반드시 그 유닛을 향해 곧장 위치해야 한다.',
+        ko: '이 유닛이 배치 효과를 해결하기 직전에 적 유닛 1개를 대상으로 지정할 수 있습니다. 이 유닛의 무기는 대상 유닛을 상대로 타수(1) 강화를 얻지만, 이 유닛은 선택한 유닛을 향해 곧장 가까워지도록 배치를 수행해야 합니다.',
       },
     },
     {
@@ -68,7 +68,7 @@ export const slayer: UnitCard = {
       cost: 1,
       rule: {
         en: 'Resolve the PLACE (6) effect. Models set by this effect cannot be set up Within the Engagement Range of any Enemy Unit.',
-        ko: '위치(6)한다, 적 유닛과 인게이지 상태가 되게 배치될 수 없다.',
+        ko: '배치(6) 효과를 수행합니다. 이 효과로 배치되는 모형은 적 유닛의 교전 범위 안쪽에 놓일 수 없습니다.',
       },
       simulatorFeature: { kind: 'selfMove', range: 6 },
     },

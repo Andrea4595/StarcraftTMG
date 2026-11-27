@@ -21,7 +21,7 @@ export const terranArmedForces: TacticalCard = {
       cost: 0,
       rule: {
         en: 'The active Unit ignores the Disengage penalty for the remainder of the Round.',
-        ko: '활성화중인 유닛은 이번 라운드 동안 이탈의 페널티를 받지 않는다.',
+        ko: '활성화된 유닛은 라운드 종료 시까지 이탈 페널티를 무시합니다.',
       },
     },
     {
@@ -33,7 +33,7 @@ export const terranArmedForces: TacticalCard = {
       cost: 0,
       rule: {
         en: 'Once per Game. Immediately claim the First Player Marker. No other player may claim the First Player Marker for the remainder of this Phase.',
-        ko: '게임당 한 번, 즉시 선공권 마커를 얻는다. 이 페이즈의 남은 기간 동안 다른 플레이어는 선공권 마커를 지닐 수 없다.',
+        ko: '게임당 1회. 즉시 선공 마커를 가져옵니다. 이 단계가 끝날 때까지 다른 플레이어는 선공 마커를 가져올 수 없습니다.',
       },
     },
   ],

@@ -25,7 +25,7 @@ export const stukovsForces: TacticalCard = {
       // 별도 유닛 프로필로 제공되기 때문에, 이 능력은 규칙 텍스트로만 보여준다.
       rule: {
         en: "During Army Building, you may include Units with the Terran Faction Tag and both Ground and Mechanical Combat Tags in your army. Those Units gain the Infested Combat Tag. Treat any CP cost for those Units' Special Abilities as BM. These Units cannot gain the BURROWED Status.",
-        ko: '아미 구성 시, 테란 팩션 태그와 지상, 기계 전투 태그를 모두 가진 유닛을 아미에 넣을 수 있다. 그 유닛들은 감염 전투 태그를 얻는다. 그 유닛들의 특수능력 CP 비용은 BM으로 취급한다. 그 유닛들은 잠복 상태를 얻을 수 없다.',
+        ko: '병력 편성 중, 테란 진영 분류와 지상 및 기계 전투 분류를 모두 가진 유닛을 병력에 포함할 수 있습니다. 해당 유닛은 감염 전투 분류를 얻습니다. 해당 유닛의 특수 능력에 있는 CP 비용은 BM으로 취급합니다. 해당 유닛은 잠복 상태를 얻을 수 없습니다.',
       },
     },
     {
@@ -37,7 +37,7 @@ export const stukovsForces: TacticalCard = {
       cost: 0,
       rule: {
         en: 'During Army Building, select exactly one Virus Card and add it to your Army List, paying its listed cost (if any).',
-        ko: '아미 구성 시, 바이러스 카드 중 하나를 선택해 아미에 넣는다. (그 카드가 자원을 소모한다면 그만큼 소모한다)',
+        ko: '병력 편성 중, 바이러스 카드 1장을 반드시 선택하여 병력 목록에 추가해야 하며, 명시된 비용이 있다면 해당 비용을 지불해야 합니다.',
       },
     },
     {
@@ -49,7 +49,7 @@ export const stukovsForces: TacticalCard = {
       cost: 0,
       rule: {
         en: 'If there is no Friendly Infested Missile Turret on the battlefield, set a Friendly Infested Missile Turret Unit anywhere on the GROUND LEVEL of the battlefield more than 10" away from any Enemy model. This Round, the Missile Turret is not eligible to use its Special Abilities (excluding Structure).',
-        ko: '전장에 아군 감염된 미사일 포탑이 없다면, 모든 적 모델로부터 10" 이상 떨어진 전장의 지면 아무곳에 아군 감염된 미사일 포탑을 배치한다. 그 라운드 동안 미사일 포탑은 특수능력을 사용할 수 없다. (구조물 규칙은 제외한다)',
+        ko: '전장에 아군 감염된 미사일 포탑이 없다면, 적 모형으로부터 10인치 초과해서 떨어진 전장의 지면 아무 위치에 아군 감염된 미사일 포탑 유닛 1개를 놓습니다. 이번 라운드 동안 해당 미사일 포탑은 특수 능력(구조물 제외)을 사용할 수 없습니다.',
       },
       summonsUnitId: 'Infested Missile Turret',
       simulatorFeature: {

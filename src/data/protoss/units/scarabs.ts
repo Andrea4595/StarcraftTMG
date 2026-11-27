@@ -14,7 +14,7 @@ const scarabCommonAbilities: Ability[] = [
     cost: 0,
     rule: {
       en: 'Remove this Unit at the End of the Round.',
-      ko: '라운드 종료 시 이 유닛을 제거한다.',
+      ko: '라운드 종료 시 이 유닛을 제거합니다.',
     },
   },
   {
@@ -26,7 +26,7 @@ const scarabCommonAbilities: Ability[] = [
     cost: 0,
     rule: {
       en: 'This Unit is always eligible to use Evade Rolls against Attacks or Special Abilities.',
-      ko: '이 유닛은 공격이나 특수능력에 대해 항상 회피 롤을 할 수 있다.',
+      ko: '이 유닛은 공격이나 특수 능력에 대해 항상 회피 굴림을 할 수 있습니다.',
     },
   },
   {
@@ -38,19 +38,19 @@ const scarabCommonAbilities: Ability[] = [
     cost: 0,
     rule: {
       en: 'When an Enemy Ground Unit ends its Activation Within 2" of this Unit. This Unit immediately performs a Close Combat Attack against that Enemy Unit. Immediately after this Close Combat Attack is resolved, remove this Unit from the battlefield.',
-      ko: '적 지상 유닛이 이 유닛의 2" 이내에서 활성화를 마쳤을 때, 이 유닛은 즉시 그 적 유닛에게 근접 공격을 한다. 이 근접 공격을 처리한 직후 이 유닛을 전장에서 제거한다.',
+      ko: '적 지상 유닛이 이 유닛의 2인치 이내에서 활성화를 끝낼 때 사용합니다. 이 유닛은 즉시 해당 적 유닛을 대상으로 근접전 공격을 수행합니다. 이 근접전 공격을 처리한 직후, 이 유닛을 전장에서 제거합니다.',
     },
   },
   {
     kind: 'rule',
     id: 'Explosive Charge',
-    name: { en: 'Explosive Charge', ko: '폭발 돌진' },
+    name: { en: 'Explosive Charge', ko: '폭발 돌격' },
     phase: 'Assault',
     type: 'Passive',
     cost: 0,
     rule: {
       en: 'Immediately after this Unit completes a successful Charge, it performs a Close Combat Attack against one of the targets of that Charge. Immediately after this Close Combat Attack is resolved, remove this Unit from the battlefield.',
-      ko: '이 유닛이 성공적으로 차지를 마친 직후, 그 차지의 목표 중 하나에게 근접 공격을 한다. 이 근접 공격을 처리한 직후 이 유닛을 전장에서 제거한다.',
+      ko: '이 유닛이 돌격에 성공한 직후, 해당 돌격의 대상 중 하나를 대상으로 근접전 공격을 수행합니다. 이 근접전 공격을 처리한 직후, 이 유닛을 전장에서 제거합니다.',
     },
   },
 ]

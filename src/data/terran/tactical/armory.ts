@@ -18,7 +18,7 @@ export const armory: TacticalCard = {
       cost: 0,
       rule: {
         en: 'Use before a Friendly Mechanical Unit makes an Armour Roll. That Unit gains TOUGH (1) for this roll.',
-        ko: '아군 기계 유닛이 아머 롤을 할 때 사용할 수 있다. 그 유닛은 그 굴림에서 터프(1)을 갖는다.',
+        ko: '아군 기계 유닛이 방어 굴림을 수행하기 전에 사용합니다. 해당 굴림 동안 그 유닛은 강인함(1) 특성을 얻습니다.',
       },
     },
     {
@@ -30,7 +30,7 @@ export const armory: TacticalCard = {
       cost: 0,
       rule: {
         en: "The active Mechanical Unit's first Ranged Weapon used gain CRITICAL HIT (1).",
-        ko: '활성화중인 기계 유닛이 처음으로 사용하는 사격무기는 크리티컬 힛(1)을 갖는다.',
+        ko: '활성화된 기계 유닛이 이번 단계에서 처음 사용하는 원거리 무기는 치명타(1) 특성을 얻습니다.',
       },
     },
   ],

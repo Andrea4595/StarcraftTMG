@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const novaStealthMode: UnitCard = {
   category: 'unit',
   id: 'Nova Stealth Mode',
-  name: { en: 'Nova Stealth Mode', ko: '노바 [은신 모드]' },
+  name: { en: 'Nova Stealth Mode', ko: '노바 은신 모드' },
   isUnique: true,
   wave: 3,
   type: 'Hero',
@@ -30,44 +30,44 @@ export const novaStealthMode: UnitCard = {
       cost: 0,
       rule: {
         en: 'During Army Building, your army cannot include both the Nova Assault Mode Unit and the Nova Stealth Mode Unit.',
-        ko: '아미 구성 시, 노바 [강습 모드] 유닛과 노바 [은신 모드] 유닛을 함께 포함할 수 없다.',
+        ko: '병력 편성 중, 자신의 병력에 노바 돌격 모드 유닛과 노바 은신 모드 유닛을 동시에 포함할 수 없습니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Tactical Stealth Suit',
-      name: { en: 'Tactical Stealth Suit', ko: '전술 은신 슈트' },
+      name: { en: 'Tactical Stealth Suit', ko: '전술 은신 전투복' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'After this Unit fully resolves an Action, it gains the HIDDEN Status.',
-        ko: '이 유닛이 액션을 완전히 마친 후, 은폐 상태를 얻는다.',
+        ko: '이 유닛이 행동을 완전히 처리한 후, 은신 상태를 얻습니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Ghost Visor',
-      name: { en: 'Ghost Visor', ko: '유령 바이저' },
+      name: { en: 'Ghost Visor', ko: '유령 조준경' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'While Enemy Units are Within 6" of this Unit, they lose the HIDDEN Status.',
-        ko: '적 유닛은 이 유닛의 6" 안에 있는 동안 은폐 상태를 잃는다.',
+        ko: '이 유닛의 6인치 이내에 들어온 적 유닛은 은신 상태를 잃습니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Super Stimpack',
-      name: { en: 'Super Stimpack', ko: '강화 자극제' },
+      name: { en: 'Super Stimpack', ko: '초 전투 자극제' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
       enhances: ['C-20A Canister Rifle', 'Combat Knife'],
       rule: {
         en: 'This Unit gains BUFF Speed (2). Additionally, all its Weapons gain PRECISION (2).',
-        ko: '이 유닛은 버프 스피드(2)를 받는다. 추가로 이 유닛의 모든 무기가 프리시전(2)을 갖는다.',
+        ko: '이 유닛은 속도(2) 강화를 얻습니다. 추가로, 이 유닛의 모든 무기는 정밀(2) 특성을 얻습니다.',
       },
     },
     {
@@ -79,7 +79,7 @@ export const novaStealthMode: UnitCard = {
       cost: 1,
       rule: {
         en: 'Resolve the SUMMON (Holo Decoy) effect. Then, Holo Decoy may immediately perform a Move action.',
-        ko: '소환(홀로그램 분신)한다. 그 후, 홀로그램 분신는 즉시 이동 액션을 할 수 있다.',
+        ko: '소환(홀로그램 분신) 효과를 수행합니다. 그 후 홀로그램 분신은 즉시 이동 행동을 수행할 수 있습니다.',
       },
       summonsUnitId: 'Holo Decoy',
       simulatorFeature: {
@@ -91,7 +91,7 @@ export const novaStealthMode: UnitCard = {
     {
       kind: 'weapon',
       id: 'C-20A Canister Rifle',
-      name: { en: 'C-20A Canister Rifle', ko: 'C-20A 카니스터 소총' },
+      name: { en: 'C-20A Canister Rifle', ko: 'C-20A 산탄 소총' },
       phase: 'Assault',
       stat: {
         rng: 12,
@@ -110,13 +110,13 @@ export const novaStealthMode: UnitCard = {
     {
       kind: 'rule',
       id: 'Operational Efficiency',
-      name: { en: 'Operational Efficiency', ko: '작전 효율' },
+      name: { en: 'Operational Efficiency', ko: '운영 효율' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'After this Unit fully resolves a Ranged Attack with its C-20A Canister Rifle, if the target Enemy Unit was Destroyed or its Current Supply Value was reduced, the active player may return one of their Exhausted non-Unique Tactical Cards to its Ready state.',
-        ko: '이 유닛이 C-20A 카니스터 소총으로 사격을 완전히 마친 후, 목표 적 유닛이 파괴되었거나 현재 서플라이 값이 줄어들었다면, 액티브 플레이어는 자신의 소모된 비유니크 택티컬 카드 하나를 준비 상태로 되돌릴 수 있다.',
+        ko: '이 유닛이 C-20A 산탄 소총으로 원거리 공격을 완전히 처리한 후, 대상 적 유닛이 파괴되었거나 현재 인구수가 감소했다면 활성 플레이어는 자신의 유일이 아닌 소모 상태 전술 카드 중 1장을 준비 상태로 되돌릴 수 있습니다.',
       },
     },
     {
@@ -129,13 +129,13 @@ export const novaStealthMode: UnitCard = {
       enhances: ['C-20A Canister Rifle'],
       rule: {
         en: "Once Per Game. While this Unit is Unengaged and has the Stationary Status, when it makes a Ranged Attack with its C-20A Canister Rifle, treat that weapon's Damage characteristic as 3, and it gains CONCENTRATED FIRE (1).",
-        ko: '게임당 한번. 이 유닛이 인게이지 상태가 아니고 정지 상태일 때, C-20A 카니스터 소총으로 사격을 하면 그 무기의 데미지 특성치를 3으로 취급하고, 그 무기는 집중된 사격(1)을 얻는다.',
+        ko: '게임당 1회. 이 유닛이 교전 중이 아니고 정지한 상태일 때, C-20A 산탄 소총으로 원거리 공격을 수행할 때 사용합니다. 해당 무기의 피해 수치를 3으로 간주하고, 점사(1) 특성을 얻습니다.',
       },
     },
     {
       kind: 'weapon',
       id: 'Combat Knife',
-      name: { en: 'Combat Knife', ko: '전투용 단검' },
+      name: { en: 'Combat Knife', ko: '전투 나이프' },
       phase: 'Combat',
       stat: {
         rng: 'E',

@@ -22,7 +22,7 @@ export const kerrigansSwarm: TacticalCard = {
       cost: 0,
       rule: {
         en: 'If the active unit is ON CREEP, the Unit gains BUFF Speed (1) and its first Weapon used gains PRECISION (1).',
-        ko: '활성화된 유닛이 점막 위에 있다면 그 유닛은 버프 스피드(1)를 얻고, 처음으로 사용하는 무기에 프리시전(1)을 얻는다.',
+        ko: '활성화된 유닛이 점막 위에 있다면, 속도(1) 강화를 얻고 해당 유닛이 이번 단계에서 처음 사용하는 무기는 정밀(1) 특성을 얻습니다.',
       },
     },
     {
@@ -34,7 +34,7 @@ export const kerrigansSwarm: TacticalCard = {
       cost: 0,
       rule: {
         en: 'During Army Building, select exactly one Creep Card and add it to their Army List, paying its listed cost (if any).',
-        ko: '아미 구성 시, 점막 카드 중 하나를 선택해 아미에 넣는다. (그 카드가 자원을 소모한다면 그만큼 소모한다)',
+        ko: '병력 편성 중, 점막 카드 1장을 반드시 선택하여 병력 목록에 추가해야 하며, 명시된 비용이 있다면 해당 비용을 지불해야 합니다.',
       },
     },
     {
@@ -46,7 +46,7 @@ export const kerrigansSwarm: TacticalCard = {
       cost: 0,
       rule: {
         en: "If there is no Friendly Omega Worm on the battlefield, set a Friendly Omega Worm Unit anywhere on GROUND LEVEL of the battlefield, more than 10\" away from any Enemy model. This Round, the Omega Worm is not eligible to use its Special Abilities (excluding Structure).",
-        ko: '전장에 아군 오메가 벌레가 없다면, 전장의 아무곳에, 다른 적 유닛으로부터 10" 이상 떨어져 있는 상태로 전장의 지면에 오메가 벌레를 배치한다. 그렇게 배치된 오메가 벌레는 그 라운드 동안 특수 능력을 사용할 수 없다. (구조물 규칙은 제외된다.)',
+        ko: '전장에 아군 오메가 벌레가 없다면, 적 모형으로부터 10인치 초과 떨어진 전장의 지면 아무 위치에 아군 오메가 벌레 유닛 1개를 놓습니다. 이번 라운드 동안 오메가 벌레는 특수 능력(구조물 제외)을 사용할 수 없습니다.',
       },
       summonsUnitId: 'Omega Worm',
       simulatorFeature: {

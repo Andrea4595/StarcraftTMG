@@ -15,13 +15,13 @@ export const raynorsRaiders: TacticalCard = {
     {
       kind: 'rule',
       id: 'Rapid Ingress',
-      name: { en: 'Rapid Ingress', ko: '신속 증원' },
+      name: { en: 'Rapid Ingress', ko: '신속 침투' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
       rule: {
         en: 'Set a Friendly Point Defence Drone Unit anywhere on the battlefield, more than 1" away from any Enemy model. Remove this Unit at the End of the Round.',
-        ko: '전장에 다른 적 유닛으로부터 1" 이상 떨어지게 국지 방어기 유닛을 배치한다. 이 유닛은 라운드 종료 시에 제거된다.',
+        ko: '전장 아무 위치에 아군 국지 방어기 유닛 1개를 놓습니다. 해당 유닛은 모든 적 모형으로부터 1인치 초과해서 떨어져 있어야 합니다. 라운드 종료 시 이 유닛을 제거합니다.',
       },
       summonsUnitId: 'Point Defense Drone',
       simulatorFeature: {
@@ -39,7 +39,7 @@ export const raynorsRaiders: TacticalCard = {
       cost: 0,
       rule: {
         en: 'Once per Game. The active Unit resolves the PLACE (12) effect. Models set by this effect cannot be set up Within the Engagement Range of any Enemy Unit. This resolves instead of performing a standard action.',
-        ko: '게임당 한 번, 활성화된 유닛이 일반적인 액션을 하는 대신 위치(12)한다. 이 능력을 사용해서 적 유닛과 인게이지 상태로 배치될 수는 없다.',
+        ko: '게임당 1회. 활성화된 유닛은 배치(12) 효과를 수행합니다. 이 효과로 놓이는 모형은 어떤 적 유닛의 교전 범위 이내에도 놓을 수 없습니다. 이 효과는 일반 행동을 수행하는 대신 해결됩니다.',
       },
     },
   ],

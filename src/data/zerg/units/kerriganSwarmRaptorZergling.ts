@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const kerriganSwarmRaptorZergling: UnitCard = {
   category: 'unit',
   id: 'Kerrigan Swarm Raptor (Zergling)',
-  name: { en: 'Kerrigan Swarm Raptor (Zergling)', ko: '케리건 군단 랩터 [저글링]' },
+  name: { en: 'Kerrigan Swarm Raptor (Zergling)', ko: '케리건의 군단 랩터 (저글링)' },
   isUnique: true,
   type: 'Elite',
   stat: {
@@ -30,13 +30,13 @@ export const kerriganSwarmRaptorZergling: UnitCard = {
     {
       kind: 'rule',
       id: 'Squadron',
-      name: { en: 'Squadron', ko: '부대' },
+      name: { en: 'Squadron', ko: '분대' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: "This Unit's Horizontal Coherency is 4\".",
-        ko: '이 유닛의 코헤런시는 4"이다.',
+        ko: '이 유닛의 수평 대형은 4인치입니다.',
       },
     },
     {
@@ -48,7 +48,7 @@ export const kerriganSwarmRaptorZergling: UnitCard = {
       cost: 0,
       rule: {
         en: 'This Unit can move through IMPASSABLE TERRAIN of Size 4 or less and change elevation without using ACCESS POINTS.',
-        ko: '이 유닛이 사이즈4 이하의 통과 불가능한 지형에 대해 엑세스 포인트를 이용하지 않고서도 고도를 바꾸거나 통과해서 이동할 수 있다.',
+        ko: '이 유닛은 크기 4 이하의 통과 불가 지형을 통과할 수 있으며, 출입구를 사용하지 않고 고도를 변경할 수 있습니다.',
       },
     },
     {
@@ -60,20 +60,20 @@ export const kerriganSwarmRaptorZergling: UnitCard = {
       cost: 1,
       rule: {
         en: 'When determining Charge Distance for this Unit, add 2 to the Charge Distance.',
-        ko: '이 유닛이 차지할 때 차지값에 2를 더한다.',
+        ko: '이 유닛의 돌격 거리를 결정할 때, 돌격 거리에 2를 추가합니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Adrenal Overload',
-      name: { en: 'Adrenal Overload', ko: '아드레날린 과부화' },
+      name: { en: 'Adrenal Overload', ko: '아드레날린 과부하' },
       phase: 'Assault',
       type: 'Active',
       cost: 1,
       enhances: ['Devastating Charge'],
       rule: {
         en: 'This Unit gains a +1 Modifier to all IMPACT Hit Rolls.',
-        ko: '이 유닛이 임팩트 힛 롤을 할 때 +1을 얻는다.',
+        ko: '이 유닛은 모든 충격 명중 굴림에 +1 수정치를 얻습니다.',
       },
     },
     {
@@ -85,7 +85,7 @@ export const kerriganSwarmRaptorZergling: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (2) 5+ effect.',
-        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 임팩트(2)를 5+로 입힌다.',
+        ko: '이 유닛이 돌격에 성공한 직후, 충격(2) 5+ 효과를 수행합니다.',
       },
     },
     {

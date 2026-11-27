@@ -29,19 +29,19 @@ export const bileLauncher: UnitCard = {
       cost: 0,
       rule: {
         en: 'This Unit cannot gain the BURROWED Status, cannot be returned to Reserves, and is immune to the IMPACT keyword.',
-        ko: '이 유닛은 잠복 상태가 될 수 없고, 리저브로 되돌아갈 수 없으며, 임팩트 키워드에 면역이다.',
+        ko: '이 유닛은 잠복 상태를 얻을 수 없고, 예비 병력으로 복귀할 수 없으며, 충격 키워드의 영향을 받지 않습니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Source of Creep',
-      name: { en: 'Source of Creep', ko: '점막 공급원' },
+      name: { en: 'Source of Creep', ko: '점막 생성원' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'A Friendly or Enemy Ground Zerg Unit Within 6" of this Unit, counts as being ON CREEP.',
-        ko: '다른 6" 이내에 있는 적과 아군의 지상 저그 유닛은 점막 위에 있는 것으로 친다.',
+        ko: '이 유닛의 6인치 이내에 들어온 아군 또는 적 지상 저그 유닛은 점막 위에 있는 것으로 간주합니다.',
       },
     },
     {
@@ -53,7 +53,7 @@ export const bileLauncher: UnitCard = {
       cost: 0,
       rule: {
         en: 'While Enemy Units are Within 6" of this Unit, they lose the HIDDEN Status.',
-        ko: '적 유닛은 이 유닛의 6" 안에 있는 동안 은폐 상태를 잃는다.',
+        ko: '이 유닛의 6인치 이내에 들어온 적 유닛은 은신 상태를 잃습니다.',
       },
     },
     {
@@ -65,13 +65,13 @@ export const bileLauncher: UnitCard = {
       cost: 0,
       rule: {
         en: "When this Unit is nominated to deploy from the Reserves, it may resolve the PLACE (18) effect from the controlling player's Entry Edge. No model may be set Within 10\" of any Enemy model. This Unit's Activation ends.",
-        ko: '이 유닛이 리저브에서 나올 때, 조종하는 플레이어의 엔트리 엣지에서 위치(18)를 적용해 배치될 수 있다. 10" 이내에 다른 적 유닛이 없어야 하며, 이렇게 배치된 후에는 이 유닛의 활성화가 종료된다.',
+        ko: '이 유닛이 예비 병력에서 전개 대상으로 지정되면, 조종 플레이어의 진입 경계로부터 배치(18) 효과를 수행할 수 있습니다. 어떠한 모형도 적 모형의 10인치 이내에 놓을 수 없습니다. 이 유닛의 활성화는 종료됩니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Bombard',
-      name: { en: 'Bombard', ko: '포격' },
+      name: { en: 'Bombard', ko: '폭격' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
@@ -79,7 +79,7 @@ export const bileLauncher: UnitCard = {
       placesTokenId: 'Bile Bomb',
       rule: {
         en: "Set a Bile Bomb token on the battlefield Within 24\" of this Unit. When this Unit resolves a Ranged Attack using the Bile Bomb weapon profile this Round, it may choose to ignore the weapon's standard Range characteristic. If it does, it may target an Enemy Unit that is Within 3\" of that token (Line of Sight is not required), ignoring the HIDDEN Status. After the attack is fully resolved, remove the Bile Bomb token from the battlefield. When the Bile Bomb token is about to be removed, set a Creep Tumor token in base-to-base contact with it. The Bile Bomb token has DISPLACEMENT.",
-        ko: '이 유닛의 24" 이내의 전장에 담즙 폭탄 토큰을 둔다. 이 라운드에 이 유닛이 담즙 폭탄 무기 프로필로 사격을 할 때, 그 무기의 기본 사거리 특성치를 무시하도록 선택할 수 있다. 그렇게 했다면, 그 토큰의 3" 이내에 있는 적 유닛을 목표로 삼을 수 있으며 (시야는 필요하지 않다), 은폐 상태를 무시한다. 공격이 완전히 처리된 후, 담즙 폭탄 토큰을 전장에서 제거한다. 담즙 폭탄 토큰이 제거될 때, 그 토큰과 베이스 접촉되게 점막 종양 토큰을 둔다. 담즙 폭탄 토큰은 변위이다.',
+        ko: '담즙 폭탄 토큰 1개를 전장에 놓습니다. 해당 토큰은 이 유닛의 24인치 이내에 들어온 상태여야 합니다. 이번 라운드에 이 유닛이 담즙 폭탄 무기 프로필을 사용하여 원거리 공격을 처리할 때, 해당 무기의 일반 사거리 수치를 무시할 수 있습니다. 그렇게 한다면, 해당 토큰의 3인치 이내에 들어온 적 유닛 1개를 대상으로 지정할 수 있습니다. 시야는 필요하지 않으며, 은신 상태를 무시합니다. 공격을 완전히 처리한 후 담즙 폭탄 토큰을 전장에서 제거합니다. 담즙 폭탄 토큰이 제거되기 직전, 해당 토큰과 베이스 접촉 상태로 점막 종양 토큰 1개를 놓습니다. 담즙 폭탄 토큰은 위치 변환을 가집니다.',
       },
       simulatorFeature: {
         kind: 'placeToken',
@@ -112,7 +112,7 @@ export const bileLauncher: UnitCard = {
       cost: 0,
       rule: {
         en: 'While Engaged, this Unit may target and be targeted by Unengaged Enemy Units. In both cases, the defending Unit gains an Evade Roll against those attacks.',
-        ko: '인게이지 상태일 때에도 이 유닛은 인게이지되지 않은 적 유닛을 공격의 목표로 삼을 수 있다. 상대도 마찬가지로 이 유닛이 인게이지된 상태에서 공격의 대상으로 삼을 수 있다. 그럴 경우 공격의 대상이 된 유닛은 그 공격에 대해 회피 롤을 할 수 있다.',
+        ko: '교전 중인 동안, 이 유닛은 교전 중이 아닌 적 유닛을 대상으로 할 수 있으며, 교전 중이 아닌 적 유닛에게 대상으로 선택될 수 있습니다. 두 경우 모두, 방어 측 유닛은 해당 공격에 대해 회피 굴림을 할 수 있습니다.',
       },
     },
   ],

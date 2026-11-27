@@ -18,7 +18,7 @@ export const forge: TacticalCard = {
       cost: 0,
       rule: {
         en: 'Use before a Friendly Ground Unit makes an Armour Roll. That Unit gains TOUGH (1) for this roll.',
-        ko: '아군 지상 유닛이 아머 롤을 하기 전에 사용한다. 그 유닛은 그 굴림동안 터프(1)을 갖는다.',
+        ko: '아군 지상 유닛이 방어 굴림을 수행하기 전에 사용합니다. 해당 굴림 동안 그 유닛은 강인함(1) 특성을 얻습니다.',
       },
     },
     {
@@ -30,7 +30,7 @@ export const forge: TacticalCard = {
       cost: 0,
       rule: {
         en: "The active Ground Unit's first Ranged Weapon used gains CRITICAL HIT (1).",
-        ko: '활성화된 아군 지상 유닛이 첫번째로 사용하는 사격 무기는 크리티컬 힛(1)을 갖는다.',
+        ko: '활성화된 지상 유닛이 이번 단계에서 처음 사용하는 원거리 무기는 치명타(1) 특성을 얻습니다.',
       },
     },
   ],

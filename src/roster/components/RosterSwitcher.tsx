@@ -5,6 +5,7 @@ import { RACE_THEME_COLORS } from '../raceThemeColor'
 import { RosterExportButton } from './RosterExportButton'
 import { RosterShareButton } from './RosterShareButton'
 import { CreditButton } from './CreditButton'
+import { FaqButton } from '../../components/FaqModal'
 import { AuthButton } from './AuthButton'
 
 export function RosterSwitcher({
@@ -80,6 +81,7 @@ export function RosterSwitcher({
           </>
         )}
 
+        <FaqButton />
         <CreditButton />
         <AuthButton />
       </div>

@@ -22,26 +22,26 @@ export const tassadar: UnitCard = {
     {
       kind: 'rule',
       id: 'Commander',
-      name: { en: 'Commander', ko: '지휘관' },
+      name: { en: 'Commander', ko: '사령관' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: "Treat this Unit's Supply characteristic as increased by 1 for Controlling and Contesting Mission Markers, completing objectives, and resolving Disengage checks.",
-        ko: '이 유닛이 미션 마커를 경쟁할 때, 점령할 때, 이탈, 미션의 목표달성을 계산할 때 서플라이 값을 1 높은 걸로 친다.',
+        ko: '임무 마커를 점령하거나 이를 두고 경합할 때, 목표를 완료할 때, 그리고 이탈 판정을 해결할 때 이 유닛의 인구수는 1 증가한 것으로 간주합니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Force Wall',
-      name: { en: 'Force Wall', ko: '역장 벽' },
+      name: { en: 'Force Wall', ko: '역장 방벽' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
       placesTokenId: 'Force Wall',
       rule: {
         en: "Set two Force Wall tokens Wholly Within 8\" in an unoccupied space. Units of Size 2 or lower cannot move across the Force Wall. Models of Size 3 or more can move over it, and it's then removed.",
-        ko: '이 유닛의 8" 이내에 완전히 들어오는 비어 있는 공간에 역장 벽 토큰 두 개를 둔다. 사이즈 2 이하의 유닛은 역장 벽을 가로질러 이동할 수 없다. 사이즈 3 이상의 모델은 역장 벽을 넘어 이동할 수 있으며, 그 후 그 역장 벽은 제거된다.',
+        ko: '역장 방벽 토큰 2개를 이 유닛의 8인치 이내에 완전히 들어온 상태로 점유 중이 아닌 공간에 놓습니다. 크기 2 이하의 유닛은 역장 방벽을 지나 이동할 수 없습니다. 크기 3 이상의 모형은 역장 방벽을 넘어 이동할 수 있으며, 그러면 해당 토큰을 제거합니다.',
       },
       simulatorFeature: {
         kind: 'placeToken',
@@ -59,7 +59,7 @@ export const tassadar: UnitCard = {
       placesTokenId: 'Faction Marker',
       rule: {
         en: 'Target two Enemy Units on the battlefield (Line of Sight is not required) and place a Faction Indicator next to each of them. During the next Assault Phase, if either of these Units ends its Activation while its Faction Indicator remains on the battlefield, you may Activate two Friendly Units consecutively. Remove both Faction Indicators after any Enemy Unit completes its Activation in the following Assault Phase.',
-        ko: '전장의 적 유닛 두 개를 목표로 삼고 (시야는 필요하지 않다), 각각의 옆에 팩션 마커를 둔다. 다음 어썰트 페이즈 동안, 이 유닛들 중 하나가 자신의 팩션 마커가 전장에 남아 있는 상태로 활성화를 마치면, 아군 유닛 두 개를 연속으로 활성화할 수 있다. 다음 어썰트 페이즈에 아무 적 유닛이 활성화를 마친 후 두 팩션 마커를 모두 제거한다.',
+        ko: '전장에 있는 적 유닛 2개를 선택하고(시야는 필요하지 않습니다), 각각의 옆에 진영 표시 마커 1개를 놓습니다. 다음 공세 단계 동안, 두 유닛 중 하나가 자신의 진영 표시 마커가 전장에 남아 있는 상태로 활성화를 끝내면 아군 유닛 2개를 연속으로 활성화할 수 있습니다. 다음 공세 단계에서 어떤 적 유닛이든 활성화를 완료한 후 두 진영 표시 마커를 모두 제거합니다.',
       },
       // 실제로는 적 유닛 '두 개'를 지정하는 능력이지만, 시뮬레이터는 대상 지정 기능을 두 번 쓰면 된다
       simulatorFeature: { kind: 'targetOne', side: 'enemy', range: null },
@@ -73,7 +73,7 @@ export const tassadar: UnitCard = {
       cost: 0,
       rule: {
         en: 'Target another Friendly Biological Unit Within 12". Until the End of the Round, that Unit resolves its first Special Ability with the cost reduced by 1 (to a minimum of 0).',
-        ko: '12" 이내의 다른 아군 생체 유닛 하나를 목표로 삼는다. 라운드 종료 시까지, 그 유닛이 처음 사용하는 특수능력의 비용이 1 줄어든다 (최소 0).',
+        ko: '12인치 이내에 들어온 다른 아군 생체 유닛 1개를 선택합니다. 라운드 종료 시까지 해당 유닛이 처음 처리하는 특수 능력의 비용을 1 감소시킵니다(최소 0).',
       },
       simulatorFeature: { kind: 'targetOne', side: 'ally', range: 12 },
     },
@@ -96,13 +96,13 @@ export const tassadar: UnitCard = {
     {
       kind: 'rule',
       id: 'Telekinetic Push',
-      name: { en: 'Telekinetic Push', ko: '염력 밀치기' },
+      name: { en: 'Telekinetic Push', ko: '염동력 밀치기' },
       phase: 'Assault',
       type: 'Active',
       cost: 1,
       rule: {
         en: 'Set each Friendly Force Wall token Wholly Within 6" of its current position.',
-        ko: '각 아군 역장 벽 토큰을 현재 위치의 6" 이내에 완전히 들어오게 다시 둔다.',
+        ko: '각 아군 역장 방벽 토큰을 현재 위치의 6인치 이내에 완전히 들어온 상태로 놓습니다.',
       },
     },
     {
@@ -114,13 +114,13 @@ export const tassadar: UnitCard = {
       cost: 0,
       rule: {
         en: 'Each Unit Within 2" of one or more Friendly Force Wall tokens suffers 1 Damage.',
-        ko: '하나 이상의 아군 역장 벽 토큰의 2" 이내에 있는 각 유닛은 데미지 1을 받는다.',
+        ko: '아군 역장 방벽 토큰 하나 이상의 2인치 이내에 들어온 각 유닛은 피해 1을 받습니다.',
       },
     },
     {
       kind: 'weapon',
       id: 'Strike',
-      name: { en: 'Strike', ko: '타격' },
+      name: { en: 'Strike', ko: '근접 타격' },
       phase: 'Combat',
       stat: {
         rng: 'E',

@@ -1611,6 +1611,12 @@ button.roster-slot-pill:hover {
   mask-image: url('./assets/share.svg');
 }
 
+.roster-icon-faq {
+  width: 16.8px;
+  -webkit-mask-image: url('./assets/faq.svg');
+  mask-image: url('./assets/faq.svg');
+}
+
 .roster-icon-credit {
   width: 16.8px;
   -webkit-mask-image: url('./assets/thumbUp.png');
