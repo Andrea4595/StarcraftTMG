@@ -1605,6 +1605,12 @@ button.roster-slot-pill:hover {
   mask-image: url('./assets/reference.png');
 }
 
+.roster-icon-share {
+  width: 16.8px;
+  -webkit-mask-image: url('./assets/share.svg');
+  mask-image: url('./assets/share.svg');
+}
+
 .roster-icon-credit {
   width: 16.8px;
   -webkit-mask-image: url('./assets/thumbUp.png');
@@ -2071,4 +2077,30 @@ button.roster-slot-pill:hover {
   padding: 1px 6px;
   font-size: 10px;
   color: #4ade80;
+}
+
+/* 로스터 공유 링크 모달 */
+.roster-share {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.roster-share-desc {
+  margin: 0;
+  text-align: center;
+  opacity: 0.8;
+  line-height: 1.5;
+}
+
+.roster-share-url {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  font-size: 13px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: inherit;
 }
