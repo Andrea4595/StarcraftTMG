@@ -21,25 +21,25 @@ export const jimRaynor: UnitCard = {
     {
       kind: 'rule',
       id: 'Commander',
-      name: { en: 'Commander', ko: '지휘관' },
+      name: { en: 'Commander', ko: '사령관' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: "Treat this Unit's Supply characteristic as increased by 1 for Controlling and Contesting Mission Markers, completing objectives, and resolving Disengage checks.",
-        ko: '이 유닛이 미션 마커를 경쟁하거나 점령할 때, 이탈할 때, 미션의 목표 달성을 계산할 때 서플라이 값을 1 높은 것으로 친다.',
+        ko: '임무 마커를 점령하거나 이를 두고 경합할 때, 목표를 완료할 때, 그리고 이탈 판정을 해결할 때 이 유닛의 인구수는 1 증가한 것으로 간주합니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Freedom Fighters',
-      name: { en: 'Freedom Fighters', ko: '자유 투사' },
+      name: { en: 'Freedom Fighters', ko: '자유의 투사' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'The Supply Value of all Friendly Units Within 8" of this Unit cannot be reduced below 1 for Contesting Mission Markers and completing objectives.',
-        ko: '이 유닛으로부터 8" 이내에 있는 아군 유닛이 미션 마커를 경쟁하거나 점령할 때, 서플라이 값이 1 이하로 떨어지지 않는다.',
+        ko: '이 유닛의 8인치 이내에 있는 모든 아군 유닛은 임무 마커를 두고 경합하거나 목표를 완료할 때 인구수가 1 미만으로 감소하지 않습니다.',
       },
     },
     {
@@ -51,14 +51,14 @@ export const jimRaynor: UnitCard = {
       cost: 'X',
       rule: {
         en: "REPEATABLE. Select another Friendly Biological Unit Within 8\", spend CP and apply one of the following effects:\n1 CP: That Unit's first used weapon gains the CRITICAL HIT (2).\n1 CP: That Unit ignores the Disengage penalty for the remainder of the Round.\n2 CP: Remove the Activation Marker from that Unit.",
-        ko: '재사용 가능. 8" 이내의 다른 아군 생체 유닛 하나를 선택하고, CP를 소모하여 다음 효과 중 하나를 적용한다.\n1 CP: 그 유닛이 처음으로 사용하는 무기가 크리티컬 힛(2)를 갖는다.\n1 CP: 그 유닛은 이번 라운드의 남은 기간 동안 이탈의 페널티를 무시한다.\n2 CP: 그 유닛의 활성화 마커를 지운다.',
+        ko: '반복 가능. 8인치 이내의 다른 아군 생체 유닛 1개를 선택하고, CP를 지불하여 다음 효과 중 하나를 적용합니다.\n1 CP: 해당 유닛이 이번에 처음 사용하는 무기는 치명타(2) 특성을 얻습니다.\n1 CP: 해당 유닛은 라운드 종료 시까지 이탈 페널티를 무시합니다.\n2 CP: 해당 유닛에서 활성화 마커를 제거합니다.',
       },
       simulatorFeature: { kind: 'targetOne', side: 'ally', range: 8 },
     },
     {
       kind: 'weapon',
       id: 'Commando Rifle',
-      name: { en: 'Commando Rifle', ko: '지휘관용 소총' },
+      name: { en: 'Commando Rifle', ko: '특공대원 소총' },
       phase: 'Assault',
       stat: {
         rng: 18,
@@ -74,7 +74,7 @@ export const jimRaynor: UnitCard = {
     {
       kind: 'weapon',
       id: '"Justice" Revolver',
-      name: { en: '"Justice" Revolver', ko: '"정의" 리볼버' },
+      name: { en: '"Justice" Revolver', ko: '"저스티스" 리볼버' },
       phase: 'Assault',
       stat: {
         rng: 6,
@@ -113,7 +113,7 @@ export const jimRaynor: UnitCard = {
       ability: {
         kind: 'weapon',
         id: 'C-14 rifle',
-        name: { en: 'C-14 rifle', ko: 'C-14 소총' },
+        name: { en: 'C-14 rifle', ko: 'C-14 가우스 소총' },
         phase: 'Assault',
         stat: {
           rng: 12,

@@ -29,19 +29,19 @@ export const sabotageDrone: UnitCard = {
       cost: 0,
       rule: {
         en: 'This Unit cannot be Activated in any Phase and cannot perform actions. Additionally, its Current Supply Value is treated as 0, and it can never Control or Contest Mission Markers, ignoring the standard Zero Supply Exception. This Unit cannot be a target of an ability, unless stated otherwise.',
-        ko: '이 유닛은 어떤 페이즈에도 활성화될 수 없고 어떤 액션도 할 수 없다. 서플라이 값은 0으로 취급하지만, 서플라이 값이 0인 유닛의 점령·경쟁 예외 규칙은 적용되지 않아 절대 점령하거나 경쟁할 수 없다. 별도로 언급이 있지 않는 한, 이 유닛은 다른 능력의 대상이 될 수 없다.',
+        ko: '이 유닛은 어떤 단계에서도 활성화될 수 없으며 행동을 수행할 수 없습니다. 또한 현재 인구수는 0으로 간주되며, 일반적인 "보급 0 규칙"을 무시하고 임무 마커를 점령하거나 이를 두고 경합할 수 없습니다. 별도 언급이 없는 한, 이 유닛은 능력의 대상이 될 수 없습니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Have a Nice Day',
-      name: { en: 'Have a Nice Day', ko: '좋은 하루 되세요' },
+      name: { en: 'Have a Nice Day', ko: '좋은 하루 되시길' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'At the End of the Assault Phase, target each Unit Within 3" of this Unit (including Units with the Structure ability) suffers HITS 5 (1). If an affected Unit has the Structure ability, that Unit suffers an additional HITS 5 (1).',
-        ko: '어썰트 페이즈 종료 시, 이 유닛의 3" 이내의 각 유닛(구조물 능력을 지닌 유닛 포함)은 힛 5(1)를 받는다. 영향을 받은 유닛이 구조물 능력을 지녔다면, 그 유닛은 추가로 힛 5(1)를 받는다.',
+        ko: '공세 단계 종료 시, 이 유닛의 3인치 이내에 들어온 각 유닛을 대상으로 지정합니다. 구조물 능력이 있는 유닛도 포함합니다. 각 대상 유닛은 명중 5(1) 효과를 받습니다. 영향을 받은 유닛에 구조물 능력이 있다면, 해당 유닛은 추가로 명중 5(1) 효과를 받습니다.',
       },
     },
   ],

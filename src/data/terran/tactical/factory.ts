@@ -18,7 +18,7 @@ export const factory: TacticalCard = {
       cost: 0,
       rule: {
         en: 'The active Mechanical Unit resolves the HEAL (2) effect.',
-        ko: '활성화중인 아군 기계 유닛에게 치유(2)를 적용한다.',
+        ko: '활성화된 기계 유닛은 치유(2) 효과를 수행합니다.',
       },
     },
   ],

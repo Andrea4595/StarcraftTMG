@@ -23,13 +23,13 @@ export const autoTurret: UnitCard = {
     {
       kind: 'rule',
       id: 'Timed Life',
-      name: { en: 'Timed Life', ko: '한시적 생명' },
+      name: { en: 'Timed Life', ko: '시한부 생명' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'Remove this Unit at the End of the Round.',
-        ko: '라운드 종료 시 이 유닛을 제거한다.',
+        ko: '라운드 종료 시 이 유닛을 제거합니다.',
       },
     },
     {
@@ -41,7 +41,7 @@ export const autoTurret: UnitCard = {
       cost: 0,
       rule: {
         en: 'This Unit cannot be Activated in any Phase and cannot perform actions. Additionally, its Current Supply Value is treated as 0, and it can never Control or Contest Mission Markers, ignoring the standard Zero Supply Exception. This Unit cannot be a target of an ability, unless stated otherwise.',
-        ko: '이 유닛은 어떤 페이즈에도 활성화될 수 없고 어떤 액션도 할 수 없다. 서플라이 값은 0으로 취급하지만, 서플라이 값이 0인 유닛의 점령·경쟁 예외 규칙은 적용되지 않아 절대 점령하거나 경쟁할 수 없다. 별도로 언급이 있지 않는 한, 이 유닛은 다른 능력의 대상이 될 수 없다.',
+        ko: '이 유닛은 어떤 단계에서도 활성화될 수 없으며 행동을 수행할 수 없습니다. 또한 현재 인구수는 0으로 간주되며, 일반적인 "보급 0 규칙"을 무시하고 임무 마커를 점령하거나 이를 두고 경합할 수 없습니다. 별도 언급이 없는 한, 이 유닛은 능력의 대상이 될 수 없습니다.',
       },
     },
     {
@@ -70,7 +70,7 @@ export const autoTurret: UnitCard = {
       enhances: ['Gauss Cannon'],
       rule: {
         en: 'Use when an Enemy Unit ends its Activation Within 8" of this Unit. This Unit immediately performs a Ranged Attack against that Enemy Unit.',
-        ko: '적 유닛이 이 유닛의 8" 이내에서 활성화를 마칠 때 사용한다. 이 유닛은 즉시 그 적 유닛에게 사격을 한다.',
+        ko: '적 유닛이 이 유닛의 8인치 이내에 들어온 상태로 활성화를 끝낼 때 사용합니다. 이 유닛은 즉시 해당 적 유닛을 대상으로 원거리 공격을 수행합니다.',
       },
     },
   ],

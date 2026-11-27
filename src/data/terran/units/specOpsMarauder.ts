@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const specOpsMarauder: UnitCard = {
   category: 'unit',
   id: 'Spec Ops Marauder (Marauder)',
-  name: { en: 'Spec Ops Marauder (Marauder)', ko: '특수 작전 불곰 [불곰]' },
+  name: { en: 'Spec Ops Marauder (Marauder)', ko: '특수 작전 불곰 (불곰)' },
   isUnique: false,
   wave: 3,
   type: 'Core',
@@ -32,26 +32,26 @@ export const specOpsMarauder: UnitCard = {
       cost: 1,
       rule: {
         en: 'This Unit gains the HIDDEN Status until it performs another action.',
-        ko: '이 유닛은 다른 액션을 할 때까지 은폐 상태를 갖는다.',
+        ko: '이 유닛은 다른 행동을 수행할 때까지 은신 상태를 얻습니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Commando Stimpack',
-      name: { en: 'Commando Stimpack', ko: '특공대 자극제' },
+      name: { en: 'Commando Stimpack', ko: '특공대 전투 자극제' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
       enhances: ['Quad K12', 'Strike'],
       rule: {
         en: 'This Unit gains BUFF Speed (3). Additionally, its Quad K12 and all Close Combat Weapons gain PRECISION (2).',
-        ko: '이 유닛은 버프 스피드(3)를 받는다. 추가로 쿼드 K12와 모든 근접무기가 프리시전(2)을 갖는다.',
+        ko: '이 유닛은 속도(3) 강화를 얻습니다. 추가로, 이 유닛의 쿼드 K12 유탄 발사기와 모든 근접전 무기는 정밀(2) 특성을 얻습니다.',
       },
     },
     {
       kind: 'weapon',
       id: 'Quad K12',
-      name: { en: 'Quad K12', ko: '쿼드 K12' },
+      name: { en: 'Quad K12', ko: '쿼드 K12 유탄 발사기' },
       phase: 'Assault',
       stat: {
         rng: 12,
@@ -70,32 +70,32 @@ export const specOpsMarauder: UnitCard = {
     {
       kind: 'rule',
       id: 'Magrail Munitions',
-      name: { en: 'Magrail Munitions', ko: '자기레일 탄약' },
+      name: { en: 'Magrail Munitions', ko: '자기 가속 탄약' },
       phase: 'Assault',
       type: 'Passive',
       cost: 0,
       enhances: ['Quad K12'],
       rule: {
         en: "This Unit's first Attack in the game with its Quad K12 gains PIERCE Armoured (3).",
-        ko: '이 유닛이 게임에서 처음으로 쿼드 K12로 하는 공격은 관통-중장갑 3을 얻는다.',
+        ko: '게임에서 이 유닛이 쿼드 K12 유탄 발사기로 처음 수행하는 공격은 중장갑(3) 관통을 얻습니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Suppression Shells',
-      name: { en: 'Suppression Shells', ko: '제압탄' },
+      name: { en: 'Suppression Shells', ko: '억제탄' },
       phase: 'Assault',
       type: 'Reaction',
       cost: 1,
       rule: {
         en: 'When an Enemy declares a Charge against a Friendly Unit Within 8", that Enemy gains DEBUFF Speed (3).',
-        ko: '적이 이 유닛의 8" 이내의 아군 유닛에게 차지를 선언할 때 사용한다. 그 적은 디버프 스피드(3)를 받는다.',
+        ko: '8인치 이내에 들어온 아군 유닛을 대상으로 적이 돌격을 선언할 때 사용합니다. 해당 적 유닛은 속도(3) 약화를 얻습니다.',
       },
     },
     {
       kind: 'weapon',
       id: 'Strike',
-      name: { en: 'Strike', ko: '타격' },
+      name: { en: 'Strike', ko: '근접 타격' },
       phase: 'Combat',
       stat: {
         rng: 'E',

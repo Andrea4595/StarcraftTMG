@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const novaAssaultMode: UnitCard = {
   category: 'unit',
   id: 'Nova Assault Mode',
-  name: { en: 'Nova Assault Mode', ko: '노바 [강습 모드]' },
+  name: { en: 'Nova Assault Mode', ko: '노바 돌격 모드' },
   isUnique: true,
   wave: 3,
   type: 'Hero',
@@ -30,19 +30,19 @@ export const novaAssaultMode: UnitCard = {
       cost: 0,
       rule: {
         en: 'During Army Building, your army cannot include both the Nova Assault Mode Unit and the Nova Stealth Mode Unit.',
-        ko: '아미 구성 시, 노바 [강습 모드] 유닛과 노바 [은신 모드] 유닛을 함께 포함할 수 없다.',
+        ko: '병력 편성 중, 자신의 병력에 노바 돌격 모드 유닛과 노바 은신 모드 유닛을 동시에 포함할 수 없습니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Ghost Visor',
-      name: { en: 'Ghost Visor', ko: '유령 바이저' },
+      name: { en: 'Ghost Visor', ko: '유령 조준경' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'While Enemy Units are Within 6" of this Unit, they lose the HIDDEN Status.',
-        ko: '적 유닛은 이 유닛의 6" 안에 있는 동안 은폐 상태를 잃는다.',
+        ko: '이 유닛의 6인치 이내에 들어온 적 유닛은 은신 상태를 잃습니다.',
       },
     },
     {
@@ -54,7 +54,7 @@ export const novaAssaultMode: UnitCard = {
       cost: 1,
       rule: {
         en: 'Resolve the SUMMON (Holo Decoy) effect. Then, Holo Decoy may immediately perform a Move action.',
-        ko: '소환(홀로그램 분신)한다. 그 후, 홀로그램 분신는 즉시 이동 액션을 할 수 있다.',
+        ko: '소환(홀로그램 분신) 효과를 수행합니다. 그 후 홀로그램 분신은 즉시 이동 행동을 수행할 수 있습니다.',
       },
       summonsUnitId: 'Holo Decoy',
       simulatorFeature: {
@@ -66,14 +66,14 @@ export const novaAssaultMode: UnitCard = {
     {
       kind: 'rule',
       id: 'Super Stimpack',
-      name: { en: 'Super Stimpack', ko: '강화 자극제' },
+      name: { en: 'Super Stimpack', ko: '초 전투 자극제' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
       enhances: ['Hellfire Shotgun', 'Monomolecular Blade'],
       rule: {
         en: 'This Unit gains BUFF Speed (2). Additionally, all its Weapons gain PRECISION (2).',
-        ko: '이 유닛은 버프 스피드(2)를 받는다. 추가로 이 유닛의 모든 무기가 프리시전(2)을 갖는다.',
+        ko: '이 유닛은 속도(2) 강화를 얻습니다. 추가로, 이 유닛의 모든 무기는 정밀(2) 특성을 얻습니다.',
       },
     },
     {
@@ -98,13 +98,13 @@ export const novaAssaultMode: UnitCard = {
     {
       kind: 'rule',
       id: 'Phase Reactor Suit',
-      name: { en: 'Phase Reactor Suit', ko: '위상 반응로 슈트' },
+      name: { en: 'Phase Reactor Suit', ko: '위상 반응로 전투복' },
       phase: 'Assault',
       type: 'Active',
       cost: 1,
       rule: {
         en: 'If Unengaged, resolve the PLACE (6) effect.',
-        ko: '인게이지 상태가 아니라면, 위치(6)를 적용한다.',
+        ko: '이 유닛이 교전 중이 아니라면 배치(6) 효과를 수행합니다.',
       },
       simulatorFeature: { kind: 'selfMove', range: 6 },
     },
@@ -117,13 +117,13 @@ export const novaAssaultMode: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (4) 4+ effect.',
-        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 임팩트(4)를 4+로 입힌다.',
+        ko: '이 유닛이 돌격에 성공한 직후, 충격(4) 4+ 효과를 수행합니다.',
       },
     },
     {
       kind: 'weapon',
       id: 'Monomolecular Blade',
-      name: { en: 'Monomolecular Blade', ko: '단분자 칼날' },
+      name: { en: 'Monomolecular Blade', ko: '단분자 검' },
       phase: 'Combat',
       stat: {
         rng: 'E',

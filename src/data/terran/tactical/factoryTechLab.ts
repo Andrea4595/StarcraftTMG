@@ -3,7 +3,7 @@ import type { TacticalCard } from '../../../types'
 export const factoryTechLab: TacticalCard = {
   category: 'tactical',
   id: 'Factory (Tech Lab)',
-  name: { en: 'Factory (Tech Lab)', ko: '기술실 군수 공장' },
+  name: { en: 'Factory (Tech Lab)', ko: '군수 공장 (기술실)' },
   isUnique: true,
   wave: 2,
   gasPts: 40,
@@ -19,19 +19,19 @@ export const factoryTechLab: TacticalCard = {
       cost: 0,
       rule: {
         en: 'The active Mechanical Unit resolves the HEAL (2) effect.',
-        ko: '활성화중인 아군 기계 유닛에게 치유(2)를 적용한다.',
+        ko: '활성화된 기계 유닛은 치유(2) 효과를 수행합니다.',
       },
     },
     {
       kind: 'rule',
       id: "Pound 'Em Flat!",
-      name: { en: "Pound 'Em Flat!", ko: '짓눌러버려!' },
+      name: { en: "Pound 'Em Flat!", ko: '납작하게 만들어 주마!' },
       phase: 'Assault',
       type: 'Active',
       cost: 0,
       rule: {
         en: 'If the active Mechanical Unit has the Stationary Status, its first Ranged Weapon used gains PRECISION (2).',
-        ko: '활성화중인 아군 기계 유닛이 정지 상태라면, 그 유닛이 처음으로 사용하는 사격 무기는 프리시전(2)를 얻는다.',
+        ko: '활성화된 기계 유닛이 정지한 상태라면, 처음 사용하는 원거리 무기는 정밀(2) 특성을 얻습니다.',
       },
     },
   ],

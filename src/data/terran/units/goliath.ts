@@ -28,7 +28,7 @@ export const goliath: UnitCard = {
       enhances: ['Autocannon'],
       rule: {
         en: 'Select one Enemy Unit Within 12". Whenever a Friendly Goliath Unit targets that enemy with an Autocannon, that weapon gains Surge Type: Light, Armoured, and S Dice: D3+1.',
-        ko: '12" 이내의 적 유닛 하나를 고른다. 아군 골리앗 유닛이 그 대상을 자동포로 목표로 할 때마다, 그 무기는 서지 타입: 경장갑, 중장갑과 S Dice: D3+1을 얻는다.',
+        ko: '12인치 이내의 적 유닛 1개를 선택합니다. 아군 골리앗 유닛이 해당 적 유닛을 자동포로 대상으로 할 때마다, 그 무기는 상성 유형: 경장갑, 중장갑 및 상성 주사위: D3+1을 얻습니다.',
       },
       simulatorFeature: { kind: 'targetOne', side: 'enemy', range: 12 },
     },
@@ -89,7 +89,7 @@ export const goliath: UnitCard = {
       cost: 0,
       rule: {
         en: 'While Engaged, this Unit may target and be targeted by Unengaged Enemy Units. In both cases, the defending Unit gains an Evade Roll against those attacks.',
-        ko: '인게이지 상태일 때에도 이 유닛은 인게이지되지 않은 적 유닛을 공격의 목표로 삼을 수 있다. 상대도 마찬가지로 이 유닛이 인게이지된 상태에서 공격의 대상으로 삼을 수 있다. 그럴 경우 공격의 대상이 된 유닛은 그 공격에 대해 회피 롤을 할 수 있다.',
+        ko: '교전 중인 동안, 이 유닛은 교전 중이 아닌 적 유닛을 대상으로 할 수 있으며, 교전 중이 아닌 적 유닛에게 대상으로 선택될 수 있습니다. 두 경우 모두, 방어 측 유닛은 해당 공격에 대해 회피 굴림을 할 수 있습니다.',
       },
     },
     {
@@ -101,7 +101,7 @@ export const goliath: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (4) 3+ effect.',
-        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 임팩트(4)를 3+로 입힌다.',
+        ko: '이 유닛이 돌격에 성공한 직후, 충격(4) 3+ 효과를 수행합니다.',
       },
     },
     {
@@ -134,7 +134,7 @@ export const goliath: UnitCard = {
         enhances: ['Autocannon', 'Underbelly Machine Gun'],
         rule: {
           en: "This Unit's Autocannon and Underbelly Machine Gun weapons gain PRECISION (1).",
-          ko: '이 유닛의 자동포와 하부 기관총은 프리시전(1)을 지닌다.',
+          ko: '이 유닛의 자동포와 하부 기관총 무기는 정밀(1) 특성을 얻습니다.',
         },
       },
     },
@@ -144,7 +144,7 @@ export const goliath: UnitCard = {
       ability: {
         kind: 'weapon',
         id: 'Scatter Missiles',
-        name: { en: 'Scatter Missiles', ko: '확산 미사일' },
+        name: { en: 'Scatter Missiles', ko: '분산 미사일' },
         phase: 'Assault',
         stat: {
           rng: 18,

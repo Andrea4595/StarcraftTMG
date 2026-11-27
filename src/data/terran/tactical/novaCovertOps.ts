@@ -23,7 +23,7 @@ export const novaCovertOps: TacticalCard = {
       cost: 0,
       rule: {
         en: 'Set a Friendly Sabotage Drone Unit Within 12" of a Friendly Unit, more than 1" away from any Enemy model. Remove this Unit at the End of the Round.',
-        ko: '아군 유닛의 12" 이내이며 모든 적 모델로부터 1" 넘게 떨어진 곳에 아군 파괴 드론 유닛을 배치한다. 라운드 종료 시 이 유닛을 제거한다.',
+        ko: '아군 유닛의 12인치 이내에 들어온 상태이면서 모든 적 모형으로부터 1인치 초과 떨어진 위치에 아군 파괴 드론 유닛 1개를 놓습니다. 라운드 종료 시 해당 유닛을 제거합니다.',
       },
       summonsUnitId: 'Sabotage Drone',
       simulatorFeature: {
@@ -41,7 +41,7 @@ export const novaCovertOps: TacticalCard = {
       cost: 0,
       rule: {
         en: 'Target an Enemy Unit on the battlefield. When a Friendly Unit makes an Attack targeting that Unit, its first Melee or Ranged Weapon used gains CRITICAL HIT (1) and PRECISION (1).',
-        ko: '전장의 적 유닛 하나를 목표로 삼는다. 아군 유닛이 그 유닛을 목표로 공격할 때, 처음으로 사용하는 근접 또는 원거리 무기는 크리티컬 힛(1)과 프리시전(1)을 얻는다.',
+        ko: '전장에 있는 적 유닛 1개를 대상으로 지정합니다. 아군 유닛이 해당 유닛을 대상으로 공격을 수행할 때, 그 공격에서 처음 사용하는 근접전 또는 원거리 무기는 치명타(1)와 정밀(1) 특성을 얻습니다.',
       },
     },
   ],

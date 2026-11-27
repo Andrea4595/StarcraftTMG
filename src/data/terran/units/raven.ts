@@ -29,19 +29,19 @@ export const raven: UnitCard = {
       cost: 0,
       rule: {
         en: 'While Enemy Units are Within 6" of this Unit, they lose the HIDDEN Status.',
-        ko: '적 유닛은 이 유닛의 6" 안에 있는 동안 은폐 상태를 잃는다.',
+        ko: '이 유닛의 6인치 이내에 들어온 적 유닛은 은신 상태를 잃습니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Deploy Auto-Turret',
-      name: { en: 'Deploy Auto-Turret', ko: '자동 포탑 설치' },
+      name: { en: 'Deploy Auto-Turret', ko: '자동 포탑 전개' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
       rule: {
         en: 'Set a Friendly Auto-Turret Unit Within 6", and not Within the Engagement Range of any Enemy Unit.',
-        ko: '이 유닛의 6" 이내이며, 어떤 적 유닛의 인게이지 거리 안도 아닌 곳에 아군 자동 포탑 유닛을 배치한다.',
+        ko: '아군 자동 포탑 유닛 1개를 이 유닛의 6인치 이내에 들어온 상태이면서, 어떤 적 유닛의 교전 범위 이내에도 들어온 상태가 아닌 위치에 놓습니다.',
       },
       summonsUnitId: 'Auto-Turret',
       simulatorFeature: {
@@ -59,7 +59,7 @@ export const raven: UnitCard = {
       cost: 1,
       rule: {
         en: 'Select one Enemy Unit Within 12". Apply DEBUFF Armour (1).',
-        ko: '12" 이내의 적 유닛 하나를 고른다. 디버프 아머(1)를 적용한다.',
+        ko: '12인치 이내에 들어온 적 유닛 1개를 선택합니다. 해당 유닛은 방어(1) 약화를 얻습니다.',
       },
       simulatorFeature: { kind: 'targetOne', side: 'enemy', range: 12 },
     },
@@ -86,13 +86,13 @@ export const raven: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Corvid Reactor',
-        name: { en: 'Corvid Reactor', ko: '까마귀 반응로' },
+        name: { en: 'Corvid Reactor', ko: '코비드 반응로' },
         phase: 'Any',
         type: 'Passive',
         cost: 0,
         rule: {
           en: 'This Unit may resolve its first Special Ability with the CP cost reduced by 1 if it targets the closest Enemy Unit.',
-          ko: '이 유닛이 가장 가까운 적 유닛을 목표로 하는 첫 특수능력은 CP 비용을 1 줄여서 사용할 수 있다.',
+          ko: '이 유닛이 처음 처리하는 특수 능력이 가장 가까운 적 유닛을 대상으로 한다면, 해당 능력의 CP 비용을 1 감소시킬 수 있습니다.',
         },
       },
     },
@@ -101,13 +101,13 @@ export const raven: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Internal Tech Module',
-        name: { en: 'Internal Tech Module', ko: '내장 기술 모듈' },
+        name: { en: 'Internal Tech Module', ko: '내부 탑재 기술 모듈' },
         phase: 'Movement',
         type: 'Passive',
         cost: 0,
         rule: {
           en: "When this Unit is nominated to deploy from Reserves, it may Deploy from any table edge that is not a player's Entry Edge. This Unit cannot be set Within 8\" of any Enemy model.",
-          ko: '이 유닛이 리저브에서 나올 때, 플레이어의 엔트리 엣지가 아닌 아무 테이블 가장자리에서 배치될 수 있다. 이 유닛은 적 모델의 8" 이내에는 배치될 수 없다.',
+          ko: '이 유닛이 예비 병력에서 전개 대상으로 지정되면, 어느 플레이어의 진입 경계도 아닌 테이블 가장자리에서 전개할 수 있습니다. 이 유닛은 어떤 적 모형의 8인치 이내에 들어온 상태로 놓을 수 없습니다.',
         },
       },
     },
@@ -122,7 +122,7 @@ export const raven: UnitCard = {
         cost: 1,
         rule: {
           en: 'Select one Enemy Unit Within 12". At the End of the Assault Phase, if that Enemy Unit has the Stationary Status or it is Within 8" of this Unit, it suffers HITS 4 (2). If that Unit is Engaged, it is eligible to make an Evade Roll against these hits.',
-          ko: '12" 이내의 적 유닛 하나를 고른다. 어썰트 페이즈 종료 시, 그 적 유닛이 정지 상태이거나 이 유닛의 8" 이내에 있다면, 힛 4(2)를 받는다. 그 유닛이 인게이지 상태라면, 이 힛에 대해 회피 롤을 할 수 있다.',
+          ko: '12인치 이내에 들어온 적 유닛 1개를 선택합니다. 공세 단계 종료 시, 해당 적 유닛이 정지한 상태이거나 이 유닛의 8인치 이내에 들어온 상태라면 명중 4(2) 효과를 받습니다. 해당 유닛이 교전 중이라면 이 명중에 대해 회피 굴림을 할 수 있습니다.',
         },
         simulatorFeature: { kind: 'targetOne', side: 'enemy', range: 12 },
       },
@@ -132,13 +132,13 @@ export const raven: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Explosive Shrapnel Shells',
-        name: { en: 'Explosive Shrapnel Shells', ko: '폭발성 파편탄' },
+        name: { en: 'Explosive Shrapnel Shells', ko: '폭발 유산탄' },
         phase: 'Assault',
         type: 'Passive',
         cost: 0,
         rule: {
           en: 'The Gauss Cannon of the Auto-Turret set by this Unit gains Surge Type: Light and S-Dice: D3+1.',
-          ko: '이 유닛이 배치한 자동 포탑의 가우스 포가 서지 타입: 경장갑과 S Dice: D3+1을 얻는다.',
+          ko: '이 유닛이 놓은 자동 포탑의 가우스 포는 상성 유형: 경장갑과 S주사위: D3+1을 얻습니다.',
         },
       },
     },

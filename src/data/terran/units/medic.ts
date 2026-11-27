@@ -25,13 +25,13 @@ export const medic: UnitCard = {
     {
       kind: 'rule',
       id: 'Life Support',
-      name: { en: 'Life Support', ko: '연명처치' },
+      name: { en: 'Life Support', ko: '생명 유지' },
       phase: 'Any',
       type: 'Reaction',
       cost: 1,
       rule: {
         en: 'Use when another Friendly Biological Unit suffers Damage Within 4". Reduce the Total Damage before allocation by 1 for each model in this Unit that is Within 4" of the damaged Unit.',
-        ko: '4" 이내에서 데미지를 입은 아군 생체 유닛 하나를 선택한다. 그 유닛의 모델에 배분하기 전의 총 데미지를, 대상 유닛으로부터 4" 이내에 있는 이 유닛의 모델 수만큼 줄인다.',
+        ko: '4인치 이내의 다른 아군 생체 유닛이 피해를 받을 때 사용합니다. 피해 배분 전에, 해당 유닛 주변 4인치 이내에 있는 이 유닛의 모형 수마다 최종 피해를 1 감소시킵니다.',
       },
       simulatorFeature: { kind: 'targetOne', side: 'ally', range: 4 },
     },
@@ -44,20 +44,20 @@ export const medic: UnitCard = {
       cost: 1,
       rule: {
         en: 'Use when a Friendly Unit Within 4" receives a DEBUFF. Remove all DEBUFFs from it.',
-        ko: '4" 이내에서 디버프를 받은 아군 유닛을 고른다. 그 유닛이 받은 모든 디버프를 제거한다.',
+        ko: '4인치 이내의 아군 유닛이 약화 효과를 받을 때 사용합니다. 해당 유닛의 모든 약화 효과를 제거합니다.',
       },
       simulatorFeature: { kind: 'targetOne', side: 'ally', range: 4 },
     },
     {
       kind: 'rule',
       id: 'Medpack',
-      name: { en: 'Medpack', ko: '의료 팩' },
+      name: { en: 'Medpack', ko: '의료 키트' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
       rule: {
         en: 'Select another Friendly Biological Unit Within 4". Resolve the HEAL (X) effect for the targeted Unit, where X is the number of models in this Unit that are Within 4" of the target Unit.',
-        ko: '이 유닛의 4" 이내의 다른 아군 생체 유닛 하나를 선택한다. 치유(X)를 적용한다. 이때 X값은 대상 유닛으로부터 4" 이내에 있는 이 유닛의 모델 수만큼이다.',
+        ko: '4인치 이내의 다른 아군 생체 유닛 1개를 선택합니다. 대상 유닛은 치유(X) 효과를 수행합니다. X는 이 유닛에서 대상 유닛의 4인치 이내에 있는 모형 수와 같습니다.',
       },
       simulatorFeature: { kind: 'targetOne', side: 'ally', range: 4 },
     },
@@ -70,7 +70,7 @@ export const medic: UnitCard = {
       cost: 2,
       rule: {
         en: "Select one Enemy Unit Within 12\". Until the End of the Round, apply DEBUFF Range (4) to that Unit's Ranged Weapons. That Unit cannot benefit from LONG RANGE.",
-        ko: '이 유닛의 12" 이내에 있는 적 유닛 하나를 고른다. 라운드 종료까지 그 유닛의 사격 무기는 디버프 레인지(4)를 갖고, 롱 레인지 능력을 사용할 수 없게 된다.',
+        ko: '12인치 이내의 적 유닛 1개를 선택합니다. 라운드 종료 시까지 해당 유닛의 원거리 무기에 사거리(4) 약화를 적용합니다. 해당 유닛은 장거리 사격의 효과를 받을 수 없습니다.',
       },
       // 'A-13 섬광탄 발사기' 업그레이드가 활성화되면 실제 사거리는 16"로 늘어난다(이 필드는 기본값)
       simulatorFeature: { kind: 'targetOne', side: 'enemy', range: 12 },
@@ -78,7 +78,7 @@ export const medic: UnitCard = {
     {
       kind: 'weapon',
       id: 'Strike',
-      name: { en: 'Strike', ko: '타격' },
+      name: { en: 'Strike', ko: '근접 타격' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -105,7 +105,7 @@ export const medic: UnitCard = {
         supplyOverride: 0,
         rule: {
           en: "This Unit's Supply Value counts as 0 when calculating the Supply Pool.",
-          ko: '이 유닛의 서플라이 값은 서플라이 풀을 계산할 때 0으로 취급한다.',
+          ko: '보급품 한도를 계산할 때, 이 유닛의 인구수는 0으로 간주합니다.',
         },
       },
     },
@@ -114,14 +114,14 @@ export const medic: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'A-13 Flash Grenade Launcher',
-        name: { en: 'A-13 Flash Grenade Launcher', ko: 'A-13 섬광탄 발사기' },
+        name: { en: 'A-13 Flash Grenade Launcher', ko: 'A-13 섬광 유탄 발사기' },
         phase: 'Any',
         type: 'Passive',
         cost: 0,
         enhances: ['Optical Flare'],
         rule: {
           en: "Increase the Optical Flare special ability's Range to 16\".",
-          ko: '광학 섬광탄의 사용 범위를 16"로 늘린다.',
+          ko: '광학 섬광탄 특수 능력의 사거리를 16인치로 증가시킵니다.',
         },
       },
     },
@@ -137,7 +137,7 @@ export const medic: UnitCard = {
         enhances: ['Life Support', 'Medpack'],
         rule: {
           en: "When this Unit resolves a Life Support or Medpack ability, treat it as having 1 additional model Within Range for calculating that ability's effects.",
-          ko: '이 유닛이 연명처치나 의료 팩을 사용할 때, 이 유닛의 모델 수를 1개 더 많은 것으로 친다.',
+          ko: '이 유닛이 생명 유지 또는 의료 키트 능력을 수행할 때, 해당 능력의 효과를 범위 내에 있는 모형의 수가 1개 더 많은 것으로 간주해 계산합니다.',
         },
       },
     },
