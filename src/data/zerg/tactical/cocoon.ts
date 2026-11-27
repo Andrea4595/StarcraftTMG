@@ -19,7 +19,7 @@ export const cocoon: TacticalCard = {
       cost: 0,
       rule: {
         en: 'The active Friendly non-Unique Biological Unit with a Size Characteristic of 1 resolve the RESPAWN (2) effect.',
-        ko: '활성화된 아군 유닛 중 유일이 아닌 생체 유닛이며 크기 특성이 1인 유닛은 재생성(2) 효과를 처리합니다.',
+        ko: '활성화된 아군 유닛 중 유일이 아닌 생체 유닛이며 크기 특성이 1인 유닛은 재생성(2) 효과를 수행합니다.',
       },
     },
     {
