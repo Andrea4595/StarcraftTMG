@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const praetorGuardZealot: UnitCard = {
   category: 'unit',
   id: 'Praetor Guard (Zealot)',
-  name: { en: 'Praetor Guard (Zealot)', ko: '집정관 근위대 [광전사]' },
+  name: { en: 'Praetor Guard (Zealot)', ko: '법무관 경비대 (광전사)' },
   isUnique: true,
   type: 'Elite',
   stat: {
@@ -36,31 +36,31 @@ export const praetorGuardZealot: UnitCard = {
       cost: 0,
       rule: {
         en: 'This Unit gains TOUGH (2) on the first Armour Roll each Round.',
-        ko: '이 유닛은 라운드마다 처음으로 하는 아머 롤에서 터프(2)를 얻는다.',
+        ko: '이 유닛은 매 라운드마다 처음 수행하는 방어 굴림에서 강인함(2) 특성을 얻습니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Leg Enhancements',
-      name: { en: 'Leg Enhancements', ko: '각력 강화' },
+      name: { en: 'Leg Enhancements', ko: '다리 강화' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
       rule: {
         en: 'This Unit performs a 2" Move action. This does not count towards its action limit.',
-        ko: '이 유닛은 2”의 이동액션을 한다. 이 이동은 라운드의 남은 기간동안 액션을 제한하는 조건이 되지 않는다.',
+        ko: '이 유닛은 2인치 이동 행동을 수행합니다. 이 행동은 행동 제한에 포함되지 않습니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Charge',
-      name: { en: 'Charge', ko: '돌진' },
+      name: { en: 'Charge', ko: '돌격' },
       phase: 'Assault',
       type: 'Active',
       cost: 1,
       rule: {
         en: "When determining Charge Distance for this Unit, roll 2D6 instead of D6 and use the higher result to add to the Unit's Speed characteristic.",
-        ko: '이 유닛이 차지할 때 차지 값을 정할 때 기존의 D6 대신 2D6를 굴려서 그중 더 높은 값을 스피드 능력치에 더한다.',
+        ko: '이 유닛의 돌격 거리를 결정할 때, D6 대신 2D6을 굴리고 더 높은 결과값을 이 유닛의 속도 수치에 더합니다.',
       },
     },
     {
@@ -72,7 +72,7 @@ export const praetorGuardZealot: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (3) 4+ effect.',
-        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 임팩트(3)를 4+로 입힌다.',
+        ko: '이 유닛이 돌격에 성공한 직후, 충격(3) 4+ 효과를 수행합니다.',
       },
     },
     {
@@ -94,26 +94,26 @@ export const praetorGuardZealot: UnitCard = {
     {
       kind: 'rule',
       id: 'Titan Killers',
-      name: { en: 'Titan Killers', ko: '거인 살해자' },
+      name: { en: 'Titan Killers', ko: '거인 학살자' },
       phase: 'Combat',
       type: 'Passive',
       cost: 0,
       enhances: ['Psi Blades'],
       rule: {
         en: "When this Unit makes a Close Combat Attack, and the target is Size 3 or larger, the weapon's Damage characteristic is treated as 2.",
-        ko: '이 유닛이 근접공격을 할 때 목표의 사이즈가 3 이상이라면 무기의 데미지가 2가 된다.',
+        ko: '이 유닛이 근접전 공격을 수행할 때, 대상이 크기 3 이상이라면 해당 무기의 피해 수치는 2로 간주합니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Precognition',
-      name: { en: 'Precognition', ko: '예지' },
+      name: { en: 'Precognition', ko: '예지력' },
       phase: 'Combat',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'This Unit is eligible to make an Evade roll against all attacks targeting it.',
-        ko: '이 유닛에게 가해지는 공격에 대해 회피 롤을 할 수 있다.',
+        ko: '이 유닛은 자신을 대상으로 하는 모든 공격에 대해 회피 굴림을 할 수 있습니다.',
       },
     },
   ],

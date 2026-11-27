@@ -19,7 +19,7 @@ export const roboticsSupportBay: TacticalCard = {
       cost: 0,
       rule: {
         en: 'The active Mechanical Unit resolves the HEAL (2) effect.',
-        ko: '활성화된 기계 유닛은 치유(2)한다.',
+        ko: '활성화된 기계 유닛은 치유(2) 효과를 수행합니다.',
       },
     },
   ],

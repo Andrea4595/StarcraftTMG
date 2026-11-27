@@ -19,7 +19,7 @@ export const templarArchives: TacticalCard = {
       cost: 0,
       rule: {
         en: 'Once per Round, when a Friendly Support Unit activates a Special Ability that costs PE, resolve that ability with its PE cost reduced by 1 (to a minimum of 0). Do not Exhaust this card.',
-        ko: '라운드당 한번, 아군 지원 유닛이 PE 비용이 있는 특수능력을 사용할 때, 그 능력의 PE 비용을 1 줄여서 사용한다 (최소 0). 이 카드는 소모하지 않는다.',
+        ko: '라운드당 1회. 아군 지원 유닛이 PE 비용이 있는 특수 능력을 사용할 때 사용합니다. 해당 능력의 PE 비용을 1 감소시킨 상태로 처리합니다(최소 0). 이 카드는 소모하지 않습니다.',
       },
     },
   ],

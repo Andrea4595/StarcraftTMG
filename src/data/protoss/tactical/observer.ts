@@ -12,13 +12,13 @@ export const observer: TacticalCard = {
     {
       kind: 'rule',
       id: 'Surveillance',
-      name: { en: 'Surveillance', ko: '감시 태세' },
+      name: { en: 'Surveillance', ko: '감시 모드' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
       rule: {
         en: 'Set a Faction Indicator anywhere on the battlefield. While Enemy Units are Within 6" of this Faction Indicator, they lose HIDDEN Status.',
-        ko: '팩션 마커를 전장에 설치한다. 그 팩션 마커의 6”이내의 모든 적은 은폐 상태를 잃는다.',
+        ko: '전장 아무 위치에 진영 표시 마커 1개를 놓습니다. 적 유닛이 해당 진영 표시 마커의 6인치 이내에 있는 동안, 은신 상태를 잃습니다.',
       },
       placesTokenId: 'Faction Marker',
       simulatorFeature: {
@@ -36,7 +36,7 @@ export const observer: TacticalCard = {
       cost: 0,
       rule: {
         en: 'Use after a Friendly Unit rolls a D6 for Charge Distance. Add 1 to the Charge Distance for this Unit.',
-        ko: '아군 유닛이 차지를 위해 D6을 굴린 뒤에 사용한다. 그 차지 값에 +1',
+        ko: '아군 유닛이 돌격 거리를 위해 D6을 굴린 후 사용합니다. 이 유닛의 돌격 거리에 1을 추가합니다.',
       },
     },
   ],

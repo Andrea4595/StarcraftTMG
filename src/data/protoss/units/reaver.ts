@@ -22,13 +22,13 @@ export const reaver: UnitCard = {
     {
       kind: 'rule',
       id: 'Large',
-      name: { en: 'Large', ko: '거구' },
+      name: { en: 'Large', ko: '거대' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: "When this Unit's Leading Model moves, it cannot pass through physical gaps smaller than 3\" wide, regardless of its size. If the Leading Model's path of travel passes through, or any model in this Unit ends its movement on a Size 0 or Size 1 Impassable Terrain piece (excluding Tokens) during any movement action, that terrain piece is immediately removed from the game.",
-        ko: '이 유닛의 리딩 모델이 이동할 때, 자신의 사이즈와 무관하게 폭 3" 미만의 틈새를 통과할 수 없다. 리딩 모델의 이동 경로가 사이즈 0이나 1의 통과 불가능한 지형(토큰 제외)을 통과하거나, 어떤 이동 액션 중에 이 유닛의 모델이 그 지형 위에서 이동을 마친다면, 그 지형은 즉시 게임에서 제거된다.',
+        ko: '이 유닛의 대표 모형이 이동할 때, 자신의 크기와 관계없이 폭이 3인치 미만인 물리적 틈새를 통과할 수 없습니다. 대표 모형의 이동 경로가 크기 0 또는 크기 1의 통과 불가 지형 기물을 통과하거나, 어떤 이동 행동 중 이 유닛의 모형이 그러한 지형 기물 위에서 이동을 종료한다면, 해당 지형 기물을 즉시 게임에서 제거합니다. 토큰은 제외합니다.',
       },
     },
     {
@@ -40,7 +40,7 @@ export const reaver: UnitCard = {
       cost: 0,
       rule: {
         en: 'If this Unit is a parent to any SUMMONED Unit, it cannot SUMMON another one.',
-        ko: '이 유닛이 소환된 유닛의 부모 유닛이라면, 다른 유닛을 소환할 수 없다.',
+        ko: '이 유닛이 소환한 유닛의 본체 유닛이라면, 다른 유닛을 소환할 수 없습니다.',
       },
     },
     {
@@ -53,7 +53,7 @@ export const reaver: UnitCard = {
       enhances: ['Scarab'],
       rule: {
         en: "This Unit's Scarab Special Ability can be used this Round even if it was already used.",
-        ko: '이 유닛의 스캐럽 특수능력을 이미 사용했더라도, 이번 라운드에 사용할 수 있다.',
+        ko: '이 유닛의 스캐럽 특수 능력은 이미 사용했더라도 이번 라운드에 다시 사용할 수 있습니다.',
       },
     },
     {
@@ -65,7 +65,7 @@ export const reaver: UnitCard = {
       cost: 0,
       rule: {
         en: 'Once per Game. Resolve the SUMMON (Scarab) effect. Then, the Scarab may immediately perform a Move action.',
-        ko: '게임당 한 번, 소환(스캐럽)한다. 그 후 스캐럽은 즉시 이동 액션을 할 수 있다.',
+        ko: '게임당 1회. 소환(스캐럽) 효과를 수행합니다. 그 후 스캐럽은 즉시 이동 행동을 수행할 수 있습니다.',
       },
       summonsUnitId: 'Scarab',
       simulatorFeature: { kind: 'summonUnit', unitId: 'Scarab', placement: { rangeType: 'contact' } },
@@ -73,13 +73,13 @@ export const reaver: UnitCard = {
     {
       kind: 'rule',
       id: 'Siege Triangulation',
-      name: { en: 'Siege Triangulation', ko: '공성 삼각측량' },
+      name: { en: 'Siege Triangulation', ko: '공성 삼각 측량' },
       phase: 'Assault',
       type: 'Active',
       cost: 1,
       rule: {
         en: 'Move a Scarab, Solarite Scarab or Phasing Scarab created by this Unit up to 5".',
-        ko: '이 유닛이 만든 스캐럽, 태양석 스캐럽, 위상 스캐럽 하나를 최대 5" 이동시킨다.',
+        ko: '이 유닛이 만든 스캐럽, 태양석 스캐럽 또는 위상 스캐럽 1기를 최대 5인치 이동시킵니다.',
       },
     },
     {
@@ -91,7 +91,7 @@ export const reaver: UnitCard = {
       cost: 0,
       rule: {
         en: 'While Engaged, this Unit may target and be targeted by Unengaged Enemy Units. In both cases, the defending Unit gains an Evade Roll against those attacks.',
-        ko: '인게이지 상태일 때에도 이 유닛은 인게이지되지 않은 적 유닛을 공격의 목표로 삼을 수 있다. 상대도 마찬가지로 이 유닛이 인게이지된 상태에서 공격의 대상으로 삼을 수 있다. 그럴 경우 공격의 대상이 된 유닛은 그 공격에 대해 회피 롤을 할 수 있다.',
+        ko: '교전 중인 동안, 이 유닛은 교전 중이 아닌 적 유닛을 대상으로 할 수 있으며, 교전 중이 아닌 적 유닛에게 대상으로 선택될 수 있습니다. 두 경우 모두, 방어 측 유닛은 해당 공격에 대해 회피 굴림을 할 수 있습니다.',
       },
     },
     {
@@ -123,7 +123,7 @@ export const reaver: UnitCard = {
         cost: 0,
         rule: {
           en: 'Once per Game. Resolve the SUMMON (Solarite Scarab) effect. Then, the Solarite Scarab may immediately perform a Move action.',
-          ko: '게임당 한 번, 소환(태양석 스캐럽)한다. 그 후 태양석 스캐럽은 즉시 이동 액션을 할 수 있다.',
+          ko: '게임당 1회. 소환(태양석 스캐럽) 효과를 수행합니다. 그 후 태양석 스캐럽은 즉시 이동 행동을 수행할 수 있습니다.',
         },
         summonsUnitId: 'Solarite Scarab',
         simulatorFeature: { kind: 'summonUnit', unitId: 'Solarite Scarab', placement: { rangeType: 'contact' } },
@@ -140,7 +140,7 @@ export const reaver: UnitCard = {
         cost: 0,
         rule: {
           en: 'Once per Game. Resolve the SUMMON (Phasing Scarab) effect. Then, the Phasing Scarab may immediately perform a Move action.',
-          ko: '게임당 한 번, 소환(위상 스캐럽)한다. 그 후 위상 스캐럽은 즉시 이동 액션을 할 수 있다.',
+          ko: '게임당 1회. 소환(위상 스캐럽) 효과를 수행합니다. 그 후 위상 스캐럽은 즉시 이동 행동을 수행할 수 있습니다.',
         },
         summonsUnitId: 'Phasing Scarab',
         simulatorFeature: { kind: 'summonUnit', unitId: 'Phasing Scarab', placement: { rangeType: 'contact' } },
@@ -151,14 +151,14 @@ export const reaver: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Shuttle',
-        name: { en: 'Shuttle', ko: '셔틀' },
+        name: { en: 'Shuttle', ko: '왕복선' },
         phase: 'Movement',
         type: 'Active',
         cost: 0,
         placesTokenId: 'Faction Marker',
         rule: {
           en: "Once per Game.This ability can be used while this Unit is in Reserves. Set a Faction Indicator anywhere on the battlefield more than 10\" away from any Enemy model. At the End of the Round, the controlling player may Deploy this Unit in base-to-base contact with this Faction Indicator. This Unit's Activation ends.",
-          ko: '게임당 한 번. 이 능력은 이 유닛이 리저브에 있을 때 사용할 수 있다. 모든 적 모델로부터 10" 이상 떨어진 전장 아무곳에 팩션 마커를 둔다. 라운드 종료 시, 조종하는 플레이어는 이 유닛을 이 팩션 마커와 베이스 접촉하도록 배치할 수 있다. 이 유닛의 활성화는 종료된다.',
+          ko: '게임당 1회. 이 능력은 이 유닛이 예비 병력에 있는 동안 사용할 수 있습니다. 적 모형으로부터 10인치 초과해서 떨어진 전장 아무 위치에 진영 표시 마커 1개를 놓습니다. 라운드 종료 시, 조종 플레이어는 이 유닛을 이 진영 표시 마커와 베이스 접촉 상태로 전개할 수 있습니다. 이 유닛의 활성화는 종료됩니다.',
         },
         simulatorFeature: {
           kind: 'placeToken',

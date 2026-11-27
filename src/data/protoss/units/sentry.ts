@@ -31,7 +31,7 @@ export const sentry: UnitCard = {
       cost: 1,
       rule: {
         en: 'Use when a Friendly Unit Within 4" receives a DEBUFF. Remove all DEBUFFS from it.',
-        ko: '디버프를 받게 된 4”이내의 아군 유닛을 고른다. 해당 유닛이 받을 모든 디버프를 제거한다.',
+        ko: '4인치 이내의 아군 유닛이 약화 효과를 받을 때 사용합니다. 해당 유닛의 모든 약화 효과를 제거합니다.',
       },
       simulatorFeature: { kind: 'targetOne', side: 'ally', range: 4 },
     },
@@ -45,7 +45,7 @@ export const sentry: UnitCard = {
       placesTokenId: 'Force Field',
       rule: {
         en: "Set a Force Field token Within 8\" in an unoccupied space. Units of Size 2 or lower cannot move across Force Fields. Models of Size 3 or more can move over it, and it's then removed.",
-        ko: '이 유닛의 8”이내에 역장 토큰을 전장의 빈 공간에 둔다. 사이즈 2 이하의 유닛은 그 역장을 통과해서 이동할 수 없다. 사이즈 3 이상의 유닛이라면 그 역장을 통과해 이동할 수 있으며, 그 경우 토큰은 제거된다.',
+        ko: '이 유닛으로부터 8인치 이내의 점유 중이 아닌 공간에 역장 토큰 1개를 놓습니다. 크기 2 이하의 유닛은 역장을 지나 이동할 수 없습니다. 크기 3 이상의 모형은 역장을 넘어 이동할 수 있으며, 그러면 역장 토큰이 제거됩니다.',
       },
       simulatorFeature: {
         kind: 'placeToken',
@@ -56,19 +56,19 @@ export const sentry: UnitCard = {
     {
       kind: 'rule',
       id: 'Guardian Shield',
-      name: { en: 'Guardian Shield', ko: '수호 방벽' },
+      name: { en: 'Guardian Shield', ko: '수호 방패' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
       rule: {
         en: 'All Ranged Attacks targeting a Friendly Unit Within 4" (Line of Sight is not required) are made with 1 fewer die in the Attack Pool.',
-        ko: '이 유닛의 4”이내에 아군 유닛이 사격의 대상이 될 때, 그 공격의 어택 풀에서 주사위를 하나 줄인다. (효과를 적용받을 아군에게 시야를 필요로 하지 않는다.)',
+        ko: '4인치 이내의 아군 유닛을 대상으로 하는 모든 원거리 공격은 공격 주사위를 1개 적게 사용합니다(이 효과는 시야를 필요로 하지 않습니다).',
       },
     },
     {
       kind: 'weapon',
       id: 'Disruption Beam',
-      name: { en: 'Disruption Beam', ko: '분해 광선' },
+      name: { en: 'Disruption Beam', ko: '분열 광선' },
       phase: 'Assault',
       stat: {
         rng: 8,
@@ -104,7 +104,7 @@ export const sentry: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Solid-Field Projectors',
-        name: { en: 'Solid-Field Projectors', ko: '물리역장 투사기' },
+        name: { en: 'Solid-Field Projectors', ko: '역장 투사기' },
         phase: 'Movement',
         type: 'Active',
         cost: 1,
@@ -112,7 +112,7 @@ export const sentry: UnitCard = {
         placesTokenId: 'Force Field',
         rule: {
           en: "Set a Force Field token Within 8\" in an unoccupied space. Units of Size 2 or lower cannot move across Force Fields. Models of Size 3 or more can move over it, and it's then removed.",
-          ko: '이 유닛의 8”이내에 역장 토큰을 전장의 빈 공간에 둔다. 사이즈 2 이하의 유닛은 그 역장을 통과해서 이동할 수 없다. 사이즈 3 이상의 유닛이라면 그 역장을 통과해 이동할 수 있으며, 그 경우 토큰은 제거된다.',
+          ko: '이 유닛으로부터 8인치 이내의 점유 중이 아닌 공간에 역장 토큰 1개를 놓습니다. 크기 2 이하의 유닛은 역장을 지나 이동할 수 없습니다. 크기 3 이상의 모형은 역장을 넘어 이동할 수 있으며, 그러면 역장 토큰이 제거됩니다.',
         },
         simulatorFeature: {
           kind: 'placeToken',
@@ -132,7 +132,7 @@ export const sentry: UnitCard = {
         cost: 0,
         rule: {
           en: 'When an Enemy Unit declares a Ranged Attack against a Friendly Unit Within 4", the targeted Friendly Unit is eligible to make an Evade Roll against that attack.',
-          ko: '이 유닛의 4”이내에 아군 유닛이 적의 사격의 대상이 될 경우 그 대상은 해당 공격에 대해 회피 롤을 할 수 있다.',
+          ko: '적 유닛이 4인치 이내의 아군 유닛을 대상으로 원거리 공격을 선언할 때 사용합니다. 대상이 된 아군 유닛은 해당 공격에 대해 회피 굴림을 할 수 있습니다.',
         },
       },
     },

@@ -24,14 +24,14 @@ export const adept: UnitCard = {
     {
       kind: 'rule',
       id: 'Psionic Presence',
-      name: { en: 'Psionic Presence', ko: '사이오닉 영향력' },
+      name: { en: 'Psionic Presence', ko: '사이오닉 신호' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       enhances: ['Psionic Transfer'],
       rule: {
         en: "All Weapons of Friendly Units targeting an Enemy Unit Within 4\" of this Unit's Shade token gain PRECISION (1).",
-        ko: '그림자 토큰의 4”이내의 적 유닛을 목표로 하는 공격에서 아군 유닛의 모든 무기는 프리시전(1)를 얻는다.',
+        ko: '이 유닛의 그림자 토큰 4인치 이내에 있는 적 유닛을 대상으로 하는 아군 유닛의 모든 무기는 정밀(1) 특성을 얻습니다.',
       },
     },
     {
@@ -44,7 +44,7 @@ export const adept: UnitCard = {
       placesTokenId: 'Shade',
       rule: {
         en: "Set a Shade token Wholly Within 12\" of any model in this Unit. At the End of the Round, the controlling player may set all models of this Unit in Coherency, treating the Shade token as the Leading Model. The Shade token has DISPLACEMENT.",
-        ko: '이 유닛의 아무런 모델에서 12”안에 완전히 들어오게 그림자 토큰을 둔다. 라운드 종료 시, 플레이어는 이 유닛의 모든 모델을 그 토큰을 리딩모델삼아 토큰의 위치에 맞춰 이동시킬 수 있다. 그림자 토큰은 변위이다.',
+        ko: '이 유닛의 아무 모형으로부터 12인치 이내에 완전히 들어가도록 그림자 토큰 1개를 놓습니다. 라운드 종료 시, 조종 플레이어는 그림자 토큰을 대표 모형으로 삼아 이 유닛의 모든 모형을 대형을 유지한 상태로 놓을 수 있습니다. 그림자 토큰은 위치 변환 특성을 가집니다.',
       },
       simulatorFeature: {
         kind: 'placeToken',
@@ -71,7 +71,7 @@ export const adept: UnitCard = {
     {
       kind: 'weapon',
       id: 'Strike',
-      name: { en: 'Strike', ko: '타격' },
+      name: { en: 'Strike', ko: '근접 타격' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -99,7 +99,7 @@ export const adept: UnitCard = {
         enhances: ['Glaive Cannon'],
         rule: {
           en: "This Unit's Glaive Cannon gains BUFF RoA (1).",
-          ko: '이 유닛의 쐐기포는 버프 Roa(1)를 얻는다.',
+          ko: '이 유닛의 쐐기포는 타수(1) 강화를 얻습니다.',
         },
       },
     },
@@ -116,7 +116,7 @@ export const adept: UnitCard = {
         enhances: ['Glaive Cannon'],
         rule: {
           en: "This Unit's Glaive Cannon Ranged weapon gains ANTI-EVADE (2).",
-          ko: '이 유닛의 사격무기인 쐐기포는 안티-회피(2)를 얻는다.',
+          ko: '이 유닛의 쐐기포 원거리 무기는 회피 억제(2) 특성을 얻습니다.',
         },
       },
     },

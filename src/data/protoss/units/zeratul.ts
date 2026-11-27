@@ -22,25 +22,25 @@ export const zeratul: UnitCard = {
     {
       kind: 'rule',
       id: 'One with the Shadows',
-      name: { en: 'One with the Shadows', ko: '그림자와 하나' },
+      name: { en: 'One with the Shadows', ko: '어둠과 하나' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'After this Unit fully resolves an Action, it gains the HIDDEN Status.',
-        ko: '이 유닛이 액션을 완전히 마친 후, 은폐 상태를 얻는다.',
+        ko: '이 유닛이 행동을 완전히 수행한 후, 은신 상태를 얻습니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Prophetic Vision',
-      name: { en: 'Prophetic Vision', ko: '예언적 환영' },
+      name: { en: 'Prophetic Vision', ko: '예언의 시야' },
       phase: 'Any',
       type: 'Reaction',
       cost: 1,
       rule: {
         en: "REPEATABLE. Use when this Unit is selected as the target of an attack. This Unit's Evade characteristic is treated as 4+ against this attack.",
-        ko: '재사용 가능. 이 유닛이 공격의 목표로 선택되었을 때 사용한다. 이 공격에 대해 이 유닛의 이베이드 특성치는 4+로 취급한다.',
+        ko: '반복 가능. 이 유닛이 공격 대상이 됐을 때 사용합니다. 이번 공격에 대해 이 유닛의 회피 특성치는 4+로 취급되며 수정되지 않습니다.',
       },
     },
     {
@@ -52,20 +52,20 @@ export const zeratul: UnitCard = {
       cost: 1,
       rule: {
         en: 'Target Enemy Unit on the battlefield. Whenever Zeratul makes a Close Combat Attack targeting the selected Unit, its weapon gains CRITICAL HIT (2).',
-        ko: '전장의 적 유닛을 목표로 선택한다. 제라툴이 선택된 유닛을 목표로 근접 공격을 할 때마다, 그 무기는 크리티컬 힛(2)를 얻는다.',
+        ko: '전장 위의 적 유닛 하나를 대상으로 합니다. 제라툴이 대상이 된 유닛에게 근접전 공격을 수행할 때마다, 제라툴의 무기는 치명타(2)를 얻습니다.',
       },
       simulatorFeature: { kind: 'targetOne', side: 'enemy', range: null },
     },
     {
       kind: 'rule',
       id: 'Blink',
-      name: { en: 'Blink', ko: '점멸' },
+      name: { en: 'Blink', ko: '공허 점멸' },
       phase: 'Movement',
       type: 'Active',
       cost: 1,
       rule: {
         en: 'Resolve the PLACE (6) effect. Models set by this effect cannot be set up Within the Engagement Range of any Enemy Unit.',
-        ko: '위치(6)한다, 적 유닛과 인게이지 상태가 되게 배치될 수 없다.',
+        ko: '배치(6) 효과를 수행합니다. 이 효과로 배치되는 모형은 적 유닛의 교전 범위 안쪽에 놓일 수 없습니다.',
       },
       simulatorFeature: { kind: 'selfMove', range: 6 },
     },
@@ -78,7 +78,7 @@ export const zeratul: UnitCard = {
       cost: 1,
       rule: {
         en: 'Set a Faction Indicator on the battlefield Within 8" of this Unit. While Enemy Units are Within 2" of this Faction Indicator they suffer DEBUFF Speed (2).',
-        ko: '이 유닛의 8”이내의 전장에 팩션 마커를 설치한다. 적 유닛은 그 팩션 마커의 2”이내에 있는 동안 디버프 스피드(2)를 받는다.',
+        ko: '이 유닛의 8인치 범위에 들어온 위치에 진영 표시 마커를 놓습니다. 적 유닛이 이 진영 표시 마커의 2인치 범위에 들어온 동안, 해당 적 유닛은 속도(2) 약화를 받습니다.',
       },
       placesTokenId: 'Faction Marker',
       simulatorFeature: {
@@ -96,13 +96,13 @@ export const zeratul: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (4) 4+ effect.',
-        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 임팩트(4)를 4+로 입힌다.',
+        ko: '이 유닛이 돌격에 성공한 직후, 충격(4) 4+ 효과를 수행합니다.',
       },
     },
     {
       kind: 'weapon',
       id: 'Master Warp Blade',
-      name: { en: 'Master Warp Blade', ko: '달인의 차원검' },
+      name: { en: 'Master Warp Blade', ko: '강화 변형 차원 검' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -118,13 +118,13 @@ export const zeratul: UnitCard = {
     {
       kind: 'rule',
       id: 'Shadow Strike',
-      name: { en: 'Shadow Strike', ko: '그림자 일격' },
+      name: { en: 'Shadow Strike', ko: '그림자 걷기' },
       phase: 'Combat',
       type: 'Active',
       cost: 1,
       rule: {
         en: 'All Enemy Units Engaged with this Unit suffer HITS 4 (1).',
-        ko: '이 유닛과 인게이지된 모든 적 유닛은 힛 4(1)를 받는다.',
+        ko: '이 유닛과 교전 중인 모든 적 유닛은 명중 4(1) 효과를 받습니다.',
       },
     },
   ],

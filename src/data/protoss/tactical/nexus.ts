@@ -18,19 +18,19 @@ export const nexus: TacticalCard = {
       cost: 0,
       rule: {
         en: "The active Unit's first Weapon used gains INSTANT.",
-        ko: '활성화된 유닛이 첫번째로 사용하는 무기는 인스턴트를 갖는다.',
+        ko: '활성화된 유닛이 이번 단계에서 처음 사용하는 무기는 반응 불가 특성을 얻습니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Strategic Recall',
-      name: { en: 'Strategic Recall', ko: '전략 귀환' },
+      name: { en: 'Strategic Recall', ko: '전략 소환' },
       phase: 'Movement',
       type: 'Active',
       cost: 0,
       rule: {
         en: 'The active, Unengaged Ground Unit is returned to Reserves instead of performing an action.',
-        ko: '활성화중이며 아직 액션을 하지 않은 인게이지상태가 아닌 지상유닛을, 액션을 하는것 대신 리저브로 되돌린다.',
+        ko: '활성화된 교전 중이 아닌 지상 유닛은 행동을 수행하는 대신 예비 병력으로 복귀합니다.',
       },
     },
   ],

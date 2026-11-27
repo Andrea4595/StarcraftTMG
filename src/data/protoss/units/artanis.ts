@@ -21,13 +21,13 @@ export const artanis: UnitCard = {
     {
       kind: 'rule',
       id: 'Commander',
-      name: { en: 'Commander', ko: '지휘관' },
+      name: { en: 'Commander', ko: '사령관' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: "Treat this Unit's Supply characteristic as increased by 1 for Controlling and Contesting Mission Markers, completing objectives, and resolving Disengage checks.",
-        ko: '이 유닛이 미션 마커를 경쟁할 때, 점령할 때, 이탈, 미션의 목표달성을 계산할 때 서플라이 값을 1 높은 걸로 친다.',
+        ko: '임무 마커를 점령하거나 이를 두고 경합할 때, 목표를 완료할 때, 그리고 이탈 판정을 해결할 때 이 유닛의 인구수는 1 증가한 것으로 간주합니다.',
       },
     },
     {
@@ -39,19 +39,19 @@ export const artanis: UnitCard = {
       cost: 0,
       rule: {
         en: "When Artanis is nominated to deploy from Reserves, it may resolve the PLACE (0) effect from another Friendly Unit. That Friendly Unit is removed from the battlefield and returned to Reserves. Artanis' Activation ends.",
-        ko: '아르타니스가 리저브에서 배치될 때, 다른 아군 유닛을 기점으로 위치(0)를 적용해 배치될 수 있다. 그 후 기점이 된 아군 유닛은 전장에서 치워지고 리저브로 돌아간다. 그 후 아르타니스의 활성화는 종료된다.',
+        ko: '아르타니스가 예비 병력에서 전개 대상으로 지정되면, 다른 아군 유닛으로부터 배치(0) 효과를 수행할 수 있습니다. 그 아군 유닛은 전장에서 제거되어 예비 병력으로 복귀합니다. 아르타니스의 활성화는 종료됩니다.',
       },
     },
     {
       kind: 'rule',
       id: "Hierarch's Stand",
-      name: { en: "Hierarch's Stand", ko: '신관의 싸움' },
+      name: { en: "Hierarch's Stand", ko: '신관의 인내' },
       phase: 'Assault',
       type: 'Reaction',
       cost: 1,
       rule: {
         en: 'When another Friendly Unit Within 8" is declared as the target of a Ranged Attack and this Unit is a valid target, redirect the attack to this Unit. This Unit is eligible to make an Evade Roll against the redirected attack. This Special Ability remains active until the End of the current Activation.',
-        ko: '이 유닛의 8”이내의 다른 아군 유닛이 사격의 목표가 되었을 때, 이 유닛이 그 공격의 합당한 목표로 지정될 수 있다면, 그 공격을 이 유닛이 대신 받는다. 그 공격에 대해 이 유닛은 회피 롤이 가능하다. 이 효과는 그 공격이 행해진 활성화가 완전히 종료될 때까지 지속된다.',
+        ko: '8인치 이내의 다른 아군 유닛이 원거리 공격의 대상으로 선언되고, 이 유닛이 유효한 대상이라면, 그 공격을 이 유닛으로 변경합니다. 이 유닛은 변경된 공격에 대해 회피 굴림을 할 수 있습니다. 이 특수 능력은 현재 활성화가 끝날 때까지 유지됩니다.',
       },
     },
     {
@@ -64,7 +64,7 @@ export const artanis: UnitCard = {
       enhances: ['Devastating Charge'],
       rule: {
         en: 'After this Unit resolves a successful Charge action, it may declare a second Charge action against a different Enemy Unit, ignoring the restriction on Charging while Engaged. The Devastating Charge ability does not trigger a second time.',
-        ko: '이 유닛이 성공적으로 차지를 마친 후, 다른 적에게 다시 한번 차지할 수 있다. 이때, 차지의 제약과 인게이지상태의 제약을 무시한다. 파괴적인 돌진은 두 번 발생하지 않는다.',
+        ko: '이 유닛이 돌격 행동에 성공한 후 사용합니다. 교전 중 돌격 제한을 무시하고, 다른 적 유닛을 대상으로 두 번째 돌격 행동을 선언할 수 있습니다. 파괴적인 돌진 능력은 두 번째로 발동하지 않습니다.',
       },
     },
     {
@@ -76,13 +76,13 @@ export const artanis: UnitCard = {
       cost: 0,
       rule: {
         en: 'Immediately after this Unit completes a successful Charge, resolve the IMPACT (6) 4+ effect.',
-        ko: '이 유닛이 성공적으로 차지를 마쳤을 때 즉시 임팩트(6)를 4+로 입힌다.',
+        ko: '이 유닛이 돌격에 성공한 직후, 충격(6) 4+ 효과를 수행합니다.',
       },
     },
     {
       kind: 'weapon',
       id: 'Twilight Blades Strike',
-      name: { en: 'Twilight Blades Strike', ko: '황혼검 - 타격' },
+      name: { en: 'Twilight Blades Strike', ko: '황혼검 참격' },
       phase: 'Combat',
       stat: {
         rng: 'E',
@@ -98,7 +98,7 @@ export const artanis: UnitCard = {
     {
       kind: 'weapon',
       id: 'Twilight Blades Sweep',
-      name: { en: 'Twilight Blades Sweep', ko: '황혼검 - 휩쓸기' },
+      name: { en: 'Twilight Blades Sweep', ko: '황혼검 휩쓸기' },
       phase: 'Combat',
       stat: {
         rng: 'E',

@@ -29,7 +29,7 @@ export const taldarimPylon: UnitCard = {
       cost: 0,
       rule: {
         en: 'This Unit cannot be Activated in any Phase and cannot perform actions. Additionally, its Current Supply Value is treated as 0, and it can never Control or Contest Mission Markers, ignoring the standard Zero Supply Exception. This Unit cannot be a target of an ability, unless stated otherwise.',
-        ko: '이 유닛은 어떤 페이즈에도 활성화될 수 없고, 어떤 액션도 할 수 없다. 서플라이 값은 0으로 취급하지만 서플라이 값이 0인 유닛의 점령, 경쟁 규칙은 적용되지 않는다. 이 유닛은 점령이나 경쟁할 수 없고 다른 언급이 있지 않는 한 다른 능력의 대상이 될 수 없다.',
+        ko: '이 유닛은 어떤 단계에서도 활성화될 수 없으며 행동을 수행할 수 없습니다. 또한 현재 인구수는 0으로 간주되며, 일반적인 "보급 0 규칙"을 무시하고 임무 마커를 점령하거나 이를 두고 경합할 수 없습니다. 별도 언급이 없는 한, 이 유닛은 능력의 대상이 될 수 없습니다.',
       },
     },
     {
@@ -41,7 +41,7 @@ export const taldarimPylon: UnitCard = {
       cost: 0,
       rule: {
         en: "Once per Round, the controlling player may deploy a Ground Unit from the Reserves using this Pylon base as the Entry Edge. This Unit's Activation ends.",
-        ko: '라운드 당 한번 플레이어는 리저브중인 지상유닛을 수정탑의 베이스를 엔트리 엣지인것처럼 취급해 배치할 수 있다. 그랬을경우 그 유닛의 활성화는 종료된다.',
+        ko: '라운드당 1회, 조종 플레이어는 이 수정탑의 베이스를 진입 경계로 사용하여 예비 병력의 지상 유닛 1개를 전개할 수 있습니다. 이 유닛의 활성화는 종료됩니다.',
       },
     },
     {
@@ -53,13 +53,13 @@ export const taldarimPylon: UnitCard = {
       cost: 0,
       rule: {
         en: 'When the Current Supply Value of a Unit Within 8" is reduced. Return one non-Unique Exhausted Tactical Card to the Ready state.',
-        ko: '8" 이내에 있는 유닛의 현재 서플라이 값이 줄어들 때, 유니크가 아닌 소모된 택티컬 카드 한 장을 준비 상태로 되돌린다.',
+        ko: '8인치 이내에 있는 유닛의 현재 인구수가 감소할 때 사용합니다. 유일이 아닌 소모 상태의 전술 카드 1장을 준비 상태로 되돌립니다.',
       },
     },
     {
       kind: 'weapon',
       id: 'Overcharged Pylon',
-      name: { en: 'Overcharged Pylon', ko: '과충전된 수정탑' },
+      name: { en: 'Overcharged Pylon', ko: '과충전 수정탑' },
       phase: 'Assault',
       stat: {
         rng: 8,
@@ -82,7 +82,7 @@ export const taldarimPylon: UnitCard = {
       enhances: ['Overcharged Pylon'],
       rule: {
         en: 'When an Enemy Unit ends its Activation Within 8". This Unit immediately performs a Ranged Attack against that Enemy Unit.',
-        ko: '적 유닛이 8" 이내에서 활성화를 마쳤을 때, 이 유닛은 즉시 그 적 유닛에게 사격 공격을 한다.',
+        ko: '적 유닛이 8인치 이내에서 활성화를 끝낼 때 사용합니다. 이 유닛은 즉시 해당 적 유닛을 대상으로 원거리 공격을 수행합니다.',
       },
     },
   ],

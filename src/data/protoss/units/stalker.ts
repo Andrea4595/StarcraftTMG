@@ -24,13 +24,13 @@ export const stalker: UnitCard = {
     {
       kind: 'rule',
       id: 'Squadron',
-      name: { en: 'Squadron', ko: '부대' },
+      name: { en: 'Squadron', ko: '분대' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: "This Unit's Horizontal Coherency is 4\".",
-        ko: '이 유닛의 코헤런시는 4”이다.',
+        ko: '이 유닛의 수평 대형은 4인치입니다.',
       },
     },
     {
@@ -42,7 +42,7 @@ export const stalker: UnitCard = {
       cost: 1,
       rule: {
         en: 'Resolve the PLACE (6) effect. Models set by this effect cannot be set up Within the Engagement Range of any Enemy Unit.',
-        ko: '위치(6)한다, 적 유닛과 인게이지 상태가 되게 배치될 수 없다.',
+        ko: '배치(6) 효과를 수행합니다. 이 효과로 배치되는 모형은 적 유닛의 교전 범위 안쪽에 놓일 수 없습니다.',
       },
       simulatorFeature: { kind: 'selfMove', range: 6 },
     },
@@ -91,7 +91,7 @@ export const stalker: UnitCard = {
         cost: 1,
         rule: {
           en: 'This Unit gains HIDDEN Status until it performs another action.',
-          ko: '이 유닛은 다른 액션을 할 때까지 은폐 상태를 갖는다.',
+          ko: '이 유닛은 다른 행동을 수행할 때까지 은신 상태를 얻습니다.',
         },
       },
     },
@@ -100,13 +100,13 @@ export const stalker: UnitCard = {
       ability: {
         kind: 'rule',
         id: 'Fury of the Nerazim',
-        name: { en: 'Fury of the Nerazim', ko: '네라짐의 격노' },
+        name: { en: 'Fury of the Nerazim', ko: '네라짐의 분노' },
         phase: 'Assault',
         type: 'Passive',
         cost: 0,
         rule: {
           en: 'When this Unit attacks an Enemy Unit that has already been Activated during this Phase, its Particle Disruptors gain INSTANT for that attack.',
-          ko: '이 유닛이 공격하는 대상이 이 페이즈에 이미 활성화된 유닛이라면, 입자분열기는 그 공격에서 인스턴트를 갖는다.',
+          ko: '이 유닛이 이번 단계에 이미 활성화된 적 유닛을 공격할 때, 해당 공격에 사용하는 입자 분열기는 반응 불가 특성을 얻습니다.',
         },
       },
     },

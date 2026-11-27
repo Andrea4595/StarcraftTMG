@@ -3,7 +3,7 @@ import type { UnitCard } from '../../../types'
 export const nerazimWatchersAdept: UnitCard = {
   category: 'unit',
   id: 'Nerazim Watchers (Adept)',
-  name: { en: 'Nerazim Watchers (Adept)', ko: '네라짐 감시자 [사도]' },
+  name: { en: 'Nerazim Watchers (Adept)', ko: '네라짐 감시자 (사도)' },
   isUnique: false,
   wave: 2,
   type: 'Core',
@@ -31,19 +31,19 @@ export const nerazimWatchersAdept: UnitCard = {
       cost: 1,
       rule: {
         en: 'This Unit gains HIDDEN Status until it performs another action.',
-        ko: '이 유닛은 다른 액션을 할 때까지 은폐 상태를 갖는다.',
+        ko: '이 유닛은 다른 행동을 수행할 때까지 은신 상태를 얻습니다.',
       },
     },
     {
       kind: 'rule',
       id: 'Nerazim Farsight',
-      name: { en: 'Nerazim Farsight', ko: '네라짐의 천리안' },
+      name: { en: 'Nerazim Farsight', ko: '네라짐 천리안' },
       phase: 'Any',
       type: 'Passive',
       cost: 0,
       rule: {
         en: 'While Enemy Units are Within 6" of a Shade token, they lose HIDDEN Status.',
-        ko: '적 유닛은 그림자 토큰의 6" 안에 있는 동안 은폐 상태를 잃는다.',
+        ko: '이 유닛의 그림자 토큰으로부터 6인치 이내에 들어와 있는 적 유닛은 그동안 은신 상태를 잃습니다.',
       },
     },
     {
@@ -56,7 +56,7 @@ export const nerazimWatchersAdept: UnitCard = {
       placesTokenId: 'Shade',
       rule: {
         en: "Set a Shade token Wholly Within 12\" of any model in this Unit. At the End of the Round, the controlling player may set all models of this Unit in Coherency, treating the Shade token as the Leading Model. The Shade token has DISPLACEMENT.",
-        ko: '이 유닛의 아무런 모델에서 12”안에 완전히 들어오게 그림자 토큰을 둔다. 라운드 종료 시, 플레이어는 이 유닛의 모든 모델을 그 토큰을 리딩모델삼아 토큰의 위치에 맞춰 이동시킬 수 있다. 그림자 토큰은 변위이다.',
+        ko: '이 유닛의 아무 모형으로부터 12인치 이내에 완전히 들어가도록 그림자 토큰 1개를 놓습니다. 라운드 종료 시, 조종 플레이어는 그림자 토큰을 대표 모형으로 삼아 이 유닛의 모든 모형을 대형을 유지한 상태로 놓을 수 있습니다. 그림자 토큰은 위치 변환 특성을 가집니다.',
       },
       simulatorFeature: {
         kind: 'placeToken',
@@ -83,7 +83,7 @@ export const nerazimWatchersAdept: UnitCard = {
     {
       kind: 'weapon',
       id: 'Strike',
-      name: { en: 'Strike', ko: '타격' },
+      name: { en: 'Strike', ko: '근접 타격' },
       phase: 'Combat',
       stat: {
         rng: 'E',
